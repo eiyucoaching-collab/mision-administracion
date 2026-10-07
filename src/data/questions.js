@@ -1,5 +1,4 @@
-// BANCO OFICIAL DE PREGUNTAS E1 DEFENSA (204 PREGUNTAS)
-// 68 Preguntas Bloque Común (33.3%) + 136 Preguntas Bloque Específico (66.7%)
+// BANCO OFICIAL DE PREGUNTAS E1 DEFENSA (INCLUYE EXAMEN REAL 1 FEBRERO 2025)
 export const QUESTION_BANK = [
   {
     "id": 1,
@@ -499,17 +498,18 @@ export const QUESTION_BANK = [
     "block": "comun",
     "topicId": 2,
     "topic": "Tema 2: El Gobierno y la AGE",
-    "question": "¿Tiene el Subdirector General la condición de Alto Cargo?",
+    "question": "[EXAMEN OFICIAL REAL 2025 - Q61 / RESERVA R1] Según el artículo 63.2 de la Ley 40/2015 de Régimen Jurídico del Sector Público, ¿cómo son nombrados y separados los Subsecretarios de los Ministerios?",
     "options": [
-      "Sí, siempre que esté nombrado por Real Decreto",
-      "No, los Subdirectores Generales no tienen la condición de alto cargo",
-      "Sí, pero solo en los Ministerios de Defensa y Hacienda",
-      "Sí, tras cumplir dos años en el puesto"
+      "Por Orden del Ministro de Hacienda entre funcionarios del Grupo C1",
+      "Por Real Decreto del Consejo de Ministros, a propuesta del titular del Ministerio (Ministro), entre funcionarios de carrera del Subgrupo A1",
+      "Por el Delegado del Gobierno en la Comunidad Autónoma",
+      "Por libre designación del Director General de la Función Pública"
     ],
     "correct": 1,
-    "law": "Ley 3/2015 del Alto Cargo / Ley 40/2015",
-    "article": "Art. 1 Ley 3/2015",
-    "explanation": "Los Subdirectores Generales son órganos directivos pero NO tienen la consideración de alto cargo; son nombrados por libre designación entre funcionarios A1."
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 63.2 Ley 40/2015 (Examen Real 2025 Q61)",
+    "explanation": "Los Subsecretarios son órganos directivos con condición de alto cargo. Son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Ministro titular del Departamento, entre funcionarios de carrera del Subgrupo A1.",
+    "isRealExam2025": true
   },
   {
     "id": 31,
@@ -2590,17 +2590,18 @@ export const QUESTION_BANK = [
     "block": "especifico",
     "topicId": 8,
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
-    "question": "¿Qué se entiende por 'Burofax con Testimonio Especial'?",
+    "question": "[EXAMEN OFICIAL REAL 2025 - Q32] Según la normativa postal, ¿cuál es la característica jurídica distintiva del servicio de Burofax frente a una carta certificada con acuse de recibo?",
     "options": [
-      "Un burofax que se envía a través de un canal de televisión",
-      "Una copia certificada por Correos que reproduce el contenido íntegro del texto transmitido para su validez como prueba judicial plena",
-      "Un fax enviado desde una embajada",
-      "Un burofax sin validez legal"
+      "Es un envío ordinario sin número de seguimiento ni prueba en juicio",
+      "Permite obtener de Correos la certificación de entrega y testimonio fehaciente del contenido íntegro del texto transmitido, con pleno valor probatorio judicial",
+      "Solo puede ser emitido por personal militar en situaciones de conflicto armado",
+      "Se entrega en el plazo máximo improrrogable de 30 días naturales"
     ],
     "correct": 1,
-    "law": "Productos de Correos",
-    "article": "Testimonio Especial",
-    "explanation": "El testimonio especial es la copia fehaciente expedida por el operador postal que reproduce fidedignamente el contenido enviado para su aportación a juicio."
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Examen Oficial MINISDEF 2025 (Q32)",
+    "explanation": "El Burofax permite acreditar fehacientemente no solo la fecha y hora de la entrega en destino, sino también el contenido literal y textual del documento enviado mediante la certificación y testimonio especial expedido por la Sociedad Estatal Correos y Telégrafos.",
+    "isRealExam2025": true
   },
   {
     "id": 154,
@@ -2964,17 +2965,18 @@ export const QUESTION_BANK = [
     "block": "especifico",
     "topicId": 9,
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
-    "question": "¿Qué es la 'Carpeta de Firmas' utilizada habitualmente en el reparto y tramitación de recados interiores?",
+    "question": "[EXAMEN OFICIAL REAL 2025 - Q53] Durante la realización de un recado oficial exterior en una sede administrativa, la persona que atiende al ordenanza le solicita que firme un documento oficial que va a entregar o retirar. ¿Cuál debe ser su actuación correcta?",
     "options": [
-      "Una carpeta especial de tapas duras compartimentada donde se transportan ordenadamente los documentos y resoluciones sometidos a la firma de las autoridades",
-      "Un libro de autógrafos de visitas",
-      "Un archivo definitivo de expedientes fenecidos",
-      "Un clasificador de facturas de luz"
+      "Firmar cualquier documento que le presenten para no demorar la gestión del servicio",
+      "Firmar exclusivamente el volante de entrega material o 'recibí' como mero portador físico, absteniéndose de firmar resoluciones o documentos que comprometan la voluntad sustantiva de la Administración",
+      "Romper el documento y negarse a realizar la entrega",
+      "Firmar con el nombre y rúbrica de su jefe de negociado"
     ],
-    "correct": 0,
-    "law": "Técnicas de Oficina AGE",
-    "article": "Carpeta de Firmas",
-    "explanation": "La carpeta de firmas protege los documentos durante su circuito interno entre despachos de jefaturas para su rúbrica formal."
+    "correct": 1,
+    "law": "Instrucción de Servicios Generales y Régimen Interior AGE",
+    "article": "Examen Oficial MINISDEF 2025 (Q53)",
+    "explanation": "El personal subalterno y de servicios administrativos realiza tareas materiales auxiliares de custodia y transporte. Carece de potestad administrativa para suscribir actos, acuerdos o resoluciones; su firma se limita exclusivamente a dar fe de la recepción física (recibí o volante de entrega).",
+    "isRealExam2025": true
   },
   {
     "id": 176,

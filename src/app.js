@@ -2,6 +2,11 @@
  * MISIÓN ADMINISTRACIÓN (OPO-DEFENSA E1)
  * Arquitectura SPA Frontend Senior - Modo Offline-First
  * E1 Servicios Administrativos (Personal Laboral Fijo Defensa / CUAGE)
+ * Incluye:
+ * - Preguntas del Examen Oficial Real (1 de Febrero de 2025)
+ * - Simulación Oficial 60 + 6 Reservas y Anulaciones Reales del Tribunal
+ * - Copia de Seguridad: Exportar / Importar Progreso en JSON (LocalStorage)
+ * - Plan de Estudio Táctico con Regla 33% / 67%
  */
 
 import { SYLLABUS } from './data/syllabus.js';
@@ -22,12 +27,12 @@ class OpoDefensaApp {
 
     // Estado del Módulo de Estudio
     this.selectedTopicId = 1;
-    this.studySubTab = 'temas'; // 'temas' | 'cifras' | 'trampas'
+    this.studySubTab = 'temas'; // 'temas' | 'cifras' | 'trampas' | 'plan'
     this.studySearchQuery = '';
 
     // Estado del Simulador Oficial
     this.examState = {
-      mode: 'oficial', // 'oficial' | 'comun' | 'especifico' | 'falladas'
+      mode: 'oficial', // 'oficial' | 'comun' | 'especifico' | 'falladas' | 'real2025'
       status: 'idle', // 'idle' | 'running' | 'finished'
       questions: [],
       currentIndex: 0,
@@ -36,7 +41,8 @@ class OpoDefensaApp {
       timeRemaining: 3600, // 60 minutos = 3600 segundos
       timerInterval: null,
       filterReview: 'all', // 'all' | 'wrong' | 'correct' | 'blank'
-      results: null
+      results: null,
+      applyAnnulments: false // Simulación de las 7 anulaciones históricas de 2025
     };
 
     // Estado de Flashcards
@@ -55,24 +61,25 @@ class OpoDefensaApp {
   }
 
   // =========================================================================
-  // PERSISTENCIA (LOCALSTORAGE)
+  // PERSISTENCIA Y COPIAS DE SEGURIDAD (JSON EXPORT/IMPORT)
   // =========================================================================
   loadPersistence() {
     try {
       this.examHistory = JSON.parse(localStorage.getItem('opo_e1_history')) || [];
       this.failedQuestions = new Set(JSON.parse(localStorage.getItem('opo_e1_failed_qids')) || []);
       this.cardRatings = JSON.parse(localStorage.getItem('opo_e1_flashcards_rating')) || {};
+      this.planChecklist = JSON.parse(localStorage.getItem('opo_e1_plan_checklist')) || {};
     } catch (e) {
       console.warn('Error cargando LocalStorage:', e);
       this.examHistory = [];
       this.failedQuestions = new Set();
       this.cardRatings = {};
+      this.planChecklist = {};
     }
   }
 
   saveHistory(result) {
     this.examHistory.unshift(result);
-    // Limitar a los últimos 50 simulacros
     if (this.examHistory.length > 50) this.examHistory.pop();
     try {
       localStorage.setItem('opo_e1_history', JSON.stringify(this.examHistory));
@@ -89,11 +96,76 @@ class OpoDefensaApp {
     } catch (e) {}
   }
 
+  togglePlanDay(dayNum) {
+    this.planChecklist[dayNum] = !this.planChecklist[dayNum];
+    try {
+      localStorage.setItem('opo_e1_plan_checklist', JSON.stringify(this.planChecklist));
+    } catch (e) {}
+    this.setTab(this.activeTab);
+  }
+
+  // EXPORTAR PROGRESO A FICHERO JSON
+  exportProgress() {
+    const backupData = {
+      app: 'Misión Administración - Opo-Defensa E1',
+      version: '2.0.0',
+      exportDate: new Date().toISOString(),
+      examHistory: this.examHistory,
+      failedQuestionIds: Array.from(this.failedQuestions),
+      cardRatings: this.cardRatings,
+      planChecklist: this.planChecklist
+    };
+
+    const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `opo-defensa-e1-progreso-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // IMPORTAR PROGRESO DESDE FICHERO JSON
+  importProgress(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.examHistory) {
+          this.examHistory = data.examHistory;
+          localStorage.setItem('opo_e1_history', JSON.stringify(this.examHistory));
+        }
+        if (data.failedQuestionIds) {
+          this.failedQuestions = new Set(data.failedQuestionIds);
+          localStorage.setItem('opo_e1_failed_qids', JSON.stringify(Array.from(this.failedQuestions)));
+        }
+        if (data.cardRatings) {
+          this.cardRatings = data.cardRatings;
+          localStorage.setItem('opo_e1_flashcards_rating', JSON.stringify(this.cardRatings));
+        }
+        if (data.planChecklist) {
+          this.planChecklist = data.planChecklist;
+          localStorage.setItem('opo_e1_plan_checklist', JSON.stringify(this.planChecklist));
+        }
+
+        alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas y cuaderno de fallos.');
+        this.setTab(this.activeTab);
+      } catch (err) {
+        alert('Error al leer el archivo JSON. Asegúrate de seleccionar un archivo de copia de seguridad válido.');
+      }
+    };
+    reader.readAsText(file);
+  }
+
   // =========================================================================
   // INICIALIZACIÓN Y ENRUTAMIENTO
   // =========================================================================
   init() {
-    // Configurar listeners de hash para navegación fluida
     window.addEventListener('hashchange', () => this.handleHashChange());
     if (window.location.hash) {
       this.handleHashChange();
@@ -101,10 +173,7 @@ class OpoDefensaApp {
       this.setTab('dashboard');
     }
 
-    // Inicializar PWA Service Worker
     this.registerServiceWorker();
-
-    // Registrar atajos de teclado globales para el simulador
     window.addEventListener('keydown', (e) => this.handleKeyboardShortcuts(e));
   }
 
@@ -122,7 +191,6 @@ class OpoDefensaApp {
       window.location.hash = tabName;
     }
 
-    // Actualizar botones de navegación (desktop y móvil)
     document.querySelectorAll('[data-tab-target]').forEach(btn => {
       const target = btn.getAttribute('data-tab-target');
       if (target === tabName) {
@@ -132,34 +200,27 @@ class OpoDefensaApp {
       }
     });
 
-    // Renderizar la vista correspondiente
     const mainContainer = document.getElementById('app-main-content');
     if (!mainContainer) return;
 
     switch (tabName) {
       case 'dashboard':
         mainContainer.innerHTML = this.renderDashboard();
-        this.bindDashboardEvents();
         break;
       case 'estudio':
         mainContainer.innerHTML = this.renderStudyCenter();
-        this.bindStudyEvents();
         break;
       case 'simulador':
         mainContainer.innerHTML = this.renderSimulator();
-        this.bindSimulatorEvents();
         break;
       case 'flashcards':
         mainContainer.innerHTML = this.renderFlashcards();
-        this.bindFlashcardsEvents();
         break;
       case 'analiticas':
         mainContainer.innerHTML = this.renderAnalytics();
-        this.bindAnalyticsEvents();
         break;
       default:
         mainContainer.innerHTML = this.renderDashboard();
-        this.bindDashboardEvents();
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -169,8 +230,8 @@ class OpoDefensaApp {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('SW registrado con éxito:', reg.scope))
-          .catch(err => console.log('SW falló:', err));
+          .then(reg => console.log('SW registrado:', reg.scope))
+          .catch(err => console.log('SW error:', err));
       });
     }
   }
@@ -179,9 +240,7 @@ class OpoDefensaApp {
   // MÓDULO 1: DASHBOARD / INICIO
   // =========================================================================
   renderDashboard() {
-    // Métricas calculadas
     const totalSimulacros = this.examHistory.length;
-    const ultimosSimulacros = this.examHistory.slice(0, 5);
     const mediaPuntos = totalSimulacros > 0
       ? (this.examHistory.reduce((acc, curr) => acc + curr.netScore, 0) / totalSimulacros).toFixed(2)
       : '0.00';
@@ -196,23 +255,33 @@ class OpoDefensaApp {
         <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-sky-950 border border-slate-700/60 rounded-3xl p-6 sm:p-10 shadow-2xl">
           <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl select-none pointer-events-none">⚔️</div>
           <div class="max-w-3xl space-y-4">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase bg-sky-500/10 text-sky-400 border border-sky-500/30">
-              <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
-              Convocatoria Oficial Resolución 430/38310/2026 &bull; Grupo E1
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                Subsecretaría de Defensa &bull; Grupo E1 Servicios Administrativos
+              </span>
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                ⭐ Incluye Examen Real 1-Feb-2025
+              </span>
             </div>
+
             <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
               Misión Administración <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-300">Defensa</span>
             </h1>
+
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Centro de Alto Rendimiento para Opositores a Personal Laboral Fijo del <strong>Ministerio de Defensa</strong> (IV Convenio Único AGE). Temario oficial íntegro de 10 temas, banco de 204 preguntas oficiales, simulador real con penalización (-0,33) y flashcards de recuperación activa.
+              Centro de Entrenamiento Táctico para Personal Laboral Fijo (IV CUAGE). Formato oficial de <strong>60 preguntas ordinarias + 6 de reserva (60 min)</strong>, penalización (-0,33) y calibración según la <strong>Regla 33% Común / 67% Específico</strong>.
             </p>
 
             <div class="pt-4 flex flex-wrap gap-3">
               <button onclick="window.app.startNewExam('oficial')" class="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-extrabold rounded-xl shadow-lg shadow-sky-500/25 transition-all flex items-center gap-2 text-sm sm:text-base">
-                <span>🎯</span> Iniciar Simulacro Oficial (60 + 6 Reserva)
+                <span>🎯</span> Simulacro Oficial Real (60 + 6 Reserva)
               </button>
               <button onclick="window.app.setTab('estudio')" class="px-6 py-3.5 bg-slate-800/90 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-600 transition-all text-sm sm:text-base flex items-center gap-2">
-                <span>📖</span> Abrir Temario Completo
+                <span>📖</span> Temario 10 Temas Íntegros
+              </button>
+              <button onclick="window.app.setStudySubTab('plan')" class="px-5 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-bold rounded-xl border border-emerald-500/30 transition-all text-sm flex items-center gap-2">
+                <span>📅</span> Plan 33% / 67% (14 Días)
               </button>
             </div>
           </div>
@@ -221,15 +290,15 @@ class OpoDefensaApp {
         <!-- 4 INDICADORES CARDINALES -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Temario Oficial</div>
-            <div class="text-2xl sm:text-3xl font-black text-white mt-1">10 Temas</div>
-            <div class="text-xs text-sky-400 mt-1 font-medium">4 Comunes + 6 Específicos</div>
+            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Regla de Examen</div>
+            <div class="text-2xl sm:text-3xl font-black text-white mt-1">33% / 67%</div>
+            <div class="text-xs text-sky-400 mt-1 font-medium">20 Comunes / 40 Específicas</div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
             <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Banco de Test</div>
             <div class="text-2xl sm:text-3xl font-black text-white mt-1">204 Preguntas</div>
-            <div class="text-xs text-emerald-400 mt-1 font-medium">33% Común / 67% Específico</div>
+            <div class="text-xs text-emerald-400 mt-1 font-medium">Con Examen 2025 y Reservas</div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
@@ -237,7 +306,7 @@ class OpoDefensaApp {
             <div class="text-2xl sm:text-3xl font-black ${mediaPuntos >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
               ${mediaPuntos} <span class="text-sm font-normal text-slate-400">/ 60</span>
             </div>
-            <div class="text-xs text-slate-400 mt-1">Corte oficial: 30,00 pts</div>
+            <div class="text-xs text-slate-400 mt-1">Corte oficial: 30,00 pts (50%)</div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
@@ -249,13 +318,58 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- ACCESOS RÁPIDOS A LOS 4 MODOS DE TEST -->
+        <!-- SECCIÓN: LA REGLA METODOLÓGICA DEL 33% / 67% -->
+        <div class="bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-xs font-extrabold uppercase px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                Estrategia Metodológica Oficial
+              </span>
+              <h2 class="text-xl sm:text-2xl font-black text-white mt-2">
+                Dónde se Gana Realmente la Plaza en Defensa
+              </h2>
+            </div>
+            <button onclick="window.app.setStudySubTab('plan')" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-slate-950 font-extrabold text-xs rounded-xl shadow transition-all self-start sm:self-auto">
+              Ver Calendario 14 Días &rarr;
+            </button>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+            Aprenderse la Constitución o el Gobierno es necesario pero no suficiente. El <strong>66,7% de tu nota final (40 preguntas de 60)</strong> depende exclusivamente de los 6 temas específicos de conserjería, paquetería, reprografía, burofax y seguridad militar. Aplica siempre esta proporción en tus sesiones de estudio:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="bg-slate-950/80 border border-indigo-500/30 rounded-2xl p-5 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-indigo-400 uppercase">1/3 del Tiempo &bull; 33,3% del Examen</span>
+                <span class="text-xs font-mono font-bold text-white">20 Preguntas</span>
+              </div>
+              <h3 class="text-base font-bold text-white">Bloque Común (Temas 1 al 4)</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Constitución Española (1978 y reforma art. 49 de 2024), Gobierno y AGE (Ley 50/1997 y Ley 40/2015), Personal Laboral (CUAGE y ET) y Políticas de Igualdad.
+              </p>
+            </div>
+
+            <div class="bg-slate-950/80 border border-emerald-500/30 rounded-2xl p-5 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-emerald-400 uppercase">2/3 del Tiempo &bull; 66,7% del Examen</span>
+                <span class="text-xs font-mono font-bold text-emerald-400 font-black">40 Preguntas (Clave)</span>
+              </div>
+              <h3 class="text-base font-bold text-white">Bloque Específico (Temas 5 al 10)</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Control de Accesos militar, Paquetería y Valija, Reprografía y Serie DIN 476, Envíos Postales y Burofax, Recados y Secretos Oficiales, y Averías/PRL (RD 486/1997).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCESOS RÁPIDOS A LOS MODOS DE TEST -->
         <div>
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-bold text-white flex items-center gap-2">
               <span>🎯</span> Modos de Entrenamiento Táctico
             </h2>
-            <span class="text-xs text-slate-400 font-medium">Selecciona un modo para entrenar</span>
+            <span class="text-xs text-slate-400 font-medium">Selecciona una modalidad</span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -266,7 +380,7 @@ class OpoDefensaApp {
               </div>
               <h3 class="text-lg font-bold text-white mb-1">Simulacro Real Defensa</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                60 preguntas ordinarias (20 comunes + 40 específicas) + 6 de reserva. Cronómetro de 60 min con aviso y penalización oficial de -0,33.
+                60 ordinarias + 6 de reserva (60 min). Simulación de penalización (-0,33) y gestión de anulaciones históricas.
               </p>
               <span class="text-xs font-bold text-sky-400 flex items-center gap-1">Entrenar Ahora &rarr;</span>
             </div>
@@ -278,7 +392,7 @@ class OpoDefensaApp {
               </div>
               <h3 class="text-lg font-bold text-white mb-1">Bloque Común (33%)</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad).
+                20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral e Igualdad).
               </p>
               <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">Iniciar Común &rarr;</span>
             </div>
@@ -290,7 +404,7 @@ class OpoDefensaApp {
               </div>
               <h3 class="text-lg font-bold text-white mb-1">Bloque Específico (67%)</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                40 preguntas de los Temas 5 al 10 (Accesos, Paquetería, Reprografía DIN, Correos, Recados y PRL).
+                40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y PRL).
               </p>
               <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">Iniciar Específico &rarr;</span>
             </div>
@@ -307,53 +421,37 @@ class OpoDefensaApp {
                 </span>
               </div>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                Reentrena exclusivamente las preguntas que has fallado en simulacros para eliminar tus puntos débiles.
+                Reentrena tus errores acumulados en LocalStorage hasta vaciar el cuaderno a 0.
               </p>
               <span class="text-xs font-bold text-rose-400 flex items-center gap-1">Repasar Errores &rarr;</span>
             </div>
           </div>
         </div>
 
-        <!-- MÉTODO DIARIO DE ALTO RENDIMIENTO (3 PASOS) -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8">
-          <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-            <span>⚡</span> El Ciclo Diario de Estudio Recomendado (60 Minutos)
-          </h3>
-          <p class="text-xs sm:text-sm text-slate-400 mb-6">
-            Sigue este flujo diario para garantizar la asimilación a largo plazo sin agotamiento cognitivo:
-          </p>
+        <!-- PANEL DE COPIA DE SEGURIDAD (EXPORTAR / IMPORTAR PROGRESO) -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div class="space-y-1 text-center sm:text-left">
+            <h3 class="text-base font-bold text-white flex items-center justify-center sm:justify-start gap-2">
+              <span>💾</span> Copia de Seguridad Offline de tu Progreso
+            </h3>
+            <p class="text-xs text-slate-400 max-w-xl">
+              Descarga tus estadísticas y tu cuaderno de errores en un archivo JSON para no perder nada si limpias la memoria de tu móvil o cambias de dispositivo.
+            </p>
+          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-              <div class="text-xs font-extrabold text-sky-400 uppercase tracking-wider mb-2">Paso 1 &bull; 20 Minutos</div>
-              <h4 class="text-base font-bold text-white mb-1">Lectura Activa del Manual</h4>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Abre un tema en el Centro de Estudio. Subraya mentalmente las citas del BOE y las advertencias de "Trampa de Examen".
-              </p>
-            </div>
-
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-              <div class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2">Paso 2 &bull; 15 Minutos</div>
-              <h4 class="text-base font-bold text-white mb-1">Recuperación con Flashcards</h4>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Repasa las tarjetas del día. Fuerza a tu cerebro a recordar el plazo exacto o la norma antes de voltear la tarjeta.
-              </p>
-            </div>
-
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-              <div class="text-xs font-extrabold text-emerald-400 uppercase tracking-wider mb-2">Paso 3 &bull; 25 Minutos</div>
-              <h4 class="text-base font-bold text-white mb-1">Test Táctico y Corrección</h4>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Realiza una sesión de test, gestiona el riesgo de dejar en blanco (-0,33) y lee con detenimiento cada justificación legal.
-              </p>
-            </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button onclick="window.app.exportProgress()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl border border-slate-700 flex items-center gap-2 shadow">
+              <span>📥</span> Descargar Progreso (JSON)
+            </button>
+            <label class="px-4 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs rounded-xl shadow cursor-pointer flex items-center gap-2">
+              <span>📤</span> Restaurar Copia
+              <input type="file" accept=".json" onchange="window.app.importProgress(event)" class="hidden">
+            </label>
           </div>
         </div>
       </div>
     `;
   }
-
-  bindDashboardEvents() {}
 
   // =========================================================================
   // MÓDULO 2: CENTRO DE ESTUDIO Y MANUAL INTERACTIVO
@@ -370,20 +468,23 @@ class OpoDefensaApp {
               <span>📖</span> Centro de Estudio Oficial E1
             </h1>
             <p class="text-xs sm:text-sm text-slate-400">
-              Programa oficial de 10 temas desarrollado exhaustivamente con citas literales del BOE y análisis técnico.
+              Programa íntegro de 10 temas: 4 Bloque Común (33%) + 6 Bloque Específico (67%).
             </p>
           </div>
 
-          <!-- SELECTOR DE SUBPESTAÑAS (TEMAS / CIFRAS / TRAMPAS) -->
-          <div class="inline-flex p-1 bg-slate-900 border border-slate-800 rounded-xl">
-            <button onclick="window.app.setStudySubTab('temas')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'temas' ? 'bg-sky-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
+          <!-- SELECTOR DE SUBPESTAÑAS -->
+          <div class="inline-flex p-1 bg-slate-900 border border-slate-800 rounded-xl flex-wrap">
+            <button onclick="window.app.setStudySubTab('temas')" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'temas' ? 'bg-sky-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
               10 Temas Íntegros
             </button>
-            <button onclick="window.app.setStudySubTab('cifras')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'cifras' ? 'bg-amber-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
+            <button onclick="window.app.setStudySubTab('cifras')" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'cifras' ? 'bg-amber-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
               ⭐ 50 Cifras BOE
             </button>
-            <button onclick="window.app.setStudySubTab('trampas')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'trampas' ? 'bg-rose-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
+            <button onclick="window.app.setStudySubTab('trampas')" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'trampas' ? 'bg-rose-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
               ⚠️ Control de Trampas
+            </button>
+            <button onclick="window.app.setStudySubTab('plan')" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${this.studySubTab === 'plan' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}">
+              📅 Plan 14 Días (33/67)
             </button>
           </div>
         </div>
@@ -400,6 +501,9 @@ class OpoDefensaApp {
     if (this.studySubTab === 'trampas') {
       return this.renderTrampasExamen();
     }
+    if (this.studySubTab === 'plan') {
+      return this.renderStudyPlanView();
+    }
 
     // SUBPESTAÑA PRINCIPAL: LOS 10 TEMAS
     return `
@@ -408,19 +512,20 @@ class OpoDefensaApp {
         <div class="lg:col-span-4 space-y-3">
           <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
             <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1 flex items-center justify-between">
-              <span>Temario de Convocatoria</span>
-              <span class="text-sky-400">10 Temas</span>
+              <span>Temario Oficial</span>
+              <span class="text-sky-400 font-mono">10 Temas</span>
             </div>
 
-            <!-- BLOQUE COMÚN -->
+            <!-- BLOQUE COMÚN (33%) -->
             <div class="mb-4">
-              <div class="text-[11px] font-extrabold text-indigo-400 uppercase tracking-wider mb-2 px-1">
-                Bloque Común (33,3% &bull; Temas 1-4)
+              <div class="text-[11px] font-extrabold text-indigo-400 uppercase tracking-wider mb-2 px-1 flex items-center justify-between">
+                <span>Bloque Común (33,3%)</span>
+                <span>20 Q</span>
               </div>
               <div class="space-y-1">
                 ${this.syllabus.filter(t => t.block === 'comun').map(t => `
-                  <button onclick="window.app.selectTopic(${t.id})" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-medium transition-all flex items-center gap-2.5 ${t.id === this.selectedTopicId ? 'bg-sky-500/15 text-sky-300 font-bold border border-sky-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white border border-transparent'}">
-                    <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black ${t.id === this.selectedTopicId ? 'bg-sky-400 text-slate-950' : 'bg-slate-800 text-slate-400'}">
+                  <button onclick="window.app.selectTopic(${t.id})" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-medium transition-all flex items-center gap-2.5 ${t.id === this.selectedTopicId ? 'bg-indigo-500/15 text-indigo-300 font-bold border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white border border-transparent'}">
+                    <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black ${t.id === this.selectedTopicId ? 'bg-indigo-400 text-slate-950' : 'bg-slate-800 text-slate-400'}">
                       ${t.id}
                     </span>
                     <span class="truncate">${t.shortTitle}</span>
@@ -429,10 +534,11 @@ class OpoDefensaApp {
               </div>
             </div>
 
-            <!-- BLOQUE ESPECÍFICO -->
+            <!-- BLOQUE ESPECÍFICO (67% - DONDE SE GANA LA PLAZA) -->
             <div>
-              <div class="text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider mb-2 px-1">
-                Bloque Específico (66,7% &bull; Temas 5-10)
+              <div class="text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider mb-2 px-1 flex items-center justify-between">
+                <span>Bloque Específico (66,7%)</span>
+                <span>40 Q</span>
               </div>
               <div class="space-y-1">
                 ${this.syllabus.filter(t => t.block === 'especifico').map(t => `
@@ -556,6 +662,87 @@ class OpoDefensaApp {
     `;
   }
 
+  // CALENDARIO DE ESTUDIO TÁCTICO 14 DÍAS (REGLA 33% / 67%)
+  renderStudyPlanView() {
+    const planDays = [
+      { day: 1, block: "Común (33%)", title: "Tema 1: Constitución Española de 1978", tasks: "Estructura formal, Título Preliminar, valores del 1.1, principios 9.3, Título I y garantías del art. 53.", badge: "bg-indigo-500/20 text-indigo-400" },
+      { day: 2, block: "Común (33%)", title: "Tema 1 bis: Reformas Constitucionales", tasks: "Reforma 1992 (art. 13.2), Reforma 2011 (art. 135) y Reforma febrero 2024 (art. 49 personas con discapacidad). Procedimientos arts. 167 y 168.", badge: "bg-indigo-500/20 text-indigo-400" },
+      { day: 3, block: "Común (33%)", title: "Tema 2: El Gobierno y la AGE", tasks: "Ley 50/1997, moción censura (1/10 y 5 días) y cuestión confianza. Ley 40/2015: Órganos Superiores, Directivos (Subdirectores NO altos cargos), Delegados y Subdelegados.", badge: "bg-indigo-500/20 text-indigo-400" },
+      { day: 4, block: "Común (33%)", title: "Tema 3 y 4: Laboral CUAGE e Igualdad", tasks: "Contrato escrito, periodo de prueba E1 (1 mes CUAGE), despido disciplinario (art. 54 ET). LO 3/2007, LO 1/2004, discapacidad 33% y dependencia.", badge: "bg-indigo-500/20 text-indigo-400" },
+      { day: 5, block: "Específico (67%)", title: "Tema 5 (1 Esp): Control de Accesos", tasks: "Identificación obligatoria (DNI/Pasaporte/TIE), Libro de Visitas, pases visibles, límites del conserje E1 (cero fuerza) y custodia de llaves en clavero.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 6, block: "Específico (67%)", title: "Tema 6 (2 Esp): Paquetería y Valija", tasks: "Albaranes y salvedades por daños externos, valija oficial MINISDEF con precintos y hoja de ruta. Protocolo TEDAX ante paquetes sospechosos.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 7, block: "Específico (67%)", title: "Tema 7 (3 Esp): Reprografía y DIN 476", tasks: "Norma ISO 216 / DIN 476: medidas exactas A0 a A5, relación de escalas, gramaje 80 g/m² (peso folio 5 g), alimentador ADF, bypass y desatascos.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 8, block: "Específico (67%)", title: "Tema 8 (4 Esp): Correspondencia Correos", tasks: "Carta ordinaria, certificada (15 días naturales en oficina), Burofax probatorio (Q32 examen 2025), Paquete Azul (20 kg). Oficios vs Notas Interiores.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 9, block: "Específico (67%)", title: "Tema 9 (5 Esp): Recados Oficiales", tasks: "Recados interiores y exteriores, recibí por duplicado. Actuación ante firmas (Q53 examen 2025: solo firmar recibí material). Ley 9/1968 Secretos: doble sobre neutro.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 10, block: "Específico (67%)", title: "Tema 10 (6 Esp): Averías y PRL", tasks: "Partes de avería y avisos urgentes. RD 486/1997: techos 3 m, superficie libre 2 m², pasillos 1 m, temperaturas 17 a 27 ºC. Prohibido ascensor en incendio.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 11, block: "Específico (67%)", title: "Entrenamiento Específico Intensivo", tasks: "Realizar test exclusivo de 40 preguntas del Bloque Específico. Repaso de las 50 Cifras Sagradas y tablas mnemotécnicas.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 12, block: "Específico (67%)", title: "Caza-Trampas Funcional", tasks: "Revisión de las 10 trampas lingüísticas recurrentes de los tribunales de oposición de conserjería militar.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 13, block: "Consolidación", title: "Simulacro Oficial Completo (60+6)", tasks: "Realizar el simulacro de 60 ordinarias + 6 de reserva bajo cronómetro de 60 minutos con penalización de -0,33.", badge: "bg-sky-500/20 text-sky-400" },
+      { day: 14, block: "Consolidación", title: "Vaciado del Cuaderno de Fallos", tasks: "Reentrenar exclusivamente las preguntas erradas hasta lograr el 100% de acierto y consolidar el aprobado.", badge: "bg-rose-500/20 text-rose-400" }
+    ];
+
+    const completedCount = Object.values(this.planChecklist).filter(Boolean).length;
+    const progressPct = Math.round((completedCount / 14) * 100);
+
+    return `
+      <div class="space-y-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-xs font-black uppercase px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                Plan Guiado de Alto Rendimiento
+              </span>
+              <h2 class="text-2xl font-black text-white mt-2">
+                Plan Táctico en 14 Días (Regla 33% / 67%)
+              </h2>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-slate-400 font-bold">Progreso del Plan</span>
+              <div class="text-xl font-black text-emerald-400">${progressPct}% (${completedCount}/14 días)</div>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-3xl">
+            Este itinerario distribuye exactamente **1/3 del esfuerzo para los 4 temas comunes (Días 1 a 4)** y **2/3 del esfuerzo para los 6 temas específicos (Días 5 a 12)**, asegurando que dedicas el mayor tiempo donde se concentran las 40 preguntas determinantes del examen.
+          </p>
+
+          <div class="w-full bg-slate-950 rounded-full h-3 border border-slate-800 overflow-hidden">
+            <div class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
+          </div>
+        </div>
+
+        <!-- LISTA DE LOS 14 DÍAS CON CHECKBOX INTERACTIVO -->
+        <div class="space-y-3">
+          ${planDays.map(p => {
+            const isDone = !!this.planChecklist[p.day];
+            return `
+              <div onclick="window.app.togglePlanDay(${p.day})" class="cursor-pointer bg-slate-900 border ${isDone ? 'border-emerald-500/40 bg-emerald-950/10' : 'border-slate-800'} hover:border-slate-700 rounded-2xl p-5 transition-all flex items-start gap-4">
+                <div class="w-6 h-6 shrink-0 mt-0.5 rounded-lg border flex items-center justify-center font-black text-xs transition-colors ${isDone ? 'bg-emerald-500 border-emerald-400 text-slate-950' : 'bg-slate-950 border-slate-700 text-transparent'}">
+                  ✓
+                </div>
+                <div class="flex-1 space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-black text-white">DÍA ${p.day}</span>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded ${p.badge}">
+                      ${p.block}
+                    </span>
+                    ${isDone ? '<span class="text-[10px] font-bold text-emerald-400 uppercase ml-auto">Completado</span>' : ''}
+                  </div>
+                  <h4 class="text-sm sm:text-base font-bold text-white ${isDone ? 'line-through text-slate-400' : ''}">
+                    ${p.title}
+                  </h4>
+                  <p class="text-xs text-slate-400 leading-relaxed">
+                    ${p.tasks}
+                  </p>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   renderCifrasSagradas() {
     return `
       <div class="space-y-6">
@@ -647,10 +834,8 @@ class OpoDefensaApp {
     this.setupExamSession(topicQuestions, `Tema ${topicId}`);
   }
 
-  bindStudyEvents() {}
-
   // =========================================================================
-  // MÓDULO 3: SIMULADOR DE EXAMEN OFICIAL (MOTOR REAL)
+  // MÓDULO 3: SIMULADOR DE EXAMEN OFICIAL (MOTOR REAL CON RESERVAS Y 2025)
   // =========================================================================
   renderSimulator() {
     if (this.examState.status === 'running') {
@@ -666,6 +851,9 @@ class OpoDefensaApp {
     return `
       <div class="max-w-4xl mx-auto space-y-6 animate-fadeIn">
         <div class="text-center space-y-2 mb-8">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30 mb-2">
+            ⭐ Examen Oficial Real 1 de Febrero de 2025 Integrado
+          </div>
           <h1 class="text-3xl sm:text-4xl font-black text-white">
             Simulador de Examen Oficial E1
           </h1>
@@ -683,17 +871,17 @@ class OpoDefensaApp {
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
               <div class="text-slate-400">Preguntas del Ejercicio</div>
               <div class="text-base font-bold text-white mt-1">60 Ord + 6 Reserva</div>
-              <div class="text-slate-500 text-[11px] mt-0.5">20 comunes + 40 específicas</div>
+              <div class="text-slate-500 text-[11px] mt-0.5">20 comunes + 40 específicas (+6 res)</div>
             </div>
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
               <div class="text-slate-400">Tiempo Máximo</div>
               <div class="text-base font-bold text-white mt-1">60 Minutos</div>
-              <div class="text-slate-500 text-[11px] mt-0.5">Con aviso en últimos 10 min</div>
+              <div class="text-slate-500 text-[11px] mt-0.5">Gestión de las 66 preguntas</div>
             </div>
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
               <div class="text-slate-400">Fórmula de Puntuación</div>
               <div class="text-base font-bold text-amber-400 mt-1">Aciertos - (Errores &times; 1/3)</div>
-              <div class="text-slate-500 text-[11px] mt-0.5">Blancas computan 0. Corte: 30 pts</div>
+              <div class="text-slate-500 text-[11px] mt-0.5">Blancas 0. Corte: 30 pts netos</div>
             </div>
           </div>
         </div>
@@ -702,15 +890,15 @@ class OpoDefensaApp {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🎖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Oficial Defensa</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Oficial Defensa (60 + 6 Reserva)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              60 preguntas ordinarias + 6 de reserva con distribución exacta (33% comunes / 67% específicas) y cronómetro de 60 minutos.
+              El ejercicio íntegro tal como te lo entregarán en el aula: 60 preguntas ordinarias + 6 preguntas de reserva bajo el cronómetro oficial de 60 minutos.
             </p>
           </button>
 
           <button onclick="window.app.startNewExam('comun')" class="p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">⚖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Modo Bloque Común</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Modo Bloque Común (33%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad).
             </p>
@@ -718,7 +906,7 @@ class OpoDefensaApp {
 
           <button onclick="window.app.startNewExam('especifico')" class="p-6 bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🛡️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Modo Bloque Específico</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Modo Bloque Específico (67%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL).
             </p>
@@ -730,7 +918,7 @@ class OpoDefensaApp {
               Modo Preguntas Falladas (${this.failedQuestions.size})
             </h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Entrena las preguntas que tienes guardadas en tu cuaderno de errores para corregir debilidades.
+              Reentrena las preguntas de tu cuaderno de errores hasta conseguir dominarlas todas.
             </p>
           </button>
         </div>
@@ -742,7 +930,7 @@ class OpoDefensaApp {
     let pool = [];
     if (mode === 'oficial') {
       // 60 ordinarias: 20 comunes + 40 específicas
-      // 6 de reserva: 2 comunes + 4 específicas
+      // 6 de reserva: 2 comunes (R1, R2) + 4 específicas (R3, R4, R5, R6)
       const comunPool = this.shuffleArray(this.questionBank.filter(q => q.block === 'comun'));
       const espPool = this.shuffleArray(this.questionBank.filter(q => q.block === 'especifico'));
 
@@ -785,10 +973,10 @@ class OpoDefensaApp {
       timeRemaining: 3600, // 60 min
       timerInterval: null,
       filterReview: 'all',
-      results: null
+      results: null,
+      applyAnnulments: false
     };
 
-    // Iniciar cuenta atrás
     this.examState.timerInterval = setInterval(() => {
       this.examState.timeRemaining--;
       this.updateTimerDisplay();
@@ -808,7 +996,6 @@ class OpoDefensaApp {
     const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     el.innerText = formatted;
 
-    // Aviso de últimos 10 minutos (<= 600 segundos)
     if (this.examState.timeRemaining <= 600) {
       el.classList.add('text-rose-400', 'animate-pulse');
       el.classList.remove('text-sky-400');
@@ -819,6 +1006,7 @@ class OpoDefensaApp {
     const q = this.examState.questions[this.examState.currentIndex];
     const totalQ = this.examState.questions.length;
     const isReserve = this.examState.mode === 'oficial' && this.examState.currentIndex >= 60;
+    const reserveNum = isReserve ? (this.examState.currentIndex - 59) : 0;
     const selectedOpt = this.examState.userAnswers[q.id];
     const isFlagged = this.examState.flagged.has(q.id);
 
@@ -830,7 +1018,7 @@ class OpoDefensaApp {
         <div class="sticky top-16 z-30 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <span class="text-xs font-black uppercase px-2.5 py-1 rounded-lg ${isReserve ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-sky-500/20 text-sky-300 border border-sky-500/30'}">
-              ${isReserve ? `Reserva #${this.examState.currentIndex - 59}` : `Pregunta ${this.examState.currentIndex + 1} / ${totalQ}`}
+              ${isReserve ? `⭐ RESERVA R${reserveNum} (${reserveNum <= 2 ? 'Común' : 'Específica'})` : `Pregunta ${this.examState.currentIndex + 1} de 60`}
             </span>
             <span class="text-xs text-slate-400 hidden sm:inline">
               ${answeredCount} de ${totalQ} respondidas
@@ -859,6 +1047,7 @@ class OpoDefensaApp {
               <span class="text-[11px] font-extrabold uppercase px-2 py-0.5 rounded bg-slate-800 text-sky-400">
                 ${q.topic}
               </span>
+              ${q.isRealExam2025 ? '<span class="text-[10px] font-bold text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded ml-2 border border-amber-500/20">Examen Real 2025</span>' : ''}
               <span class="text-[11px] text-slate-500 ml-2 font-mono">ID #${q.id}</span>
             </div>
             <button onclick="window.app.toggleFlag(${q.id})" class="px-3 py-1 rounded-lg text-xs font-bold border transition-colors flex items-center gap-1.5 ${isFlagged ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'}">
@@ -912,37 +1101,68 @@ class OpoDefensaApp {
           </button>
         </div>
 
-        <!-- REJILLA DE NAVEGACIÓN RÁPIDA EXPANDIBLE -->
-        <div id="exam-grid-container" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-          <div class="flex items-center justify-between mb-4">
+        <!-- REJILLA DE NAVEGACIÓN RÁPIDA -->
+        <div id="exam-grid-container" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between">
             <h4 class="text-sm font-bold text-white flex items-center gap-2">
               <span>🗺️</span> Cuadrícula Táctil de Navegación Rápida
             </h4>
             <div class="flex items-center gap-3 text-[11px] text-slate-400">
               <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-sky-400 inline-block"></span> Respondida</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-slate-800 inline-block"></span> En blanco</span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-slate-800 inline-block"></span> Blanco</span>
               <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-amber-400 inline-block"></span> Duda</span>
             </div>
           </div>
 
-          <div class="grid grid-cols-6 sm:grid-cols-10 md:grid-cols-12 gap-2">
-            ${this.examState.questions.map((ques, idx) => {
-              const isCurrent = idx === this.examState.currentIndex;
-              const hasAns = this.examState.userAnswers[ques.id] !== undefined;
-              const isDuda = this.examState.flagged.has(ques.id);
+          <!-- 60 PREGUNTAS ORDINARIAS -->
+          <div>
+            <div class="text-[11px] font-bold text-slate-400 uppercase mb-2">Preguntas Ordinarias (1 a 60)</div>
+            <div class="grid grid-cols-6 sm:grid-cols-10 md:grid-cols-12 gap-2">
+              ${this.examState.questions.slice(0, 60).map((ques, idx) => {
+                const isCurrent = idx === this.examState.currentIndex;
+                const hasAns = this.examState.userAnswers[ques.id] !== undefined;
+                const isDuda = this.examState.flagged.has(ques.id);
 
-              let bgClass = 'bg-slate-800 text-slate-400 border-slate-700';
-              if (hasAns) bgClass = 'bg-sky-500/20 text-sky-300 border-sky-500/50';
-              if (isDuda) bgClass = 'bg-amber-500/20 text-amber-300 border-amber-500/50';
-              if (isCurrent) bgClass += ' ring-2 ring-white font-black';
+                let bgClass = 'bg-slate-800 text-slate-400 border-slate-700';
+                if (hasAns) bgClass = 'bg-sky-500/20 text-sky-300 border-sky-500/50';
+                if (isDuda) bgClass = 'bg-amber-500/20 text-amber-300 border-amber-500/50';
+                if (isCurrent) bgClass += ' ring-2 ring-white font-black';
 
-              return `
-                <button onclick="window.app.jumpToQuestion(${idx})" class="h-9 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${bgClass}">
-                  ${idx + 1}
-                </button>
-              `;
-            }).join('')}
+                return `
+                  <button onclick="window.app.jumpToQuestion(${idx})" class="h-9 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${bgClass}">
+                    ${idx + 1}
+                  </button>
+                `;
+              }).join('')}
+            </div>
           </div>
+
+          <!-- 6 PREGUNTAS DE RESERVA (SI ES MODO OFICIAL) -->
+          ${this.examState.questions.length > 60 ? `
+            <div class="pt-3 border-t border-slate-800">
+              <div class="text-[11px] font-bold text-amber-400 uppercase mb-2 flex items-center gap-1.5">
+                <span>⭐</span> Preguntas de Reserva (R1 a R6) &bull; Clave ante Anulaciones
+              </div>
+              <div class="grid grid-cols-6 gap-2">
+                ${this.examState.questions.slice(60, 66).map((ques, rIdx) => {
+                  const realIdx = 60 + rIdx;
+                  const isCurrent = realIdx === this.examState.currentIndex;
+                  const hasAns = this.examState.userAnswers[ques.id] !== undefined;
+                  const isDuda = this.examState.flagged.has(ques.id);
+
+                  let bgClass = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+                  if (hasAns) bgClass = 'bg-amber-500 text-slate-950 font-black border-amber-400';
+                  if (isCurrent) bgClass += ' ring-2 ring-white';
+
+                  return `
+                    <button onclick="window.app.jumpToQuestion(${realIdx})" class="h-9 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${bgClass}">
+                      R${rIdx + 1}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
         </div>
       </div>
     `;
@@ -1029,20 +1249,69 @@ class OpoDefensaApp {
       this.examState.timerInterval = null;
     }
 
-    // Calcular Resultados Oficiales
-    // En modo oficial: 60 preguntas ordinarias son las que determinan la nota.
-    // Si alguna de las 60 se anula (o si usamos las 60 ordinarias), computamos sobre las 60 ordinarias.
-    const questionsToGrade = this.examState.mode === 'oficial'
-      ? this.examState.questions.slice(0, 60)
-      : this.examState.questions;
+    this.calculateResults();
+    this.examState.status = 'finished';
+    this.saveHistory(this.examState.results);
+    this.setTab('simulador');
+  }
+
+  // CÁLCULO DE RESULTADOS CON OPCIÓN DE ANULACIONES HISTÓRICAS 2025
+  calculateResults() {
+    let questionsToGrade = [];
+    const isOficial = this.examState.mode === 'oficial';
+
+    if (!isOficial) {
+      questionsToGrade = this.examState.questions.map((q, idx) => ({ q, num: idx + 1, isAnnulled: false }));
+    } else if (!this.examState.applyAnnulments) {
+      // Modo Oficial Estándar: Las primeras 60 preguntas ordinarias
+      questionsToGrade = this.examState.questions.slice(0, 60).map((q, idx) => ({ q, num: idx + 1, isAnnulled: false }));
+    } else {
+      // MODO REAL PLANTILLA DEFINITIVA 2025:
+      // Se anularon 7 preguntas: Q10 y Q12 (Común), Q21, Q34, Q35, Q36, Q37 (Específico).
+      // Se sustituyen por R1 (Q61), R2 (Q62), R3 (Q63), R4 (Q64), R5 (Q65), R6 (Q66).
+      const ord = this.examState.questions.slice(0, 60);
+      const res = this.examState.questions.slice(60, 66);
+
+      const annulledMap = {
+        9: res[0],   // Q10 anulada -> sustituida por R1
+        11: res[1],  // Q12 anulada -> sustituida por R2
+        20: res[2],  // Q21 anulada -> sustituida por R3
+        33: res[3],  // Q34 anulada -> sustituida por R4
+        34: res[4],  // Q35 anulada -> sustituida por R5
+        35: res[5],  // Q36 anulada -> sustituida por R6
+        36: null     // Q37 anulada -> no quedan más reservas (cuenta sobre 59)
+      };
+
+      questionsToGrade = ord.map((q, idx) => {
+        if (annulledMap.hasOwnProperty(idx)) {
+          const replacement = annulledMap[idx];
+          if (replacement) {
+            return {
+              q: replacement,
+              num: `${idx + 1} (Sustituida por R${res.indexOf(replacement) + 1})`,
+              isAnnulled: true,
+              replacedBy: replacement
+            };
+          } else {
+            return {
+              q: q,
+              num: `${idx + 1} (Anulada sin reserva)`,
+              isAnnulled: true,
+              ignored: true
+            };
+          }
+        }
+        return { q, num: idx + 1, isAnnulled: false };
+      }).filter(item => !item.ignored);
+    }
 
     let correct = 0;
     let wrong = 0;
     let blank = 0;
-
     const reviewList = [];
 
-    questionsToGrade.forEach((q, idx) => {
+    questionsToGrade.forEach(item => {
+      const q = item.q;
       const userAns = this.examState.userAnswers[q.id];
       const isCorrect = userAns === q.correct;
       const isBlank = userAns === undefined;
@@ -1051,29 +1320,27 @@ class OpoDefensaApp {
         blank++;
       } else if (isCorrect) {
         correct++;
-        // Si estaba en el cuaderno de fallos y la ha acertado, la quitamos
         this.failedQuestions.delete(q.id);
       } else {
         wrong++;
-        // Registrar en cuaderno de fallos
         this.failedQuestions.add(q.id);
       }
 
       reviewList.push({
-        num: idx + 1,
+        num: item.num,
         question: q,
         userAns: userAns,
         isCorrect: isCorrect,
-        isBlank: isBlank
+        isBlank: isBlank,
+        isAnnulled: item.isAnnulled
       });
     });
 
-    // FÓRMULA OFICIAL: Aciertos - (Errores * 1/3)
     const netScore = Math.max(0, +(correct - (wrong * (1 / 3))).toFixed(2));
-    const passed = netScore >= (questionsToGrade.length * 0.5); // 50% de corte = 30 puntos en 60 ord.
+    const passed = netScore >= (questionsToGrade.length * 0.5);
     const timeSpentSecs = 3600 - this.examState.timeRemaining;
 
-    const results = {
+    this.examState.results = {
       id: Date.now(),
       date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
       mode: this.examState.mode,
@@ -1084,15 +1351,14 @@ class OpoDefensaApp {
       netScore,
       passed,
       timeSpent: `${Math.floor(timeSpentSecs / 60)} min ${timeSpentSecs % 60} s`,
-      reviewList
+      reviewList,
+      appliedAnnulments: this.examState.applyAnnulments
     };
+  }
 
-    this.examState.status = 'finished';
-    this.examState.results = results;
-
-    // Guardar en histórico
-    this.saveHistory(results);
-
+  toggleAnnulments() {
+    this.examState.applyAnnulments = !this.examState.applyAnnulments;
+    this.calculateResults();
     this.setTab('simulador');
   }
 
@@ -1122,8 +1388,23 @@ class OpoDefensaApp {
           <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
             ${res.passed
               ? 'Has superado el umbral del 50% (mínimo 30 puntos netos) establecido en las bases oficiales de la Subsecretaría de Defensa.'
-              : 'Para superar el corte de la convocatoria necesitas un mínimo de 30 puntos netos. Repasa tus errores en el solucionario abajo.'}
+              : 'Para superar el corte necesitas un mínimo de 30 puntos netos. Repasa tus errores en el solucionario abajo.'}
           </p>
+
+          <!-- INTERRUPTOR DE SIMULACIÓN DE ANULACIONES 2025 -->
+          ${this.examState.mode === 'oficial' ? `
+            <div class="pt-2">
+              <button onclick="window.app.toggleAnnulments()" class="px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all border flex items-center gap-2 mx-auto ${this.examState.applyAnnulments ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-lg' : 'bg-slate-950/80 text-amber-400 border-amber-500/40 hover:bg-slate-800'}">
+                <span>⚡</span>
+                <span>${this.examState.applyAnnulments ? 'Desactivar Anulaciones Tribunal 2025' : 'Simular Plantilla Real 2025 (7 Anulaciones + Reservas)'}</span>
+              </button>
+              <p class="text-[11px] text-slate-400 mt-1 max-w-md mx-auto">
+                ${this.examState.applyAnnulments
+                  ? 'Actualmente viendo la nota final tras sustituir las 7 preguntas anuladas por tus respuestas a las 6 reservas.'
+                  : 'Pulsa para comprobar cómo hubiera cambiado tu nota con las 7 anulaciones que dictaminó el tribunal de Defensa en febrero 2025.'}
+              </p>
+            </div>
+          ` : ''}
 
           <!-- 4 TARJETAS RESUMEN -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
@@ -1150,7 +1431,7 @@ class OpoDefensaApp {
               🔄 Repetir Simulacro
             </button>
             <button onclick="window.app.startNewExam('falladas')" class="px-6 py-3 bg-rose-500 hover:bg-rose-400 text-slate-950 font-extrabold rounded-xl shadow transition-all text-xs sm:text-sm">
-              📓 Entrenar Solo Falladas (${this.failedQuestions.size})
+              📓 Entrenar Falladas (${this.failedQuestions.size})
             </button>
           </div>
         </div>
@@ -1183,10 +1464,11 @@ class OpoDefensaApp {
                 <div class="bg-slate-900 border ${item.isCorrect ? 'border-emerald-500/30' : item.isBlank ? 'border-slate-800' : 'border-rose-500/40'} rounded-2xl p-5 space-y-3">
                   <div class="flex items-center justify-between gap-2">
                     <div class="flex items-center gap-2">
-                      <span class="w-6 h-6 rounded-md flex items-center justify-center text-xs font-black ${item.isCorrect ? 'bg-emerald-500 text-slate-950' : item.isBlank ? 'bg-slate-800 text-slate-400' : 'bg-rose-500 text-slate-950'}">
+                      <span class="w-auto px-2 h-6 rounded-md flex items-center justify-center text-xs font-black ${item.isCorrect ? 'bg-emerald-500 text-slate-950' : item.isBlank ? 'bg-slate-800 text-slate-400' : 'bg-rose-500 text-slate-950'}">
                         ${item.num}
                       </span>
                       <span class="text-xs font-bold text-slate-400">${q.topic}</span>
+                      ${q.isRealExam2025 ? '<span class="text-[10px] font-bold text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Examen Real 2025</span>' : ''}
                     </div>
 
                     <span class="text-xs font-bold px-2 py-0.5 rounded-md ${item.isCorrect ? 'bg-emerald-500/20 text-emerald-400' : item.isBlank ? 'bg-slate-800 text-slate-400' : 'bg-rose-500/20 text-rose-400'}">
@@ -1242,8 +1524,6 @@ class OpoDefensaApp {
     this.examState.filterReview = filter;
     this.setTab('simulador');
   }
-
-  bindSimulatorEvents() {}
 
   // =========================================================================
   // MÓDULO 4: FLASHCARDS (RECUPERACIÓN ACTIVA)
@@ -1381,8 +1661,6 @@ class OpoDefensaApp {
     }
   }
 
-  bindFlashcardsEvents() {}
-
   // =========================================================================
   // MÓDULO 5: ANALÍTICAS Y CUADRO DE MANDO
   // =========================================================================
@@ -1396,7 +1674,6 @@ class OpoDefensaApp {
       ? Math.round((aprobadosCount / totalSimulacros) * 100)
       : 0;
 
-    // Precisión Común vs Específico en todo el historial
     let totalComunCorrect = 0, totalComunTotal = 0;
     let totalEspCorrect = 0, totalEspTotal = 0;
 
@@ -1419,13 +1696,26 @@ class OpoDefensaApp {
 
     return `
       <div class="max-w-4xl mx-auto space-y-8 animate-fadeIn pb-16">
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
-            <span>📊</span> Cuadro de Mando y Analíticas
-          </h1>
-          <p class="text-xs sm:text-sm text-slate-400">
-            Diagnóstico continuo de tu rendimiento por bloques para asegurar el aprobado en el examen oficial de Defensa E1.
-          </p>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
+              <span>📊</span> Cuadro de Mando y Analíticas
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400">
+              Diagnóstico continuo según la proporción oficial del 33% Común y 67% Específico.
+            </p>
+          </div>
+
+          <!-- BOTONES DE EXPORTAR / IMPORTAR BACKUP -->
+          <div class="flex items-center gap-2">
+            <button onclick="window.app.exportProgress()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl border border-slate-700 flex items-center gap-1.5 shadow">
+              <span>📥</span> Exportar JSON
+            </button>
+            <label class="px-3.5 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs rounded-xl shadow cursor-pointer flex items-center gap-1.5">
+              <span>📤</span> Importar
+              <input type="file" accept=".json" onchange="window.app.importProgress(event)" class="hidden">
+            </label>
+          </div>
         </div>
 
         <!-- 3 KPIs MAESTROS -->
@@ -1507,6 +1797,7 @@ class OpoDefensaApp {
                         ${h.passed ? 'APROBADO' : 'SUSPENSO'}
                       </span>
                       <span class="text-xs font-bold text-white uppercase">${h.mode}</span>
+                      ${h.appliedAnnulments ? '<span class="text-[10px] font-bold bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20">Plantilla 2025</span>' : ''}
                     </div>
                     <div class="text-[11px] text-slate-500 mt-1">${h.date} &bull; Tiempo: ${h.timeSpent}</div>
                   </div>
@@ -1539,8 +1830,6 @@ class OpoDefensaApp {
       this.setTab('analiticas');
     }
   }
-
-  bindAnalyticsEvents() {}
 
   // =========================================================================
   // UTILIDADES
