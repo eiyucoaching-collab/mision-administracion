@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Oficial Desarrollado E1 | Ministerio de Defensa y AGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0f1d;
+      --sidebar-bg: #0d1424;
+      --content-bg: #111827;
+      --border: #1e293b;
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.2);
+      --purple: #c084fc;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #f43f5e;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.7;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR / ÍNDICE DE TEMAS */
+    aside {
+      width: 320px;
+      min-width: 320px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .sidebar-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .sidebar-header span {
+      font-size: 0.7rem;
+      color: var(--primary);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .topic-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .topic-item {
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .topic-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+    }
+
+    .topic-item.active {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .topic-num {
+      min-width: 22px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .topic-item.active .topic-num {
+      background: var(--primary);
+      color: #041019;
+    }
+
+    .sidebar-footer {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link-btn:hover {
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* CONTENEDOR PRINCIPAL DE LECTURA */
+    main {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      padding: 30px 48px 100px;
+      background: var(--bg);
+    }
+
+    .content-area {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ENCABEZADO DEL TEMA */
+    .theme-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .theme-tag {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--purple);
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .theme-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .theme-law-ref {
+      font-size: 0.9rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* SECCIONES Y EPÍGRAFES */
+    .epigrafe-block {
+      margin-bottom: 36px;
+    }
+
+    .epigrafe-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .epigrafe-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .prose {
+      font-size: 0.98rem;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+
+    .prose p {
+      margin-bottom: 14px;
+    }
+
+    /* CAJA LITERAL BOE */
+    .boe-quote {
+      background: rgba(15, 23, 42, 0.7);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    .boe-quote-author {
+      font-style: normal;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-top: 6px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    /* ALERTA DE EXAMEN / TRAMPA DEL TRIBUNAL */
+    .exam-alert {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1.5px solid rgba(245, 158, 11, 0.3);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .exam-alert-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .exam-alert-content h4 {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #fbbf24;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .exam-alert-content p {
+      font-size: 0.9rem;
+      color: #fef3c7;
+      line-height: 1.5;
+    }
+
+    /* TABLA RESUMEN INTERACTIVA DENTRO DEL TEMA */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .data-table th {
+      background: rgba(15, 23, 42, 0.9);
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 700;
+      color: #94a3b8;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      background: var(--content-bg);
+      color: #f1f5f9;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .highlight-bold {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* AUTOEVALUACIÓN RÁPIDA AL FINAL DEL TEMA */
+    .checkpoint-card {
+      background: rgba(6, 182, 212, 0.05);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 40px;
+    }
+
+    .checkpoint-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .checkpoint-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .checkpoint-q {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .checkpoint-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chk-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .chk-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .chk-btn.correct {
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-color: #10b981 !important;
+      color: #34d399 !important;
+      font-weight: 700;
+    }
+
+    .chk-btn.wrong {
+      background: rgba(244, 63, 94, 0.15) !important;
+      border-color: #f43f5e !important;
+      color: #fb7185 !important;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      body { flex-direction: column; height: auto; overflow: auto; }
+      aside { width: 100%; min-width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 20px 16px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR CON EL ÍNDICE DE LOS 10 TEMAS DESARROLLADOS -->
+  <aside>
+    <div class="sidebar-header">
+      <span style="font-size: 20px;">📖</span>
+      <div>
+        <h2>MANUAL OFICIAL E1</h2>
+        <span>TEMARIO DESARROLLADO</span>
+      </div>
+    </div>
+
+    <div class="topic-list" id="topicList">
+      <!-- Inyectado por JS -->
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="entrenador_eficaz.html" class="nav-link-btn">🎯 Entrenador Tipo Test (160 Q)</a>
+      <a href="comprension.html" class="nav-link-btn">💡 Casos y Esquemas Visuales</a>
+      <a href="fichas_cifras_sagradas.html" class="nav-link-btn">⭐ 50 Cifras del BOE (PDF)</a>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO DEL TEMA ACTIVO -->
+  <main>
+    <div class="content-area" id="contentArea">
+      <!-- El contenido completo desarrollado se renderiza aquí -->
+    </div>
+  </main>
+
+  <script>
+    // BASE DE DATOS DE LOS 10 TEMAS OFICIALES DESARROLLADOS
+    const SYLLABUS_CHAPTERS = [
+      {
+        id: 1,
+        block: "BLOQUE COMÚN — TEMA 1",
+        title: "La Constitución Española de 1978: Principios, Derechos y Estructura",
+        lawRef: "Constitución Española de 27 de diciembre de 1978 (BOE nº 311, de 29 de diciembre)",
+        sections: [
+          {
+            title: "1. Estructura y Características Generales",
+            content: `
+              <p>La Constitución Española de 1978 es la norma suprema del ordenamiento jurídico español. Es una constitución <strong>escrita, extensa (169 artículos), consensuada, rígida</strong> (procedimiento agravado de reforma) y de origen popular.</p>
+              <p>Se estructura formalmente en:</p>
+              <ul>
+                <li><strong>Un Preámbulo</strong> (sin fuerza jurídica vinculante directa).</li>
+                <li><strong>Un Título Preliminar</strong> (artículos 1 al 9).</li>
+                <li><strong>10 Títulos numerados</strong> (del I al X).</li>
+                <li><strong>4 Disposiciones Adicionales</strong>.</li>
+                <li><strong>9 Disposiciones Transitorias</strong>.</li>
+                <li><strong>1 Disposición Derogatoria</strong>.</li>
+                <li><strong>1 Disposición Final</strong>.</li>
+              </ul>
+            `,
+            quote: "España se constituye en un Estado social y democrático de Derecho, que propugna como valores superiores de su ordenamiento jurídico la libertad, la justicia, la igualdad y el pluralismo político. La soberanía nacional reside en el pueblo español.",
+            quoteSource: "Artículo 1.1 y 1.2 CE",
+            alert: {
+              title: "Trampa de Examen: La forma política",
+              desc: "El artículo 1.3 fija: 'La forma política del Estado español es la Monarquía parlamentaria'. No es una monarquía absoluta ni presidencialista; el Rey reina pero no gobierna (sus actos precisan siempre refrendo)."
+            }
+          },
+          {
+            title: "2. Título I: De los Derechos y Deberes Fundamentales",
+            content: `
+              <p>El Título I (artículos 10 al 55) es el corazón protector de la Constitución. El <strong>artículo 10</strong> actúa como pórtico: la dignidad de la persona, los derechos inviolables que le son inherentes, el libre desarrollo de la personalidad y el respeto a la ley y a los derechos de los demás son fundamento del orden político y de la paz social.</p>
+              <p>El Título I se divide sistemáticamente en 5 Capítulos:</p>
+              <ul>
+                <li><strong>Capítulo 1º:</strong> De los españoles y los extranjeros (arts. 11 a 13). Mayoría de edad a los 18 años (art. 12).</li>
+                <li><strong>Capítulo 2º:</strong> Derechos y libertades (arts. 14 al 38). Se subdivide en:
+                  <ul>
+                    <li><em>Artículo 14:</em> Igualdad ante la ley sin discriminación.</li>
+                    <li><em>Sección 1ª (arts. 15 al 29):</em> Derechos fundamentales y libertades públicas (vida, integridad, libertad religiosa, honor, reunión, asociación, educación, huelga).</li>
+                    <li><em>Sección 2ª (arts. 30 al 38):</em> Derechos y deberes de los ciudadanos (defensa, objeción de conciencia, matrimonio, propiedad privada, trabajo).</li>
+                  </ul>
+                </li>
+                <li><strong>Capítulo 3º:</strong> Principios rectores de la política social y económica (arts. 39 al 52: familia, salud, vivienda, medio ambiente, pensiones).</li>
+                <li><strong>Capítulo 4º:</strong> De las garantías de las libertades y derechos fundamentales (arts. 53 y 54).</li>
+                <li><strong>Capítulo 5º:</strong> De la suspensión de los derechos y libertades (art. 55).</li>
+              </ul>
+            `,
+            table: {
+              headers: ["Nivel de Protección", "Artículos", "Garantías Específicas"],
+              rows: [
+                ["Máxima Protección", "Art. 14 al 29 + 30.2", "Reserva de Ley Orgánica (art. 81) + Procedimiento judicial preferente y sumario + Recurso de Amparo ante el Tribunal Constitucional"],
+                ["Protección Ordinaria", "Art. 30 al 38", "Reserva de Ley Ordinaria (art. 53.1) + Recurso de Inconstitucionalidad (NO amparo)"],
+                ["Principios Rectores", "Art. 39 al 52", "Informan la legislación positiva, la práctica judicial y la actuación pública; solo pueden alegarse ante los tribunales conforme a las leyes que los desarrollen"]
+              ]
+            },
+            alert: {
+              title: "¡Ojo al Recurso de Amparo!",
+              desc: "El derecho al trabajo (art. 35) o a la vivienda (art. 47) NO tienen recurso de amparo. Solo lo tienen los comprendidos entre el artículo 14 y el 29, más la objeción de conciencia al servicio militar del artículo 30.2."
+            }
+          },
+          {
+            title: "3. La Corona (Título II): El Rey y el Refrendo",
+            content: `
+              <p>El Rey es el Jefe del Estado, símbolo de su unidad y permanencia, arbitra y modera el funcionamiento regular de las instituciones y asume la más alta representación del Estado español en las relaciones internacionales (art. 56.1 CE).</p>
+              <p><strong>La persona del Rey es inviolable y no está sujeta a responsabilidad.</strong> Sus actos estarán siempre <strong>refrendados</strong> por el Presidente del Gobierno y, en su caso, por los Ministros competentes. Sin dicho refrendo, los actos del Rey carecen de validez (art. 64 CE), salvo el nombramiento y relevo de los miembros civiles y militares de su Casa (art. 65.2 CE).</p>
+            `,
+            quote: "Las Cortes Generales representan al pueblo español y están formadas por el Congreso de los Diputados y el Senado. Ejercen la potestad legislativa del Estado, aprueban sus Presupuestos y controlan la acción del Gobierno.",
+            quoteSource: "Artículo 66 CE"
+          }
+        ],
+        quiz: {
+          q: "¿Cuál de los siguientes derechos goza de tutela mediante Recurso de Amparo ante el Tribunal Constitucional?",
+          options: [
+            "El derecho a una vivienda digna (artículo 47)",
+            "El derecho a la huelga (artículo 28.2)",
+            "El derecho al trabajo (artículo 35)",
+            "El derecho a la propiedad privada (artículo 33)"
+          ],
+          correct: 1,
+          exp: "El art. 28.2 está dentro de la Sección 1ª del Capítulo II del Título I (arts. 15-29), por lo que goza de la máxima protección constitucional incluido el Recurso de Amparo."
+        }
+      },
+      {
+        id: 2,
+        block: "BLOQUE COMÚN — TEMA 2",
+        title: "El Gobierno y la Administración General del Estado",
+        lawRef: "Ley 50/1997 del Gobierno y Ley 40/2015 de Régimen Jurídico del Sector Público",
+        sections: [
+          {
+            title: "1. El Gobierno: Composición y Funcionamiento",
+            content: `
+              <p>El Gobierno dirige la política interior y exterior, la Administración civil y militar y la defensa del Estado. Ejerce la función ejecutiva y la potestad reglamentaria de acuerdo con la Constitución y las leyes (art. 97 CE y Ley 50/1997).</p>
+              <p>Se compone de:</p>
+              <ul>
+                <li><strong>El Presidente del Gobierno:</strong> Dirige la acción del Gobierno y coordina las funciones de los demás miembros. Propone al Rey el nombramiento y cese de los Ministros.</li>
+                <li><strong>El Vicepresidente o Vicepresidentes:</strong> Figura potestativa (puede haberlos o no).</li>
+                <li><strong>Los Ministros:</strong> Titulares de sus respectivos departamentos ministeriales.</li>
+              </ul>
+              <p>Los órganos colegiados del Gobierno son el <strong>Consejo de Ministros</strong> y las <strong>Comisiones Delegadas del Gobierno</strong>. Las reuniones del Consejo de Ministros tienen carácter <strong>secreto</strong>.</p>
+            `,
+            alert: {
+              title: "Secretaría del Consejo de Ministros",
+              desc: "Actúa como Secretario del Consejo de Ministros el Ministro de la Presidencia. Levanta acta con el tiempo y lugar de la reunión, la relación de asistentes y los acuerdos adoptados (pero nunca los debates internos)."
+            }
+          },
+          {
+            title: "2. La AGE: Organización Central y Periférica (Ley 40/2015)",
+            content: `
+              <p>La Ley 40/2015 distingue tajantemente entre dos categorías de órganos en los Ministerios:</p>
+            `,
+            table: {
+              headers: ["Categoría", "Cargos Incluidos", "Requisitos de Nombramiento"],
+              rows: [
+                ["Órganos Superiores", "Ministros y Secretarios de Estado", "Nombramiento puramente político discrecional."],
+                ["Órganos Directivos", "Subsecretarios y Secretarios Generales / Directores Generales y Subdirectores Generales", "Subsecretarios y Directores Generales: funcionarios de carrera del Subgrupo A1 (salvo excepciones motivadas en Directores Generales). Subdirectores Generales: funcionarios de carrera A1."]
+              ]
+            },
+            content2: `
+              <p><strong>Organización Territorial (Periférica):</strong></p>
+              <ul>
+                <li><strong>Delegados del Gobierno en las CCAA:</strong> Representan al Gobierno en el territorio autonómico. Tienen rango de <em>Subsecretario</em> y son nombrados por Real Decreto del Consejo de Ministros a propuesta del Presidente.</li>
+                <li><strong>Subdelegados del Gobierno en las Provincias:</strong> Existen en las provincias donde no radica la sede de la Delegación del Gobierno. Tienen nivel de <em>Subdirector General</em> y son nombrados por el Delegado del Gobierno entre funcionarios A1.</li>
+              </ul>
+            `
+          }
+        ],
+        quiz: {
+          q: "¿Cuál de los siguientes órganos de la AGE tiene la consideración de Órgano Superior?",
+          options: [
+            "El Subsecretario del Ministerio",
+            "El Secretario de Estado",
+            "El Director General",
+            "El Delegado del Gobierno"
+          ],
+          correct: 1,
+          exp: "Conforme al artículo 55.2 de la Ley 40/2015, son órganos superiores los Ministros y los Secretarios de Estado. Los demás son órganos directivos."
+        }
+      },
+      {
+        id: 3,
+        block: "BLOQUE COMÚN — TEMA 3",
+        title: "El Empleo Público y el TREBEP: Derechos, Deberes y Régimen Disciplinario",
+        lawRef: "Real Decreto Legislativo 5/2015 (Texto Refundido de la Ley del Estatuto Básico del Empleado Público)",
+        sections: [
+          {
+            title: "1. Clases de Personal al Servicio de las AAPP",
+            content: `
+              <p>El artículo 8 del TREBEP clasifica a los empleados públicos en 4 categorías:</p>
+              <ul>
+                <li><strong>Funcionarios de carrera:</strong> Vinculados a la Administración por una relación estatutaria de Derecho Administrativo para el desempeño de servicios profesionales retribuidos de carácter permanente.</li>
+                <li><strong>Funcionarios interinos:</strong> Nombrados por razones de necesidad y urgencia. Desde la reforma de 2021, la cobertura temporal de plazas vacantes no puede superar un máximo de <strong>3 años</strong>.</li>
+                <li><strong>Personal laboral:</strong> En virtud de contrato de trabajo formalizado por escrito, presta servicios retribuidos regulados por la legislación laboral y el convenio colectivo (fijo, indefinido o temporal).</li>
+                <li><strong>Personal eventual:</strong> Nombramiento y cese libre. Desempeña puestos de confianza o asesoramiento especial no reservados a funcionarios. Su cese no da derecho a indemnización.</li>
+              </ul>
+            `
+          },
+          {
+            title: "2. Permisos y Vacaciones del Empleado Público (Art. 48 y 50)",
+            content: `
+              <p>El TREBEP fija los mínimos obligatorios para todas las Administraciones:</p>
+              <ul>
+                <li><strong>Vacaciones anuales:</strong> Mínimo <strong>22 días hábiles</strong> por año trabajado o un mes natural.</li>
+                <li><strong>Asuntos particulares (Moscosos):</strong> <strong>6 días al año</strong> retribuidos. A partir del 6º trienio se suman 2 días extra, y 1 día más por cada trienio sucesivo a partir del 8º.</li>
+                <li><strong>Matrimonio o Pareja de Hecho:</strong> <strong>15 días naturales</strong> ininterrumpidos.</li>
+                <li><strong>Fallecimiento cónyuge o familiar hasta 1º grado:</strong> 3 días hábiles en la misma localidad y 5 días hábiles si precisa desplazamiento.</li>
+                <li><strong>Traslado de domicilio:</strong> 1 día sin cambio de residencia.</li>
+              </ul>
+            `
+          },
+          {
+            title: "3. Régimen Disciplinario y Prescripciones (Art. 95-97)",
+            table: {
+              headers: ["Gravedad de la Falta", "Ejemplos Típicos", "Prescripción de la Falta", "Prescripción de la Sanción"],
+              rows: [
+                ["Muy Grave", "Abandono del servicio, quebranto de secreto profesional, acoso laboral o sexual, desobediencia abierta.", "3 años", "3 años"],
+                ["Grave", "Falta de asistencia injustificada reiterada, abuso de autoridad, grave incorrección con el público.", "2 años", "2 años"],
+                ["Leve", "Retraso injustificado reiterado, descuido en la conservación de locales o materiales.", "6 meses", "1 año"]
+              ]
+            },
+            alert: {
+              title: "Sanciones Prohibidas por Ley",
+              desc: "El artículo 96.3 del TREBEP prohíbe tajantemente la sanción de reducción de sueldo o multa de haber para los funcionarios públicos."
+            }
+          }
+        ],
+        quiz: {
+          q: "¿Cuál es el plazo de prescripción de las faltas disciplinarias MUY GRAVES cometidas por un empleado público según el TREBEP?",
+          options: ["6 meses", "1 año", "2 años", "3 años"],
+          correct: 3,
+          exp: "El artículo 97.1 del TREBEP establece que las faltas muy graves prescriben a los 3 años, las graves a los 2 años y las leves a los 6 meses."
+        }
+      },
+      {
+        id: 4,
+        block: "BLOQUE COMÚN — TEMA 4",
+        title: "Políticas de Igualdad de Género y Contra la Violencia sobre la Mujer",
+        lawRef: "Ley Orgánica 3/2007 para la igualdad efectiva y Ley Orgánica 1/2004 de medidas de protección integral",
+        sections: [
+          {
+            title: "1. Principios Rectores de la LO 3/2007",
+            content: `
+              <p>La Ley Orgánica 3/2007 consagra el principio de igualdad de trato y de oportunidades. Define conceptos jurídicos esenciales:</p>
+              <ul>
+                <li><strong>Discriminación directa:</strong> Trato desfavorable a una persona por razón de su sexo en comparación con otra en situación análoga.</li>
+                <li><strong>Discriminación indirecta:</strong> Disposición, criterio o práctica aparentemente neutros que pone a personas de un sexo en desventaja particular frente al otro, sin justificación objetiva y razonable.</li>
+                <li><strong>Presencia o Composición Equilibrada:</strong> Aquella presencia de mujeres y hombres de forma que las personas de cada sexo <strong>no superen el 60% ni sean menos del 40%</strong>.</li>
+                <li><strong>Planes de Igualdad:</strong> Conjunto ordenado de medidas evaluables para eliminar la discriminación en empresas o centros de <strong>50 o más trabajadores</strong>.</li>
+              </ul>
+            `
+          },
+          {
+            title: "2. Derechos de las Empleadas Víctimas de Violencia de Género",
+            content: `
+              <p>Conforme a la LO 1/2004 y el TREBEP, las empleadas públicas víctimas de violencia sobre la mujer tienen derecho a:</p>
+              <ul>
+                <li><strong>Reducción o reordenación de jornada:</strong> Con disminución proporcional de retribución en caso de reducción.</li>
+                <li><strong>Movilidad geográfica:</strong> Derecho preferente al traslado a otro puesto de trabajo de análoga categoría en otra localidad sin necesidad de vacante en catálogo previo.</li>
+                <li><strong>Excedencia por violencia de género:</strong> Sin necesidad de haber prestado un tiempo mínimo de servicios previos y con reserva del puesto de trabajo durante los primeros 6 meses (prorrogable hasta 18 meses).</li>
+              </ul>
+            `
+          }
+        ],
+        quiz: {
+          q: "¿Qué porcentaje delimita el principio de 'presencia equilibrada' entre mujeres y hombres en la LO 3/2007?",
+          options: [
+            "Exactamente 50% de cada sexo",
+            "Ningún sexo supere el 60% ni sea inferior al 40%",
+            "Al menos 70% de mujeres",
+            "No superar el 55%"
+          ],
+          correct: 1,
+          exp: "La Disposición Adicional 1ª de la LO 3/2007 define presencia equilibrada como aquella en la que ningún sexo supera el 60% ni es inferior al 40%."
+        }
+      },
+      {
+        id: 5,
+        block: "BLOQUE ESPECÍFICO — TEMA 5",
+        title: "El IV Convenio Colectivo Único para el Personal Laboral de la AGE (IV CUAGE)",
+        lawRef: "Resolución de 13 de mayo de 2019 de la Dirección General de Trabajo (BOE nº 118, de 17 de mayo)",
+        sections: [
+          {
+            title: "1. Ámbito de Aplicación y Clasificación Profesional",
+            content: `
+              <p>El IV CUAGE regula las relaciones laborales de todo el personal laboral que presta servicios en los departamentos ministeriales de la AGE y sus organismos públicos autónomos.</p>
+              <p>Establece un sistema moderno de clasificación profesional estructurado en 5 Grupos:</p>
+            `,
+            table: {
+              headers: ["Grupo Profesional", "Titulación Académica Oficial Exigida", "Equivalencia / Nivel"],
+              rows: [
+                ["Grupo E1", "Título de Graduado en Educación Secundaria Obligatoria (ESO) o equivalente.", "Nivel Básico Operativo (Plazas convocadas en Defensa)"],
+                ["Grupo E2", "Título de Bachiller o Técnico de Formación Profesional (Grado Medio).", "Nivel Técnico Medio"],
+                ["Grupo M1", "Título de Técnico Superior de Formación Profesional (FP Grado Superior).", "Técnico Especialista"],
+                ["Grupo M2", "Grado Universitario o Diplomatura Universitaria.", "Gestión Técnica"],
+                ["Grupo M3", "Máster Universitario o Licenciatura Universitaria.", "Nivel Superior"]
+              ]
+            }
+          },
+          {
+            title: "2. Periodo de Prueba, Jornada y Órganos Paritarios",
+            content: `
+              <ul>
+                <li><strong>Periodo de prueba Grupo E1 y E2:</strong> No podrá exceder de <strong>1 mes</strong> de trabajo efectivo.</li>
+                <li><strong>Jornada anual ordinaria:</strong> <strong>1.642 horas anuales</strong> de trabajo efectivo (promedio de 37,5 horas semanales).</li>
+                <li><strong>Comisión Paritaria (COPA):</strong> Órgano supremo paritario de interpretación, vigilancia y seguimiento del convenio único.</li>
+                <li><strong>Provisión de vacantes:</strong> Se realiza de forma prioritaria mediante <strong>concurso de traslados</strong> abierto y permanente para el personal fijo antes de convocar las plazas a turno libre.</li>
+              </ul>
+            `
+          }
+        ],
+        quiz: {
+          q: "¿Cuál es la duración máxima del periodo de prueba fijado en el IV CUAGE para los trabajadores del Grupo Profesional E1?",
+          options: ["15 días laborables", "1 mes", "3 meses", "6 meses"],
+          correct: 1,
+          exp: "El artículo 23 del IV CUAGE establece expresamente que para los Grupos E1 y E2 el periodo de prueba no podrá superar un mes."
+        }
+      },
+      {
+        id: 6,
+        block: "BLOQUE ESPECÍFICO — TEMA 6",
+        title: "El Contrato de Trabajo en el Estatuto de los Trabajadores (RDL 2/2015)",
+        lawRef: "Real Decreto Legislativo 2/2015, de 23 de octubre, del Texto Refundido de la Ley del Estatuto de los Trabajadores",
+        sections: [
+          {
+            title: "1. Jornada de Trabajo, Descansos y Salario",
+            content: `
+              <p>El Estatuto de los Trabajadores (ET) es la norma básica laboral en España. Sus límites imperativos son:</p>
+              <ul>
+                <li><strong>Jornada ordinaria:</strong> Máximo <strong>40 horas semanales</strong> de trabajo efectivo de promedio en cómputo anual.</li>
+                <li><strong>Descanso entre jornadas:</strong> Entre el final de una jornada y el comienzo de la siguiente mediarán, como mínimo, <strong>12 horas</strong>.</li>
+                <li><strong>Descanso semanal:</strong> Mínimo de <strong>día y medio ininterrumpido</strong> (36 horas), acumulable por períodos de hasta 14 días.</li>
+                <li><strong>Horas extraordinarias:</strong> Máximo de <strong>80 horas anuales</strong> (salvo fuerza mayor).</li>
+                <li><strong>Pagas extraordinarias:</strong> Mínimo <strong>2 gratificaciones extraordinarias al año</strong> (Navidad y verano).</li>
+              </ul>
+            `
+          },
+          {
+            title: "2. Extinción del Contrato y Despidos",
+            table: {
+              headers: ["Tipo de Despido", "Causas Legales", "Indemnización Oficial", "Plazo para Demandar"],
+              rows: [
+                ["Despido Objetivo", "Causas económicas, técnicas, organizativas o de producción (ET art. 52).", "20 días de salario por año de servicio, máximo 12 mensualidades.", "20 días hábiles (caducidad)"],
+                ["Despido Improcedente", "Incumplimiento de requisitos de forma o falta de causa real demostrada (ET art. 56).", "33 días de salario por año de servicio, máximo 24 mensualidades.", "20 días hábiles (caducidad)"],
+                ["Despido Disciplinario Procedente", "Incumplimiento contractual grave y culpable del trabajador (faltas repetidas, desobediencia, ofensas).", "0 euros (sin indemnización alguna).", "20 días hábiles (caducidad)"]
+              ]
+            },
+            alert: {
+              title: "Cómputo Fatal de 20 Días Hábiles",
+              desc: "El plazo de 20 días para demandar ante el Juzgado de lo Social es un plazo de CADUCIDAD, no de prescripción. Los sábados, domingos y festivos no se cuentan, pero el plazo no se interrumpe salvo por la presentación de la papeleta de conciliación previa (SMAC)."
+            }
+          }
+        ],
+        quiz: {
+          q: "¿Cuál es la indemnización legal por despido objetivo según el artículo 53 del Estatuto de los Trabajadores?",
+          options: [
+            "10 días por año, máx 6 mensualidades",
+            "20 días por año, con un máximo de 12 mensualidades",
+            "33 días por año, con un máximo de 24 mensualidades",
+            "45 días por año sin tope"
+          ],
+          correct: 1,
+          exp: "El despido por causas objetivas devenga 20 días de salario por año de servicio, prorrateándose por meses los períodos inferiores y hasta un máximo de 12 mensualidades."
+        }
+      },
+      {
+        id: 7,
+        block: "BLOQUE ESPECÍFICO — TEMA 7",
+        title: "La Ley de Prevención de Riesgos Laborales (Ley 31/1995)",
+        lawRef: "Ley 31/1995, de 8 de noviembre, de Prevención de Riesgos Laborales",
+        sections: [
+          {
+            title: "1. Principios de la Acción Preventiva (Art. 15)",
+            content: `
+              <p>El empresario o administración pública aplicará las medidas preventivas con arreglo a los siguientes 9 principios:</p>
+              <ol>
+                <li>Evitar los riesgos.</li>
+                <li>Evaluar los riesgos que no se puedan evitar.</li>
+                <li>Combatir los riesgos en su origen.</li>
+                <li>Adaptar el trabajo a la persona.</li>
+                <li>Tener en cuenta la evolución de la técnica.</li>
+                <li>Sustituir lo peligroso por lo que entrañe poco o ningún peligro.</li>
+                <li>Planificar la prevención.</li>
+                <li><strong>Adoptar medidas que antepongan la protección colectiva a la individual.</strong></li>
+                <li>Dar las debidas instrucciones a los trabajadores.</li>
+              </ol>
+            `
+          },
+          {
+            title: "2. Órganos de Representación y Participación",
+            content: `
+              <ul>
+                <li><strong>Delegados de Prevención:</strong> Son los representantes de los trabajadores con funciones específicas en prevención, elegidos por y entre los representantes del personal (delegados de personal o miembros del comité de empresa).</li>
+                <li><strong>Comité de Seguridad y Salud:</strong> Es el órgano colegiado y <strong>paritario</strong> de consulta y participación periódica en prevención. Se constituirá de forma obligatoria en todos los centros de trabajo que cuenten con <strong>50 o más trabajadores</strong>.</li>
+                <li><strong>Riesgo grave e inminente:</strong> El trabajador tiene derecho a interrumpir su actividad y abandonar el puesto sin que pueda ser sancionado (art. 21 LPRL).</li>
+              </ul>
+            `
+          }
+        ],
+        quiz: {
+          q: "¿A partir de qué número de trabajadores es obligatoria la constitución del Comité de Seguridad y Salud?",
+          options: ["10 trabajadores", "30 trabajadores", "50 trabajadores", "100 trabajadores"],
+          correct: 2,
+          exp: "El artículo 38.2 de la Ley 31/1995 fija el umbral obligatorio para constituir el Comité de Seguridad y Salud en 50 trabajadores o más."
+        }
+      },
+      {
+        id: 8,
+        block: "BLOQUE ESPECÍFICO — TEMA 8",
+        title: "Seguridad Social, Clases Pasivas e ISFAS en Defensa",
+        lawRef: "RDL 8/2015 (Texto Refundido de la Ley General de la Seguridad Social) y Normativa del ISFAS",
+        sections: [
+          {
+            title: "1. Entidades Gestoras y Servicios Comunes de la SS",
+            content: `
+              <p>El Sistema de la Seguridad Social se organiza en:</p>
+              <ul>
+                <li><strong>Tesorería General de la Seguridad Social (TGSS):</strong> Servicio común que gestiona la <em>caja única</em> del sistema, la recaudación de cuotas, inscripción de empresas, afiliación, altas y bajas.</li>
+                <li><strong>Instituto Nacional de la Seguridad Social (INSS):</strong> Entidad gestora encargada del reconocimiento y abono de prestaciones económicas (jubilación, incapacidad permanente, incapacidad temporal, viudedad).</li>
+                <li><strong>SEPE:</strong> Organismo gestor de las prestaciones y subsidios por desempleo.</li>
+              </ul>
+            `
+          },
+          {
+            title: "2. El Instituto Social de las Fuerzas Armadas (ISFAS)",
+            content: `
+              <p>El <strong>ISFAS</strong> es un organismo autónomo adscrito al <strong>Ministerio de Defensa</strong> a través de la Subsecretaría de Defensa (Secretaría de Estado de Defensa). Gestiona el Régimen Especial de la Seguridad Social de las Fuerzas Armadas y de la Guardia Civil, proporcionando asistencia sanitaria y prestaciones sociales a los miembros militares y personal asimilado.</p>
+            `,
+            alert: {
+              title: "Cuidado con la adscripción del ISFAS",
+              desc: "El ISFAS NO depende del Ministerio de Seguridad Social ni del Ministerio de Sanidad. Es un organismo 100% dependiente del Ministerio de Defensa."
+            }
+          }
+        ],
+        quiz: {
+          q: "¿Quién custodia y gestiona los recursos financieros de la 'caja única' de la Seguridad Social?",
+          options: [
+            "El INSS",
+            "La Tesorería General de la Seguridad Social (TGSS)",
+            "El Ministerio de Hacienda",
+            "El ISFAS"
+          ],
+          correct: 1,
+          exp: "El artículo 74 de la Ley General de la Seguridad Social atribuye la gestión y custodia de la caja única y recaudación a la TGSS."
+        }
+      },
+      {
+        id: 9,
+        block: "BLOQUE ESPECÍFICO — TEMA 9",
+        title: "Procedimiento Administrativo Común, Registro y Recursos (Ley 39/2015)",
+        lawRef: "Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas (LPACAP)",
+        sections: [
+          {
+            title: "1. El Registro Electrónico y Relaciones Digitales",
+            content: `
+              <p><strong>Relación Electrónica con la Administración (Art. 14):</strong></p>
+              <ul>
+                <li><strong>Personas físicas:</strong> Tienen derecho a elegir en todo momento si se comunican en papel o por medios electrónicos, salvo que reglamentariamente se establezca la obligación para determinados colectivos.</li>
+                <li><strong>Personas jurídicas (empresas y sociedades):</strong> Están <strong>obligadas</strong> en todos los casos a relacionarse a través de medios electrónicos.</li>
+              </ul>
+              <p>El Registro Electrónico General de cada Administración está abierto los <strong>365 días del año, las 24 horas del día</strong>. Los documentos presentados en día inhábil se consideran presentados a la primera hora del primer día hábil siguiente.</p>
+            `
+          },
+          {
+            title: "2. Cómputo de Plazos Administrativos (Art. 30)",
+            content: `
+              <ul>
+                <li><strong>Plazos por días:</strong> Se entienden siempre <strong>días hábiles</strong> (se excluyen sábados, domingos y festivos), salvo que la ley indique expresamente que son días naturales.</li>
+                <li><strong>Plazos por meses o años:</strong> Se computan <strong>de fecha a fecha</strong>. Concluyen el mismo día correlativo del mes de vencimiento (si se notifica un 15 de marzo con plazo de 1 mes, concluye el 15 de abril).</li>
+                <li><strong>Notificaciones electrónicas (Art. 43):</strong> Se entiende legalmente <strong>rechazada</strong> si transcurren <strong>10 días naturales</strong> desde la puesta a disposición en la sede electrónica sin que el interesado acceda a su contenido.</li>
+              </ul>
+            `
+          },
+          {
+            title: "3. Recursos Administrativos (Arts. 121-126)",
+            table: {
+              headers: ["Tipo de Recurso", "¿Pone fin a la vía?", "Plazo de Interposición", "Órgano Competente"],
+              rows: [
+                ["Recurso de Alzada", "NO pone fin a la vía administrativa.", "1 mes (acto expreso) / En cualquier momento (acto presunto).", "Ante el superior jerárquico del órgano que dictó el acto."],
+                ["Recurso Potestativo de Reposición", "SÍ pone fin a la vía administrativa.", "1 mes (acto expreso) / En cualquier momento (acto presunto).", "Ante el mismo órgano que dictó el acto."],
+                ["Recurso Extraordinario de Revisión", "Contra actos firmes en vía administrativa bajo 4 motivos tasados (error de hecho, documentos decisivos, prevaricación).", "3 meses o 4 años según la causa.", "Ante el órgano administrativo que los dictó."]
+              ]
+            }
+          }
+        ],
+        quiz: {
+          q: "¿A los cuántos días naturales se entiende legalmente rechazada una notificación electrónica puesta a disposición en sede electrónica?",
+          options: ["3 días", "5 días", "10 días naturales", "15 días hábiles"],
+          correct: 2,
+          exp: "El artículo 43.2 de la Ley 39/2015 establece que transcurridos 10 días naturales sin acceder a la notificación, se entenderá legalmente rechazada."
+        }
+      },
+      {
+        id: 10,
+        block: "BLOQUE ESPECÍFICO — TEMA 10",
+        title: "Documentos y Archivo Administrativo en el Ministerio de Defensa",
+        lawRef: "Manual de Documentos Administrativos y RD 2598/1998 del Sistema Archivístico de la Defensa",
+        sections: [
+          {
+            title: "1. Clases de Documentos Administrativos",
+            content: `
+              <ul>
+                <li><strong>Documentos de Decisión:</strong> Contienen una declaración de voluntad del órgano que produce efectos jurídicos directos. Ejemplos: <em>Resolución</em> (pone fin al asunto) y <em>Acuerdo</em> (decisión incidental en el trámite).</li>
+                <li><strong>Documentos de Transmisión:</strong> Comunican resoluciones o datos:
+                  <ul>
+                    <li><em>Oficio:</em> Comunicación escrita oficial con <strong>órganos externos</strong>, otros Ministerios, Administraciones autonómicas o ciudadanos.</li>
+                    <li><em>Nota Interior:</em> Comunicación oficial entre unidades pertenecientes a un <strong>mismo Ministerio</strong> u organismo.</li>
+                  </ul>
+                </li>
+                <li><strong>Documentos de Constancia:</strong> Acreditan la certeza de actos o hechos. Ejemplos: <em>Certificado</em> y <em>Acta</em>.</li>
+              </ul>
+            `
+          },
+          {
+            title: "2. El Sistema Archivístico y Ciclo Vital del Documento",
+            content: `
+              <p>El ciclo vital del documento en Defensa atraviesa 4 fases consecutivas:</p>
+              <ol>
+                <li><strong>Archivo de Gestión (o de Oficina):</strong> Custodia los documentos en fase activa de tramitación o consulta frecuente (hasta 5 años).</li>
+                <li><strong>Archivo Central:</strong> Recibe las transferencias de los archivos de gestión del Ministerio una vez terminado el trámite inmediato (documentación semiactiva, hasta 15-20 años).</li>
+                <li><strong>Archivo Intermedio:</strong> Recibe la documentación del Archivo Central; realiza tareas de valoración, selección y expurgo autorizado.</li>
+                <li><strong>Archivo Histórico Militar:</strong> Custodia permanente de documentos con valor histórico, cultural o testimonial de la Nación (ejemplo: Archivo General Militar de Segovia).</li>
+              </ol>
+            `,
+            alert: {
+              title: "Código DIR3",
+              desc: "El código DIR3 es el inventario unificado del Directorio Común de Unidades Orgánicas y Oficinas de la AGE que permite identificar unívocamente a cada órgano de destino en el registro electrónico."
+            }
+          }
+        ],
+        quiz: {
+          q: "¿Qué documento administrativo se utiliza para comunicaciones oficiales internas entre unidades del mismo Departamento Ministerial?",
+          options: ["El Oficio", "La Nota Interior", "El Certificado", "La Orden Ministerial"],
+          correct: 1,
+          exp: "La Nota Interior es el documento oficial de comunicación interna entre órganos dependientes del mismo Departamento Ministerial."
+        }
+      }
+    ];
+
+    class ManualViewer {
+      constructor() {
+        this.currentTopicId = 1;
+        this.renderSidebar();
+        this.loadTopic(1);
+      }
+
+      renderSidebar() {
+        const list = document.getElementById('topicList');
+        list.innerHTML = '';
+        SYLLABUS_CHAPTERS.forEach(ch => {
+          const item = document.createElement('div');
+          item.className = `topic-item ${ch.id === this.currentTopicId ? 'active' : ''}`;
+          item.onclick = () => this.loadTopic(ch.id);
+          item.innerHTML = `
+            <div class="topic-num">${ch.id}</div>
+            <div style="flex: 1;">
+              <div style="font-size: 0.7rem; color: #a855f7; font-weight: 700;">TEMA ${ch.id}</div>
+              <div style="line-height: 1.3;">${ch.title.split(':')[0]}</div>
+            </div>
+          `;
+          list.appendChild(item);
+        });
+      }
+
+      loadTopic(id) {
+        this.currentTopicId = id;
+        this.renderSidebar();
+
+        const ch = SYLLABUS_CHAPTERS.find(c => c.id === id);
+        if (!ch) return;
+
+        const container = document.getElementById('contentArea');
+        let html = `
+          <div class="theme-header">
+            <span class="theme-tag">${ch.block}</span>
+            <h1 class="theme-title">${ch.title}</h1>
+            <div class="theme-law-ref">⚖️ Base Legal: ${ch.lawRef}</div>
+          </div>
+        `;
+
+        ch.sections.forEach(sec => {
+          html += `
+            <div class="epigrafe-block">
+              <h2 class="epigrafe-title">${sec.title}</h2>
+              <div class="prose">${sec.content}</div>
+          `;
+
+          if (sec.quote) {
+            html += `
+              <div class="boe-quote">
+                "${sec.quote}"
+                <span class="boe-quote-author">${sec.quoteSource}</span>
+              </div>
+            `;
+          }
+
+          if (sec.table) {
+            html += `
+              <table class="data-table">
+                <thead>
+                  <tr>${sec.table.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                </thead>
+                <tbody>
+                  ${sec.table.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+                </tbody>
+              </table>
+            `;
+          }
+
+          if (sec.content2) {
+            html += `<div class="prose">${sec.content2}</div>`;
+          }
+
+          if (sec.alert) {
+            html += `
+              <div class="exam-alert">
+                <span class="exam-alert-icon">⚠️</span>
+                <div class="exam-alert-content">
+                  <h4>${sec.alert.title}</h4>
+                  <p>${sec.alert.desc}</p>
+                </div>
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+        });
+
+        // Autoevaluación al final
+        if (ch.quiz) {
+          html += `
+            <div class="checkpoint-card">
+              <div class="checkpoint-header">
+                <span style="font-size: 22px;">🎯</span>
+                <h3>Comprueba si has dominado el Tema ${ch.id}</h3>
+              </div>
+              <p class="checkpoint-q">${ch.quiz.q}</p>
+              <div class="checkpoint-options" id="quizOpts">
+                ${ch.quiz.options.map((opt, i) => `
+                  <button class="chk-btn" onclick="viewer.checkQuiz(${i}, ${ch.quiz.correct}, '${ch.quiz.exp.replace(/'/g, "\\'")}')">
+                    ${opt}
+                  </button>
+                `).join('')}
+              </div>
+              <div id="quizExp" style="display: none; margin-top: 14px; font-size: 0.9rem; padding: 12px; border-radius: 8px;"></div>
+            </div>
+          `;
+        }
+
+        container.innerHTML = html;
+        document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      checkQuiz(idx, correct, exp) {
+        const buttons = document.querySelectorAll('.chk-btn');
+        buttons.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === correct) btn.classList.add('correct');
+          if (i === idx && idx !== correct) btn.classList.add('wrong');
+        });
+
+        const expEl = document.getElementById('quizExp');
+        if (expEl) {
+          expEl.style.display = 'block';
+          if (idx === correct) {
+            expEl.style.background = 'rgba(16, 185, 129, 0.15)';
+            expEl.style.color = '#34d399';
+            expEl.innerHTML = `<strong>¡Excelente! Respuesta Correcta (+1.00):</strong> ${exp}`;
+          } else {
+            expEl.style.background = 'rgba(244, 63, 94, 0.15)';
+            expEl.style.color = '#fb7185';
+            expEl.innerHTML = `<strong>Fallo en la autoevaluación (-0.33):</strong> ${exp}`;
+          }
+        }
+      }
+    }
+
+    const viewer = new ManualViewer();
+  </script>
+</body>
+</html>

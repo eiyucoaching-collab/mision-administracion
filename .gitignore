@@ -1,0 +1,7 @@
+# Archivos pesados y binarios locales
+voicevox/
+*.zip
+*.exe
+godot_export/
+.godot/
+*.import

@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPO-COMPRENSIÓN E1 | Temario Oficial Completo E1 Defensa / AGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0a0f1d;
+      --bg-card: #111827;
+      --bg-card-hover: #1e293b;
+      --border: #1e293b;
+      --border-accent: #38bdf8;
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.2);
+      --purple: #c084fc;
+      --purple-glow: rgba(192, 132, 252, 0.2);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(17, 24, 39, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 15px var(--purple-glow);
+    }
+
+    .brand h1 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #fff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand span {
+      font-size: 0.75rem;
+      color: var(--purple);
+      background: rgba(192, 132, 252, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      border: 1px solid rgba(192, 132, 252, 0.2);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-btn.active {
+      background: var(--purple);
+      color: #0f172a;
+      font-weight: 700;
+      box-shadow: 0 0 15px var(--purple-glow);
+    }
+
+    .link-test-btn {
+      background: rgba(6, 182, 212, 0.1);
+      color: #38bdf8;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .link-test-btn:hover {
+      background: #06b6d4;
+      color: #041019;
+    }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      max-width: 1080px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TARJETA INTRODUCTORIA */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(56, 189, 248, 0.08));
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-text h2 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: #f1f5f9;
+      margin-bottom: 6px;
+    }
+
+    .hero-text p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* SELECTOR DE TEMAS POR BLOQUE OFICIAL */
+    .block-selector {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .block-title {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .topic-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      flex-wrap: wrap;
+    }
+
+    .topic-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .topic-pill:hover {
+      border-color: var(--purple);
+      color: var(--text-main);
+    }
+
+    .topic-pill.active {
+      background: rgba(192, 132, 252, 0.2);
+      border-color: var(--purple);
+      color: #c084fc;
+      font-weight: 700;
+    }
+
+    /* COMPARADOR BOE VS CRISTIANO */
+    .compare-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .concept-card:hover {
+      border-color: rgba(192, 132, 252, 0.4);
+    }
+
+    .concept-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .topic-badge-num {
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      margin-right: 6px;
+    }
+
+    .concept-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .badge-law {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .dual-grid { grid-template-columns: 1fr; }
+    }
+
+    .column-box {
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-size: 0.9rem;
+    }
+
+    .column-boe {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+    }
+
+    .column-plain {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .column-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .column-boe .column-tag { color: #94a3b8; }
+    .column-plain .column-tag { color: #34d399; }
+
+    .example-box {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: #fef3c7;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .audio-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .audio-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #38bdf8;
+    }
+
+    /* CASOS PRÁCTICOS DE OFICINA */
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .case-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .case-icon { font-size: 28px; }
+
+    .case-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .case-scenario {
+      background: rgba(15, 23, 42, 0.8);
+      border-left: 4px solid #38bdf8;
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      font-size: 0.95rem;
+      color: #f1f5f9;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .case-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .case-step {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+
+    .case-step h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fbbf24;
+      margin-bottom: 4px;
+    }
+
+    .case-step p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ESQUEMAS VISUALES / DIAGRAMAS */
+    .diagram-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .diagram-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #c084fc;
+    }
+
+    .diagram-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .flow-step {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .flow-step:hover {
+      border-color: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    .flow-num {
+      width: 26px;
+      height: 26px;
+      background: var(--purple);
+      color: #0f172a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .flow-step h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .flow-step p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ¿POR QUÉ ES ASÍ? */
+    .logic-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .logic-q {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fbbf24;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .logic-ans {
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    .logic-takeaway {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid #38bdf8;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.85rem;
+      color: #bae6fd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">📚</div>
+      <div>
+        <h1>OPO-COMPRENSIÓN E1</h1>
+      </div>
+      <span>TEMARIO COMPLETO DEFENSA (10 TEMAS)</span>
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-btn active" onclick="comp.setTab('traducido')">
+        <span>📖</span> El Temario en Cristiano
+      </button>
+      <button class="nav-btn" onclick="comp.setTab('casos')">
+        <span>🏢</span> Casos Reales de Oficina
+      </button>
+      <button class="nav-btn" onclick="comp.setTab('esquemas')">
+        <span>🗺️</span> Esquemas Visuales
+      </button>
+      <button class="nav-btn" onclick="comp.setTab('logica')">
+        <span>❓</span> ¿Por qué es así?
+      </button>
+    </nav>
+
+    <div style="display: flex; gap: 8px;">
+      <a href="manual_temario.html" class="link-test-btn" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">
+        <span>📖</span> Manual Desarrollado
+      </a>
+      <a href="entrenador_eficaz.html" class="link-test-btn">
+        <span>🎯</span> Ir a Entrenador Test
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <div class="hero-banner">
+      <div class="hero-text">
+        <h2>Temario Oficial Completo E1 (Ministerio de Defensa / AGE)</h2>
+        <p>Desglose exhaustivo de los <strong>4 Temas de la Parte Común</strong> y los <strong>6 Temas de la Parte Específica</strong> con su traducción en lenguaje claro, casos prácticos y trampas de examen.</p>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 1: TEMARIO COMPLETO EN CRISTIANO -->
+    <div id="tab-traducido" class="tab-panel active">
+      <div class="block-selector">
+        <div class="block-title">📂 Selecciona un Tema del Programa Oficial:</div>
+        <div class="topic-pills">
+          <button class="topic-pill active" onclick="comp.filterTopic('all')">Todos (10 Temas)</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t1_ce')">T1: Constitución 1978</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t2_gobierno')">T2: Gobierno y AGE</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t3_trebep')">T3: Empleo Público TREBEP</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t4_igualdad')">T4: Igualdad y Violencia Género</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t5_cuage')">T5: IV CUAGE (Convenio Único)</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t6_et')">T6: Estatuto Trabajadores</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t7_prl')">T7: Prevención de Riesgos</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t8_seguridad')">T8: Seg. Social e ISFAS</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t9_lpacad')">T9: Registro y Procedimiento</button>
+          <button class="topic-pill" onclick="comp.filterTopic('t10_archivo')">T10: Documentos y Archivo</button>
+        </div>
+      </div>
+
+      <div class="compare-container" id="compare-container">
+        <!-- Render dinámico de los 10 temas oficiales -->
+      </div>
+    </div>
+
+    <!-- PESTAÑA 2: CASOS DE OFICINA (SITUACIONES REALES) -->
+    <div id="tab-casos" class="tab-panel">
+      <!-- CASO 1 -->
+      <div class="case-card">
+        <div class="case-header">
+          <span class="case-icon">📋</span>
+          <div>
+            <h3 class="case-title">Caso 1: ¿Funcionario o Personal Laboral? (TREBEP vs IV CUAGE)</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Ámbito: Gestión de Personal en Cuartel General</span>
+          </div>
+        </div>
+        <div class="case-scenario">
+          <strong>Situación:</strong> En tu oficina de apoyo administrativo en una base militar se incorporan dos nuevos compañeros: Juan, auxiliar administrativo (E1), y Laura, técnica de mantenimiento de vehículos (Grupo E1 laboral). Ambos preguntan qué normativa regula sus derechos y qué convenio colectivo se les aplica.
+        </div>
+        <div class="case-steps">
+          <div class="case-step">
+            <h4>1. Juan (Funcionario):</h4>
+            <p>Se rige por el Derecho Administrativo y el <strong>TREBEP (RDL 5/2015)</strong>. Su relación estatutaria nace de un nombramiento en el BOE, no tiene contrato de trabajo.</p>
+          </div>
+          <div class="case-step">
+            <h4>2. Laura (Personal Laboral):</h4>
+            <p>Se rige por el Derecho del Trabajo, el <strong>Estatuto de los Trabajadores</strong> y el <strong>IV Convenio Colectivo Único de la AGE (IV CUAGE)</strong>. Tiene un contrato laboral.</p>
+          </div>
+          <div class="case-step" style="border-left: 3px solid #10b981;">
+            <h4 style="color: #34d399;">💡 Trampa de Examen:</h4>
+            <p>El IV Convenio Único NO vincula a los funcionarios de carrera ni interinos; solo se aplica al personal laboral de la AGE.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASO 2 -->
+      <div class="case-card">
+        <div class="case-header">
+          <span class="case-icon">📁</span>
+          <div>
+            <h3 class="case-title">Caso 2: Registro Electrónico y Cómputo de Plazos (Ley 39/2015)</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Ámbito: Oficinas de Asistencia en Materia de Registros (OAMR)</span>
+          </div>
+        </div>
+        <div class="case-scenario">
+          <strong>Situación:</strong> Un ciudadano presenta un recurso telemático a través del Registro Electrónico General un domingo a las 23:45 h. El lunes a primera hora te pregunta en qué fecha y hora se considera presentado legalmente.
+        </div>
+        <div class="case-steps">
+          <div class="case-step">
+            <h4>1. Registro 24/7/365:</h4>
+            <p>El Registro Electrónico de la Administración está abierto todos los días del año durante las 24 horas.</p>
+          </div>
+          <div class="case-step">
+            <h4>2. Entrada en día inhábil:</h4>
+            <p>La presentación en día inhábil (domingo) se entiende realizada en la <strong>primera hora del primer día hábil siguiente</strong> (lunes a las 00:00:01 h).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASO 3 -->
+      <div class="case-card">
+        <div class="case-header">
+          <span class="case-icon">⏳</span>
+          <div>
+            <h3 class="case-title">Caso 3: Expediente Disciplinario y Prescripción de Faltas</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Ámbito: Régimen Disciplinario TREBEP (Art. 95-97)</span>
+          </div>
+        </div>
+        <div class="case-scenario">
+          <strong>Situación:</strong> Se detecta que un empleado público faltó reiteradamente al trabajo sin justificación hace 2 años y medio. La jefatura propone incoar un expediente disciplinario por falta grave.
+        </div>
+        <div class="case-steps">
+          <div class="case-step">
+            <h4>1. Análisis del Plazo de Prescripción:</h4>
+            <p>Según el artículo 97 del TREBEP: Las faltas muy graves prescriben a los <strong>3 años</strong>, las graves a los <strong>2 años</strong> y las leves a los <strong>6 meses</strong>.</p>
+          </div>
+          <div class="case-step" style="border-left: 3px solid #f43f5e;">
+            <h4 style="color: #fb7185;">2. Consecuencia Jurídica Directa:</h4>
+            <p>Al haber transcurrido 2 años y medio, la falta grave <strong>YA HA PRESCRITO</strong> (el límite era 2 años). No se le puede sancionar válidamente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 3: ESQUEMAS VISUALES INTERACTIVOS -->
+    <div id="tab-esquemas" class="tab-panel">
+      <!-- ESQUEMA 1: JERARQUÍA NORMATIVA -->
+      <div class="diagram-card">
+        <h3 class="diagram-title">🏛️ La Pirámide Normativa del Ordenamiento Español</h3>
+        <p class="diagram-desc">Ninguna norma inferior puede contradecir a una superior (Principio de Jerarquía Normativa Art. 9.3 CE).</p>
+
+        <div class="flow-steps">
+          <div class="flow-step" style="border-color: #f59e0b;">
+            <div class="flow-num" style="background: #f59e0b;">1</div>
+            <h4>Constitución de 1978</h4>
+            <p>Norma Suprema. Todas las demás leyes deben respetar su articulado.</p>
+          </div>
+          <div class="flow-step" style="border-color: #38bdf8;">
+            <div class="flow-num" style="background: #38bdf8;">2</div>
+            <h4>Leyes (Orgánicas y Ordinarias)</h4>
+            <p>Aprobadas por las Cortes Generales. Reales Decretos-Leyes y Reales Decretos Legislativos.</p>
+          </div>
+          <div class="flow-step" style="border-color: #c084fc;">
+            <div class="flow-num" style="background: #c084fc;">3</div>
+            <h4>Reglamentos del Gobierno</h4>
+            <p>Reales Decretos del Presidente y Consejo de Ministros. Desarrollan las leyes.</p>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <h4>Órdenes Ministeriales</h4>
+            <p>Dictadas por los Ministros. Rango inferior al Real Decreto.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESQUEMA 2: RECURSOS ADMINISTRATIVOS -->
+      <div class="diagram-card">
+        <h3 class="diagram-title">🗺️ Árbol de Decisión: ¿Qué Recurso Administrativo Procede?</h3>
+        <p class="diagram-desc">Guía definitiva para no dudar nunca entre Recurso de Alzada y Recurso Potestativo de Reposición (Ley 39/2015).</p>
+
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <h4>¿El acto pone fin a la vía administrativa?</h4>
+            <p>Si emana de un Ministro, Consejo de Ministros o resuelve una Alzada: <strong>SÍ pone fin</strong>. Si emana de un Director General con superior: <strong>NO pone fin</strong>.</p>
+          </div>
+          <div class="flow-step" style="border-color: #38bdf8;">
+            <div class="flow-num" style="background: #38bdf8;">2A</div>
+            <h4>Si NO pone fin ➔ RECURSO DE ALZADA</h4>
+            <p><strong>Plazo:</strong> 1 mes si el acto es expreso.<br><strong>Ante quién:</strong> Superior jerárquico.<br><strong>Carácter:</strong> Preceptivo.</p>
+          </div>
+          <div class="flow-step" style="border-color: #10b981;">
+            <div class="flow-num" style="background: #10b981;">2B</div>
+            <h4>Si SÍ pone fin ➔ RECURSO DE REPOSICIÓN</h4>
+            <p><strong>Plazo:</strong> 1 mes si el acto es expreso.<br><strong>Ante quién:</strong> Mismo órgano.<br><strong>Carácter:</strong> Potestativo.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESQUEMA 3: DOCUMENTOS Y ARCHIVOS -->
+      <div class="diagram-card">
+        <h3 class="diagram-title">📁 Ciclo de Vida de los Documentos en el Ministerio de Defensa</h3>
+        <p class="diagram-desc">El recorrido oficial desde la creación de un oficio hasta su conservación histórica.</p>
+
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <h4>Archivo de Gestión (Oficina)</h4>
+            <p>Documentos en trámite activo o consulta constante (hasta 5 años).</p>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <h4>Archivo Central</h4>
+            <p>Recibe los expedientes cerrados de las distintas unidades del Ministerio.</p>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <h4>Archivo Intermedio</h4>
+            <p>Custodia y valoración documental antes de su expurgo o pase histórico.</p>
+          </div>
+          <div class="flow-step" style="border-color: #f59e0b;">
+            <div class="flow-num" style="background: #f59e0b;">4</div>
+            <h4>Archivo Histórico</h4>
+            <p>Conservación permanente por su valor testimonial y cultural (Patrimonio).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 4: ¿POR QUÉ ES ASÍ? (LÓGICA JURÍDICA) -->
+    <div id="tab-logica" class="tab-panel">
+      <div class="logic-card">
+        <div class="logic-q">
+          <span>❓</span> ¿Por qué los plazos por días en el BOE son HÁBILES y no naturales?
+        </div>
+        <div class="logic-ans">
+          Históricamente, los ciudadanos y empleados perdían plazos porque las oficinas públicas cerraban los fines de semana. Desde la Ley 39/2015 se unificó el criterio: los sábados, domingos y festivos son inhábiles para que el ciudadano tenga exactamente el mismo tiempo real de presentar sus papeles.
+        </div>
+        <div class="logic-takeaway">
+          🎯 <strong>Regla mnemotécnica:</strong> Si en el examen ves "días" a secas en Derecho Administrativo = siempre HÁBILES.
+        </div>
+      </div>
+
+      <div class="logic-card">
+        <div class="logic-q">
+          <span>❓</span> ¿Por qué el despido laboral tiene solo 20 días hábiles para demandar?
+        </div>
+        <div class="logic-ans">
+          El Derecho del Trabajo protege al trabajador pero también necesita seguridad jurídica para la empresa: si un trabajador pudiera reclamar un despido 2 años después, los puestos estarían bloqueados indefinidamente. Por eso se fija un plazo de caducidad súper corto (20 días hábiles) que no admite interrupción.
+        </div>
+        <div class="logic-takeaway">
+          🎯 <strong>Regla mnemotécnica:</strong> "Despido = 20 días". Es la cifra más preguntada del Estatuto de los Trabajadores.
+        </div>
+      </div>
+
+      <div class="logic-card">
+        <div class="logic-q">
+          <span>❓</span> ¿Por qué una Ley Orgánica exige mayoría absoluta en el Congreso?
+        </div>
+        <div class="logic-ans">
+          El artículo 81 de la Constitución reserva las Leyes Orgánicas para las materias más sensibles: derechos fundamentales, libertades públicas y estatutos de autonomía. Como son pilares del Estado, no basta con una mayoría simple de los diputados presentes; se exige la mitad más uno de todos los escaños del Congreso (mínimo 176 diputados).
+        </div>
+        <div class="logic-takeaway">
+          🎯 <strong>Regla mnemotécnica:</strong> Ley Orgánica = Derechos Fundamentales + Mayoría Absoluta en votación final sobre el conjunto.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // BASE DE DATOS DEL TEMARIO OFICIAL COMPLETO E1 (10 TEMAS)
+    const FULL_SYLLABUS = [
+      // ==========================================
+      // BLOQUE COMÚN (TEMAS 1 A 4)
+      // ==========================================
+      {
+        id: 1,
+        topicTag: 't1_ce',
+        topicNumber: 'Tema 1 Común',
+        law: 'Art. 1.1 y Título I CE',
+        title: 'La Constitución Española de 1978: Valores y Derechos Fundamentales',
+        boe: '"España se constituye en un Estado social y democrático de Derecho, que propugna como valores superiores de su ordenamiento jurídico la libertad, la justicia, la igualdad y el pluralismo político. La soberanía nacional reside en el pueblo español."',
+        plain: 'España tiene 4 valores intocables: Libertad, Justicia, Igualdad y Pluralismo Político. Los derechos fundamentales más protegidos están en la Sección 1ª del Capítulo II (arts. 15 al 29): gozan de recurso de amparo ante el Tribunal Constitucional y procedimiento preferente y sumario en los juzgados ordinarios.',
+        example: '💡 Trampa clásica de examen: Te preguntan si el derecho al trabajo (art. 35) o a la vivienda (art. 47) tienen recurso de amparo. ¡FALSO! Solo tienen amparo los arts. 14 al 29 más el 30.2 (objeción de conciencia).'
+      },
+      {
+        id: 2,
+        topicTag: 't2_gobierno',
+        topicNumber: 'Tema 2 Común',
+        law: 'Ley 50/1997 y Ley 40/2015',
+        title: 'El Gobierno y la Administración General del Estado',
+        boe: '"El Gobierno se compone del Presidente, del Vicepresidente o Vicepresidentes, en su caso, y de los Ministros. Los órganos directivos de los Ministerios son los Subsecretarios y Secretarios Generales, y los Directores Generales y Subdirectores Generales."',
+        plain: 'Hay dos escalones clave en un ministerio: los Órganos Superiores (Ministros y Secretarios de Estado) y los Órganos Directivos (Subsecretarios y Directores Generales). El Consejo de Ministros es el órgano colegiado que aprueba los Reales Decretos-Leyes y Reales Decretos Legislativos.',
+        example: '💡 Pregunta habitual: "¿Quién tiene la condición de órgano superior?". Respuesta: Ministros y Secretarios de Estado. Los Subsecretarios son órganos directivos.'
+      },
+      {
+        id: 3,
+        topicTag: 't3_trebep',
+        topicNumber: 'Tema 3 Común',
+        law: 'RDL 5/2015 (TREBEP)',
+        title: 'Personal al Servicio de las Administraciones Públicas: Clases y Régimen',
+        boe: '"Son empleados públicos quienes desempeñan funciones retribuidas en las Administraciones Públicas al servicio de los intereses generales. Se clasifican en: Funcionarios de carrera, Funcionarios interinos, Personal laboral (fijo, por tiempo indefinido o temporal) y Personal eventual."',
+        plain: 'El personal eventual es el de confianza o asesoramiento especial (cargos políticos "a dedo"). El funcionario interino ocupa plazas vacantes por necesidad y urgencia. El personal laboral se rige por contrato y convenio colectivo.',
+        example: '💡 Trampa de examen: El cese del personal eventual es libre y automático cuando cesa la autoridad que lo nombró; nunca genera derecho a indemnización por cese de puesto.'
+      },
+      {
+        id: 4,
+        topicTag: 't4_igualdad',
+        topicNumber: 'Tema 4 Común',
+        law: 'LO 3/2007 y LO 1/2004',
+        title: 'Políticas de Igualdad de Género y Contra la Violencia sobre la Mujer',
+        boe: '"El principio de igualdad de trato entre mujeres y hombres supone la ausencia de toda discriminación, directa o indirecta, por razón de sexo, y, especialmente, las derivadas de la maternidad, la asunción de obligaciones familiares y el estado civil."',
+        plain: 'La ley prohíbe tanto la discriminación directa (trato desfavorable por ser mujer) como la indirecta (una norma aparentemente neutra que perjudica desproporcionadamente a un sexo). Las administraciones públicas tienen la obligación de contar con Planes de Igualdad para su personal.',
+        example: '💡 Pregunta habitual: ¿Cuál es el porcentaje mínimo y máximo de presencia equilibrada en órganos colegiados y listas electorales? Ningún sexo debe tener menos del 40% ni más del 60%.'
+      },
+
+      // ==========================================
+      // BLOQUE ESPECÍFICO (TEMAS 5 A 10)
+      // ==========================================
+      {
+        id: 5,
+        topicTag: 't5_cuage',
+        topicNumber: 'Tema 5 Específico',
+        law: 'IV CUAGE',
+        title: 'El IV Convenio Colectivo Único para el Personal Laboral de la AGE',
+        boe: '"El IV Convenio Único regula las condiciones de trabajo del personal laboral de la AGE. Su sistema de clasificación profesional se estructura en los grupos: E1 (ESO), E2 (Bachiller/FP Medio), M1 (FP Superior), M2 (Grado Universitario) y M3 (Máster Universitario)."',
+        plain: 'El Grupo E1 es el escalón operativo de entrada en el Ministerio de Defensa y exige el título de la ESO. Las faltas y sanciones del personal laboral se regulan en este convenio: muy graves (despido disciplinario o suspensión mayor de 3 meses), graves y leves.',
+        example: '💡 Pregunta crucial E1: ¿Qué titulación se exige para el Grupo E1 en el IV CUAGE? Educación Secundaria Obligatoria (ESO) o equivalente laboral.'
+      },
+      {
+        id: 6,
+        topicTag: 't6_et',
+        topicNumber: 'Tema 6 Específico',
+        law: 'RDL 2/2015 (Estatuto Trabajadores)',
+        title: 'El Contrato de Trabajo, Jornada, Permisos y Extinción',
+        boe: '"La duración de la jornada de trabajo será la pactada en los convenios colectivos o contratos de trabajo. La duración máxima de la jornada ordinaria de trabajo será de cuarenta horas semanales de trabajo efectivo de promedio en cómputo anual."',
+        plain: 'Entre el final de una jornada y el comienzo de la siguiente deben mediar, como mínimo, 12 horas. El descanso semanal es de día y medio ininterrumpido (acumulable en periodos de 14 días). El despido improcedente genera 33 días de salario por año trabajado (máx 24 mensualidades).',
+        example: '💡 Cifras sagradas de examen: 40 horas semanales de promedio, 12 horas de descanso entre jornadas, y 20 días hábiles para demandar por despido.'
+      },
+      {
+        id: 7,
+        topicTag: 't7_prl',
+        topicNumber: 'Tema 7 Específico',
+        law: 'Ley 31/1995 de PRL',
+        title: 'Prevención de Riesgos Laborales en Centros y Dependencias Militares',
+        boe: '"Los trabajadores tienen derecho a una protección eficaz en materia de seguridad y salud en el trabajo. El deber de prevención incluye los principios de evitar los riesgos, evaluar los que no se puedan evitar y anteponer la protección colectiva a la individual."',
+        plain: 'El Comité de Seguridad y Salud es el órgano paritario y colegiado de consulta en empresas o centros de 50 o más trabajadores. Los Delegados de Prevención son los representantes de los trabajadores elegidos por y entre los delegados de personal.',
+        example: '💡 Trampa clásica: ¿A partir de cuántos trabajadores es obligatorio constituir el Comité de Seguridad y Salud? A partir de 50 trabajadores (no 25 ni 100).'
+      },
+      {
+        id: 8,
+        topicTag: 't8_seguridad',
+        topicNumber: 'Tema 8 Específico',
+        law: 'LGSS y Ley ISFAS',
+        title: 'Régimen General de la Seguridad Social, Clases Pasivas e ISFAS',
+        boe: '"La Tesorería General de la Seguridad Social gestiona la caja única del sistema. Los miembros de las Fuerzas Armadas y personal civil de Defensa cuentan con el régimen especial gestionado por el ISFAS (Instituto Social de las Fuerzas Armadas)."',
+        plain: 'El personal laboral de la AGE cotiza al Régimen General de la Seguridad Social gestionado por la TGSS. El ISFAS es el organismo autónomo del Ministerio de Defensa que presta asistencia sanitaria y prestaciones sociales al personal militar y asimilado.',
+        example: '💡 Pregunta típica: ¿De qué ministerio depende el ISFAS? Depende directamente del Ministerio de Defensa (Secretaría de Estado de Defensa).'
+      },
+      {
+        id: 9,
+        topicTag: 't9_lpacad',
+        topicNumber: 'Tema 9 Específico',
+        law: 'Ley 39/2015 LPACAP',
+        title: 'Atención al Ciudadano, Registro Electrónico y Silencio Administrativo',
+        boe: '"Las personas jurídicas y quienes ejerzan una actividad profesional con colegiación obligatoria están obligados a relacionarse a través de medios electrónicos con las Administraciones Públicas. Las personas físicas tienen derecho a elegir si se comunican en papel o digitalmente."',
+        plain: 'Las personas físicas (particulares) eligen si presentan papeles en ventanilla física o por internet, salvo que una ley les obligue. Las empresas están siempre obligadas a ir por vía electrónica. Los plazos por meses vencen el mismo día correlativo del mes siguiente.',
+        example: '💡 Trampa de examen: ¿Quién está obligado a relacionarse electrónicamente? Las personas jurídicas (empresas), nunca de entrada el ciudadano de a pie (persona física).'
+      },
+      {
+        id: 10,
+        topicTag: 't10_archivo',
+        topicNumber: 'Tema 10 Específico',
+        law: 'Normativa Archivística de Defensa',
+        title: 'Documentos y Archivos Administrativos en el Ministerio de Defensa',
+        boe: '"Documento administrativo es la constancia formal de actos realizados por las unidades en el ejercicio de sus funciones. El archivo sigue el principio de procedencia y ciclo vital: archivo de gestión, central, intermedio e histórico."',
+        plain: 'En una oficina militar, los tipos de documentos clave son: el Oficio (para comunicarse con órganos externos o ciudadanos), la Nota Interior (comunicación interna entre unidades del mismo ministerio) y la Resolución (acto que decide el fondo de un asunto).',
+        example: '💡 Pregunta típica: ¿Qué documento se utiliza para comunicaciones entre dos órganos del mismo Ministerio? La Nota Interior. Si es con otro Ministerio u órgano externo, se usa el Oficio.'
+      }
+    ];
+
+    class FullSyllabusApp {
+      constructor() {
+        this.renderConcepts(FULL_SYLLABUS);
+      }
+
+      setTab(tabId) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+        const target = document.getElementById(`tab-${tabId}`);
+        if (target) target.classList.add('active');
+
+        const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+        if (activeBtn) activeBtn.classList.add('active');
+      }
+
+      filterTopic(topicTag) {
+        document.querySelectorAll('.topic-pill').forEach(p => p.classList.remove('active'));
+        const activePill = Array.from(document.querySelectorAll('.topic-pill')).find(p => p.getAttribute('onclick').includes(topicTag));
+        if (activePill) activePill.classList.add('active');
+
+        if (topicTag === 'all') {
+          this.renderConcepts(FULL_SYLLABUS);
+        } else {
+          const filtered = FULL_SYLLABUS.filter(c => c.topicTag === topicTag);
+          this.renderConcepts(filtered);
+        }
+      }
+
+      renderConcepts(list) {
+        const container = document.getElementById('compare-container');
+        if (!container) return;
+        container.innerHTML = '';
+
+        list.forEach(c => {
+          const card = document.createElement('div');
+          card.className = 'concept-card';
+          card.innerHTML = `
+            <div class="concept-header">
+              <div>
+                <span class="topic-badge-num">${c.topicNumber}</span>
+                <span class="badge-law">${c.law}</span>
+                <h3 class="concept-title" style="margin-top: 6px;">${c.title}</h3>
+              </div>
+              <button class="audio-btn" onclick="comp.speakConcept('${c.title}. En lenguaje claro: ${c.plain.replace(/'/g, "\\'")}')">
+                <span>🔊</span> Escuchar Explicación
+              </button>
+            </div>
+            <div class="dual-grid">
+              <div class="column-box column-boe">
+                <div class="column-tag">📜 Texto Literal del BOE</div>
+                <p style="color: #cbd5e1; font-style: italic;">${c.boe}</p>
+              </div>
+              <div class="column-box column-plain">
+                <div class="column-tag">💡 Explicación en Cristiano</div>
+                <p style="color: #f1f5f9;">${c.plain}</p>
+              </div>
+            </div>
+            <div class="example-box">
+              <span>🎯</span>
+              <div>${c.example}</div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      speakConcept(text) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utt = new SpeechSynthesisUtterance(text);
+          utt.lang = 'es-ES';
+          utt.rate = 1.0;
+          const voices = window.speechSynthesis.getVoices();
+          const esVoice = voices.find(v => v.lang.startsWith('es'));
+          if (esVoice) utt.voice = esVoice;
+          window.speechSynthesis.speak(utt);
+        }
+      }
+    }
+
+    const comp = new FullSyllabusApp();
+  </script>
+</body>
+</html>

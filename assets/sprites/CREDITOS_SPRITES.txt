@@ -1,0 +1,24 @@
+CREDITOS DE SPRITES DE ANIME - MISIÓN ADMINISTRACIÓN
+=====================================================
+
+Fuentes de sprites de anime de alta calidad (todos con licencia libre):
+
+1. OpenGameArt.org - Sutemo VN Sprites (CC-BY 3.0)
+   URL: https://opengameart.org/content/anime-style-vn-character-sprites
+   Autor: Sutemo
+
+2. OpenGameArt.org - Fallen Angel VN Sprites (CC0)
+   URL: https://opengameart.org/content/fallen-angel-visual-novel-sprites
+
+3. itch.io - VN Character Sprites gratuitos:
+   - https://sutemo.itch.io/female-character
+   - https://shisakujin.itch.io/vn-sprites
+   - https://vn-character-pack.itch.io/
+
+Para descargar manualmente los sprites:
+  1. Visita cualquiera de las URLs anteriores
+  2. Descarga el ZIP del pack
+  3. Coloca los PNG en assets/sprites/
+  4. Renómbralos según el esquema:
+     valeria_neutral.png, valeria_happy.png, valeria_sad.png
+     aoi_neutral.png, aoi_happy.png, etc.

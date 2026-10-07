@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Las 50 Cifras Sagradas del BOE | Chuleta de Examen E1 Defensa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0f1d;
+      --card-bg: #111827;
+      --border: #1e293b;
+      --primary: #38bdf8;
+      --accent: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.5;
+      padding: 24px 16px 80px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .title-area h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #fff, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title-area p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--primary);
+    }
+
+    .btn-print {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      font-weight: 700;
+    }
+
+    .btn-print:hover {
+      background: #0369a1;
+    }
+
+    /* SEARCH BAR */
+    .search-box {
+      margin-bottom: 24px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* GRID DE CIFRAS */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .cifra-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      position: relative;
+    }
+
+    .cifra-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .cifra-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .cifra-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .cifra-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .cifra-concept {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 6px;
+    }
+
+    .cifra-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .cifra-law {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* ESTILOS PARA IMPRESIÓN (PDF) */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0;
+      }
+      header, .search-box, .btn {
+        display: none !important;
+      }
+      .cifra-card {
+        background: #ffffff !important;
+        border: 1px solid #cccccc !important;
+        page-break-inside: avoid;
+        color: #000000 !important;
+      }
+      .cifra-val {
+        color: #0369a1 !important;
+      }
+      .cifra-concept {
+        color: #000000 !important;
+      }
+      .cifra-desc {
+        color: #333333 !important;
+      }
+      .cifra-law {
+        color: #666666 !important;
+      }
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-area">
+        <h1>📑 Las 50 Cifras Sagradas del BOE</h1>
+        <p>Resumen mnemotécnico para el examen E1 Servicios Administrativos (Defensa / AGE)</p>
+      </div>
+      <div class="header-actions">
+        <a href="entrenador_eficaz.html" class="btn">🎯 Ir al Test</a>
+        <a href="comprension.html" class="btn">💡 Comprensión</a>
+        <button class="btn btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+      </div>
+    </header>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Escribe para buscar (ej: 'despido', 'alzada', 'días', 'trebep', 'horas')..." oninput="filterCards()">
+    </div>
+
+    <div class="cards-grid" id="grid">
+      <!-- Cifras inyectadas dinámicamente -->
+    </div>
+  </div>
+
+  <script>
+    const CIFRAS = [
+      { val: "20 días hábiles", tag: "Laboral", concept: "Demanda judicial por despido", desc: "Plazo de caducidad estricto para impugnar cualquier despido ante el Juzgado de lo Social.", law: "Art. 59.3 ET y Art. 103 LRJS" },
+      { val: "33 días / año", tag: "Laboral", concept: "Despido Improcedente", desc: "Indemnización de 33 días de salario por año de servicio, con un tope máximo de 24 mensualidades.", law: "Art. 56.1 ET" },
+      { val: "20 días / año", tag: "Laboral", concept: "Despido Objetivo", desc: "Indemnización por causas económicas, técnicas u organizativas, con tope de 12 mensualidades.", law: "Art. 53.1 ET" },
+      { val: "12 horas", tag: "Descanso", concept: "Descanso mínimo entre jornadas", desc: "Tiempo mínimo obligatorio ininterrumpido entre el fin de una jornada y el inicio de la siguiente.", law: "Art. 34.3 ET" },
+      { val: "Día y medio", tag: "Descanso", concept: "Descanso semanal mínimo", desc: "36 horas ininterrumpidas semanales (tarde sábado/mañana lunes + domingo completo).", law: "Art. 37.1 ET" },
+      { val: "40 horas", tag: "Jornada", concept: "Jornada ordinaria de trabajo", desc: "Duración máxima semanal en promedio de cómputo anual.", law: "Art. 34.1 ET" },
+      { val: "80 horas", tag: "Jornada", concept: "Límite horas extraordinarias", desc: "Tope anual máximo de horas extra voluntarias (no computan las de fuerza mayor).", law: "Art. 35.2 ET" },
+      { val: "1.642 horas", tag: "IV CUAGE", concept: "Jornada anual personal laboral", desc: "Jornada anual efectiva para el personal laboral de la AGE (promedio 37,5 h/semana).", law: "Art. 46 IV CUAGE" },
+      { val: "15 días naturales", tag: "Permisos", concept: "Matrimonio o Pareja de Hecho", desc: "Permiso retribuido ininterrumpido por boda o formalización de pareja de hecho.", law: "Art. 48.l TREBEP / Art. 37 ET" },
+      { val: "6 días", tag: "Permisos", concept: "Asuntos particulares (Moscosos)", desc: "Días anuales retribuidos sin justificación (+2 días a partir del 6º trienio).", law: "Art. 48.k TREBEP" },
+      { val: "3 o 5 días", tag: "Permisos", concept: "Fallecimiento familiar 1º grado", desc: "3 días hábiles en la misma localidad y 5 días hábiles si requiere desplazamiento.", law: "Art. 48.a TREBEP" },
+      { val: "1 día", tag: "Permisos", concept: "Traslado de domicilio habitual", desc: "Permiso retribuido por mudanza sin cambio de residencia habitual.", law: "Art. 48.b TREBEP" },
+      { val: "22 días hábiles", tag: "Vacaciones", concept: "Vacaciones mínimas anuales", desc: "Mínimo anual retribuido o un mes natural de descanso.", law: "Art. 50 TREBEP" },
+      { val: "1 mes", tag: "Recursos", concept: "Recurso de Alzada (Acto expreso)", desc: "Plazo para interponer alzada ante el superior jerárquico si el acto no pone fin a la vía.", law: "Art. 122 Ley 39/2015" },
+      { val: "1 mes", tag: "Recursos", concept: "Recurso Potestativo de Reposición", desc: "Plazo para interponer reposición ante el mismo órgano si el acto pone fin a la vía.", law: "Art. 124 Ley 39/2015" },
+      { val: "3 meses", tag: "Procedimiento", concept: "Plazo supletorio de resolución", desc: "Plazo legal máximo para resolver y notificar si la norma del procedimiento no fija plazo.", law: "Art. 21.3 Ley 39/2015" },
+      { val: "10 días hábiles", tag: "Procedimiento", concept: "Plazo de subsanación de solicitud", desc: "Plazo otorgado al interesado para subsanar errores en su escrito de solicitud.", law: "Art. 68 Ley 39/2015" },
+      { val: "10 a 15 días", tag: "Procedimiento", concept: "Trámite de audiencia", desc: "Plazo otorgado para formular alegaciones antes de redactar la propuesta de resolución.", law: "Art. 82 Ley 39/2015" },
+      { val: "10 días naturales", tag: "Notificación", concept: "Rechazo de notificación electrónica", desc: "Plazo tras el cual la notificación electrónica en sede se entiende legalmente rechazada.", law: "Art. 43.2 Ley 39/2015" },
+      { val: "3 años", tag: "Prescripción", concept: "Faltas Muy Graves TREBEP", desc: "Plazo de prescripción de las infracciones disciplinarias muy graves de funcionarios.", law: "Art. 97.1 TREBEP" },
+      { val: "2 años", tag: "Prescripción", concept: "Faltas Graves TREBEP", desc: "Plazo de prescripción de las infracciones disciplinarias graves.", law: "Art. 97.1 TREBEP" },
+      { val: "6 meses", tag: "Prescripción", concept: "Faltas Leves TREBEP", desc: "Plazo de prescripción de las infracciones disciplinarias leves.", law: "Art. 97.1 TREBEP" },
+      { val: "3 años", tag: "Sanciones", concept: "Sanciones Muy Graves TREBEP", desc: "Plazo de prescripción de las sanciones firmes impuestas por faltas muy graves.", law: "Art. 97.2 TREBEP" },
+      { val: "2 años", tag: "Sanciones", concept: "Sanciones Graves TREBEP", desc: "Plazo de prescripción de las sanciones disciplinarias graves.", law: "Art. 97.2 TREBEP" },
+      { val: "1 año", tag: "Sanciones", concept: "Sanciones Leves TREBEP", desc: "Plazo de prescripción de las sanciones disciplinarias leves.", law: "Art. 97.2 TREBEP" },
+      { val: "10 días", tag: "Prescripción", concept: "Faltas leves laborales", desc: "Prescripción de faltas leves del personal laboral desde conocimiento de la empresa.", law: "Art. 60.2 ET" },
+      { val: "20 días", tag: "Prescripción", concept: "Faltas graves laborales", desc: "Prescripción de faltas graves del personal laboral desde conocimiento de la empresa.", law: "Art. 60.2 ET" },
+      { val: "60 días", tag: "Prescripción", concept: "Faltas muy graves laborales", desc: "Prescripción desde conocimiento por la empresa (y en todo caso 6 meses de comisión).", law: "Art. 60.2 ET" },
+      { val: "1 año", tag: "Salarios", concept: "Prescripción de deudas salariales", desc: "Plazo que tiene el trabajador para reclamar judicialmente salarios impagados.", law: "Art. 59.1 ET" },
+      { val: "50 trabajadores", tag: "Prevención", concept: "Comité de Seguridad y Salud", desc: "Umbral de plantilla obligatorio para constituir el órgano paritario de prevención.", law: "Art. 38.2 Ley 31/1995" },
+      { val: "2 Delegados", tag: "Prevención", concept: "Delegados de 50 a 100 empleados", desc: "Número de delegados de prevención que corresponden en centros de 50 a 100 personas.", law: "Art. 35.2 Ley 31/1995" },
+      { val: "40% - 60%", tag: "Igualdad", concept: "Presencia o composición equilibrada", desc: "Ningún sexo puede superar el 60% ni estar por debajo del 40% en órganos o listas.", law: "D.A. 1ª LO 3/2007" },
+      { val: "50 trabajadores", tag: "Igualdad", concept: "Plan de Igualdad obligatorio", desc: "Umbral de plantilla a partir del cual es obligatorio pactar y aplicar un Plan de Igualdad.", law: "Art. 45.2 LO 3/2007" },
+      { val: "72 horas", tag: "Constitución", concept: "Plazo máximo detención preventiva", desc: "Tiempo máximo legal antes de la puesta en libertad o a disposición judicial.", law: "Art. 17.2 CE" },
+      { val: "300 a 400", tag: "Constitución", concept: "Diputados en el Congreso", desc: "Número mínimo y máximo constitucional de miembros del Congreso (fijado en 350).", law: "Art. 68.1 CE" },
+      { val: "15 días", tag: "Constitución", concept: "Sanción y promulgación de leyes", desc: "Plazo del Rey para sancionar y promulgar las leyes aprobadas por las Cortes.", law: "Art. 91 CE" },
+      { val: "30 días", tag: "Constitución", concept: "Convalidación Real Decreto-Ley", desc: "Plazo en que el Congreso debe debatir y convalidar o derogar un Decreto-Ley.", law: "Art. 86.2 CE" },
+      { val: "12 miembros", tag: "Constitución", concept: "Tribunal Constitucional", desc: "Número de magistrados del TC (4 Congreso, 4 Senado, 2 Gobierno, 2 CGPJ).", law: "Art. 159.1 CE" },
+      { val: "9 años", tag: "Constitución", concept: "Mandato miembros TC", desc: "Duración del mandato de los magistrados del Tribunal Constitucional (renovables por 1/3 cada 3 años).", law: "Art. 159.3 CE" },
+      { val: "20 miembros", tag: "Constitución", concept: "Vocales del CGPJ", desc: "20 vocales nombrados por el Rey por un periodo de 5 años más el Presidente.", law: "Art. 122.3 CE" },
+      { val: "3 años", tag: "TREBEP", concept: "Límite temporal interino en vacante", desc: "Tiempo máximo antes de que la plaza vacante deba cubrirse por carrera o amortizarse.", law: "Art. 10.4 TREBEP" },
+      { val: "1 mes", tag: "IV CUAGE", concept: "Periodo de prueba Grupo E1", desc: "Tiempo máximo de prueba laboral para el personal operativo del Grupo E1.", law: "Art. 23 IV CUAGE" },
+      { val: "2 pagas extra", tag: "Retribuciones", concept: "Gratificaciones extraordinarias", desc: "Número mínimo legal de pagas extraordinarias al año (Navidad y verano).", law: "Art. 31 ET" },
+      { val: "365 días", tag: "Seg. Social", concept: "Duración ordinaria Incapacidad Temporal", desc: "1 año de baja médica prorrogable excepcionalmente por 180 días más.", law: "Art. 169 TRLGSS" },
+      { val: "Día 4 al 15", tag: "Seg. Social", concept: "Pago baja enfermedad común", desc: "Días que abona el empresario; a partir del día 16 abona la Seguridad Social/Mutua.", law: "Art. 173 TRLGSS" },
+      { val: "22:00 a 06:00", tag: "Horario", concept: "Horario nocturno legal", desc: "Franja horaria considerada legalmente como trabajo nocturno con plus retributivo.", law: "Art. 36.1 ET" },
+      { val: "3 años", tag: "Retribuciones", concept: "Devengo de Trienios", desc: "Periodo de servicio exigido para consolidar cada trienio salarial en nómina.", law: "Art. 23 TREBEP" },
+      { val: "18 años", tag: "Retribuciones", concept: "6 trienios (+2 días moscosos)", desc: "Antigüedad a partir de la cual se suman 2 días extra de asuntos particulares.", law: "Art. 48.k TREBEP" },
+      { val: "20 días / mes", tag: "Procedimiento", concept: "Silencio en recursos administrativos", desc: "Si en 3 meses no se resuelve un recurso de alzada, se entiende desestimado por silencio.", law: "Art. 122 Ley 39/2015" },
+      { val: "5 años", tag: "Archivo", concept: "Archivo de Gestión (Oficina)", desc: "Tiempo máximo que un expediente suele permanecer en oficina antes de pasar al Archivo Central.", law: "Sistema Archivístico Defensa" }
+    ];
+
+    function renderGrid(data) {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'cifra-card';
+        card.innerHTML = `
+          <div>
+            <div class="cifra-header">
+              <span class="cifra-val">${item.val}</span>
+              <span class="cifra-tag">${item.tag}</span>
+            </div>
+            <div class="cifra-concept">${item.concept}</div>
+            <div class="cifra-desc">${item.desc}</div>
+          </div>
+          <div class="cifra-law">${item.law}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterCards() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = CIFRAS.filter(c => 
+        c.val.toLowerCase().includes(q) ||
+        c.concept.toLowerCase().includes(q) ||
+        c.desc.toLowerCase().includes(q) ||
+        c.tag.toLowerCase().includes(q) ||
+        c.law.toLowerCase().includes(q)
+      );
+      renderGrid(filtered);
+    }
+
+    renderGrid(CIFRAS);
+  </script>
+</body>
+</html>

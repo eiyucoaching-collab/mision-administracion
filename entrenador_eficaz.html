@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPO-TÁCTIC E1 | El Entrenador Eficaz de Oposiciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0a0f1d;
+      --bg-card: #111827;
+      --bg-card-hover: #1f2937;
+      --border: #1e293b;
+      --border-focus: #06b6d4;
+      --primary: #06b6d4;
+      --primary-glow: rgba(6, 182, 212, 0.25);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --danger: #f43f5e;
+      --danger-bg: rgba(244, 63, 94, 0.12);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* BARRA SUPERIOR */
+    header {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .brand h1 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #fff, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand span {
+      font-size: 0.75rem;
+      color: var(--primary);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-left: 6px;
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    /* NAVEGACIÓN POR PESTAÑAS */
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-btn.active {
+      background: var(--primary);
+      color: #041019;
+      font-weight: 700;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    main {
+      flex: 1;
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    /* PANELES DE CONTENIDO */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BARRA DE ESTADO / HUD DE APRENDIZAJE */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .stat-pill.success::before { background: var(--success); }
+    .stat-pill.danger::before { background: var(--danger); }
+    .stat-pill.warning::before { background: var(--warning); }
+
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .stat-val {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    /* TARJETA DE PREGUNTA */
+    .question-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-topic {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .badge-law {
+      background: rgba(192, 132, 252, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(192, 132, 252, 0.3);
+    }
+
+    .q-counter {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .q-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.6;
+      color: #f8fafc;
+      margin-bottom: 24px;
+    }
+
+    /* GRID DE OPCIONES */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      color: #e2e8f0;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: rgba(6, 182, 212, 0.08);
+      border-color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .option-key {
+      min-width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .option-btn:hover:not(:disabled) .option-key {
+      background: var(--primary);
+      color: #041019;
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success) !important;
+      color: #4ade80 !important;
+    }
+
+    .option-btn.wrong {
+      background: var(--danger-bg) !important;
+      border-color: var(--danger) !important;
+      color: #fb7185 !important;
+    }
+
+    .option-btn.wrong .option-key {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .option-btn.correct .option-key {
+      background: var(--success);
+      color: #041019;
+    }
+
+    /* BARRA DE ACCIÓN TÁCTICA */
+    .tactical-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tactical-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tactical-btn:hover:not(:disabled) {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #94a3b8;
+    }
+
+    .tactical-btn.btn-pass:hover:not(:disabled) {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+      color: #fbbf24;
+    }
+
+    .tactical-btn.btn-hint:hover:not(:disabled) {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    /* TARJETA DE RETROALIMENTACIÓN LEGAL */
+    .feedback-box {
+      margin-top: 24px;
+      border-radius: 16px;
+      padding: 20px;
+      display: none;
+      animation: slideUp 0.2s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-box.correct {
+      background: var(--success-bg);
+      border: 1.5px solid var(--success);
+    }
+
+    .feedback-box.wrong {
+      background: var(--danger-bg);
+      border: 1.5px solid var(--danger);
+    }
+
+    .feedback-box.pass {
+      background: var(--warning-bg);
+      border: 1.5px solid var(--warning);
+    }
+
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .verdict-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feedback-article {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .feedback-exp {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #f1f5f9;
+      margin-bottom: 16px;
+    }
+
+    .feedback-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-audio-speak {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-audio-speak:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-next-q {
+      background: var(--primary);
+      color: #041019;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transition: all 0.2s ease;
+    }
+
+    .btn-next-q:hover {
+      transform: scale(1.03);
+    }
+
+    /* TABLA RESUMEN / CHULETAS */
+    .cheat-section {
+      margin-bottom: 24px;
+    }
+
+    .cheat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .cheat-header {
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .cheat-header h3 {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .cheat-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .cheat-table th {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cheat-table td {
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #e2e8f0;
+    }
+
+    .cheat-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .cheat-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .tag-highlight {
+      font-weight: 700;
+      color: #f59e0b;
+    }
+
+    /* NEKO COMPANION MINIMALISTA */
+    .neko-badge-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid #ec4899;
+      border-radius: 30px;
+      padding: 8px 16px 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(236, 72, 153, 0.25);
+      cursor: pointer;
+      z-index: 99;
+      transition: all 0.2s ease;
+    }
+
+    .neko-badge-float:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(236, 72, 153, 0.4);
+    }
+
+    .neko-avatar-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ec4899;
+    }
+
+    .neko-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fbcfe8;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-tabs {
+        flex-wrap: wrap;
+      }
+      .question-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⚔️</div>
+      <div>
+        <h1>OPO-TÁCTIC E1</h1>
+      </div>
+      <span>DEFENSA & AGE</span>
+    </div>
+
+    <!-- PESTAÑAS PRINCIPALES -->
+    <nav class="nav-tabs">
+      <button class="nav-btn active" onclick="app.setTab('entrenamiento')">
+        <span>🎯</span> Entrenamiento
+      </button>
+      <button class="nav-btn" onclick="app.setTab('plan')">
+        <span>📅</span> Plan 14 Días
+      </button>
+      <button class="nav-btn" onclick="app.setTab('cazatrampas')">
+        <span>⚡</span> Caza-Trampas
+      </button>
+      <button class="nav-btn" onclick="app.setTab('simulacro')">
+        <span>⏱️</span> Simulacro & Diagnóstico
+      </button>
+      <button class="nav-btn" onclick="app.setTab('chuletas')">
+        <span>📑</span> Tablas BOE
+      </button>
+      <button class="nav-btn" onclick="app.setTab('errores')">
+        <span>📕</span> Cuaderno Errores (<span id="count-errors">0</span>)
+      </button>
+      <a href="fichas_cifras_sagradas.html" class="nav-btn" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; text-decoration: none; border: 1px solid rgba(245, 158, 11, 0.3);">
+        <span>⭐</span> 50 Cifras BOE
+      </a>
+      <a href="manual_temario.html" class="nav-btn" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; text-decoration: none; border: 1px solid rgba(168, 85, 247, 0.3);">
+        <span>📖</span> Manual 10 Temas
+      </a>
+      <a href="comprension.html" class="nav-btn" style="background: rgba(192, 132, 252, 0.15); color: #c084fc; text-decoration: none; border: 1px solid rgba(192, 132, 252, 0.3);">
+        <span>💡</span> Modo Comprensión
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- BARRA DE MÉTRICAS RÁPIDAS -->
+    <section class="stats-bar">
+      <div class="stat-pill">
+        <span class="stat-label">Nota Estimada (EV)</span>
+        <span class="stat-val" id="hud-score" style="color: var(--primary);">0.00 / 100</span>
+      </div>
+      <div class="stat-pill success">
+        <span class="stat-label">Aciertos (+1.00)</span>
+        <span class="stat-val" id="hud-correct" style="color: var(--success);">0</span>
+      </div>
+      <div class="stat-pill danger">
+        <span class="stat-label">Fallos (-0.33)</span>
+        <span class="stat-val" id="hud-wrong" style="color: var(--danger);">0</span>
+      </div>
+      <div class="stat-pill warning">
+        <span class="stat-label">Pasadas (0.00)</span>
+        <span class="stat-val" id="hud-pass" style="color: var(--warning);">0</span>
+      </div>
+    </section>
+
+    <!-- PANEL 1: ENTRENAMIENTO ACTIVO -->
+    <div id="tab-entrenamiento" class="tab-panel active">
+      <div class="question-card">
+        <div class="q-meta">
+          <div class="badge-group">
+            <span class="badge badge-topic" id="q-topic">Constitución Española</span>
+            <span class="badge badge-law" id="q-law">Artículo 1.1 CE</span>
+          </div>
+          <span class="q-counter" id="q-counter">Pregunta 1 de 60</span>
+        </div>
+
+        <h2 class="q-text" id="q-question">Cargando pregunta...</h2>
+
+        <div class="options-grid" id="options-container">
+          <!-- Opciones inyectadas dinámicamente -->
+        </div>
+
+        <div class="tactical-bar">
+          <div style="display: flex; gap: 8px;">
+            <button class="tactical-btn btn-hint" id="btn-hint" onclick="app.useHint()">
+              <span>🔍</span> Pista 50% [H]
+            </button>
+            <button class="tactical-btn btn-pass" id="btn-pass" onclick="app.passQuestion()">
+              <span>🛡️</span> Pasar [P] (Evita -0.33)
+            </button>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">
+            Teclas: <strong>1-4</strong> para responder | <strong>P</strong> pasar | <strong>Enter</strong> continuar
+          </div>
+        </div>
+
+        <!-- CAJA DE EXPLICACIÓN DETALLADA TRAS RESPONDER -->
+        <div class="feedback-box" id="feedback-box">
+          <div class="feedback-header">
+            <div class="verdict-title" id="verdict-title">⚔️ Acierto Táctico (+1.00)</div>
+            <div class="feedback-article" id="feedback-article">Artículo 1.1 CE</div>
+          </div>
+          <div class="feedback-exp" id="feedback-exp">
+            Explicación legal oficial del BOE.
+          </div>
+          <div class="feedback-actions">
+            <button class="btn-audio-speak" onclick="app.speakCurrentExplanation()">
+              <span>🔊</span> Escuchar Explicación en Voz
+            </button>
+            <button class="btn-next-q" onclick="app.nextQuestion()">
+              Siguiente Pregunta <span>➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 2: CAZA-TRAMPAS DEL BOE -->
+    <div id="tab-cazatrampas" class="tab-panel">
+      <div style="margin-bottom: 20px;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 6px;">⚡ Modo Caza-Trampas Quirúrgico</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Entrena exclusivamente las 4 trampas que más suspenden en los exámenes de la AGE y Defensa.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px;">
+        <button class="tactical-btn" style="padding: 16px; border-color: #38bdf8;" onclick="app.filterTraps('plazos')">
+          <div style="text-align: left;">
+            <div style="font-size: 1.1rem; color: #38bdf8; font-weight: 700; margin-bottom: 4px;">⏱️ Trampas de Plazos</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Días hábiles vs naturales, meses, caducidad y prescripción.</div>
+          </div>
+        </button>
+        <button class="tactical-btn" style="padding: 16px; border-color: #c084fc;" onclick="app.filterTraps('organos')">
+          <div style="text-align: left;">
+            <div style="font-size: 1.1rem; color: #c084fc; font-weight: 700; margin-bottom: 4px;">🏛️ Órganos y Competencias</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">¿Quién nombra, resuelve o sanciona? Ministro vs Subsecretario.</div>
+          </div>
+        </button>
+        <button class="tactical-btn" style="padding: 16px; border-color: #f43f5e;" onclick="app.filterTraps('faltas')">
+          <div style="text-align: left;">
+            <div style="font-size: 1.1rem; color: #f43f5e; font-weight: 700; margin-bottom: 4px;">⚖️ Faltas y Sanciones</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">TREBEP: Faltas leves, graves y muy graves + prescripciones.</div>
+          </div>
+        </button>
+        <button class="tactical-btn" style="padding: 16px; border-color: #10b981;" onclick="app.filterTraps('all')">
+          <div style="text-align: left;">
+            <div style="font-size: 1.1rem; color: #10b981; font-weight: 700; margin-bottom: 4px;">🎯 Todo el Temario E1</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Las 60 preguntas oficiales completas.</div>
+          </div>
+        </button>
+      </div>
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px;">
+        <h4 style="color: var(--primary); font-family: var(--font-heading); margin-bottom: 8px;">💡 Regla de Oro del Tribunal:</h4>
+        <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.6;">
+          En el 80% de las preguntas de plazos de la Ley 39/2015 y TREBEP: si la ley dice <strong>"días"</strong> sin especificar, se entienden <strong>hábiles</strong> (se excluyen sábados, domingos y festivos). ¡Grábate esto a fuego!
+        </p>
+      </div>
+    </div>
+
+    <!-- PANEL PLAN 14 DÍAS GUIADO -->
+    <div id="tab-plan" class="tab-panel">
+      <div style="margin-bottom: 20px;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 6px;">📅 Plan Táctico de 14 Días (Misión E1 Defensa)</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Una rutina guiada paso a paso para dominar todo el temario en dos semanas. Pulsa en cada día para entrenar sus preguntas específicas.</p>
+      </div>
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-weight: 700; font-size: 0.95rem;">Progreso General del Plan</span>
+          <span id="plan-progress-text" style="color: var(--primary); font-weight: 800;">0 de 14 Días (0%)</span>
+        </div>
+        <div style="width: 100%; height: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; overflow: hidden;">
+          <div id="plan-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #38bdf8, #10b981); transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <div id="plan-days-container" style="display: flex; flex-direction: column; gap: 12px;">
+        <!-- Los 14 días se renderizan con JavaScript -->
+      </div>
+    </div>
+
+    <!-- PANEL 3: SIMULACRO REAL & DIAGNÓSTICO -->
+    <div id="tab-simulacro" class="tab-panel">
+      <div class="question-card" style="text-align: center; padding: 36px 20px;">
+        <div style="font-size: 42px; margin-bottom: 8px;">⏱️</div>
+        <h2 style="font-family: var(--font-heading); font-size: 1.6rem; margin-bottom: 8px;">Simulador Oficial & Diagnóstico de Nivel</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 24px; font-size: 0.92rem;">
+          Condiciones 100% reales de la prueba: penalización oficial (-0.33 por fallo, +1.00 acierto, 0 blanco). Al terminar recibirás tu <strong>Radar de Debilidades</strong> con los temas exactos a reforzar.
+        </p>
+
+        <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 24px;">
+          <button class="btn-next-q" onclick="app.startMockExam(30, 'diagnostico')">
+            ⚡ Simulacro Diagnóstico Rápido (30 Preguntas)
+          </button>
+          <button class="btn-next-q" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6);" onclick="app.startMockExam(60, 'oficial')">
+            🏆 Simulacro Oficial Completo (60 Preguntas)
+          </button>
+        </div>
+
+        <!-- RADAR DE DIAGNÓSTICO (RESULTADOS) -->
+        <div id="diagnostic-results" style="display: none; text-align: left; background: rgba(15, 23, 42, 0.9); border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-top: 24px;">
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: #38bdf8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            📊 Informe Diagnóstico de Rendimiento
+          </h3>
+          <div id="diagnostic-summary" style="font-size: 0.95rem; margin-bottom: 16px; color: #f1f5f9;"></div>
+          
+          <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px;">Desglose por Bloques y Temas:</h4>
+          <div id="diagnostic-breakdown" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;"></div>
+
+          <div id="diagnostic-action" style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 0 10px 10px 0; font-size: 0.9rem; color: #fef3c7;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 4: TABLAS RESUMEN & CHULETAS BOE -->
+    <div id="tab-chuletas" class="tab-panel">
+      <div class="cheat-section">
+        <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 16px;">📑 Tablas Maestras de Estudio Rápido</h2>
+
+        <!-- TABLA 1: PLAZOS -->
+        <div class="cheat-card">
+          <div class="cheat-header">
+            <h3>⏱️ Tabla Clave: Plazos de Recursos y Prescripción (Ley 39/2015 & TREBEP)</h3>
+            <span style="color: var(--primary);">▼</span>
+          </div>
+          <table class="cheat-table">
+            <thead>
+              <tr>
+                <th>Acto o Trámite</th>
+                <th>Plazo Oficial</th>
+                <th>Órgano Competente</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Recurso de Alzada</td>
+                <td><span class="tag-highlight">1 mes</span> (acto expreso) / En cualquier momento (presunto)</td>
+                <td>Superior jerárquico</td>
+              </tr>
+              <tr>
+                <td>Recurso de Reposición</td>
+                <td><span class="tag-highlight">1 mes</span> (acto expreso)</td>
+                <td>Mismo órgano que dictó el acto</td>
+              </tr>
+              <tr>
+                <td>Prescripción Faltas Muy Graves</td>
+                <td><span class="tag-highlight">3 años</span></td>
+                <td>TREBEP Art. 97</td>
+              </tr>
+              <tr>
+                <td>Prescripción Faltas Graves</td>
+                <td><span class="tag-highlight">2 años</span></td>
+                <td>TREBEP Art. 97</td>
+              </tr>
+              <tr>
+                <td>Prescripción Faltas Leves</td>
+                <td><span class="tag-highlight">6 meses</span></td>
+                <td>TREBEP Art. 97</td>
+              </tr>
+              <tr>
+                <td>Demanda por Despido (Laboral)</td>
+                <td><span class="tag-highlight">20 días hábiles</span> (plazo de caducidad)</td>
+                <td>Juzgado de lo Social (ET Art. 59)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TABLA 2: PERMISOS -->
+        <div class="cheat-card">
+          <div class="cheat-header">
+            <h3>💼 Tabla Clave: Permisos del Empleado Público (TREBEP Art. 48)</h3>
+            <span style="color: var(--primary);">▼</span>
+          </div>
+          <table class="cheat-table">
+            <thead>
+              <tr>
+                <th>Tipo de Permiso</th>
+                <th>Duración Oficial</th>
+                <th>Detalle Clave</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Matrimonio o Pareja de Hecho</td>
+                <td><span class="tag-highlight">15 días naturales</span></td>
+                <td>Ininterrumpidos</td>
+              </tr>
+              <tr>
+                <td>Asuntos Particulares (Moscosos)</td>
+                <td><span class="tag-highlight">6 días</span> al año</td>
+                <td>+2 días a partir del 6º trienio</td>
+              </tr>
+              <tr>
+                <td>Fallecimiento cónyuge / 1º grado</td>
+                <td><span class="tag-highlight">3 días hábiles</span> (misma localidad) / <span class="tag-highlight">5 días</span> (distinta)</td>
+                <td>Consanguinidad o afinidad</td>
+              </tr>
+              <tr>
+                <td>Traslado de domicilio habitual</td>
+                <td><span class="tag-highlight">1 día</span></td>
+                <td>Sin cambio de residencia</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 5: CUADERNO DE ERRORES INTELIGENTE -->
+    <div id="tab-errores" class="tab-panel">
+      <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 6px;">📕 Cuaderno de Errores Inteligente</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">El método más eficaz: entrena exclusivamente las preguntas que has fallado hasta dominarlas al 100%.</p>
+        </div>
+        <button class="tactical-btn" onclick="app.clearMistakes()" style="color: var(--danger); border-color: rgba(244,63,94,0.3);">
+          🗑️ Vaciar Cuaderno
+        </button>
+      </div>
+
+      <div id="errors-empty-state" style="text-align: center; padding: 40px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 16px;">
+        <div style="font-size: 40px; margin-bottom: 8px;">🌟</div>
+        <h3 style="font-family: var(--font-heading); color: #4ade80;">¡Cuaderno limpio!</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">No tienes preguntas pendientes de corrección. Todo lo que falles se guardará aquí automáticamente.</p>
+      </div>
+
+      <div id="errors-list" style="display: none; flex-direction: column; gap: 12px;"></div>
+    </div>
+  </main>
+
+  <!-- WIDGET FLOTANTE NEKO MAID (COMPAÑERA MOTIVADORA) -->
+  <div class="neko-badge-float" onclick="app.triggerNekoCheer()">
+    <img src="assets/neko_maid.jpg" alt="AIRI" class="neko-avatar-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'38\' height=\'38\'><circle cx=\'19\' cy=\'19\' r=\'18\' fill=\'%23ec4899\'/></svg>'">
+    <div>
+      <div class="neko-text" id="neko-speech-text">¡Ganbatte! Pulsa para consejo nya~</div>
+    </div>
+  </div>
+
+  <!-- SCRIPT DE DATOS Y MOTOR -->
+  <script src="questions.js"></script>
+  <script>
+    class EffectiveOpoTrainer {
+      constructor() {
+        this.questions = (typeof QUESTION_BANK !== 'undefined') ? [...QUESTION_BANK] : [];
+        this.currentQuestions = [...this.questions];
+        this.currentIndex = 0;
+        this.selectedOption = null;
+        this.answered = false;
+
+        // Métricas de examen
+        this.correctCount = 0;
+        this.wrongCount = 0;
+        this.passCount = 0;
+        this.mistakes = JSON.parse(localStorage.getItem('opo_mistakes') || '[]');
+        this.planProgress = JSON.parse(localStorage.getItem('opo_plan_progress') || '{}');
+
+        // Modo Simulacro Diagnóstico
+        this.isMockExam = false;
+        this.mockStats = {};
+        this.mockTotalTarget = 0;
+
+        // Definición de los 14 Días del Plan
+        this.planDays = [
+          { day: 1, title: "Día 1: CE 1978 — Valores, Principios y Título I", topic: "Constitución Española de 1978", desc: "Artículos 1 al 29: Valores superiores, igualdad ante la ley y derechos fundamentales." },
+          { day: 2, title: "Día 2: CE 1978 — Corona, Cortes y Tribunal Constitucional", topic: "Constitución Española de 1978", desc: "La Monarquía parlamentaria, composición del Congreso/Senado y Leyes Orgánicas." },
+          { day: 3, title: "Día 3: El Gobierno y la AGE", topic: "Ley 50/1997", desc: "Consejo de Ministros, Órganos Superiores vs Directivos y Delegados del Gobierno." },
+          { day: 4, title: "Día 4: TREBEP — Tipos de Empleados Públicos", topic: "TREBEP", desc: "Funcionarios de carrera, interinos (límite 3 años), personal laboral y eventual." },
+          { day: 5, title: "Día 5: TREBEP — Jornada, Permisos y Moscosos", topic: "TREBEP", desc: "Art. 48 y 50: Vacaciones (22 días), 6 moscosos, permiso de matrimonio y traslados." },
+          { day: 6, title: "Día 6: TREBEP — Régimen Disciplinario y Prescripción", topic: "TREBEP", desc: "Faltas muy graves (3 años), graves (2 años), leves (6 meses) y sanciones prohibidas." },
+          { day: 7, title: "Día 7: Políticas de Igualdad y Violencia de Género", topic: "Igualdad", desc: "LO 3/2007 y LO 1/2004: Presencia equilibrada (40-60%), acoso y planes de igualdad." },
+          { day: 8, title: "Día 8: IV CUAGE — Clasificación Profesional (Grupos E1 a M3)", topic: "IV CUAGE", desc: "El Convenio Único para el personal laboral de la AGE y titulación exigida en E1 (ESO)." },
+          { day: 9, title: "Día 9: IV CUAGE — Periodo de Prueba y Régimen Laboral", topic: "IV CUAGE", desc: "Periodo de prueba de 1 mes en E1, Comisión Paritaria (COPA) y provisión de puestos." },
+          { day: 10, title: "Día 10: Estatuto de los Trabajadores — Jornada y Salarios", topic: "Estatuto de los Trabajadores", desc: "Descanso de 12 horas entre jornadas, 40 h semanales, pagas extra y horas extraordinarias." },
+          { day: 11, title: "Día 11: Estatuto de los Trabajadores — Despidos y Caducidad", topic: "Estatuto de los Trabajadores", desc: "Plazo de 20 días hábiles para demandar, despido improcedente (33 días) y objetivo (20 días)." },
+          { day: 12, title: "Día 12: Prevención de Riesgos Laborales (Ley 31/1995)", topic: "Prevención de Riesgos", desc: "Comité de Seguridad y Salud (50 trabajadores), Delegados de Prevención y protección colectiva." },
+          { day: 13, title: "Día 13: Seguridad Social, Caja Única e ISFAS en Defensa", topic: "Seguridad Social", desc: "La TGSS, pensiones del INSS, Incapacidad Temporal y Régimen Especial Militar del ISFAS." },
+          { day: 14, title: "Día 14: Registro Electrónico (Ley 39/2015) y Archivo en Defensa", topic: "Ley 39/2015", desc: "Cómputo de días hábiles, recursos administrativos (Alzada/Reposición) y tipos de documentos." }
+        ];
+
+        this.initDOM();
+        this.bindShortcuts();
+        this.loadQuestion(0);
+        this.updateHUD();
+        this.renderMistakesCount();
+        this.renderPlanDays();
+      }
+
+      initDOM() {
+        this.els = {
+          topic: document.getElementById('q-topic'),
+          law: document.getElementById('q-law'),
+          counter: document.getElementById('q-counter'),
+          question: document.getElementById('q-question'),
+          optionsContainer: document.getElementById('options-container'),
+          feedbackBox: document.getElementById('feedback-box'),
+          verdictTitle: document.getElementById('verdict-title'),
+          feedbackArticle: document.getElementById('feedback-article'),
+          feedbackExp: document.getElementById('feedback-exp'),
+          hudScore: document.getElementById('hud-score'),
+          hudCorrect: document.getElementById('hud-correct'),
+          hudWrong: document.getElementById('hud-wrong'),
+          hudPass: document.getElementById('hud-pass'),
+          countErrors: document.getElementById('count-errors'),
+          btnHint: document.getElementById('btn-hint'),
+          btnPass: document.getElementById('btn-pass')
+        };
+      }
+
+      setTab(tabId) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+        const targetPanel = document.getElementById(`tab-${tabId}`);
+        if (targetPanel) targetPanel.classList.add('active');
+
+        const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+        if (activeBtn) activeBtn.classList.add('active');
+
+        if (tabId === 'errores') this.renderMistakesList();
+        if (tabId === 'plan') this.renderPlanDays();
+      }
+
+      renderPlanDays() {
+        const container = document.getElementById('plan-days-container');
+        if (!container) return;
+        container.innerHTML = '';
+
+        let completedCount = 0;
+
+        this.planDays.forEach((p, idx) => {
+          const isDone = !!this.planProgress[p.day];
+          if (isDone) completedCount++;
+
+          const card = document.createElement('div');
+          card.style.cssText = `background: var(--bg-card); border: 1.5px solid ${isDone ? '#10b981' : 'var(--border)'}; border-radius: 14px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;`;
+          card.innerHTML = `
+            <div style="flex: 1; min-width: 250px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <span style="font-size: 1.05rem; font-weight: 700; color: ${isDone ? '#34d399' : '#f8fafc'};">${p.title}</span>
+                ${isDone ? '<span style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 6px;">COMPLETADO</span>' : ''}
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">${p.desc}</p>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button onclick="app.startDayTraining(${idx})" style="background: var(--primary); color: #041019; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">
+                Entrenar Día ${p.day}
+              </button>
+              <button onclick="app.toggleDayCompleted(${p.day})" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; cursor: pointer;">
+                ${isDone ? '↩ Desmarcar' : '✓ Marcar Hecho'}
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+        // Actualizar barra de progreso
+        const percent = Math.round((completedCount / this.planDays.length) * 100);
+        const textEl = document.getElementById('plan-progress-text');
+        const barEl = document.getElementById('plan-progress-bar');
+        if (textEl) textEl.textContent = `${completedCount} de ${this.planDays.length} Días (${percent}%)`;
+        if (barEl) barEl.style.width = `${percent}%`;
+      }
+
+      startDayTraining(dayIndex) {
+        const p = this.planDays[dayIndex];
+        const keyword = p.topic.toLowerCase();
+        
+        let filtered = this.questions.filter(q => 
+          q.topic.toLowerCase().includes(keyword) || 
+          q.law.toLowerCase().includes(keyword)
+        );
+
+        if (filtered.length === 0) filtered = this.questions.slice(0, 15);
+
+        this.currentQuestions = filtered;
+        this.isMockExam = false;
+        this.correctCount = 0;
+        this.wrongCount = 0;
+        this.passCount = 0;
+        this.setTab('entrenamiento');
+        this.loadQuestion(0);
+        this.updateHUD();
+      }
+
+      toggleDayCompleted(day) {
+        if (this.planProgress[day]) {
+          delete this.planProgress[day];
+        } else {
+          this.planProgress[day] = true;
+        }
+        localStorage.setItem('opo_plan_progress', JSON.stringify(this.planProgress));
+        this.renderPlanDays();
+      }
+
+      startMockExam(count, mode) {
+        const targetCount = Math.min(count, this.questions.length);
+        const shuffled = [...this.questions].sort(() => Math.random() - 0.5);
+        this.currentQuestions = shuffled.slice(0, targetCount);
+        this.currentIndex = 0;
+        this.isMockExam = true;
+        this.mockStats = {};
+        this.mockTotalTarget = targetCount;
+
+        this.correctCount = 0;
+        this.wrongCount = 0;
+        this.passCount = 0;
+
+        // Ocultar resultados previos
+        const resEl = document.getElementById('diagnostic-results');
+        if (resEl) resEl.style.display = 'none';
+
+        this.setTab('entrenamiento');
+        this.loadQuestion(0);
+        this.updateHUD();
+      }
+
+      loadQuestion(idx) {
+        if (!this.currentQuestions || this.currentQuestions.length === 0) return;
+        this.currentIndex = idx;
+        this.answered = false;
+        this.selectedOption = null;
+
+        const q = this.currentQuestions[idx];
+        this.els.topic.textContent = q.topic || 'Derecho Administrativo';
+        this.els.law.textContent = q.law ? q.law.split(',')[0] : 'BOE E1';
+        this.els.counter.textContent = `Pregunta ${idx + 1} de ${this.currentQuestions.length}`;
+        this.els.question.textContent = q.question;
+
+        this.els.feedbackBox.style.display = 'none';
+        this.els.btnHint.disabled = false;
+        this.els.btnPass.disabled = false;
+
+        this.els.optionsContainer.innerHTML = '';
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.innerHTML = `
+            <div class="option-key">${i + 1}</div>
+            <div style="flex: 1;">${opt}</div>
+          `;
+          btn.onclick = () => this.handleAnswer(i);
+          this.els.optionsContainer.appendChild(btn);
+        });
+      }
+
+      handleAnswer(idx) {
+        if (this.answered) return;
+        this.answered = true;
+        this.selectedOption = idx;
+
+        const q = this.currentQuestions[this.currentIndex];
+        const isCorrect = (idx === q.correct);
+        const buttons = this.els.optionsContainer.querySelectorAll('.option-btn');
+
+        buttons.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === q.correct) btn.classList.add('correct');
+          if (i === idx && !isCorrect) btn.classList.add('wrong');
+        });
+
+        this.els.feedbackBox.style.display = 'block';
+        this.els.feedbackArticle.textContent = q.article || q.law;
+        this.els.feedbackExp.textContent = q.explanation;
+
+        // Registrar estadística diagnóstica por tema
+        if (this.isMockExam) {
+          const t = q.topic || 'General';
+          if (!this.mockStats[t]) this.mockStats[t] = { correct: 0, wrong: 0, pass: 0, total: 0 };
+          this.mockStats[t].total++;
+          if (isCorrect) this.mockStats[t].correct++;
+          else this.mockStats[t].wrong++;
+        }
+
+        if (isCorrect) {
+          this.correctCount++;
+          this.els.feedbackBox.className = 'feedback-box correct';
+          this.els.verdictTitle.innerHTML = '⚔️ ¡Acierto Táctico! (+1.00)';
+          this.removeMistake(q.id);
+        } else {
+          this.wrongCount++;
+          this.els.feedbackBox.className = 'feedback-box wrong';
+          this.els.verdictTitle.innerHTML = '⚠️ Fallo Táctico (-0.33 Penalización)';
+          this.saveMistake(q);
+        }
+
+        this.updateHUD();
+      }
+
+      passQuestion() {
+        if (this.answered) return;
+        this.answered = true;
+        this.passCount++;
+
+        const q = this.currentQuestions[this.currentIndex];
+        const buttons = this.els.optionsContainer.querySelectorAll('.option-btn');
+        buttons.forEach((btn, i) => {
+          btn.disabled = true;
+          if (i === q.correct) btn.classList.add('correct');
+        });
+
+        if (this.isMockExam) {
+          const t = q.topic || 'General';
+          if (!this.mockStats[t]) this.mockStats[t] = { correct: 0, wrong: 0, pass: 0, total: 0 };
+          this.mockStats[t].total++;
+          this.mockStats[t].pass++;
+        }
+
+        this.els.feedbackBox.style.display = 'block';
+        this.els.feedbackBox.className = 'feedback-box pass';
+        this.els.verdictTitle.innerHTML = '🛡️ Mitigación de Riesgo: Has Pasado (0.00)';
+        this.els.feedbackArticle.textContent = q.article || q.law;
+        this.els.feedbackExp.textContent = `Has protegido tu marcador evitando la penalización de -0.33. Explicación: ${q.explanation}`;
+
+        this.updateHUD();
+      }
+
+      useHint() {
+        if (this.answered) return;
+        const q = this.currentQuestions[this.currentIndex];
+        const buttons = this.els.optionsContainer.querySelectorAll('.option-btn');
+
+        let wrongIndices = [0, 1, 2, 3].filter(i => i !== q.correct);
+        wrongIndices.sort(() => Math.random() - 0.5);
+        const toHide = wrongIndices.slice(0, 2);
+
+        toHide.forEach(idx => {
+          if (buttons[idx]) {
+            buttons[idx].style.opacity = '0.25';
+            buttons[idx].style.pointerEvents = 'none';
+          }
+        });
+
+        this.els.btnHint.disabled = true;
+      }
+
+      nextQuestion() {
+        if (this.currentIndex < this.currentQuestions.length - 1) {
+          this.loadQuestion(this.currentIndex + 1);
+        } else {
+          if (this.isMockExam) {
+            this.finishMockExam();
+          } else {
+            alert(`🎉 ¡Has completado la tanda! Puntuación Final: ${this.calculateScore().toFixed(2)} / 100`);
+            this.loadQuestion(0);
+          }
+        }
+      }
+
+      finishMockExam() {
+        const score = this.calculateScore();
+        this.setTab('simulacro');
+
+        const resEl = document.getElementById('diagnostic-results');
+        const summaryEl = document.getElementById('diagnostic-summary');
+        const breakdownEl = document.getElementById('diagnostic-breakdown');
+        const actionEl = document.getElementById('diagnostic-action');
+
+        if (!resEl) return;
+        resEl.style.display = 'block';
+
+        summaryEl.innerHTML = `
+          <strong>Puntuación Neta Final:</strong> <span style="color: #38bdf8; font-size: 1.2rem; font-weight: 800;">${score.toFixed(2)} / 100 pts</span> 
+          (Aciertos: ${this.correctCount} | Fallos: ${this.wrongCount} | Pasadas: ${this.passCount}).
+        `;
+
+        breakdownEl.innerHTML = '';
+        let lowestTopic = null;
+        let lowestRate = 999;
+
+        for (const [topic, s] of Object.entries(this.mockStats)) {
+          const rate = Math.round((s.correct / s.total) * 100);
+          if (rate < lowestRate) {
+            lowestRate = rate;
+            lowestTopic = topic;
+          }
+
+          const row = document.createElement('div');
+          row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; font-size: 0.88rem;';
+          row.innerHTML = `
+            <span>${topic} (${s.correct}/${s.total} aciertos)</span>
+            <span style="font-weight: 700; color: ${rate >= 70 ? '#4ade80' : rate >= 50 ? '#fbbf24' : '#fb7185'};">${rate}%</span>
+          `;
+          breakdownEl.appendChild(row);
+        }
+
+        if (lowestTopic) {
+          actionEl.innerHTML = `
+            <strong>🎯 Recomendación Diagnóstica:</strong> Tu punto más vulnerable en esta prueba ha sido <strong>${lowestTopic}</strong> (solo ${lowestRate}% de aciertos).<br>
+            Te recomendamos repasar su ficha de comprensión antes de volver a realizar otro test: 
+            <a href="comprension.html" style="color: #38bdf8; font-weight: 700; text-decoration: underline; margin-left: 6px;">Abrir Modo Comprensión ➔</a>
+          `;
+        }
+
+        window.scrollTo({ top: resEl.offsetTop - 80, behavior: 'smooth' });
+      }
+
+      calculateScore() {
+        const net = (this.correctCount * 1.0) - (this.wrongCount * 0.3333);
+        const maxQ = Math.max(1, this.correctCount + this.wrongCount + this.passCount);
+        return Math.max(0, (net / maxQ) * 100);
+      }
+
+      updateHUD() {
+        const score = this.calculateScore();
+        this.els.hudScore.textContent = `${score.toFixed(2)} pts`;
+        this.els.hudCorrect.textContent = this.correctCount;
+        this.els.hudWrong.textContent = this.wrongCount;
+        this.els.hudPass.textContent = this.passCount;
+      }
+
+      saveMistake(q) {
+        if (!this.mistakes.find(m => m.id === q.id)) {
+          this.mistakes.push(q);
+          localStorage.setItem('opo_mistakes', JSON.stringify(this.mistakes));
+          this.renderMistakesCount();
+        }
+      }
+
+      removeMistake(qId) {
+        this.mistakes = this.mistakes.filter(m => m.id !== qId);
+        localStorage.setItem('opo_mistakes', JSON.stringify(this.mistakes));
+        this.renderMistakesCount();
+      }
+
+      renderMistakesCount() {
+        if (this.els.countErrors) this.els.countErrors.textContent = this.mistakes.length;
+      }
+
+      renderMistakesList() {
+        const listEl = document.getElementById('errors-list');
+        const emptyEl = document.getElementById('errors-empty-state');
+        if (!listEl) return;
+
+        if (this.mistakes.length === 0) {
+          emptyEl.style.display = 'block';
+          listEl.style.display = 'none';
+          return;
+        }
+
+        emptyEl.style.display = 'none';
+        listEl.style.display = 'flex';
+        listEl.innerHTML = '';
+
+        this.mistakes.forEach(q => {
+          const card = document.createElement('div');
+          card.style.cssText = "background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px;";
+          card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="color: #f43f5e; font-size: 0.8rem; font-weight: 700;">${q.law} — ${q.article}</span>
+              <button onclick="app.trainSingleMistake(${q.id})" style="background: var(--primary); color: #041019; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Repasar Ahora</button>
+            </div>
+            <p style="font-size: 0.95rem; font-weight: 600; color: #f8fafc; margin-bottom: 6px;">${q.question}</p>
+            <p style="font-size: 0.85rem; color: #94a3b8;">${q.explanation}</p>
+          `;
+          listEl.appendChild(card);
+        });
+      }
+
+      clearMistakes() {
+        this.mistakes = [];
+        localStorage.removeItem('opo_mistakes');
+        this.renderMistakesCount();
+        this.renderMistakesList();
+      }
+
+      trainSingleMistake(id) {
+        const found = this.mistakes.find(m => m.id === id);
+        if (found) {
+          this.currentQuestions = [found];
+          this.setTab('entrenamiento');
+          this.loadQuestion(0);
+        }
+      }
+
+      filterTraps(type) {
+        if (type === 'plazos') {
+          this.currentQuestions = this.questions.filter(q => 
+            q.question.toLowerCase().includes('plazo') || 
+            q.question.toLowerCase().includes('días') || 
+            q.question.toLowerCase().includes('meses') ||
+            q.explanation.toLowerCase().includes('plazo')
+          );
+        } else if (type === 'organos') {
+          this.currentQuestions = this.questions.filter(q => 
+            q.question.toLowerCase().includes('corresponde') || 
+            q.question.toLowerCase().includes('órgano') || 
+            q.question.toLowerCase().includes('ministro') ||
+            q.question.toLowerCase().includes('gobierno')
+          );
+        } else if (type === 'faltas') {
+          this.currentQuestions = this.questions.filter(q => 
+            q.topic.toLowerCase().includes('trebep') || 
+            q.question.toLowerCase().includes('sanción') || 
+            q.question.toLowerCase().includes('falta')
+          );
+        } else {
+          this.currentQuestions = [...this.questions];
+        }
+
+        if (this.currentQuestions.length === 0) this.currentQuestions = [...this.questions];
+        this.setTab('entrenamiento');
+        this.loadQuestion(0);
+      }
+
+      speakCurrentExplanation() {
+        const q = this.currentQuestions[this.currentIndex];
+        if (!q) return;
+        const text = `${q.law}. ${q.article}. ${q.explanation}`;
+        
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utt = new SpeechSynthesisUtterance(text);
+          utt.lang = 'es-ES';
+          utt.rate = 1.0;
+          const voices = window.speechSynthesis.getVoices();
+          const esVoice = voices.find(v => v.lang.startsWith('es'));
+          if (esVoice) utt.voice = esVoice;
+          window.speechSynthesis.speak(utt);
+        }
+      }
+
+      triggerNekoCheer() {
+        const cheers = [
+          "¡Recuerda que si dudas entre 3 opciones, la decisión matemática correcta es PASAR!",
+          "¡El artículo 1.1 de la Constitución es sagrado: Estado social y democrático de Derecho!",
+          "¡Los moscosos son 6 días al año! ¡Que no te engañe el tribunal!",
+          "¡Cada fallo son -0.33 puntos menos! ¡Protege tu plaza con disciplina táctica!"
+        ];
+        const quote = cheers[Math.floor(Math.random() * cheers.length)];
+        const textEl = document.getElementById('neko-speech-text');
+        if (textEl) textEl.textContent = quote;
+
+        if ('speechSynthesis' in window) {
+          const utt = new SpeechSynthesisUtterance(quote);
+          utt.lang = 'es-ES';
+          utt.rate = 1.1;
+          window.speechSynthesis.speak(utt);
+        }
+      }
+
+      bindShortcuts() {
+        window.addEventListener('keydown', (e) => {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+          const key = e.key;
+          if (key === '1' || key === 'a' || key === 'A') this.handleAnswer(0);
+          if (key === '2' || key === 'b' || key === 'B') this.handleAnswer(1);
+          if (key === '3' || key === 'c' || key === 'C') this.handleAnswer(2);
+          if (key === '4' || key === 'd' || key === 'D') this.handleAnswer(3);
+          if (key === 'p' || key === 'P') this.passQuestion();
+          if (key === 'h' || key === 'H') this.useHint();
+          if (key === 'Enter') {
+            if (this.answered) this.nextQuestion();
+          }
+        });
+      }
+    }
+
+    const app = new EffectiveOpoTrainer();
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3m8n7x61b2a"]
+
+[ext_resource type="Script" path="res://godot_export/BattleEngine.gd" id="1_battle"]
+
+[node name="BattleStage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_battle")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.06, 0.09, 0.16, 1.0)
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="UI" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+alignment = 1
+
+[node name="QuestionLabel" type="Label" parent="UI"]
+custom_minimum_size = Vector2(800, 100)
+layout_mode = 2
+text = "Cargando Pregunta de Examen..."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Option1" type="Button" parent="UI"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Option2" type="Button" parent="UI"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Option3" type="Button" parent="UI"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Option4" type="Button" parent="UI"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="FeedbackLabel" type="Label" parent="UI"]
+custom_minimum_size = Vector2(800, 40)
+layout_mode = 2
+horizontal_alignment = 1
