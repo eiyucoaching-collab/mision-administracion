@@ -556,43 +556,6 @@
       color: #f59e0b;
     }
 
-    /* NEKO COMPANION MINIMALISTA */
-    .neko-badge-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(17, 24, 39, 0.9);
-      border: 1px solid #ec4899;
-      border-radius: 30px;
-      padding: 8px 16px 8px 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 10px 25px rgba(236, 72, 153, 0.25);
-      cursor: pointer;
-      z-index: 99;
-      transition: all 0.2s ease;
-    }
-
-    .neko-badge-float:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(236, 72, 153, 0.4);
-    }
-
-    .neko-avatar-img {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #ec4899;
-    }
-
-    .neko-text {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #fbcfe8;
-    }
-
     /* RESPONSIVE */
     @media (max-width: 768px) {
       .stats-bar {
@@ -937,14 +900,6 @@
       <div id="errors-list" style="display: none; flex-direction: column; gap: 12px;"></div>
     </div>
   </main>
-
-  <!-- WIDGET FLOTANTE NEKO MAID (COMPAÑERA MOTIVADORA) -->
-  <div class="neko-badge-float" onclick="app.triggerNekoCheer()">
-    <img src="assets/neko_maid.jpg" alt="AIRI" class="neko-avatar-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'38\' height=\'38\'><circle cx=\'19\' cy=\'19\' r=\'18\' fill=\'%23ec4899\'/></svg>'">
-    <div>
-      <div class="neko-text" id="neko-speech-text">¡Ganbatte! Pulsa para consejo nya~</div>
-    </div>
-  </div>
 
   <!-- SCRIPT DE DATOS Y MOTOR -->
   <script src="questions.js"></script>
@@ -1425,25 +1380,6 @@
           const voices = window.speechSynthesis.getVoices();
           const esVoice = voices.find(v => v.lang.startsWith('es'));
           if (esVoice) utt.voice = esVoice;
-          window.speechSynthesis.speak(utt);
-        }
-      }
-
-      triggerNekoCheer() {
-        const cheers = [
-          "¡Recuerda que si dudas entre 3 opciones, la decisión matemática correcta es PASAR!",
-          "¡El artículo 1.1 de la Constitución es sagrado: Estado social y democrático de Derecho!",
-          "¡Los moscosos son 6 días al año! ¡Que no te engañe el tribunal!",
-          "¡Cada fallo son -0.33 puntos menos! ¡Protege tu plaza con disciplina táctica!"
-        ];
-        const quote = cheers[Math.floor(Math.random() * cheers.length)];
-        const textEl = document.getElementById('neko-speech-text');
-        if (textEl) textEl.textContent = quote;
-
-        if ('speechSynthesis' in window) {
-          const utt = new SpeechSynthesisUtterance(quote);
-          utt.lang = 'es-ES';
-          utt.rate = 1.1;
           window.speechSynthesis.speak(utt);
         }
       }
