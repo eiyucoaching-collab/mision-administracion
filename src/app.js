@@ -162,6 +162,29 @@ class OpoDefensaApp {
     reader.readAsText(file);
   }
 
+  // DESCARGAR GUÍA TEÓRICA OFICIAL (STUDIO .MD)
+  downloadGuide(topicId) {
+    const guides = {
+      1: 'guia_tema_01_constitucion_espanola.md',
+      2: 'guia_tema_02_gobierno_y_age.md',
+      3: 'guia_tema_03_personal_laboral_cuage.md',
+      4: 'guia_tema_04_politicas_igualdad_discapacidad.md',
+      5: 'guia_tema_05_control_accesos.md',
+      6: 'guia_tema_06_paqueteria_valija.md',
+      7: 'guia_tema_07_reprografia_formatos_din.md',
+      8: 'guia_tema_08_correspondencia_burofax_correos.md',
+      9: 'guia_tema_09_recados_oficiales_secretos.md',
+      10: 'guia_tema_10_anomalias_averias_prl.md'
+    };
+    const filename = guides[topicId] || 'guia_estudio.md';
+    const link = document.createElement('a');
+    link.href = `./guias/${filename}`;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   // =========================================================================
   // INICIALIZACIÓN Y ENRUTAMIENTO
   // =========================================================================
@@ -559,9 +582,19 @@ class OpoDefensaApp {
           <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
             <!-- ENCABEZADO DEL TEMA -->
             <div class="border-b border-slate-800 pb-6 mb-6">
-              <div class="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider mb-2">
-                <span>${activeTopic.icon}</span>
-                <span>${activeTopic.weight}</span>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider">
+                  <span>${activeTopic.icon}</span>
+                  <span>${activeTopic.weight}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="window.app.downloadGuide(${activeTopic.id})" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+                    <span>📥</span> Descargar Guía (.MD)
+                  </button>
+                  <button onclick="window.print()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+                    <span>🖨️</span> Imprimir
+                  </button>
+                </div>
               </div>
               <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-2">
                 ${activeTopic.title}
@@ -887,18 +920,26 @@ class OpoDefensaApp {
         </div>
 
         <!-- SELECTOR DE MODALIDAD DE EXAMEN -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🎖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Oficial Defensa (60 + 6 Reserva)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Oficial (60 + 6 Res)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              El ejercicio íntegro tal como te lo entregarán en el aula: 60 preguntas ordinarias + 6 preguntas de reserva bajo el cronómetro oficial de 60 minutos.
+              El ejercicio íntegro: 60 preguntas ordinarias + 6 de reserva (2 comunes, 4 específicas) bajo cronómetro oficial de 60 minutos.
+            </p>
+          </button>
+
+          <button onclick="window.app.startNewExam('real2025')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="text-3xl mb-3">⭐</div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Examen Real 1-Feb-2025</h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Entrenamiento con las preguntas literales del último examen oficial de Defensa (Burofax Q32, Recados Q53, Subsecretarios Q61 y reservas).
             </p>
           </button>
 
           <button onclick="window.app.startNewExam('comun')" class="p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">⚖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Modo Bloque Común (33%)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (33%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad).
             </p>
@@ -906,19 +947,19 @@ class OpoDefensaApp {
 
           <button onclick="window.app.startNewExam('especifico')" class="p-6 bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🛡️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Modo Bloque Específico (67%)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (67%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL).
             </p>
           </button>
 
-          <button onclick="window.app.startNewExam('falladas')" class="p-6 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+          <button onclick="window.app.startNewExam('falladas')" class="p-6 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group sm:col-span-2 lg:col-span-1">
             <div class="text-3xl mb-3">📓</div>
             <h3 class="text-lg font-bold text-white group-hover:text-rose-300">
-              Modo Preguntas Falladas (${this.failedQuestions.size})
+              Preguntas Falladas (${this.failedQuestions.size})
             </h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Reentrena las preguntas de tu cuaderno de errores hasta conseguir dominarlas todas.
+              Reentrena las preguntas de tu cuaderno de errores hasta conseguir dominarlas todas a 0 fallos.
             </p>
           </button>
         </div>
@@ -938,6 +979,23 @@ class OpoDefensaApp {
       const espOrd = espPool.slice(0, 40);
       const comunRes = comunPool.slice(20, 22);
       const espRes = espPool.slice(40, 44);
+
+      pool = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
+    } else if (mode === 'real2025') {
+      // Priorizar preguntas oficiales reales de la convocatoria de febrero 2025
+      const comunPool = this.questionBank.filter(q => q.block === 'comun');
+      const espPool = this.questionBank.filter(q => q.block === 'especifico');
+
+      const realComun = comunPool.filter(q => q.isRealExam2025);
+      const otherComun = this.shuffleArray(comunPool.filter(q => !q.isRealExam2025));
+
+      const realEsp = espPool.filter(q => q.isRealExam2025);
+      const otherEsp = this.shuffleArray(espPool.filter(q => !q.isRealExam2025));
+
+      const comunOrd = [...realComun, ...otherComun.slice(0, 20 - realComun.length)];
+      const espOrd = [...realEsp, ...otherEsp.slice(0, 40 - realEsp.length)];
+      const comunRes = otherComun.slice(20 - realComun.length, 22 - realComun.length);
+      const espRes = otherEsp.slice(40 - realEsp.length, 44 - realEsp.length);
 
       pool = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
     } else if (mode === 'comun') {
@@ -1005,7 +1063,7 @@ class OpoDefensaApp {
   renderActiveExam() {
     const q = this.examState.questions[this.examState.currentIndex];
     const totalQ = this.examState.questions.length;
-    const isReserve = this.examState.mode === 'oficial' && this.examState.currentIndex >= 60;
+    const isReserve = (this.examState.mode === 'oficial' || this.examState.mode === 'real2025') && this.examState.currentIndex >= 60;
     const reserveNum = isReserve ? (this.examState.currentIndex - 59) : 0;
     const selectedOpt = this.examState.userAnswers[q.id];
     const isFlagged = this.examState.flagged.has(q.id);
@@ -1392,7 +1450,7 @@ class OpoDefensaApp {
           </p>
 
           <!-- INTERRUPTOR DE SIMULACIÓN DE ANULACIONES 2025 -->
-          ${this.examState.mode === 'oficial' ? `
+          ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? `
             <div class="pt-2">
               <button onclick="window.app.toggleAnnulments()" class="px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all border flex items-center gap-2 mx-auto ${this.examState.applyAnnulments ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-lg' : 'bg-slate-950/80 text-amber-400 border-amber-500/40 hover:bg-slate-800'}">
                 <span>⚡</span>
