@@ -1,10 +1,6 @@
-/**
- * BANCO OFICIAL DE PREGUNTAS - MISIÓN ADMINISTRACIÓN (GRUPO E1 DEFENSA / CUAGE)
- * Convocatoria Oficial Subsecretaría de Defensa (Resolución 430/38310/2026)
- * 68 Comunes (33,3%) + 136 Específicas (66,7%) = 204 Preguntas Oficiales
- */
-
-const QUESTION_BANK = [
+// BANCO OFICIAL DE PREGUNTAS E1 DEFENSA (204 PREGUNTAS)
+// 68 Preguntas Bloque Común (33.3%) + 136 Preguntas Bloque Específico (66.7%)
+export const QUESTION_BANK = [
   {
     "id": 1,
     "block": "comun",
@@ -3475,9 +3471,6 @@ const QUESTION_BANK = [
   }
 ];
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { QUESTION_BANK };
-}
 if (typeof window !== 'undefined') {
   window.QUESTION_BANK = QUESTION_BANK;
 }
