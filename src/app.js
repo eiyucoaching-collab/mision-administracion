@@ -1503,15 +1503,20 @@ class OpoDefensaApp {
             Simulador de Examen E1 (Ministerio de Defensa)
           </h1>
           <p class="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto">
-            Configurado con la estructura de examen oficial: 60 preguntas ordinarias + 6 de reserva, cronómetro estricto y penalización de un tercio (-1/3).
+            Resolución 430/38310/2026 (BOE-A-2026-14677): <strong>40 plazas libre + 24 promoción interna</strong>. Turno libre por sistema de oposición.
           </p>
         </div>
 
         <!-- REGLAS DE CORTE Y CALIFICACIÓN -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
-          <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <span>📋</span> Normas de Calificación del Ejercicio
-          </h2>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>📋</span> Normas de Calificación del Ejercicio
+            </h2>
+            <span class="text-[11px] font-mono text-amber-400/90 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-lg">
+              ⚠️ Formato 60+6 provisional (Pendiente Anexos V-VII)
+            </span>
+          </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
               <div class="text-slate-400">Preguntas del Ejercicio</div>

@@ -88,8 +88,8 @@ El contrato de trabajo en el sector público se rige por el Texto Refundido del 
 
 Forma del contrato: En la Administración Pública el contrato debe formalizarse obligatoriamente por escrito. La falta de forma escrita genera la presunción legal de que el contrato se ha concertado por tiempo indefinido y a jornada completa.
 
-Periodo de prueba en el Grupo E1 (art. 26 CUAGE):
-Para puestos del Grupo Profesional E1 con exigencia de titulación, el periodo de prueba es de exactamente 1 MES. Si es puesto sin titulación, es de 15 días laborables. ¡Cuidado con marcar 6 meses por confusión con el Estatuto general!
+Periodo de prueba en el Grupo E1 (art. 32 CUAGE y Base 7.9 Convocatoria):
+Para puestos del Grupo Profesional E1 con exigencia de titulación, el periodo de prueba es de exactamente 1 MES. Si es puesto sin titulación específica requerida, es de 15 días laborables. ¡Cuidado con marcar 6 meses por confusión con el Estatuto general!
 
 Jornada y descansos:
 La jornada ordinaria de trabajo es de 37 horas y media (37,5 horas) semanales en cómputo anual.

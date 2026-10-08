@@ -1,9 +1,3 @@
-/**
- * BANCO DE PREGUNTAS TÁCTICO - E1 SERVICIOS ADMINISTRATIVOS (MINISTERIO DE DEFENSA)
- * 204 Preguntas estructuradas (33% Común / 67% Específico) con opciones balanceadas,
- * tipología de fuente verificada (sourceType) y sin sesgos de posición.
- */
-
 export const QUESTION_BANK = [
   {
     "id": 1,
@@ -668,8 +662,8 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Art. 26 IV CUAGE",
-    "explanation": "El artículo 26 del IV CUAGE establece expresamente un periodo de prueba de 1 mes para el personal de los grupos profesionales E1, E2 y M1.",
+    "article": "Art. 32.1 IV CUAGE (Base 7.9 Convocatoria)",
+    "explanation": "El artículo 32.1 del IV CUAGE (y la base 7.9 de la convocatoria de Defensa) establece un periodo de prueba de 1 mes para el personal de los grupos profesionales E1, E2 y M1.",
     "sourceType": "norma_verificada"
   },
   {
@@ -686,8 +680,8 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Art. 26 IV CUAGE",
-    "explanation": "Para el personal contratado para puestos de trabajo en los que no se exija titulación específica, el período de prueba será de 15 días laborables.",
+    "article": "Art. 32.1 IV CUAGE (Base 7.9 Convocatoria)",
+    "explanation": "El artículo 32.1 del IV CUAGE establece expresamente que cuando no se exija titulación específica para el puesto, el período de prueba será de 15 días laborables para el grupo E1.",
     "sourceType": "norma_verificada"
   },
   {
@@ -794,8 +788,8 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Clasificación profesional CUAGE",
-    "explanation": "El Grupo Profesional E1 exige el Título de Graduado en Educación Secundaria Obligatoria o Certificado de Profesionalidad de nivel 1.",
+    "article": "Art. 16 IV CUAGE",
+    "explanation": "El artículo 16 del IV CUAGE establece que para el Grupo Profesional E1 se exige el Título de Graduado en Educación Secundaria Obligatoria o Certificado de Profesionalidad de nivel 1.",
     "sourceType": "norma_verificada"
   },
   {
@@ -812,8 +806,8 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Convocatoria E1 Defensa",
-    "article": "Resolución 430/38310/2026",
-    "explanation": "La especialidad es 'Servicios Administrativos' dentro del Grupo Profesional E1 de personal laboral fijo.",
+    "article": "Resolución 430/38310/2026 (BOE 07/07/2026)",
+    "explanation": "La Resolución 430/38310/2026 (BOE-A-2026-14677) convoca plazas de personal laboral fijo en el Grupo Profesional E1 bajo la especialidad de Servicios Administrativos (40 plazas de turno libre y 24 de promoción interna).",
     "sourceType": "norma_verificada"
   },
   {
@@ -866,8 +860,8 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Permisos y licencias CUAGE",
-    "explanation": "Los permisos retribuidos reconocidos en convenio tienen la consideración de tiempo de trabajo efectivo a todos los efectos.",
+    "article": "Art. 37 IV CUAGE",
+    "explanation": "El artículo 37 del IV CUAGE regula los permisos y licencias retribuidas del personal laboral de la AGE, computando las ausencias autorizadas como tiempo de trabajo efectivo.",
     "sourceType": "norma_verificada"
   },
   {
@@ -1172,8 +1166,8 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Ley Orgánica 3/2007 / TREBEP",
-    "article": "Art. 51 LO 3/2007",
-    "explanation": "Las Administraciones Públicas están legalmente obligadas a elaborar y aplicar un Plan de Igualdad para su propio personal.",
+    "article": "Art. 64 LO 3/2007 / DA 7ª TREBEP",
+    "explanation": "La Disposición Adicional Séptima del TREBEP y el artículo 64 de la Ley Orgánica 3/2007 disponen la obligación de las Administraciones Públicas (y del Gobierno para la AGE al inicio de cada legislatura) de elaborar y aplicar un Plan de Igualdad para su personal.",
     "sourceType": "norma_verificada"
   },
   {

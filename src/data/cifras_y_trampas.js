@@ -110,14 +110,14 @@ export const CIFRAS_SAGRADAS = [
     "tema": "Tema 3: Laboral y CUAGE",
     "cifra": "1 mes",
     "concepto": "Periodo de prueba Grupo E1 (con título)",
-    "detalle": "Artículo 26 del IV CUAGE: un mes para grupos E1, E2 y M1."
+    "detalle": "Artículo 32 del IV CUAGE (y Base 7.9 Convocatoria): un mes para grupos E1, E2 y M1."
   },
   {
     "id": 17,
     "tema": "Tema 3: Laboral y CUAGE",
     "cifra": "15 días laborables",
     "concepto": "Periodo de prueba E1 sin titulación",
-    "detalle": "Personal no cualificado sin titulación específica en el CUAGE."
+    "detalle": "Artículo 32.1 del IV CUAGE: cuando no se exija titulación específica para el puesto."
   },
   {
     "id": 18,
@@ -381,7 +381,7 @@ export const TRAMPAS_EXAMEN = [
     "id": 5,
     "titulo": "Periodo de Prueba en E1 de Defensa (CUAGE)",
     "trampa": "Marcar 6 meses por confusión con el Estatuto de los Trabajadores genérico.",
-    "realidad": "Bajo el IV Convenio Único de la AGE (art. 26), el periodo de prueba para el Grupo E1 con titulación es exactamente de 1 MES (y 15 días laborables si es sin titulación)."
+    "realidad": "Bajo el IV Convenio Único de la AGE (art. 32 y Base 7.9 Convocatoria), el periodo de prueba para el Grupo E1 con titulación es exactamente de 1 MES (y 15 días laborables si es sin titulación específica)."
   },
   {
     "id": 6,
