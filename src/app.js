@@ -15,6 +15,13 @@ import { FLASHCARDS } from './data/flashcards.js';
 import { QUESTION_BANK } from './data/questions.js';
 import { PODCAST_TRACKS } from './data/podcasts.js';
 import { ESQUEMAS } from './data/esquemas.js';
+import {
+  shuffleArray,
+  shuffleQuestionOptions,
+  createExamPool,
+  calculateExamScore,
+  getTimeLimitForMode
+} from './exam/engine.js';
 
 class OpoDefensaApp {
   constructor() {
@@ -378,13 +385,20 @@ class OpoDefensaApp {
   // =========================================================================
   renderDashboard() {
     const totalSimulacros = this.examHistory.length;
-    const mediaPuntos = totalSimulacros > 0
-      ? (this.examHistory.reduce((acc, curr) => acc + curr.netScore, 0) / totalSimulacros).toFixed(2)
+    const getBase60 = (h) => {
+      const total = h.totalGraded || h.total || 60;
+      return total > 0 ? (h.netScore / total) * 60 : 0;
+    };
+
+    const mediaPuntosBase60 = totalSimulacros > 0
+      ? (this.examHistory.reduce((acc, curr) => acc + getBase60(curr), 0) / totalSimulacros).toFixed(2)
       : '0.00';
-    const aprobadosCount = this.examHistory.filter(h => h.passed).length;
-    const probAprobado = totalSimulacros > 0
-      ? Math.round((aprobadosCount / totalSimulacros) * 100)
-      : 0;
+
+    const oficialSims = this.examHistory.filter(h => h.mode === 'oficial' || h.mode === 'real2025');
+    const aprobadosOficialCount = oficialSims.filter(h => h.passed).length;
+    const pctOficialAprobado = oficialSims.length > 0
+      ? Math.round((aprobadosOficialCount / oficialSims.length) * 100)
+      : null;
 
     return `
       <div class="space-y-8 animate-fadeIn">
@@ -398,7 +412,7 @@ class OpoDefensaApp {
                 Subsecretaría de Defensa &bull; Grupo E1 Servicios Administrativos
               </span>
               <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                ⭐ Incluye Examen Real 1-Feb-2025
+                🏛️ Estructura Convocatoria Oficial
               </span>
             </div>
 
@@ -407,12 +421,12 @@ class OpoDefensaApp {
             </h1>
 
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Centro de Entrenamiento Táctico para Personal Laboral Fijo (IV CUAGE). Formato oficial de <strong>60 preguntas ordinarias + 6 de reserva (60 min)</strong>, penalización (-0,33) y calibración según la <strong>Regla 33% Común / 67% Específico</strong>.
+              Preparación técnica para Personal Laboral Fijo (IV CUAGE). Formato de <strong>60 preguntas ordinarias + 6 de reserva (60 min)</strong>, penalización (-1/3) y ponderación <strong>33% Común (Temas 1-4) / 67% Específico (Temas 5-10)</strong>.
             </p>
 
             <div class="pt-4 flex flex-wrap gap-3">
               <button onclick="window.app.startNewExam('oficial')" class="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-extrabold rounded-xl shadow-lg shadow-sky-500/25 transition-all flex items-center gap-2 text-sm sm:text-base">
-                <span>🎯</span> Simulacro Oficial Real (60 + 6 Reserva)
+                <span>🎯</span> Simulacro Oficial (60 + 6 Reserva)
               </button>
               <button onclick="window.app.setTab('estudio')" class="px-6 py-3.5 bg-slate-800/90 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-600 transition-all text-sm sm:text-base flex items-center gap-2">
                 <span>📖</span> Temario 10 Temas Íntegros
@@ -435,23 +449,25 @@ class OpoDefensaApp {
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
             <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Banco de Test</div>
             <div class="text-2xl sm:text-3xl font-black text-white mt-1">204 Preguntas</div>
-            <div class="text-xs text-emerald-400 mt-1 font-medium">Con Examen 2025 y Reservas</div>
+            <div class="text-xs text-emerald-400 mt-1 font-medium">Equilibrado y con Cita Legal</div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Media Neta (-0,33)</div>
-            <div class="text-2xl sm:text-3xl font-black ${mediaPuntos >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
-              ${mediaPuntos} <span class="text-sm font-normal text-slate-400">/ 60</span>
+            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Media Neta / 60</div>
+            <div class="text-2xl sm:text-3xl font-black ${Number(mediaPuntosBase60) >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
+              ${mediaPuntosBase60} <span class="text-sm font-normal text-slate-400">/ 60</span>
             </div>
-            <div class="text-xs text-slate-400 mt-1">Corte oficial: 30,00 pts (50%)</div>
+            <div class="text-xs text-slate-400 mt-1">Normalizada (Corte: 30,00 netos)</div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Probabilidad Aprobado</div>
-            <div class="text-2xl sm:text-3xl font-black ${probAprobado >= 60 ? 'text-emerald-400' : probAprobado >= 40 ? 'text-amber-400' : 'text-slate-400'} mt-1">
-              ${probAprobado}%
+            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">% Simulacros Oficiales Aprobados</div>
+            <div class="text-2xl sm:text-3xl font-black ${pctOficialAprobado !== null && pctOficialAprobado >= 50 ? 'text-emerald-400' : pctOficialAprobado !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
+              ${pctOficialAprobado !== null ? `${pctOficialAprobado}%` : '—'}
             </div>
-            <div class="text-xs text-slate-400 mt-1">${aprobadosCount} de ${totalSimulacros} aprobados</div>
+            <div class="text-xs text-slate-400 mt-1">
+              ${pctOficialAprobado !== null ? `${aprobadosOficialCount} de ${oficialSims.length} oficiales superados` : 'Sin simulacros oficiales de 60q'}
+            </div>
           </div>
         </div>
 
@@ -1440,13 +1456,29 @@ class OpoDefensaApp {
   }
 
   startTopicQuiz(topicId) {
-    const topicQuestions = this.questionBank.filter(q => q.topicId === topicId);
-    if (topicQuestions.length === 0) return;
-    this.setupExamSession(topicQuestions, `Tema ${topicId}`);
+    this.startNewExam(`tema:${topicId}`);
+  }
+
+  getSourceBadge(sourceType, isRealExam2025) {
+    if (sourceType === 'real_exam' || isRealExam2025) {
+      return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-300 uppercase bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">🏛️ Examen Convocatoria</span>';
+    }
+    if (sourceType === 'norma_verificada') {
+      return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-sky-300 uppercase bg-sky-500/15 px-2 py-0.5 rounded border border-sky-500/30">⚖️ Norma Verificada</span>';
+    }
+    if (sourceType === 'original_propia') {
+      return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-300 uppercase bg-slate-800 px-2 py-0.5 rounded border border-slate-700">📋 Práctica Administrativa</span>';
+    }
+    return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-rose-300 uppercase bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/40">⚠️ Sin Verificar</span>';
+  }
+
+  toggleExcludeUnverified() {
+    this.excludeUnverified = this.excludeUnverified === undefined ? false : !this.excludeUnverified;
+    this.renderSimulatorUpdate();
   }
 
   // =========================================================================
-  // MÓDULO 3: SIMULADOR DE EXAMEN OFICIAL (MOTOR REAL CON RESERVAS Y 2025)
+  // MÓDULO 3: SIMULADOR DE EXAMEN (MOTOR IMPARCIAL Y RIGUROSO)
   // =========================================================================
   renderSimulator() {
     if (this.examState.status === 'running') {
@@ -1459,24 +1491,26 @@ class OpoDefensaApp {
   }
 
   renderSimulatorLauncher() {
+    const isExcluding = this.excludeUnverified !== false; // por defecto activo
+
     return `
       <div class="max-w-4xl mx-auto space-y-6 animate-fadeIn">
         <div class="text-center space-y-2 mb-8">
-          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30 mb-2">
-            ⭐ Examen Oficial Real 1 de Febrero de 2025 Integrado
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-sky-500/10 text-sky-400 border border-sky-500/30 mb-2">
+            🛡️ Preparación Grupo E1 Servicios Administrativos &bull; IV CUAGE
           </div>
           <h1 class="text-3xl sm:text-4xl font-black text-white">
-            Simulador de Examen Oficial E1
+            Simulador de Examen E1 (Ministerio de Defensa)
           </h1>
           <p class="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto">
-            Configurado con los parámetros exactos de la convocatoria oficial de la Subsecretaría de Defensa (Resolución 430/38310/2026).
+            Configurado con la estructura de examen oficial: 60 preguntas ordinarias + 6 de reserva, cronómetro estricto y penalización de un tercio (-1/3).
           </p>
         </div>
 
-        <!-- REGLAS DE CORTE OFICIAL -->
+        <!-- REGLAS DE CORTE Y CALIFICACIÓN -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
           <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <span>📋</span> Normas Oficiales de Calificación
+            <span>📋</span> Normas de Calificación del Ejercicio
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
@@ -1485,15 +1519,29 @@ class OpoDefensaApp {
               <div class="text-slate-500 text-[11px] mt-0.5">20 comunes + 40 específicas (+6 res)</div>
             </div>
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
-              <div class="text-slate-400">Tiempo Máximo</div>
+              <div class="text-slate-400">Tiempo de Prueba</div>
               <div class="text-base font-bold text-white mt-1">60 Minutos</div>
-              <div class="text-slate-500 text-[11px] mt-0.5">Gestión de las 66 preguntas</div>
+              <div class="text-slate-500 text-[11px] mt-0.5">1 min / pregunta en bloques</div>
             </div>
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
               <div class="text-slate-400">Fórmula de Puntuación</div>
-              <div class="text-base font-bold text-amber-400 mt-1">Aciertos - (Errores &times; 1/3)</div>
-              <div class="text-slate-500 text-[11px] mt-0.5">Blancas 0. Corte: 30 pts netos</div>
+              <div class="text-base font-bold text-amber-400 mt-1">Aciertos − (Errores &times; 1/3)</div>
+              <div class="text-slate-500 text-[11px] mt-0.5">Blancas 0. Corte: 50% de la prueba</div>
             </div>
+          </div>
+
+          <!-- FILTRO DE INTEGRIDAD NORMATIVA -->
+          <div class="pt-2 flex items-center justify-between bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/70">
+            <div class="flex items-center gap-2.5 text-xs text-slate-300">
+              <span class="text-emerald-400">🛡️</span>
+              <div>
+                <span class="font-bold text-white">Garantía de Integridad:</span>
+                <span class="text-slate-400 block sm:inline sm:ml-1">Excluir preguntas que no tengan fuente legal contrastada.</span>
+              </div>
+            </div>
+            <button onclick="window.app.toggleExcludeUnverified()" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${isExcluding ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}">
+              ${isExcluding ? '✓ Activado (Estricto)' : 'Permitir Todo'}
+            </button>
           </div>
         </div>
 
@@ -1503,15 +1551,15 @@ class OpoDefensaApp {
             <div class="text-3xl mb-3">🎖️</div>
             <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Oficial (60 + 6 Res)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              El ejercicio íntegro: 60 preguntas ordinarias + 6 de reserva (2 comunes, 4 específicas) bajo cronómetro oficial de 60 minutos.
+              El ejercicio íntegro: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas bajo 60 min. Corte: 30 pts netos.
             </p>
           </button>
 
           <button onclick="window.app.startNewExam('real2025')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
-            <div class="text-3xl mb-3">⭐</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Examen Real 1-Feb-2025</h3>
+            <div class="text-3xl mb-3">🏛️</div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Simulacro Convocatoria 2025</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Entrenamiento con las preguntas literales del último examen oficial de Defensa (Burofax Q32, Recados Q53, Subsecretarios Q61 y reservas).
+              Prioriza preguntas identificadas de convocatorias recientes (60 ord + 6 reservas, 60 min). Corte: 30 pts netos.
             </p>
           </button>
 
@@ -1519,7 +1567,7 @@ class OpoDefensaApp {
             <div class="text-3xl mb-3">⚖️</div>
             <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (33%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad).
+              20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad). 20 min. Corte: 10 pts.
             </p>
           </button>
 
@@ -1527,7 +1575,7 @@ class OpoDefensaApp {
             <div class="text-3xl mb-3">🛡️</div>
             <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (67%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL).
+              40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL). 40 min. Corte: 20 pts.
             </p>
           </button>
 
@@ -1537,7 +1585,7 @@ class OpoDefensaApp {
               Preguntas Falladas (${this.failedQuestions.size})
             </h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Reentrena las preguntas de tu cuaderno de errores hasta conseguir dominarlas todas a 0 fallos.
+              Reentrena las preguntas de tu cuaderno de errores con penalización de -1/3 hasta dominarlas a 0 fallos.
             </p>
           </button>
         </div>
@@ -1546,58 +1594,27 @@ class OpoDefensaApp {
   }
 
   startNewExam(mode) {
-    let pool = [];
-    if (mode === 'oficial') {
-      // 60 ordinarias: 20 comunes + 40 específicas
-      // 6 de reserva: 2 comunes (R1, R2) + 4 específicas (R3, R4, R5, R6)
-      const comunPool = this.shuffleArray(this.questionBank.filter(q => q.block === 'comun'));
-      const espPool = this.shuffleArray(this.questionBank.filter(q => q.block === 'especifico'));
+    const isExcluding = this.excludeUnverified !== false;
+    const poolResult = createExamPool(this.questionBank, mode, {
+      failedQuestionsSet: this.failedQuestions,
+      allowUnverified: !isExcluding
+    });
 
-      const comunOrd = comunPool.slice(0, 20);
-      const espOrd = espPool.slice(0, 40);
-      const comunRes = comunPool.slice(20, 22);
-      const espRes = espPool.slice(40, 44);
-
-      pool = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
-    } else if (mode === 'real2025') {
-      // Priorizar preguntas oficiales reales de la convocatoria de febrero 2025
-      const comunPool = this.questionBank.filter(q => q.block === 'comun');
-      const espPool = this.questionBank.filter(q => q.block === 'especifico');
-
-      const realComun = comunPool.filter(q => q.isRealExam2025);
-      const otherComun = this.shuffleArray(comunPool.filter(q => !q.isRealExam2025));
-
-      const realEsp = espPool.filter(q => q.isRealExam2025);
-      const otherEsp = this.shuffleArray(espPool.filter(q => !q.isRealExam2025));
-
-      const comunOrd = [...realComun, ...otherComun.slice(0, 20 - realComun.length)];
-      const espOrd = [...realEsp, ...otherEsp.slice(0, 40 - realEsp.length)];
-      const comunRes = otherComun.slice(20 - realComun.length, 22 - realComun.length);
-      const espRes = otherEsp.slice(40 - realEsp.length, 44 - realEsp.length);
-
-      pool = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
-    } else if (mode === 'comun') {
-      const comunPool = this.shuffleArray(this.questionBank.filter(q => q.block === 'comun'));
-      pool = comunPool.slice(0, 20);
-    } else if (mode === 'especifico') {
-      const espPool = this.shuffleArray(this.questionBank.filter(q => q.block === 'especifico'));
-      pool = espPool.slice(0, 40);
-    } else if (mode === 'falladas') {
-      if (this.failedQuestions.size === 0) {
-        alert('¡Enhorabuena! No tienes preguntas registradas en tu Cuaderno de Falladas.');
-        return;
-      }
-      pool = this.questionBank.filter(q => this.failedQuestions.has(q.id));
-      pool = this.shuffleArray(pool);
+    if (poolResult.error || !poolResult.questions || poolResult.questions.length === 0) {
+      alert(poolResult.error || 'No se han podido cargar preguntas para esta modalidad.');
+      return;
     }
 
-    this.setupExamSession(pool, mode);
+    this.setupExamSession(poolResult.questions, mode);
   }
 
   setupExamSession(questions, mode) {
     if (this.examState.timerInterval) {
       clearInterval(this.examState.timerInterval);
+      this.examState.timerInterval = null;
     }
+
+    const timeLimit = getTimeLimitForMode(mode, questions.length);
 
     this.examState = {
       mode: mode,
@@ -1607,11 +1624,11 @@ class OpoDefensaApp {
       userAnswers: {},
       crossedOptions: {}, // { [qId]: [optIdx, ...] } Descarte táctico (-0,33)
       flagged: new Set(),
-      timeRemaining: 3600, // 60 min
+      initialTime: timeLimit,
+      timeRemaining: timeLimit,
       timerInterval: null,
       filterReview: 'all',
-      results: null,
-      applyAnnulments: false
+      results: null
     };
 
     this.examState.timerInterval = setInterval(() => {
@@ -1655,7 +1672,7 @@ class OpoDefensaApp {
         <div class="sticky top-16 z-30 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <span class="text-xs font-black uppercase px-2.5 py-1 rounded-lg ${isReserve ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-sky-500/20 text-sky-300 border border-sky-500/30'}">
-              ${isReserve ? `⭐ RESERVA R${reserveNum} (${reserveNum <= 2 ? 'Común' : 'Específica'})` : `Pregunta ${this.examState.currentIndex + 1} de 60`}
+              ${isReserve ? `⭐ RESERVA R${reserveNum} (${reserveNum <= 2 ? 'Común' : 'Específica'})` : `Pregunta ${this.examState.currentIndex + 1} de ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? 60 : totalQ}`}
             </span>
             <span class="text-xs text-slate-400 hidden sm:inline">
               ${answeredCount} de ${totalQ} respondidas
@@ -1680,12 +1697,12 @@ class OpoDefensaApp {
         <!-- TARJETA DE PREGUNTA PRINCIPAL -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
           <div class="flex items-start justify-between gap-4">
-            <div>
+            <div class="flex flex-wrap items-center gap-2">
               <span class="text-[11px] font-extrabold uppercase px-2 py-0.5 rounded bg-slate-800 text-sky-400">
                 ${q.topic}
               </span>
-              ${q.isRealExam2025 ? '<span class="text-[10px] font-bold text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded ml-2 border border-amber-500/20">Examen Real 2025</span>' : ''}
-              <span class="text-[11px] text-slate-500 ml-2 font-mono">ID #${q.id}</span>
+              ${this.getSourceBadge(q.sourceType, q.isRealExam2025)}
+              <span class="text-[11px] text-slate-500 font-mono">ID #${q.id}</span>
             </div>
             <button onclick="window.app.toggleFlag(${q.id})" class="px-3 py-1 rounded-lg text-xs font-bold border transition-colors flex items-center gap-1.5 ${isFlagged ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'}">
               <span>⭐</span>
@@ -1808,11 +1825,13 @@ class OpoDefensaApp {
             </div>
           </div>
 
-          <!-- 60 PREGUNTAS ORDINARIAS -->
+          <!-- PREGUNTAS DEL EXAMEN -->
           <div>
-            <div class="text-[11px] font-bold text-slate-400 uppercase mb-2">Preguntas Ordinarias (1 a 60)</div>
+            <div class="text-[11px] font-bold text-slate-400 uppercase mb-2">
+              ${this.examState.questions.length > 60 ? 'Preguntas Ordinarias (1 a 60)' : `Preguntas del Examen (1 a ${this.examState.questions.length})`}
+            </div>
             <div class="grid grid-cols-6 sm:grid-cols-10 md:grid-cols-12 gap-2">
-              ${this.examState.questions.slice(0, 60).map((ques, idx) => {
+              ${(this.examState.questions.length > 60 ? this.examState.questions.slice(0, 60) : this.examState.questions).map((ques, idx) => {
                 const isCurrent = idx === this.examState.currentIndex;
                 const hasAns = this.examState.userAnswers[ques.id] !== undefined;
                 const isDuda = this.examState.flagged.has(ques.id);
@@ -2058,111 +2077,24 @@ class OpoDefensaApp {
     this.setTab('simulador');
   }
 
-  // CÁLCULO DE RESULTADOS CON OPCIÓN DE ANULACIONES HISTÓRICAS 2025
+  // CÁLCULO DE RESULTADOS CON MOTOR IMPARCIAL Y RIGUROSO
   calculateResults() {
-    let questionsToGrade = [];
-    const isOficial = this.examState.mode === 'oficial';
-
-    if (!isOficial) {
-      questionsToGrade = this.examState.questions.map((q, idx) => ({ q, num: idx + 1, isAnnulled: false }));
-    } else if (!this.examState.applyAnnulments) {
-      // Modo Oficial Estándar: Las primeras 60 preguntas ordinarias
-      questionsToGrade = this.examState.questions.slice(0, 60).map((q, idx) => ({ q, num: idx + 1, isAnnulled: false }));
-    } else {
-      // MODO REAL PLANTILLA DEFINITIVA 2025:
-      // Se anularon 7 preguntas: Q10 y Q12 (Común), Q21, Q34, Q35, Q36, Q37 (Específico).
-      // Se sustituyen por R1 (Q61), R2 (Q62), R3 (Q63), R4 (Q64), R5 (Q65), R6 (Q66).
-      const ord = this.examState.questions.slice(0, 60);
-      const res = this.examState.questions.slice(60, 66);
-
-      const annulledMap = {
-        9: res[0],   // Q10 anulada -> sustituida por R1
-        11: res[1],  // Q12 anulada -> sustituida por R2
-        20: res[2],  // Q21 anulada -> sustituida por R3
-        33: res[3],  // Q34 anulada -> sustituida por R4
-        34: res[4],  // Q35 anulada -> sustituida por R5
-        35: res[5],  // Q36 anulada -> sustituida por R6
-        36: null     // Q37 anulada -> no quedan más reservas (cuenta sobre 59)
-      };
-
-      questionsToGrade = ord.map((q, idx) => {
-        if (annulledMap.hasOwnProperty(idx)) {
-          const replacement = annulledMap[idx];
-          if (replacement) {
-            return {
-              q: replacement,
-              num: `${idx + 1} (Sustituida por R${res.indexOf(replacement) + 1})`,
-              isAnnulled: true,
-              replacedBy: replacement
-            };
-          } else {
-            return {
-              q: q,
-              num: `${idx + 1} (Anulada sin reserva)`,
-              isAnnulled: true,
-              ignored: true
-            };
-          }
-        }
-        return { q, num: idx + 1, isAnnulled: false };
-      }).filter(item => !item.ignored);
-    }
-
-    let correct = 0;
-    let wrong = 0;
-    let blank = 0;
-    const reviewList = [];
-
-    questionsToGrade.forEach(item => {
-      const q = item.q;
-      const userAns = this.examState.userAnswers[q.id];
-      const isCorrect = userAns === q.correct;
-      const isBlank = userAns === undefined;
-
-      if (isBlank) {
-        blank++;
-      } else if (isCorrect) {
-        correct++;
-        this.failedQuestions.delete(q.id);
-      } else {
-        wrong++;
-        this.failedQuestions.add(q.id);
-      }
-
-      reviewList.push({
-        num: item.num,
-        question: q,
-        userAns: userAns,
-        isCorrect: isCorrect,
-        isBlank: isBlank,
-        isAnnulled: item.isAnnulled
-      });
+    const results = calculateExamScore({
+      mode: this.examState.mode,
+      questions: this.examState.questions,
+      userAnswers: this.examState.userAnswers,
+      timeRemaining: this.examState.timeRemaining,
+      initialTime: this.examState.initialTime || 3600
     });
 
-    const netScore = Math.max(0, +(correct - (wrong * (1 / 3))).toFixed(2));
-    const passed = netScore >= (questionsToGrade.length * 0.5);
-    const timeSpentSecs = 3600 - this.examState.timeRemaining;
+    // Actualizar cuaderno de falladas
+    results.newlySucceededIds.forEach(id => this.failedQuestions.delete(id));
+    results.newlyFailedIds.forEach(id => this.failedQuestions.add(id));
+    try {
+      localStorage.setItem('opo_e1_failed_qids', JSON.stringify(Array.from(this.failedQuestions)));
+    } catch (e) {}
 
-    this.examState.results = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-      mode: this.examState.mode,
-      total: questionsToGrade.length,
-      correct,
-      wrong,
-      blank,
-      netScore,
-      passed,
-      timeSpent: `${Math.floor(timeSpentSecs / 60)} min ${timeSpentSecs % 60} s`,
-      reviewList,
-      appliedAnnulments: this.examState.applyAnnulments
-    };
-  }
-
-  toggleAnnulments() {
-    this.examState.applyAnnulments = !this.examState.applyAnnulments;
-    this.calculateResults();
-    this.setTab('simulador');
+    this.examState.results = results;
   }
 
   renderExamResults() {
@@ -2176,38 +2108,27 @@ class OpoDefensaApp {
       return true;
     });
 
+    const minsSpent = Math.floor(res.timeSpentSecs / 60);
+    const secsSpent = res.timeSpentSecs % 60;
+    const timeSpentStr = `${minsSpent} min ${secsSpent} s`;
+
     return `
       <div class="max-w-4xl mx-auto space-y-8 animate-fadeIn pb-16">
-        <!-- CABECERA DE RESULTADOS OFICIALES -->
+        <!-- CABECERA DE RESULTADOS -->
         <div class="bg-gradient-to-br ${res.passed ? 'from-emerald-950 via-slate-900 to-slate-900 border-emerald-500/50' : 'from-rose-950 via-slate-900 to-slate-900 border-rose-500/50'} border rounded-3xl p-6 sm:p-10 shadow-2xl text-center space-y-4">
           <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-black uppercase ${res.passed ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}">
-            ${res.passed ? '🎉 ¡APROBADO OFICIAL!' : '❌ NO APTO (Por debajo del corte)'}
+            ${res.passed ? '🎉 ¡APROBADO!' : '❌ NO APTO (Por debajo del corte)'}
           </div>
 
           <h2 class="text-4xl sm:text-6xl font-black text-white">
-            ${res.netScore} <span class="text-xl sm:text-2xl font-medium text-slate-400">/ ${res.total} Netos</span>
+            ${res.netScore} <span class="text-xl sm:text-2xl font-medium text-slate-400">/ ${res.totalGraded} Netos</span>
           </h2>
 
           <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
             ${res.passed
-              ? 'Has superado el umbral del 50% (mínimo 30 puntos netos) establecido en las bases oficiales de la Subsecretaría de Defensa.'
-              : 'Para superar el corte necesitas un mínimo de 30 puntos netos. Repasa tus errores en el solucionario abajo.'}
+              ? `Has superado el umbral del 50% (${res.cutoffScore} puntos netos) establecido para esta modalidad.`
+              : `Para superar el corte del 50% necesitabas un mínimo de ${res.cutoffScore} puntos netos. Repasa tus errores en el solucionario abajo.`}
           </p>
-
-          <!-- INTERRUPTOR DE SIMULACIÓN DE ANULACIONES 2025 -->
-          ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? `
-            <div class="pt-2">
-              <button onclick="window.app.toggleAnnulments()" class="px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all border flex items-center gap-2 mx-auto ${this.examState.applyAnnulments ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-lg' : 'bg-slate-950/80 text-amber-400 border-amber-500/40 hover:bg-slate-800'}">
-                <span>⚡</span>
-                <span>${this.examState.applyAnnulments ? 'Desactivar Anulaciones Tribunal 2025' : 'Simular Plantilla Real 2025 (7 Anulaciones + Reservas)'}</span>
-              </button>
-              <p class="text-[11px] text-slate-400 mt-1 max-w-md mx-auto">
-                ${this.examState.applyAnnulments
-                  ? 'Actualmente viendo la nota final tras sustituir las 7 preguntas anuladas por tus respuestas a las 6 reservas.'
-                  : 'Pulsa para comprobar cómo hubiera cambiado tu nota con las 7 anulaciones que dictaminó el tribunal de Defensa en febrero 2025.'}
-              </p>
-            </div>
-          ` : ''}
 
           <!-- 4 TARJETAS RESUMEN -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
@@ -2225,7 +2146,7 @@ class OpoDefensaApp {
             </div>
             <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
               <div class="text-[11px] font-bold text-slate-400">Tiempo Invertido</div>
-              <div class="text-sm font-bold text-sky-400 mt-1">${res.timeSpent}</div>
+              <div class="text-sm font-bold text-sky-400 mt-1">${timeSpentStr}</div>
             </div>
           </div>
 
@@ -2249,7 +2170,7 @@ class OpoDefensaApp {
             <!-- FILTRO DE REVISIÓN -->
             <div class="inline-flex p-1 bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold">
               <button onclick="window.app.setReviewFilter('all')" class="px-3 py-1 rounded-lg ${this.examState.filterReview === 'all' ? 'bg-slate-700 text-white' : 'text-slate-400'}">
-                Todas (${res.total})
+                Todas (${res.totalGraded})
               </button>
               <button onclick="window.app.setReviewFilter('wrong')" class="px-3 py-1 rounded-lg ${this.examState.filterReview === 'wrong' ? 'bg-rose-500 text-slate-950' : 'text-slate-400'}">
                 Solo Falladas (${res.wrong})
@@ -2266,12 +2187,12 @@ class OpoDefensaApp {
               return `
                 <div class="bg-slate-900 border ${item.isCorrect ? 'border-emerald-500/30' : item.isBlank ? 'border-slate-800' : 'border-rose-500/40'} rounded-2xl p-5 space-y-3">
                   <div class="flex items-center justify-between gap-2">
-                    <div class="flex items-center gap-2">
+                    <div class="flex flex-wrap items-center gap-2">
                       <span class="w-auto px-2 h-6 rounded-md flex items-center justify-center text-xs font-black ${item.isCorrect ? 'bg-emerald-500 text-slate-950' : item.isBlank ? 'bg-slate-800 text-slate-400' : 'bg-rose-500 text-slate-950'}">
                         ${item.num}
                       </span>
                       <span class="text-xs font-bold text-slate-400">${q.topic}</span>
-                      ${q.isRealExam2025 ? '<span class="text-[10px] font-bold text-amber-400 uppercase bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Examen Real 2025</span>' : ''}
+                      ${this.getSourceBadge(q.sourceType, q.isRealExam2025)}
                     </div>
 
                     <span class="text-xs font-bold px-2 py-0.5 rounded-md ${item.isCorrect ? 'bg-emerald-500/20 text-emerald-400' : item.isBlank ? 'bg-slate-800 text-slate-400' : 'bg-rose-500/20 text-rose-400'}">
@@ -2629,16 +2550,29 @@ class OpoDefensaApp {
   // =========================================================================
   renderAnalytics() {
     const totalSimulacros = this.examHistory.length;
-    const mediaPuntos = totalSimulacros > 0
-      ? (this.examHistory.reduce((acc, curr) => acc + curr.netScore, 0) / totalSimulacros).toFixed(2)
+    const getBase60 = (h) => {
+      const total = h.totalGraded || h.total || 60;
+      return total > 0 ? (h.netScore / total) * 60 : 0;
+    };
+
+    const mediaPuntosBase60 = totalSimulacros > 0
+      ? (this.examHistory.reduce((acc, curr) => acc + getBase60(curr), 0) / totalSimulacros).toFixed(2)
       : '0.00';
-    const aprobadosCount = this.examHistory.filter(h => h.passed).length;
-    const probAprobado = totalSimulacros > 0
-      ? Math.round((aprobadosCount / totalSimulacros) * 100)
-      : 0;
+
+    const oficialSims = this.examHistory.filter(h => h.mode === 'oficial' || h.mode === 'real2025');
+    const otrosSims = this.examHistory.filter(h => h.mode !== 'oficial' && h.mode !== 'real2025');
+    const aprobadosOficialCount = oficialSims.filter(h => h.passed).length;
+    const pctOficialAprobado = oficialSims.length > 0
+      ? Math.round((aprobadosOficialCount / oficialSims.length) * 100)
+      : null;
 
     let totalComunCorrect = 0, totalComunTotal = 0;
     let totalEspCorrect = 0, totalEspTotal = 0;
+
+    const topicStats = {};
+    for (let t = 1; t <= 10; t++) {
+      topicStats[t] = { correct: 0, wrong: 0, blank: 0, total: 0 };
+    }
 
     this.examHistory.forEach(h => {
       if (h.reviewList) {
@@ -2650,12 +2584,35 @@ class OpoDefensaApp {
             totalEspTotal++;
             if (r.isCorrect) totalEspCorrect++;
           }
+
+          const tId = r.question?.topicId;
+          if (tId && topicStats[tId]) {
+            topicStats[tId].total++;
+            if (r.isBlank) topicStats[tId].blank++;
+            else if (r.isCorrect) topicStats[tId].correct++;
+            else topicStats[tId].wrong++;
+          }
         });
       }
     });
 
     const pctComun = totalComunTotal > 0 ? Math.round((totalComunCorrect / totalComunTotal) * 100) : 0;
     const pctEsp = totalEspTotal > 0 ? Math.round((totalEspCorrect / totalEspTotal) * 100) : 0;
+
+    const topicTitles = {
+      1: 'T1: Constitución Española (1978)',
+      2: 'T2: Gobierno y AGE (Ley 40/2015)',
+      3: 'T3: Personal Laboral CUAGE y TREBEP',
+      4: 'T4: Políticas de Igualdad y Discapacidad',
+      5: 'T5: Control de Accesos y Seguridad',
+      6: 'T6: Paquetería y Valija Oficial',
+      7: 'T7: Reprografía y Formatos DIN/ISO',
+      8: 'T8: Correspondencia y Burofax Correos',
+      9: 'T9: Recados Oficiales y Secretos',
+      10: 'T10: Anomalías, Averías y PRL'
+    };
+
+    const last5Sims = this.examHistory.slice(0, 5);
 
     return `
       <div class="max-w-4xl mx-auto space-y-8 animate-fadeIn pb-16">
@@ -2665,7 +2622,7 @@ class OpoDefensaApp {
               <span>📊</span> Cuadro de Mando y Analíticas
             </h1>
             <p class="text-xs sm:text-sm text-slate-400">
-              Diagnóstico continuo según la proporción oficial del 33% Común y 67% Específico.
+              Métricas auditadas con separación estricta por modalidad y normalización a base 60.
             </p>
           </div>
 
@@ -2681,29 +2638,61 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- 3 KPIs MAESTROS -->
+        <!-- 3 KPIS MAESTROS (MÉTRICAS HONESTAS) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
             <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Simulacros Realizados</div>
             <div class="text-3xl font-black text-white mt-1">${totalSimulacros}</div>
-            <div class="text-xs text-sky-400 mt-1">${aprobadosCount} aprobados oficialmente</div>
+            <div class="text-xs text-sky-400 mt-1">${oficialSims.length} oficiales &bull; ${otrosSims.length} temas/bloques</div>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-            <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Nota Neta Media (-0,33)</div>
-            <div class="text-3xl font-black ${mediaPuntos >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
-              ${mediaPuntos} <span class="text-base text-slate-500 font-normal">/ 60</span>
+            <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Media Neta / 60 (-1/3)</div>
+            <div class="text-3xl font-black ${Number(mediaPuntosBase60) >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
+              ${mediaPuntosBase60} <span class="text-base text-slate-500 font-normal">/ 60</span>
             </div>
-            <div class="text-xs text-slate-400 mt-1">Barrera de corte: 30,00 netos</div>
+            <div class="text-xs text-slate-400 mt-1">Normalizada a base 60 (Corte: 30,00)</div>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-            <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Probabilidad de Plaza</div>
-            <div class="text-3xl font-black ${probAprobado >= 60 ? 'text-emerald-400' : probAprobado >= 40 ? 'text-amber-400' : 'text-slate-400'} mt-1">
-              ${probAprobado}%
+            <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">% Simulacros Oficiales Aprobados</div>
+            <div class="text-3xl font-black ${pctOficialAprobado !== null && pctOficialAprobado >= 50 ? 'text-emerald-400' : pctOficialAprobado !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
+              ${pctOficialAprobado !== null ? `${pctOficialAprobado}%` : '—'}
             </div>
-            <div class="text-xs text-slate-400 mt-1">Basado en superación de corte</div>
+            <div class="text-xs text-slate-400 mt-1">
+              ${pctOficialAprobado !== null ? `${aprobadosOficialCount} de ${oficialSims.length} oficiales aprobados` : 'Excluye pruebas cortas de 20/40q'}
+            </div>
           </div>
+        </div>
+
+        <!-- TENDENCIA ÚLTIMOS 5 SIMULACROS -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>📈</span> Tendencia de los Últimos 5 Simulacros
+          </h2>
+          ${last5Sims.length > 0 ? `
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+              ${last5Sims.map((sim, sIdx) => {
+                const total = sim.totalGraded || sim.total || 60;
+                const base60 = total > 0 ? ((sim.netScore / total) * 60).toFixed(1) : '0.0';
+                return `
+                  <div class="bg-slate-950/80 p-3.5 rounded-2xl border ${sim.passed ? 'border-emerald-500/40' : 'border-rose-500/30'} flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between text-[11px] font-bold">
+                        <span class="text-slate-400">#${last5Sims.length - sIdx}</span>
+                        <span class="${sim.passed ? 'text-emerald-400' : 'text-rose-400'} uppercase">${sim.passed ? 'Apto' : 'No Apto'}</span>
+                      </div>
+                      <div class="text-xl font-black text-white mt-1">${sim.netScore} <span class="text-xs font-normal text-slate-400">/ ${total}</span></div>
+                      ${total !== 60 ? `<div class="text-[10px] text-sky-400 font-mono">${base60} / 60 norm.</div>` : ''}
+                    </div>
+                    <div class="text-[10px] text-slate-500 mt-2 border-t border-slate-800/80 pt-1.5">${sim.mode} &bull; ${sim.date.split(',')[0] || sim.date}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : `
+            <p class="text-xs text-slate-500 py-3">Aún no has completado ningún simulacro para calcular la tendencia.</p>
+          `}
         </div>
 
         <!-- RADAR / BARRAS DE PRECISIÓN POR BLOQUE -->
@@ -2737,6 +2726,42 @@ class OpoDefensaApp {
           </div>
         </div>
 
+        <!-- DESGLOSE PORMENORIZADO POR LOS 10 TEMAS -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>📚</span> Rendimiento Pormenorizado por Temas (1 al 10)
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(tId => {
+              const stat = topicStats[tId];
+              const pct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+              const hasData = stat.total > 0;
+              let badgeColor = 'text-slate-500 bg-slate-800';
+              if (hasData) {
+                if (pct >= 75) badgeColor = 'text-emerald-300 bg-emerald-500/20 border border-emerald-500/30';
+                else if (pct >= 50) badgeColor = 'text-amber-300 bg-amber-500/20 border border-amber-500/30';
+                else badgeColor = 'text-rose-300 bg-rose-500/20 border border-rose-500/30';
+              }
+
+              return `
+                <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800/80 flex items-center justify-between gap-3">
+                  <div class="space-y-0.5 min-w-0">
+                    <div class="font-bold text-white truncate">${topicTitles[tId]}</div>
+                    <div class="text-[11px] text-slate-400">
+                      ${hasData ? `+${stat.correct} aciertos &bull; -${stat.wrong} fallos &bull; ${stat.blank} blancas` : 'Sin preguntas registradas'}
+                    </div>
+                  </div>
+                  <div class="shrink-0 text-right">
+                    <span class="px-2 py-1 rounded-lg text-xs font-black ${badgeColor}">
+                      ${hasData ? `${pct}%` : 'N/D'}
+                    </span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
         <!-- HISTORIAL DE SIMULACROS -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
           <div class="flex items-center justify-between">
@@ -2752,29 +2777,33 @@ class OpoDefensaApp {
 
           ${totalSimulacros > 0 ? `
             <div class="space-y-2.5">
-              ${this.examHistory.map((h, i) => `
-                <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <span class="text-xs font-black uppercase px-2 py-0.5 rounded ${h.passed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">
-                        ${h.passed ? 'APROBADO' : 'SUSPENSO'}
-                      </span>
-                      <span class="text-xs font-bold text-white uppercase">${h.mode}</span>
-                      ${h.appliedAnnulments ? '<span class="text-[10px] font-bold bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/20">Plantilla 2025</span>' : ''}
+              ${this.examHistory.map((h, i) => {
+                const total = h.totalGraded || h.total || 60;
+                const timeStr = h.timeSpent || (h.timeSpentSecs ? `${Math.floor(h.timeSpentSecs / 60)} min ${h.timeSpentSecs % 60} s` : '—');
+                return `
+                  <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black uppercase px-2 py-0.5 rounded ${h.passed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">
+                          ${h.passed ? 'APROBADO' : 'SUSPENSO'}
+                        </span>
+                        <span class="text-xs font-bold text-white uppercase">${h.mode}</span>
+                        <span class="text-[11px] text-slate-500 font-mono">(${total} preg.)</span>
+                      </div>
+                      <div class="text-[11px] text-slate-500 mt-1">${h.date} &bull; Tiempo: ${timeStr}</div>
                     </div>
-                    <div class="text-[11px] text-slate-500 mt-1">${h.date} &bull; Tiempo: ${h.timeSpent}</div>
-                  </div>
 
-                  <div class="flex items-center gap-4 text-xs font-mono">
-                    <span class="text-emerald-400 font-bold">+${h.correct} aciertos</span>
-                    <span class="text-rose-400 font-bold">-${h.wrong} fallos</span>
-                    <span class="text-slate-400">${h.blank} blanco</span>
-                    <span class="text-base font-black ${h.passed ? 'text-emerald-400' : 'text-amber-400'} ml-2">
-                      ${h.netScore} pts
-                    </span>
+                    <div class="flex items-center gap-4 text-xs font-mono">
+                      <span class="text-emerald-400 font-bold">+${h.correct} aciertos</span>
+                      <span class="text-rose-400 font-bold">-${h.wrong} fallos</span>
+                      <span class="text-slate-400">${h.blank} blanco</span>
+                      <span class="text-base font-black ${h.passed ? 'text-emerald-400' : 'text-amber-400'} ml-2">
+                        ${h.netScore} pts
+                      </span>
+                    </div>
                   </div>
-                </div>
-              `).join('')}
+                `;
+              }).join('')}
             </div>
           ` : `
             <div class="text-center py-8 text-slate-500 text-xs">
