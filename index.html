@@ -235,6 +235,24 @@
       }
     }
 
+    /* Descarte táctico de opciones en simulador (-0,33) */
+    .option-crossed {
+      opacity: 0.38 !important;
+      background-color: rgba(15, 23, 42, 0.4) !important;
+      border-color: rgba(244, 63, 94, 0.25) !important;
+      filter: grayscale(0.5);
+    }
+
+    /* Animación de combo en Drill Ráfaga */
+    @keyframes comboPop {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .animate-combo {
+      animation: comboPop 0.25s ease-out;
+    }
+
     @media print {
       body {
         background: #ffffff !important;

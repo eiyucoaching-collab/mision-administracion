@@ -37,6 +37,7 @@ class OpoDefensaApp {
       questions: [],
       currentIndex: 0,
       userAnswers: {}, // { qId: optionIndex }
+      crossedOptions: {}, // { qId: [optIdx, ...] } Descarte táctico (-0,33)
       flagged: new Set(), // Set of qIds marcadas con duda
       timeRemaining: 3600, // 60 minutos = 3600 segundos
       timerInterval: null,
@@ -45,16 +46,34 @@ class OpoDefensaApp {
       applyAnnulments: false // Simulación de las 7 anulaciones históricas de 2025
     };
 
-    // Estado de Flashcards
+    // Estado de Flashcards (Sistema Leitner con Re-inserción Automática)
     this.flashcardState = {
       category: 'all',
-      cards: [...this.flashcards],
+      statusFilter: 'all', // 'all' | 'fallada' | 'duda' | 'por_dominar' | 'facil'
+      sessionDeck: [],
       currentIndex: 0,
-      isFlipped: false
+      isFlipped: false,
+      reviewedCount: 0,
+      reinsertedCount: 0
+    };
+
+    // Estado del Drill Ráfaga de Cifras Sagradas (2 Minutos)
+    this.cifrasDrillState = {
+      status: 'idle', // 'idle' | 'running' | 'finished'
+      timeRemaining: 120, // 2 minutos contrarreloj
+      timerInterval: null,
+      questions: [],
+      currentIndex: 0,
+      score: { correct: 0, wrong: 0, streak: 0, maxStreak: 0 },
+      failedList: [],
+      feedback: null
     };
 
     // Almacenamiento Local (Offline-First)
     this.loadPersistence();
+
+    // Inicializar la baraja de flashcards
+    this.initFlashcardSession();
 
     // Inicializar la aplicación
     this.init();
@@ -70,6 +89,7 @@ class OpoDefensaApp {
       this.cardRatings = JSON.parse(localStorage.getItem('opo_e1_flashcards_rating')) || {};
       this.planChecklist = JSON.parse(localStorage.getItem('opo_e1_plan_checklist')) || {};
       this.highlighterEnabled = localStorage.getItem('opo_e1_highlighter') !== 'false';
+      this.cifrasBestScore = JSON.parse(localStorage.getItem('opo_e1_cifras_drill')) || { bestScore: 0, bestStreak: 0 };
     } catch (e) {
       console.warn('Error cargando LocalStorage:', e);
       this.examHistory = [];
@@ -77,6 +97,7 @@ class OpoDefensaApp {
       this.cardRatings = {};
       this.planChecklist = {};
       this.highlighterEnabled = true;
+      this.cifrasBestScore = { bestScore: 0, bestStreak: 0 };
     }
   }
 
@@ -110,13 +131,14 @@ class OpoDefensaApp {
   exportProgress() {
     const backupData = {
       app: 'Misión Administración - Opo-Defensa E1',
-      version: '2.0.0',
+      version: '2.1.0',
       exportDate: new Date().toISOString(),
       examHistory: this.examHistory,
       failedQuestionIds: Array.from(this.failedQuestions),
       cardRatings: this.cardRatings,
       planChecklist: this.planChecklist,
-      highlighterEnabled: this.highlighterEnabled
+      highlighterEnabled: this.highlighterEnabled,
+      cifrasBestScore: this.cifrasBestScore
     };
 
     const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
@@ -159,8 +181,13 @@ class OpoDefensaApp {
           this.highlighterEnabled = data.highlighterEnabled;
           localStorage.setItem('opo_e1_highlighter', this.highlighterEnabled ? 'true' : 'false');
         }
+        if (data.cifrasBestScore) {
+          this.cifrasBestScore = data.cifrasBestScore;
+          localStorage.setItem('opo_e1_cifras_drill', JSON.stringify(this.cifrasBestScore));
+        }
 
-        alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas y cuaderno de fallos.');
+        this.initFlashcardSession();
+        alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas, cuaderno de fallos y récord de cifras.');
         this.setTab(this.activeTab);
       } catch (err) {
         alert('Error al leer el archivo JSON. Asegúrate de seleccionar un archivo de copia de seguridad válido.');
@@ -265,6 +292,13 @@ class OpoDefensaApp {
     this.activeTab = tabName;
     if (updateHash) {
       window.location.hash = tabName;
+    }
+
+    // Limpiar temporizador del Drill si se cambia de pestaña
+    if (this.cifrasDrillState && this.cifrasDrillState.timerInterval && tabName !== 'estudio') {
+      clearInterval(this.cifrasDrillState.timerInterval);
+      this.cifrasDrillState.timerInterval = null;
+      this.cifrasDrillState.status = 'idle';
     }
 
     document.querySelectorAll('[data-tab-target]').forEach(btn => {
@@ -870,9 +904,44 @@ class OpoDefensaApp {
     `;
   }
 
+  // =========================================================================
+  // MÓDULO DE CIFRAS SAGRADAS Y DRILL INTERACTIVO CONTRARRELOJ (2 MINUTOS)
+  // =========================================================================
   renderCifrasSagradas() {
+    if (this.cifrasDrillState.status === 'running') {
+      return this.renderCifrasDrillRunning();
+    }
+    if (this.cifrasDrillState.status === 'finished') {
+      return this.renderCifrasDrillFinished();
+    }
+
     return `
       <div class="space-y-6">
+        <!-- HERO BANNER: MODO RÁFAGA INTERACTIVO (2 MINUTOS) -->
+        <div class="bg-gradient-to-r from-amber-500/20 via-slate-900 to-indigo-950/40 border border-amber-500/40 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+          <div class="space-y-2 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black uppercase tracking-wider shadow">
+              <span>⚡ NUEVO</span> <span>Modo Ráfaga Contrarreloj</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-black text-white">
+              Drill de Reflejo Numérico (2 Minutos)
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+              Mecaniza tu retención: entrena preguntas de memoria instantánea contrarreloj con 4 opciones rápidas para responder en menos de 10 segundos en el examen de Defensa E1.
+            </p>
+            ${this.cifrasBestScore && this.cifrasBestScore.bestScore > 0 ? `
+              <div class="text-xs text-amber-300/90 font-mono pt-1 flex items-center justify-center md:justify-start gap-3">
+                <span>⭐ Récord: <strong>${this.cifrasBestScore.bestScore} aciertos</strong></span>
+                <span>🔥 Mejor racha: <strong>${this.cifrasBestScore.bestStreak} seguidas</strong></span>
+              </div>
+            ` : ''}
+          </div>
+          <button onclick="window.app.startCifrasDrill()" class="shrink-0 px-7 py-4 bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 font-black rounded-2xl shadow-lg shadow-amber-400/25 transition-all text-base flex items-center gap-2.5">
+            <span class="text-xl">⚡</span>
+            <span>Iniciar Drill (2 Min)</span>
+          </button>
+        </div>
+
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
@@ -912,6 +981,352 @@ class OpoDefensaApp {
             `).join('')}
           </div>
         </div>
+      </div>
+    `;
+  }
+
+  startCifrasDrill() {
+    this.cifrasDrillState.questions = this.generateCifrasDrillQuestions();
+    this.cifrasDrillState.currentIndex = 0;
+    this.cifrasDrillState.timeRemaining = 120; // 2 minutos exactos
+    this.cifrasDrillState.score = { correct: 0, wrong: 0, streak: 0, maxStreak: 0 };
+    this.cifrasDrillState.failedList = [];
+    this.cifrasDrillState.feedback = null;
+    this.cifrasDrillState.status = 'running';
+
+    if (this.cifrasDrillState.timerInterval) {
+      clearInterval(this.cifrasDrillState.timerInterval);
+    }
+
+    this.cifrasDrillState.timerInterval = setInterval(() => {
+      this.cifrasDrillState.timeRemaining--;
+      this.updateCifrasDrillTimer();
+      if (this.cifrasDrillState.timeRemaining <= 0) {
+        this.finishCifrasDrill();
+      }
+    }, 1000);
+
+    this.setTab('estudio');
+  }
+
+  updateCifrasDrillTimer() {
+    const el = document.getElementById('cifras-drill-timer');
+    if (!el) return;
+    const mins = Math.floor(this.cifrasDrillState.timeRemaining / 60);
+    const secs = this.cifrasDrillState.timeRemaining % 60;
+    el.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    if (this.cifrasDrillState.timeRemaining <= 20) {
+      el.classList.add('text-rose-400', 'animate-pulse');
+    }
+  }
+
+  generateDistractors(targetCifra, allCifras) {
+    const target = targetCifra.trim().toLowerCase();
+    const unitMatch = target.match(/(horas?|d[íi]as|mes(?:es)?|a[ñn]os?|m²|m³|metros?|mm|cm|kg|g\/m²|ºc|%|\d+\/\d+)/i);
+    const unit = unitMatch ? unitMatch[1].toLowerCase() : null;
+
+    let pool = allCifras
+      .map(c => c.cifra)
+      .filter(val => val.trim().toLowerCase() !== target);
+
+    pool = [...new Set(pool)];
+
+    let similar = [];
+    if (unit) {
+      similar = pool.filter(val => val.toLowerCase().includes(unit));
+    }
+
+    const chosen = [];
+    similar.sort(() => Math.random() - 0.5);
+    for (const s of similar) {
+      if (chosen.length < 3 && !chosen.includes(s)) {
+        chosen.push(s);
+      }
+    }
+
+    pool.sort(() => Math.random() - 0.5);
+    for (const p of pool) {
+      if (chosen.length < 3 && !chosen.includes(p)) {
+        chosen.push(p);
+      }
+    }
+
+    return chosen.slice(0, 3);
+  }
+
+  generateCifrasDrillQuestions() {
+    const questions = this.cifras.map(c => {
+      const distractors = this.generateDistractors(c.cifra, this.cifras);
+      const options = [c.cifra, ...distractors].sort(() => Math.random() - 0.5);
+      return {
+        id: c.id,
+        tema: c.tema,
+        concepto: c.concepto,
+        correct: c.cifra,
+        detalle: c.detalle,
+        options: options
+      };
+    });
+    return questions.sort(() => Math.random() - 0.5);
+  }
+
+  answerCifrasDrill(optIdx) {
+    if (this.cifrasDrillState.status !== 'running' || this.cifrasDrillState.feedback !== null) return;
+
+    const q = this.cifrasDrillState.questions[this.cifrasDrillState.currentIndex];
+    if (!q) return;
+
+    const chosen = q.options[optIdx];
+    const isCorrect = chosen === q.correct;
+
+    if (isCorrect) {
+      this.cifrasDrillState.score.correct++;
+      this.cifrasDrillState.score.streak++;
+      if (this.cifrasDrillState.score.streak > this.cifrasDrillState.score.maxStreak) {
+        this.cifrasDrillState.score.maxStreak = this.cifrasDrillState.score.streak;
+      }
+    } else {
+      this.cifrasDrillState.score.wrong++;
+      this.cifrasDrillState.score.streak = 0;
+      this.cifrasDrillState.failedList.push({ ...q, chosenAnswer: chosen });
+    }
+
+    this.cifrasDrillState.feedback = {
+      selectedIdx: optIdx,
+      isCorrect,
+      correctIdx: q.options.indexOf(q.correct)
+    };
+
+    this.renderStudyCenterUpdate();
+
+    setTimeout(() => {
+      if (this.cifrasDrillState.status !== 'running') return;
+      this.cifrasDrillState.feedback = null;
+      this.cifrasDrillState.currentIndex++;
+      if (this.cifrasDrillState.currentIndex >= this.cifrasDrillState.questions.length) {
+        this.finishCifrasDrill();
+      } else {
+        this.renderStudyCenterUpdate();
+      }
+    }, 420);
+  }
+
+  finishCifrasDrill() {
+    if (this.cifrasDrillState.timerInterval) {
+      clearInterval(this.cifrasDrillState.timerInterval);
+      this.cifrasDrillState.timerInterval = null;
+    }
+    this.cifrasDrillState.status = 'finished';
+
+    if (this.cifrasDrillState.score.correct > (this.cifrasBestScore?.bestScore || 0)) {
+      this.cifrasBestScore = {
+        bestScore: this.cifrasDrillState.score.correct,
+        bestStreak: Math.max(this.cifrasDrillState.score.maxStreak, this.cifrasBestScore?.bestStreak || 0)
+      };
+      try {
+        localStorage.setItem('opo_e1_cifras_drill', JSON.stringify(this.cifrasBestScore));
+      } catch (e) {}
+    }
+
+    this.setTab('estudio');
+  }
+
+  exitCifrasDrill() {
+    if (this.cifrasDrillState.timerInterval) {
+      clearInterval(this.cifrasDrillState.timerInterval);
+      this.cifrasDrillState.timerInterval = null;
+    }
+    this.cifrasDrillState.status = 'idle';
+    this.setTab('estudio');
+  }
+
+  renderStudyCenterUpdate() {
+    const mainContainer = document.getElementById('app-main-content');
+    if (mainContainer && this.activeTab === 'estudio') {
+      mainContainer.innerHTML = this.renderStudyCenter();
+    }
+  }
+
+  renderCifrasDrillRunning() {
+    const q = this.cifrasDrillState.questions[this.cifrasDrillState.currentIndex];
+    const totalQ = this.cifrasDrillState.questions.length;
+    const mins = Math.floor(this.cifrasDrillState.timeRemaining / 60);
+    const secs = this.cifrasDrillState.timeRemaining % 60;
+    const timerStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    const fb = this.cifrasDrillState.feedback;
+
+    return `
+      <div class="max-w-2xl mx-auto space-y-6 animate-fadeIn pb-12 select-none">
+        <!-- BARRA SUPERIOR DEL DRILL -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 flex items-center justify-between shadow-xl">
+          <div class="flex items-center gap-3">
+            <button onclick="window.app.exitCifrasDrill()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all">
+              &larr; Salir
+            </button>
+            <div>
+              <div class="text-[10px] font-extrabold uppercase text-slate-400">Progreso</div>
+              <div class="text-xs font-black text-sky-400">
+                ${this.cifrasDrillState.currentIndex + 1} de ${totalQ}
+              </div>
+            </div>
+          </div>
+
+          <!-- TEMPORIZADOR CONTRARRELOJ -->
+          <div id="cifras-drill-timer" class="text-2xl sm:text-3xl font-black font-mono px-4 py-1.5 rounded-2xl bg-slate-950 border border-slate-800 ${this.cifrasDrillState.timeRemaining <= 20 ? 'text-rose-400 animate-pulse' : 'text-amber-400'} shadow-inner">
+            ${timerStr}
+          </div>
+
+          <!-- MARCADOR Y RACHA -->
+          <div class="text-right flex items-center gap-3">
+            <div class="${this.cifrasDrillState.score.streak > 2 ? 'animate-combo' : ''}">
+              <div class="text-[10px] font-extrabold uppercase text-amber-400">Racha</div>
+              <div class="text-base font-black text-white flex items-center justify-end gap-1">
+                <span>🔥</span> <span>${this.cifrasDrillState.score.streak}</span>
+              </div>
+            </div>
+            <div>
+              <div class="text-[10px] font-extrabold uppercase text-emerald-400">Aciertos</div>
+              <div class="text-base font-black text-emerald-300">
+                ${this.cifrasDrillState.score.correct}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA DEL CONCEPTO -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 text-center space-y-4 shadow-2xl">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-sky-500/10 text-sky-400 border border-sky-500/20">
+            ${q.tema}
+          </span>
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">¿Cuál es la cifra o plazo exacto?</div>
+          <h2 class="text-xl sm:text-3xl font-black text-white leading-relaxed">
+            ${q.concepto}
+          </h2>
+        </div>
+
+        <!-- 4 BOTONES RÁPIDOS DE OPCIÓN (REACCIÓN INMEDIATA) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          ${q.options.map((opt, idx) => {
+            let btnClass = 'bg-slate-900 border-slate-800 hover:border-amber-400 hover:bg-slate-800 text-white active:scale-95';
+            if (fb) {
+              if (idx === fb.correctIdx) {
+                btnClass = 'bg-emerald-500 border-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/30 font-black';
+              } else if (idx === fb.selectedIdx && !fb.isCorrect) {
+                btnClass = 'bg-rose-500 border-rose-400 text-white font-black';
+              } else {
+                btnClass = 'bg-slate-950/60 border-slate-900 text-slate-500 opacity-40';
+              }
+            }
+
+            return `
+              <button
+                onclick="window.app.answerCifrasDrill(${idx})"
+                class="p-4 sm:p-5 rounded-2xl border text-base sm:text-lg font-bold transition-all flex items-center justify-between shadow-md ${btnClass}">
+                <span class="truncate">${opt}</span>
+                <kbd class="text-[10px] font-mono px-2 py-0.5 rounded bg-black/30 opacity-70">${idx + 1}</kbd>
+              </button>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="text-center text-xs text-slate-500">
+          💡 Puedes responder pulsando en pantalla o con las teclas <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">[1]</kbd>, <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">[2]</kbd>, <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">[3]</kbd>, <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">[4]</kbd>.
+        </div>
+      </div>
+    `;
+  }
+
+  renderCifrasDrillFinished() {
+    const score = this.cifrasDrillState.score;
+    const answered = score.correct + score.wrong;
+    const accuracy = answered > 0 ? Math.round((score.correct / answered) * 100) : 0;
+    const isNewRecord = score.correct >= (this.cifrasBestScore?.bestScore || 0) && score.correct > 0;
+
+    return `
+      <div class="max-w-3xl mx-auto space-y-6 animate-fadeIn pb-16">
+        <!-- SCORECARD FINAL -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 text-center space-y-4 shadow-2xl">
+          <div class="text-5xl">🏆</div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white">
+            ¡Drill de Cifras Completado!
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+            Has entrenado tu memoria de reflejo numérico para el examen de E1 Servicios Administrativos.
+          </p>
+
+          ${isNewRecord ? `
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black uppercase tracking-wider shadow">
+              <span>⭐ ¡NUEVO RÉCORD PERSONAL!</span>
+            </div>
+          ` : ''}
+
+          <!-- MÉTRICAS CLAVE -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Aciertos</div>
+              <div class="text-2xl font-black text-emerald-400 mt-1">${score.correct}</div>
+            </div>
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Fallos</div>
+              <div class="text-2xl font-black text-rose-400 mt-1">${score.wrong}</div>
+            </div>
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Precisión</div>
+              <div class="text-2xl font-black text-sky-400 mt-1">${accuracy}%</div>
+            </div>
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Racha Máx.</div>
+              <div class="text-2xl font-black text-amber-400 mt-1">${score.maxStreak}</div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-3 pt-4">
+            <button onclick="window.app.startCifrasDrill()" class="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black rounded-xl text-sm transition-all shadow-lg shadow-amber-400/20">
+              ⚡ Repetir Drill (2 Min)
+            </button>
+            <button onclick="window.app.exitCifrasDrill()" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-sm transition-all border border-slate-700">
+              📖 Volver a la Tabla Completa
+            </button>
+          </div>
+        </div>
+
+        <!-- REFUERZO DE CIFRAS FALLADAS -->
+        ${this.cifrasDrillState.failedList.length > 0 ? `
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-black text-white flex items-center gap-2">
+                <span>⚠️</span> Cifras para Consolidar (${this.cifrasDrillState.failedList.length})
+              </h3>
+              <span class="text-xs text-rose-400 font-bold">Repaso de fallos</span>
+            </div>
+            <div class="space-y-3">
+              ${this.cifrasDrillState.failedList.map(item => `
+                <div class="bg-slate-950/80 border border-rose-950/40 rounded-2xl p-4 space-y-2">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-slate-800 text-sky-400">
+                      ${item.tema}
+                    </span>
+                    <span class="text-xs font-mono line-through text-rose-400 font-bold">
+                      Marcaste: ${item.chosenAnswer}
+                    </span>
+                  </div>
+                  <h4 class="text-sm font-bold text-white">${item.concepto}</h4>
+                  <div class="text-xs text-slate-300 flex items-center gap-2 pt-1 border-t border-slate-800">
+                    <span class="text-emerald-400 font-extrabold">Oficial BOE:</span>
+                    <span class="subrayado-amarillo font-black px-2 py-0.5 rounded">${item.correct}</span>
+                  </div>
+                  <p class="text-xs text-slate-400 pt-1 leading-relaxed">
+                    ${this.applyMnemonicHighlights(item.detalle)}
+                  </p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : `
+          <div class="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-5 text-center text-emerald-300 text-sm font-bold">
+            🎉 ¡Impresionante! Has clavado todas las respuestas sin cometer un solo fallo.
+          </div>
+        `}
       </div>
     `;
   }
@@ -1132,6 +1547,7 @@ class OpoDefensaApp {
       questions: questions,
       currentIndex: 0,
       userAnswers: {},
+      crossedOptions: {}, // { [qId]: [optIdx, ...] } Descarte táctico (-0,33)
       flagged: new Set(),
       timeRemaining: 3600, // 60 min
       timerInterval: null,
@@ -1223,18 +1639,75 @@ class OpoDefensaApp {
             ${q.question}
           </div>
 
-          <!-- OPCIONES A, B, C, D (GRANDES TÁCTILES) -->
+          <!-- INDICADOR TÁCTICO DE DESCARTE (-0,33) -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 px-1 text-xs">
+            <div class="flex items-center gap-1.5 text-slate-400">
+              <span class="text-amber-400">💡</span>
+              <span><strong>Descarte Táctico (−0,33):</strong> Clic derecho, doble clic o pulsa ✂️ para tachar distractores.</span>
+            </div>
+            ${(() => {
+              const crossedList = this.examState.crossedOptions[q.id] || [];
+              const remaining = 4 - crossedList.length;
+              const isFavorable = crossedList.length >= 2;
+              return `
+                <div class="font-bold flex items-center gap-1.5 ${isFavorable ? 'text-emerald-400' : crossedList.length === 1 ? 'text-amber-400' : 'text-slate-400'}">
+                  <span>Viables:</span>
+                  <span class="px-2 py-0.5 rounded-md ${isFavorable ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300' : 'bg-slate-800 text-slate-300'}">
+                    ${remaining} de 4 ${isFavorable ? '🎯 ¡Compensa arriesgarse!' : ''}
+                  </span>
+                </div>
+              `;
+            })()}
+          </div>
+
+          <!-- OPCIONES A, B, C, D (GRANDES TÁCTILES CON DESCARTE TÁCTICO) -->
           <div class="space-y-3 pt-2">
             ${q.options.map((opt, idx) => {
               const letter = ['A', 'B', 'C', 'D'][idx];
               const isSelected = selectedOpt === idx;
+              const crossedList = this.examState.crossedOptions[q.id] || [];
+              const isCrossed = crossedList.includes(idx);
               return `
-                <button onclick="window.app.selectAnswer(${q.id}, ${idx})" class="w-full text-left p-4 sm:p-5 rounded-2xl border transition-all flex items-start gap-4 active:scale-[0.99] ${isSelected ? 'bg-sky-500/15 border-sky-400 text-white font-medium shadow-md shadow-sky-500/10' : 'bg-slate-950/70 border-slate-800 hover:bg-slate-800/80 hover:border-slate-700 text-slate-300'}">
-                  <span class="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center font-black text-xs ${isSelected ? 'bg-sky-400 text-slate-950' : 'bg-slate-800 text-slate-400'}">
-                    ${letter}
-                  </span>
-                  <span class="text-sm sm:text-base leading-relaxed pt-0.5">${opt}</span>
-                </button>
+                <div class="relative group">
+                  <button
+                    onclick="window.app.handleOptionClick(${q.id}, ${idx})"
+                    oncontextmenu="event.preventDefault(); window.app.toggleCrossOption(${q.id}, ${idx}, event)"
+                    ondblclick="window.app.toggleCrossOption(${q.id}, ${idx}, event)"
+                    class="w-full text-left p-4 sm:p-5 pr-14 rounded-2xl border transition-all flex items-start gap-4 active:scale-[0.99] select-none ${
+                      isCrossed
+                        ? 'option-crossed'
+                        : isSelected
+                          ? 'bg-sky-500/15 border-sky-400 text-white font-medium shadow-md shadow-sky-500/10'
+                          : 'bg-slate-950/70 border-slate-800 hover:bg-slate-800/80 hover:border-slate-700 text-slate-300'
+                    }">
+                    <span class="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center font-black text-xs ${
+                      isCrossed
+                        ? 'bg-rose-950/60 text-rose-400 border border-rose-800/50'
+                        : isSelected
+                          ? 'bg-sky-400 text-slate-950'
+                          : 'bg-slate-800 text-slate-400'
+                    }">
+                      ${letter}
+                    </span>
+                    <span class="text-sm sm:text-base leading-relaxed pt-0.5 ${isCrossed ? 'line-through decoration-rose-500 decoration-2' : ''}">
+                      ${opt}
+                    </span>
+                  </button>
+
+                  <!-- BOTÓN TÁCTIL DE TACHAR/DESCARTAR (MOBILE & DESKTOP) -->
+                  <button
+                    type="button"
+                    onclick="window.app.toggleCrossOption(${q.id}, ${idx}, event)"
+                    title="${isCrossed ? 'Restaurar opción descartada' : 'Tachar / Descartar opción (−0,33)'}"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1 ${
+                      isCrossed
+                        ? 'bg-rose-500/20 border-rose-500/50 text-rose-300 hover:bg-rose-500/30'
+                        : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:text-rose-400 hover:border-rose-500/40 opacity-70 group-hover:opacity-100'
+                    }">
+                    <span>${isCrossed ? '↩️' : '✂️'}</span>
+                    <span class="hidden sm:inline text-[10px] uppercase font-bold">${isCrossed ? 'Tachada' : 'Tachar'}</span>
+                  </button>
+                </div>
               `;
             }).join('')}
           </div>
@@ -1331,6 +1804,35 @@ class OpoDefensaApp {
     `;
   }
 
+  handleOptionClick(qId, optIdx) {
+    const crossed = this.examState.crossedOptions[qId] || [];
+    if (crossed.includes(optIdx)) {
+      this.examState.crossedOptions[qId] = crossed.filter(i => i !== optIdx);
+    }
+    this.selectAnswer(qId, optIdx);
+  }
+
+  toggleCrossOption(qId, optIdx, event) {
+    if (event) {
+      event.stopPropagation();
+      if (event.preventDefault) event.preventDefault();
+    }
+    if (!this.examState.crossedOptions[qId]) {
+      this.examState.crossedOptions[qId] = [];
+    }
+    const crossed = this.examState.crossedOptions[qId];
+    const foundIdx = crossed.indexOf(optIdx);
+    if (foundIdx >= 0) {
+      crossed.splice(foundIdx, 1);
+    } else {
+      crossed.push(optIdx);
+      if (this.examState.userAnswers[qId] === optIdx) {
+        delete this.examState.userAnswers[qId];
+      }
+    }
+    this.renderSimulatorUpdate();
+  }
+
   selectAnswer(qId, optIdx) {
     this.examState.userAnswers[qId] = optIdx;
     this.renderSimulatorUpdate();
@@ -1382,17 +1884,73 @@ class OpoDefensaApp {
   }
 
   handleKeyboardShortcuts(e) {
-    if (this.activeTab !== 'simulador' || this.examState.status !== 'running') return;
-    const key = e.key.toUpperCase();
-    const currentQ = this.examState.questions[this.examState.currentIndex];
-    if (!currentQ) return;
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
 
-    if (['1', 'A'].includes(key)) this.selectAnswer(currentQ.id, 0);
-    else if (['2', 'B'].includes(key)) this.selectAnswer(currentQ.id, 1);
-    else if (['3', 'C'].includes(key)) this.selectAnswer(currentQ.id, 2);
-    else if (['4', 'D'].includes(key)) this.selectAnswer(currentQ.id, 3);
-    else if (e.key === 'ArrowRight') this.nextQuestion();
-    else if (e.key === 'ArrowLeft') this.prevQuestion();
+    // 1. ATAJOS EN EL SIMULADOR DE EXAMEN
+    if (this.activeTab === 'simulador' && this.examState.status === 'running') {
+      const key = e.key.toUpperCase();
+      const currentQ = this.examState.questions[this.examState.currentIndex];
+      if (!currentQ) return;
+
+      if (['1', 'A'].includes(key)) this.handleOptionClick(currentQ.id, 0);
+      else if (['2', 'B'].includes(key)) this.handleOptionClick(currentQ.id, 1);
+      else if (['3', 'C'].includes(key)) this.handleOptionClick(currentQ.id, 2);
+      else if (['4', 'D'].includes(key)) this.handleOptionClick(currentQ.id, 3);
+      else if (e.key === 'ArrowRight') this.nextQuestion();
+      else if (e.key === 'ArrowLeft') this.prevQuestion();
+      return;
+    }
+
+    // 2. ATAJOS EN EL MÓDULO DE FLASHCARDS (LEITNER)
+    if (this.activeTab === 'flashcards') {
+      const deck = this.flashcardState.sessionDeck;
+      if (!deck || deck.length === 0 || this.flashcardState.currentIndex >= deck.length) return;
+      const currentCard = deck[this.flashcardState.currentIndex];
+      if (!currentCard) return;
+
+      if (e.code === 'Space' || e.key === 'Enter') {
+        e.preventDefault();
+        this.flipCard();
+      } else if (e.key === '1') {
+        e.preventDefault();
+        this.rateCard(currentCard.id, 'fallada');
+      } else if (e.key === '2') {
+        e.preventDefault();
+        this.rateCard(currentCard.id, 'duda');
+      } else if (e.key === '3') {
+        e.preventDefault();
+        this.rateCard(currentCard.id, 'facil');
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        this.nextCard();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.prevCard();
+      }
+      return;
+    }
+
+    // 3. ATAJOS EN EL DRILL RÁFAGA DE CIFRAS (2 MINUTOS)
+    if (this.activeTab === 'estudio' && this.cifrasDrillState && this.cifrasDrillState.status === 'running') {
+      const key = e.key.toUpperCase();
+      if (['1', 'A'].includes(key)) {
+        e.preventDefault();
+        this.answerCifrasDrill(0);
+      } else if (['2', 'B'].includes(key)) {
+        e.preventDefault();
+        this.answerCifrasDrill(1);
+      } else if (['3', 'C'].includes(key)) {
+        e.preventDefault();
+        this.answerCifrasDrill(2);
+      } else if (['4', 'D'].includes(key)) {
+        e.preventDefault();
+        this.answerCifrasDrill(3);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        this.exitCifrasDrill();
+      }
+      return;
+    }
   }
 
   confirmFinishExam() {
@@ -1689,115 +2247,260 @@ class OpoDefensaApp {
   }
 
   // =========================================================================
-  // MÓDULO 4: FLASHCARDS (RECUPERACIÓN ACTIVA)
   // =========================================================================
-  renderFlashcards() {
-    const categories = ['all', ...new Set(this.flashcards.map(c => c.category))];
-    const filteredCards = this.flashcardState.category === 'all'
-      ? this.flashcards
+  // MÓDULO 4: FLASHCARDS (SISTEMA LEITNER CON RE-INSERCIÓN Y ATAJOS)
+  // =========================================================================
+  initFlashcardSession() {
+    const cards = this.getFilteredFlashcards();
+    this.flashcardState.sessionDeck = [...cards];
+    this.flashcardState.currentIndex = 0;
+    this.flashcardState.isFlipped = false;
+    this.flashcardState.reviewedCount = 0;
+    this.flashcardState.reinsertedCount = 0;
+  }
+
+  getFilteredFlashcards() {
+    let list = this.flashcardState.category === 'all'
+      ? [...this.flashcards]
       : this.flashcards.filter(c => c.category === this.flashcardState.category);
 
-    if (this.flashcardState.currentIndex >= filteredCards.length) {
-      this.flashcardState.currentIndex = 0;
+    if (this.flashcardState.statusFilter === 'fallada') {
+      list = list.filter(c => this.cardRatings[c.id] === 'fallada');
+    } else if (this.flashcardState.statusFilter === 'duda') {
+      list = list.filter(c => this.cardRatings[c.id] === 'duda');
+    } else if (this.flashcardState.statusFilter === 'por_dominar') {
+      list = list.filter(c => this.cardRatings[c.id] !== 'facil');
+    } else if (this.flashcardState.statusFilter === 'facil') {
+      list = list.filter(c => this.cardRatings[c.id] === 'facil');
     }
 
-    const card = filteredCards[this.flashcardState.currentIndex] || filteredCards[0];
-    const total = filteredCards.length;
-    const currentRating = card ? this.cardRatings[card.id] : null;
+    return list;
+  }
+
+  setFlashcardCategory(cat) {
+    this.flashcardState.category = cat;
+    this.initFlashcardSession();
+    this.setTab('flashcards');
+  }
+
+  setFlashcardStatusFilter(status) {
+    this.flashcardState.statusFilter = status;
+    this.initFlashcardSession();
+    this.setTab('flashcards');
+  }
+
+  renderFlashcards() {
+    const categories = ['all', ...new Set(this.flashcards.map(c => c.category))];
+
+    // Conteo global de cajas Leitner
+    const totalCards = this.flashcards.length;
+    const falladasCount = this.flashcards.filter(c => this.cardRatings[c.id] === 'fallada').length;
+    const dudasCount = this.flashcards.filter(c => this.cardRatings[c.id] === 'duda').length;
+    const facilesCount = this.flashcards.filter(c => this.cardRatings[c.id] === 'facil').length;
+    const porDominarCount = this.flashcards.filter(c => this.cardRatings[c.id] !== 'facil').length;
+
+    const deck = this.flashcardState.sessionDeck;
+    const totalInDeck = deck ? deck.length : 0;
+    const isCompleted = totalInDeck > 0 && this.flashcardState.currentIndex >= totalInDeck;
 
     return `
       <div class="max-w-2xl mx-auto space-y-6 animate-fadeIn pb-16">
         <div class="text-center space-y-2">
           <h1 class="text-2xl sm:text-3xl font-black text-white flex items-center justify-center gap-2">
-            <span>🗂️</span> Tarjetas de Recuperación Activa
+            <span>🗂️</span> Sistema Leitner de Flashcards
           </h1>
           <p class="text-xs sm:text-sm text-slate-400">
-            Fuerza a tu mente a evocar el concepto antes de voltear la tarjeta. Califica cada respuesta para priorizar las dudosas.
+            Repetición espaciada: las tarjetas marcadas como <strong>Falladas</strong> se reinsertan al final de la baraja hasta que las consolides como <strong>Fáciles</strong>.
           </p>
         </div>
 
+        <!-- CAJAS LEITNER: ESTADO GLOBAL DE APRENDIZAJE -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div onclick="window.app.setFlashcardStatusFilter('fallada')" class="cursor-pointer bg-slate-900 border ${this.flashcardState.statusFilter === 'fallada' ? 'border-rose-500 bg-rose-950/20' : 'border-slate-800'} hover:border-rose-500/50 rounded-2xl p-3 text-center transition-all shadow-sm">
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Caja 1 &bull; Falladas</div>
+            <div class="text-xl font-black text-rose-400 mt-0.5">${falladasCount}</div>
+          </div>
+          <div onclick="window.app.setFlashcardStatusFilter('duda')" class="cursor-pointer bg-slate-900 border ${this.flashcardState.statusFilter === 'duda' ? 'border-amber-500 bg-amber-950/20' : 'border-slate-800'} hover:border-amber-500/50 rounded-2xl p-3 text-center transition-all shadow-sm">
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Caja 2 &bull; Con Duda</div>
+            <div class="text-xl font-black text-amber-400 mt-0.5">${dudasCount}</div>
+          </div>
+          <div onclick="window.app.setFlashcardStatusFilter('facil')" class="cursor-pointer bg-slate-900 border ${this.flashcardState.statusFilter === 'facil' ? 'border-emerald-500 bg-emerald-950/20' : 'border-slate-800'} hover:border-emerald-500/50 rounded-2xl p-3 text-center transition-all shadow-sm">
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Caja 3 &bull; Dominadas</div>
+            <div class="text-xl font-black text-emerald-400 mt-0.5">${facilesCount}</div>
+          </div>
+          <div onclick="window.app.setFlashcardStatusFilter('por_dominar')" class="cursor-pointer bg-slate-900 border ${this.flashcardState.statusFilter === 'por_dominar' ? 'border-sky-500 bg-sky-950/20' : 'border-slate-800'} hover:border-sky-500/50 rounded-2xl p-3 text-center transition-all shadow-sm">
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Por Dominar</div>
+            <div class="text-xl font-black text-sky-400 mt-0.5">${porDominarCount}</div>
+          </div>
+        </div>
+
+        <!-- SELECTOR DE FILTRO POR ESTADO LEITNER -->
+        <div class="space-y-2">
+          <div class="text-[10px] font-extrabold uppercase text-slate-400 text-center tracking-wider">Filtrar por Estado de Aprendizaje</div>
+          <div class="flex flex-wrap justify-center gap-2">
+            <button onclick="window.app.setFlashcardStatusFilter('all')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.flashcardState.statusFilter === 'all' ? 'bg-sky-500 text-slate-950 shadow' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'}">
+              Todas (${totalCards})
+            </button>
+            <button onclick="window.app.setFlashcardStatusFilter('fallada')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.flashcardState.statusFilter === 'fallada' ? 'bg-rose-500 text-white shadow' : 'bg-slate-900 border border-slate-800 text-rose-400 hover:text-white'}">
+              ❌ Solo Falladas (${falladasCount})
+            </button>
+            <button onclick="window.app.setFlashcardStatusFilter('duda')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.flashcardState.statusFilter === 'duda' ? 'bg-amber-500 text-slate-950 shadow' : 'bg-slate-900 border border-slate-800 text-amber-400 hover:text-white'}">
+              🤔 Solo Dudosas (${dudasCount})
+            </button>
+            <button onclick="window.app.setFlashcardStatusFilter('por_dominar')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.flashcardState.statusFilter === 'por_dominar' ? 'bg-indigo-500 text-white shadow' : 'bg-slate-900 border border-slate-800 text-indigo-400 hover:text-white'}">
+              🎯 Por Dominar (${porDominarCount})
+            </button>
+            <button onclick="window.app.setFlashcardStatusFilter('facil')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.flashcardState.statusFilter === 'facil' ? 'bg-emerald-500 text-slate-950 shadow' : 'bg-slate-900 border border-slate-800 text-emerald-400 hover:text-white'}">
+              ✅ Dominadas (${facilesCount})
+            </button>
+          </div>
+        </div>
+
         <!-- SELECTOR DE CATEGORÍA -->
-        <div class="flex flex-wrap justify-center gap-2">
+        <div class="flex flex-wrap justify-center gap-1.5 pt-1">
           ${categories.map(cat => `
-            <button onclick="window.app.setFlashcardCategory('${cat}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.flashcardState.category === cat ? 'bg-sky-500 text-slate-950 shadow' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'}">
-              ${cat === 'all' ? 'Todas las Categorías' : cat}
+            <button onclick="window.app.setFlashcardCategory('${cat}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all ${this.flashcardState.category === cat ? 'bg-slate-200 text-slate-950 font-black shadow' : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'}">
+              ${cat === 'all' ? 'Todos los Temas' : cat}
             </button>
           `).join('')}
         </div>
 
-        <!-- VISOR DE TARJETA 3D FLIP -->
-        ${card ? `
-          <div class="perspective-1000 my-6">
-            <div onclick="window.app.flipCard()" class="cursor-pointer min-h-[260px] sm:min-h-[300px] w-full bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl transition-all duration-300 relative select-none">
-              <div class="flex items-center justify-between text-xs text-slate-400">
-                <span class="font-bold text-sky-400 uppercase tracking-wider">${card.category}</span>
-                <span>Tarjeta ${this.flashcardState.currentIndex + 1} de ${total}</span>
-              </div>
-
-              <!-- CONTENIDO SEGÚN ESTADO DE VOLTEO -->
-              <div class="my-auto py-6 text-center space-y-3">
-                ${!this.flashcardState.isFlipped ? `
-                  <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Pregunta / Concepto</div>
-                  <div class="text-lg sm:text-2xl font-black text-white leading-relaxed">
-                    ${card.front}
-                  </div>
-                  <div class="text-xs text-sky-400/80 pt-4 flex items-center justify-center gap-1">
-                    <span>👆</span> Toca para voltear y ver la solución
-                  </div>
-                ` : `
-                  <div class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Solución Oficial BOE</div>
-                  <div class="text-base sm:text-xl font-bold text-emerald-200 leading-relaxed">
-                    ${this.applyMnemonicHighlights(card.back)}
-                  </div>
-                  <div class="text-xs font-mono text-slate-400 pt-2">
-                    ⚖️ ${card.reference}
-                  </div>
-                `}
-              </div>
-
-              <div class="text-center text-[11px] text-slate-500">
-                ${currentRating ? `Estado actual: <strong class="uppercase text-amber-400">${currentRating}</strong>` : 'Sin evaluar aún'}
-              </div>
+        <!-- PANTALLA SEGÚN ESTADO DE LA BARAJA -->
+        ${isCompleted ? `
+          <!-- SESIÓN LEITNER COMPLETADA -->
+          <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/40 rounded-3xl p-8 text-center space-y-5 shadow-2xl animate-fadeIn my-6">
+            <div class="text-5xl">🎉</div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">¡Sesión Leitner Completada!</h2>
+            <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+              Has revisado con éxito todas las tarjetas activas de esta ronda.
+              ${this.flashcardState.reinsertedCount > 0 ? `<br><span class="text-amber-400 font-bold">⚡ Se reinsertaron y consolidaron ${this.flashcardState.reinsertedCount} tarjetas que habías fallado previamente.</span>` : '<br><span class="text-emerald-400 font-bold">¡Ronda perfecta sin fallos!</span>'}
+            </p>
+            <div class="flex flex-wrap justify-center gap-3 pt-3">
+              <button onclick="window.app.initFlashcardSession(); window.app.setTab('flashcards');" class="px-5 py-3 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-black rounded-xl text-xs sm:text-sm transition-all shadow">
+                🔄 Repetir Esta Baraja
+              </button>
+              ${porDominarCount > 0 ? `
+                <button onclick="window.app.setFlashcardStatusFilter('por_dominar')" class="px-5 py-3 bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black rounded-xl text-xs sm:text-sm transition-all shadow">
+                  🎯 Repasar Por Dominar (${porDominarCount})
+                </button>
+              ` : ''}
+              <button onclick="window.app.setFlashcardStatusFilter('all')" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs sm:text-sm transition-all border border-slate-700">
+                Ver Todas las Tarjetas
+              </button>
             </div>
           </div>
+        ` : totalInDeck > 0 ? `
+          <!-- VISOR DE TARJETA 3D FLIP -->
+          ${(() => {
+            const card = deck[this.flashcardState.currentIndex];
+            if (!card) return '';
+            const currentRating = this.cardRatings[card.id];
 
-          <!-- BOTONES DE AUTOEVALUACIÓN -->
-          <div class="grid grid-cols-3 gap-3">
-            <button onclick="window.app.rateCard(${card.id}, 'fallada')" class="py-3 px-2 bg-rose-500/10 hover:bg-rose-500/20 active:scale-95 border border-rose-500/30 rounded-2xl text-rose-400 font-extrabold text-xs sm:text-sm transition-all flex flex-col items-center gap-1">
-              <span>❌</span>
-              <span>Fallada</span>
-            </button>
-            <button onclick="window.app.rateCard(${card.id}, 'duda')" class="py-3 px-2 bg-amber-500/10 hover:bg-amber-500/20 active:scale-95 border border-amber-500/30 rounded-2xl text-amber-400 font-extrabold text-xs sm:text-sm transition-all flex flex-col items-center gap-1">
-              <span>🤔</span>
-              <span>Con Duda</span>
-            </button>
-            <button onclick="window.app.rateCard(${card.id}, 'facil')" class="py-3 px-2 bg-emerald-500/10 hover:bg-emerald-500/20 active:scale-95 border border-emerald-500/30 rounded-2xl text-emerald-400 font-extrabold text-xs sm:text-sm transition-all flex flex-col items-center gap-1">
-              <span>✅</span>
-              <span>Fácil</span>
-            </button>
-          </div>
+            return `
+              <div class="perspective-1000 my-4">
+                <div onclick="window.app.flipCard()" class="cursor-pointer min-h-[270px] sm:min-h-[310px] w-full bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl transition-all duration-300 relative select-none">
+                  <div class="flex items-center justify-between text-xs text-slate-400">
+                    <span class="font-bold text-sky-400 uppercase tracking-wider">${card.category}</span>
+                    <div class="flex items-center gap-2">
+                      ${this.flashcardState.reinsertedCount > 0 ? `
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          🔄 ${this.flashcardState.reinsertedCount} reinsertadas
+                        </span>
+                      ` : ''}
+                      <span class="font-mono font-bold">${this.flashcardState.currentIndex + 1} / ${totalInDeck}</span>
+                    </div>
+                  </div>
 
-          <!-- CONTROLES DE NAVEGACIÓN -->
-          <div class="flex items-center justify-between pt-4">
-            <button onclick="window.app.prevCard()" ${this.flashcardState.currentIndex === 0 ? 'disabled' : ''} class="px-4 py-2 bg-slate-800 disabled:opacity-40 text-slate-300 font-bold rounded-xl text-xs">
-              &larr; Anterior
-            </button>
-            <button onclick="window.app.nextCard()" ${this.flashcardState.currentIndex === total - 1 ? 'disabled' : ''} class="px-4 py-2 bg-sky-500 hover:bg-sky-400 disabled:opacity-40 text-slate-950 font-extrabold rounded-xl text-xs">
-              Siguiente &rarr;
-            </button>
-          </div>
+                  <!-- CONTENIDO SEGÚN ESTADO DE VOLTEO -->
+                  <div class="my-auto py-4 text-center space-y-3">
+                    ${!this.flashcardState.isFlipped ? `
+                      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Pregunta / Concepto</div>
+                      <div class="text-lg sm:text-2xl font-black text-white leading-relaxed">
+                        ${card.front}
+                      </div>
+                      <div class="text-xs text-sky-400/90 pt-3 flex items-center justify-center gap-1.5 font-medium">
+                        <span>👆 Toca para voltear o pulsa</span>
+                        <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-200 font-mono text-[10px]">Espacio</kbd>
+                        <span>/</span>
+                        <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-200 font-mono text-[10px]">Enter</kbd>
+                      </div>
+                    ` : `
+                      <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest">Solución Oficial BOE</div>
+                      <div class="text-base sm:text-xl font-bold text-emerald-200 leading-relaxed">
+                        ${this.applyMnemonicHighlights(card.back)}
+                      </div>
+                      <div class="text-xs font-mono text-slate-400 pt-2">
+                        ⚖️ ${card.reference}
+                      </div>
+                    `}
+                  </div>
+
+                  <div class="text-center text-[11px] text-slate-500">
+                    ${currentRating ? `Estado actual: <strong class="uppercase ${currentRating === 'facil' ? 'text-emerald-400' : currentRating === 'duda' ? 'text-amber-400' : 'text-rose-400'}">${currentRating}</strong>` : 'Sin evaluar aún en esta sesión'}
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOTONES DE AUTOEVALUACIÓN (SISTEMA LEITNER CON ATAJOS) -->
+              <div class="grid grid-cols-3 gap-3">
+                <button onclick="window.app.rateCard(${card.id}, 'fallada')" class="py-3 px-2 bg-rose-500/10 hover:bg-rose-500/20 active:scale-95 border border-rose-500/30 rounded-2xl text-rose-400 font-extrabold text-xs sm:text-sm transition-all flex flex-col items-center gap-1">
+                  <div class="flex items-center gap-1">
+                    <span>❌</span>
+                    <span>Fallada</span>
+                    <kbd class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-rose-950/80 border border-rose-800/80 text-rose-300 ml-1">[1]</kbd>
+                  </div>
+                  <span class="text-[10px] text-rose-300/80 font-normal">Reinserta al final</span>
+                </button>
+
+                <button onclick="window.app.rateCard(${card.id}, 'duda')" class="py-3 px-2 bg-amber-500/10 hover:bg-amber-500/20 active:scale-95 border border-amber-500/30 rounded-2xl text-amber-400 font-extrabold text-xs sm:text-sm transition-all flex flex-col items-center gap-1">
+                  <div class="flex items-center gap-1">
+                    <span>🤔</span>
+                    <span>Con Duda</span>
+                    <kbd class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-950/80 border border-amber-800/80 text-amber-300 ml-1">[2]</kbd>
+                  </div>
+                  <span class="text-[10px] text-amber-300/80 font-normal">Para repasar</span>
+                </button>
+
+                <button onclick="window.app.rateCard(${card.id}, 'facil')" class="py-3 px-2 bg-emerald-500/10 hover:bg-emerald-500/20 active:scale-95 border border-emerald-500/30 rounded-2xl text-emerald-400 font-extrabold text-xs sm:text-sm transition-all flex flex-col items-center gap-1">
+                  <div class="flex items-center gap-1">
+                    <span>✅</span>
+                    <span>Fácil</span>
+                    <kbd class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 ml-1">[3]</kbd>
+                  </div>
+                  <span class="text-[10px] text-emerald-300/80 font-normal">Consolidada</span>
+                </button>
+              </div>
+
+              <!-- CONTROLES DE NAVEGACIÓN MANUAL -->
+              <div class="flex items-center justify-between pt-3">
+                <button onclick="window.app.prevCard()" ${this.flashcardState.currentIndex === 0 ? 'disabled' : ''} class="px-4 py-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-300 font-bold rounded-xl text-xs flex items-center gap-1.5">
+                  <span>&larr; Anterior</span>
+                  <kbd class="text-[10px] font-mono px-1 rounded bg-black/40 text-slate-400">[←]</kbd>
+                </button>
+                <button onclick="window.app.nextCard()" ${this.flashcardState.currentIndex === totalInDeck - 1 ? 'disabled' : ''} class="px-4 py-2 bg-sky-500 hover:bg-sky-400 disabled:opacity-40 text-slate-950 font-extrabold rounded-xl text-xs flex items-center gap-1.5">
+                  <span>Siguiente &rarr;</span>
+                  <kbd class="text-[10px] font-mono px-1 rounded bg-black/20 text-slate-950">[→]</kbd>
+                </button>
+              </div>
+            `;
+          })()}
         ` : `
-          <div class="text-center py-12 text-slate-400">No hay tarjetas en esta categoría.</div>
+          <!-- ESTADO VACÍO -->
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center space-y-4 my-6">
+            <div class="text-4xl">🔍</div>
+            <h3 class="text-lg font-bold text-white">No hay tarjetas con el filtro seleccionado</h3>
+            <p class="text-xs text-slate-400 max-w-sm mx-auto">
+              No tienes tarjetas en este estado para la categoría elegida. Puedes cambiar de filtro o reiniciar la baraja.
+            </p>
+            <div class="pt-2">
+              <button onclick="window.app.setFlashcardStatusFilter('all')" class="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-xl text-xs">
+                Mostrar Todas las Tarjetas
+              </button>
+            </div>
+          </div>
         `}
       </div>
     `;
-  }
-
-  setFlashcardCategory(cat) {
-    this.flashcardState.category = cat;
-    this.flashcardState.currentIndex = 0;
-    this.flashcardState.isFlipped = false;
-    this.setTab('flashcards');
   }
 
   flipCard() {
@@ -1807,13 +2510,28 @@ class OpoDefensaApp {
 
   rateCard(cardId, rating) {
     this.saveCardRating(cardId, rating);
-    this.nextCard();
-  }
+    this.flashcardState.reviewedCount++;
 
-  nextCard() {
+    const deck = this.flashcardState.sessionDeck;
+    const currentCard = deck ? deck[this.flashcardState.currentIndex] : null;
+
+    // RE-INSERCIÓN LEITNER: Si la tarjeta es marcada como fallada, se reinserta al final de la baraja activa
+    if (rating === 'fallada' && currentCard) {
+      deck.push(currentCard);
+      this.flashcardState.reinsertedCount++;
+    }
+
     this.flashcardState.currentIndex++;
     this.flashcardState.isFlipped = false;
     this.setTab('flashcards');
+  }
+
+  nextCard() {
+    if (this.flashcardState.sessionDeck && this.flashcardState.currentIndex < this.flashcardState.sessionDeck.length - 1) {
+      this.flashcardState.currentIndex++;
+      this.flashcardState.isFlipped = false;
+      this.setTab('flashcards');
+    }
   }
 
   prevCard() {
