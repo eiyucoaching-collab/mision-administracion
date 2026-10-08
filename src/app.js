@@ -69,12 +69,14 @@ class OpoDefensaApp {
       this.failedQuestions = new Set(JSON.parse(localStorage.getItem('opo_e1_failed_qids')) || []);
       this.cardRatings = JSON.parse(localStorage.getItem('opo_e1_flashcards_rating')) || {};
       this.planChecklist = JSON.parse(localStorage.getItem('opo_e1_plan_checklist')) || {};
+      this.highlighterEnabled = localStorage.getItem('opo_e1_highlighter') !== 'false';
     } catch (e) {
       console.warn('Error cargando LocalStorage:', e);
       this.examHistory = [];
       this.failedQuestions = new Set();
       this.cardRatings = {};
       this.planChecklist = {};
+      this.highlighterEnabled = true;
     }
   }
 
@@ -113,7 +115,8 @@ class OpoDefensaApp {
       examHistory: this.examHistory,
       failedQuestionIds: Array.from(this.failedQuestions),
       cardRatings: this.cardRatings,
-      planChecklist: this.planChecklist
+      planChecklist: this.planChecklist,
+      highlighterEnabled: this.highlighterEnabled
     };
 
     const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
@@ -152,6 +155,10 @@ class OpoDefensaApp {
           this.planChecklist = data.planChecklist;
           localStorage.setItem('opo_e1_plan_checklist', JSON.stringify(this.planChecklist));
         }
+        if (data.highlighterEnabled !== undefined) {
+          this.highlighterEnabled = data.highlighterEnabled;
+          localStorage.setItem('opo_e1_highlighter', this.highlighterEnabled ? 'true' : 'false');
+        }
 
         alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas y cuaderno de fallos.');
         this.setTab(this.activeTab);
@@ -183,6 +190,52 @@ class OpoDefensaApp {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  // ALTERNAR EFECTO ROTULADOR / SUBRAYADO MNEMOTÉCNICO
+  toggleHighlighter() {
+    this.highlighterEnabled = !this.highlighterEnabled;
+    try {
+      localStorage.setItem('opo_e1_highlighter', this.highlighterEnabled ? 'true' : 'false');
+    } catch (e) {}
+    this.setTab(this.activeTab);
+  }
+
+  // MOTOR MNEMOTÉCNICO COGNITIVO: SUBRAYADO SELECTIVO DE RETENCIÓN RÁPIDA
+  applyMnemonicHighlights(html) {
+    if (!this.highlighterEnabled || !html) return html;
+
+    // Solo transforma texto plano respetando etiquetas y atributos HTML existentes
+    return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+      if (tag) return tag;
+      if (!text || text.trim() === '') return text;
+
+      let res = text;
+
+      // 1. Rosa Flúor: Prohibiciones tajantes, trampas y salvedades legales
+      res = res.replace(/\b(TERMINANTEMENTE PROHIBIDO|NUNCA|JAM[ÁA]S|PROHIBICI[ÓO]N|PROHIBIDO|NO PUEDE FIRMAR|NO son altos cargos|NO se suspenden|NO resta|NO tienen amparo|Bulto deteriorado|Pendiente de revisión)\b/gi,
+        '<span class="subrayado-rosa font-bold">$1</span>');
+
+      // 2. Amarillo Neón: Cifras sagradas, plazos, porcentajes y dimensiones exactas
+      res = res.replace(/\b(\d+[\d,\.]*\s*(?:días naturales|días laborables|días|horas|meses|semanas|años|metros cuadrados|metros cúbicos|metros|m²|m³|cm|mm|kg|kilogramos|gramos|g\/m²|%|artículos))\b/gi,
+        '<span class="subrayado-amarillo font-bold">$1</span>');
+      res = res.replace(/\b(3\/5|2\/3|1\/10|17\s*ºC\s*a\s*27\s*ºC|14\s*ºC\s*a\s*25\s*ºC|841\s*x\s*1189\s*mm|594\s*x\s*841\s*mm|420\s*x\s*594\s*mm|297\s*x\s*420\s*mm|210\s*x\s*297\s*mm|148\s*x\s*210\s*mm)\b/gi,
+        '<span class="subrayado-amarillo font-bold">$1</span>');
+
+      // 3. Verde Menta: Procedimientos clave, validez, acuses y garantías
+      res = res.replace(/\b(Burofax|cartas? certificadas?|acuses? de recibo|doble sobre|recibí por duplicado|hoja de remisión|precinto numerado|Libro de Visitas|armario clavero|por escrito|Procedimiento Preferente y Sumario|Recurso de Amparo|1 mes|15 días naturales|15 días laborables)\b/gi,
+        '<span class="subrayado-verde font-bold">$1</span>');
+
+      // 4. Cian Eléctrico: Leyes, Reales Decretos y artículos normativos
+      res = res.replace(/\b(artículo\s+\d+(?:\.\d+)?|art\.\s*\d+(?:\.\d+)?|Ley\s+\d+\/\d+|Real\s+Decreto\s+\d+\/\d+|RD\s+486\/1997|TRLET|CUAGE|TREBEP|ISO\s+216|DIN\s+476|DIN\s+66399)\b/gi,
+        '<span class="subrayado-cian font-bold">$1</span>');
+
+      // 5. Lila Mnemotécnico: Órganos superiores, directivos y autoridades
+      res = res.replace(/\b(Consejo de Ministros|Presidente del Gobierno|Subsecretarios?|Secretarios? de Estado|Delegados? del Gobierno|Subdelegados? del Gobierno|Defensor del Pueblo|Tribunal Constitucional)\b/gi,
+        '<span class="subrayado-lila font-bold">$1</span>');
+
+      return res;
+    });
   }
 
   // =========================================================================
@@ -512,6 +565,45 @@ class OpoDefensaApp {
           </div>
         </div>
 
+        <!-- BARRA DE TÉCNICAS DE ESTUDIO COGNITIVO Y ROTULADOR MNEMOTÉCNICO -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl">🖍️</span>
+              <div>
+                <h3 class="text-xs sm:text-sm font-black text-white flex items-center gap-2">
+                  <span>Técnica de Subrayado Mnemotécnico Flúor</span>
+                  <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">Alto Rendimiento</span>
+                </h3>
+                <p class="text-[11px] text-slate-400">Codificación cromática neurocognitiva para fijar cifras exactas, plazos y neutralizar trampas del Tribunal</p>
+              </div>
+            </div>
+            <button onclick="window.app.toggleHighlighter()" class="self-start sm:self-auto px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-2 ${this.highlighterEnabled ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20' : 'bg-slate-800 text-slate-400 hover:text-white border border-slate-700'}">
+              <span>${this.highlighterEnabled ? '⚡' : '⚪'}</span>
+              <span>${this.highlighterEnabled ? 'Efecto Subrayado: ACTIVADO' : 'Efecto Subrayado: DESACTIVADO'}</span>
+            </button>
+          </div>
+
+          <!-- LEYENDA CROMÁTICA OFICIAL -->
+          <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80 text-[11px] font-bold">
+            <span class="subrayado-amarillo px-2.5 py-0.5 rounded flex items-center gap-1">
+              <span>🟡</span> <span>Cifras, Plazos & Fechas BOE</span>
+            </span>
+            <span class="subrayado-cian px-2.5 py-0.5 rounded flex items-center gap-1">
+              <span>🔵</span> <span>Leyes & Conceptos Clave</span>
+            </span>
+            <span class="subrayado-verde px-2.5 py-0.5 rounded flex items-center gap-1">
+              <span>🟢</span> <span>Procedimientos & Garantías</span>
+            </span>
+            <span class="subrayado-rosa px-2.5 py-0.5 rounded flex items-center gap-1">
+              <span>🔴</span> <span>Trampas & Prohibiciones</span>
+            </span>
+            <span class="subrayado-lila px-2.5 py-0.5 rounded flex items-center gap-1">
+              <span>🟣</span> <span>Órganos, Mandos & Rangos</span>
+            </span>
+          </div>
+        </div>
+
         ${this.renderStudyContent(activeTopic)}
       </div>
     `;
@@ -613,7 +705,7 @@ class OpoDefensaApp {
                     ${sec.title}
                   </h3>
                   <div class="prose prose-invert max-w-none text-slate-300">
-                    ${sec.content}
+                    ${this.applyMnemonicHighlights(sec.content)}
                   </div>
 
                   ${sec.quote ? `
@@ -628,15 +720,15 @@ class OpoDefensaApp {
                   ` : ''}
 
                   ${sec.alert ? `
-                    <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 sm:p-5 my-4">
+                    <div class="bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 sm:p-5 my-4">
                       <div class="flex items-start gap-3">
                         <span class="text-xl">⚠️</span>
                         <div>
-                          <h4 class="text-xs sm:text-sm font-extrabold text-amber-300 uppercase tracking-wider mb-1">
+                          <h4 class="text-xs sm:text-sm font-extrabold text-rose-300 uppercase tracking-wider mb-1">
                             ${sec.alert.title}
                           </h4>
-                          <p class="text-xs sm:text-sm text-amber-200/90 leading-relaxed">
-                            ${sec.alert.desc}
+                          <p class="text-xs sm:text-sm text-rose-200/90 leading-relaxed">
+                            ${this.applyMnemonicHighlights(sec.alert.desc)}
                           </p>
                         </div>
                       </div>
@@ -656,7 +748,9 @@ class OpoDefensaApp {
                   ${activeTopic.keyFigures.map(fig => `
                     <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
                       <div class="text-xs text-slate-400 font-medium">${fig.term}</div>
-                      <div class="text-sm font-bold text-white mt-0.5">${fig.value}</div>
+                      <div class="text-sm font-bold text-white mt-0.5">
+                        <span class="subrayado-amarillo">${fig.value}</span>
+                      </div>
                     </div>
                   `).join('')}
                 </div>
@@ -673,7 +767,7 @@ class OpoDefensaApp {
                   ${activeTopic.examTraps.map(trap => `
                     <li class="bg-rose-500/5 border border-rose-500/20 rounded-xl p-3 text-xs sm:text-sm text-rose-200/90 flex items-start gap-2">
                       <span class="text-rose-400 font-bold">&bull;</span>
-                      <span>${trap}</span>
+                      <span class="subrayado-rosa">${trap}</span>
                     </li>
                   `).join('')}
                 </ul>
@@ -789,26 +883,30 @@ class OpoDefensaApp {
                 Plazos, mayorías parlamentarias, porcentajes, medidas DIN y prescripciones que suponen el 80% de las preguntas de memoria numérica.
               </p>
             </div>
-            <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 flex items-center gap-2">
+            <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 flex items-center gap-2 shadow-sm">
               <span>🖨️</span> Imprimir en PDF (Ctrl+P)
             </button>
           </div>
 
           <!-- LISTADO DE LAS 50 CIFRAS -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             ${this.cifras.map(c => `
-              <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-500/40 transition-colors">
+              <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-500/50 transition-all shadow-sm">
                 <div>
-                  <div class="flex items-center justify-between gap-2 mb-1.5">
+                  <div class="flex items-center justify-between gap-2 mb-2">
                     <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-slate-800 text-sky-400">
                       ${c.tema}
                     </span>
-                    <span class="text-xs font-black text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                    <span class="subrayado-amarillo text-xs font-black px-2.5 py-0.5 rounded-md pulse-cifra">
                       ${c.cifra}
                     </span>
                   </div>
-                  <h4 class="text-sm font-bold text-white mb-1">${c.concepto}</h4>
-                  <p class="text-xs text-slate-400 leading-relaxed">${c.detalle}</p>
+                  <h4 class="text-sm font-extrabold text-white mb-1.5 leading-snug">
+                    <span class="subrayado-cian">${c.concepto}</span>
+                  </h4>
+                  <p class="text-xs text-slate-300 leading-relaxed pt-1">
+                    ${this.applyMnemonicHighlights(c.detalle)}
+                  </p>
                 </div>
               </div>
             `).join('')}
@@ -833,15 +931,22 @@ class OpoDefensaApp {
 
           <div class="space-y-4">
             ${this.trampas.map(t => `
-              <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-5 space-y-2">
-                <div class="text-xs font-black uppercase text-rose-400 tracking-wider">
-                  Trampa #${t.id}: ${t.titulo}
+              <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-md">
+                <div class="text-xs font-black uppercase text-rose-400 tracking-wider flex items-center gap-2">
+                  <span>⚠️</span>
+                  <span>Trampa #${t.id}: ${t.titulo}</span>
                 </div>
-                <div class="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-xs sm:text-sm text-rose-200">
-                  <strong>La Trampa del Tribunal:</strong> ${t.trampa}
+                <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3.5 text-xs sm:text-sm text-rose-200 leading-relaxed">
+                  <strong class="text-rose-400 block mb-1 flex items-center gap-1.5">
+                    <span>❌</span> <span>La Trampa del Tribunal (Falso):</span>
+                  </strong>
+                  <span class="subrayado-rosa">${t.trampa}</span>
                 </div>
-                <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-xs sm:text-sm text-emerald-200">
-                  <strong>La Realidad Oficial (BOE):</strong> ${t.realidad}
+                <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3.5 text-xs sm:text-sm text-emerald-200 leading-relaxed">
+                  <strong class="text-emerald-400 block mb-1 flex items-center gap-1.5">
+                    <span>✅</span> <span>La Realidad Oficial (BOE - Verdadero):</span>
+                  </strong>
+                  <span class="subrayado-verde">${t.realidad}</span>
                 </div>
               </div>
             `).join('')}
@@ -1567,7 +1672,7 @@ class OpoDefensaApp {
                     <div class="text-[11px] font-black uppercase text-sky-400 flex items-center gap-1.5">
                       <span>⚖️</span> ${q.law} &bull; ${q.article}
                     </div>
-                    <p class="leading-relaxed text-slate-300">${q.explanation}</p>
+                    <p class="leading-relaxed text-slate-300">${this.applyMnemonicHighlights(q.explanation)}</p>
                   </div>
                 </div>
               `;
@@ -1642,7 +1747,7 @@ class OpoDefensaApp {
                 ` : `
                   <div class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Solución Oficial BOE</div>
                   <div class="text-base sm:text-xl font-bold text-emerald-200 leading-relaxed">
-                    ${card.back}
+                    ${this.applyMnemonicHighlights(card.back)}
                   </div>
                   <div class="text-xs font-mono text-slate-400 pt-2">
                     ⚖️ ${card.reference}
