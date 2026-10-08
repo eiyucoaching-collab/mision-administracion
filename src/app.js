@@ -13,6 +13,8 @@ import { SYLLABUS } from './data/syllabus.js';
 import { CIFRAS_SAGRADAS, TRAMPAS_EXAMEN } from './data/cifras_y_trampas.js';
 import { FLASHCARDS } from './data/flashcards.js';
 import { QUESTION_BANK } from './data/questions.js';
+import { PODCAST_TRACKS } from './data/podcasts.js';
+import { ESQUEMAS } from './data/esquemas.js';
 
 class OpoDefensaApp {
   constructor() {
@@ -21,6 +23,23 @@ class OpoDefensaApp {
     this.trampas = TRAMPAS_EXAMEN;
     this.flashcards = FLASHCARDS;
     this.questionBank = QUESTION_BANK;
+    this.podcasts = PODCAST_TRACKS;
+    this.esquemas = ESQUEMAS;
+    this.selectedEsquemaId = this.esquemas[0]?.id || 'age';
+
+    // Estado del Reproductor de Audio y Podcast (Dual Engine: HTML5 Audio + Web Speech)
+    this.podcastState = {
+      currentTrackId: 1,
+      isPlaying: false,
+      playbackRate: 1.0,
+      currentTime: 0,
+      duration: 0,
+      engine: 'mp3', // 'mp3' | 'speech'
+      transcriptCollapsed: false
+    };
+    this.audioElement = new Audio();
+    this.speechUtterance = null;
+    this.setupAudioListeners();
 
     // Estado de Navegación
     this.activeTab = 'dashboard';
@@ -282,7 +301,7 @@ class OpoDefensaApp {
 
   handleHashChange() {
     const hash = window.location.hash.replace('#', '');
-    const validTabs = ['dashboard', 'estudio', 'simulador', 'flashcards', 'analiticas'];
+    const validTabs = ['dashboard', 'estudio', 'esquemas', 'podcast', 'simulador', 'flashcards', 'analiticas'];
     if (validTabs.includes(hash)) {
       this.setTab(hash, false);
     }
@@ -320,6 +339,12 @@ class OpoDefensaApp {
       case 'estudio':
         mainContainer.innerHTML = this.renderStudyCenter();
         break;
+      case 'esquemas':
+        mainContainer.innerHTML = this.renderEsquemasView();
+        break;
+      case 'podcast':
+        mainContainer.innerHTML = this.renderPodcastView();
+        break;
       case 'simulador':
         mainContainer.innerHTML = this.renderSimulator();
         break;
@@ -333,6 +358,7 @@ class OpoDefensaApp {
         mainContainer.innerHTML = this.renderDashboard();
     }
 
+    this.updateMiniPlayer();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -713,7 +739,10 @@ class OpoDefensaApp {
                   <span>${activeTopic.icon}</span>
                   <span>${activeTopic.weight}</span>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
+                  <button onclick="window.app.playTrack(${activeTopic.id}); window.app.setTab('podcast');" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+                    <span>🎧</span> Escuchar Podcast
+                  </button>
                   <button onclick="window.app.downloadGuide(${activeTopic.id})" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
                     <span>📥</span> Descargar Guía (.MD)
                   </button>
@@ -808,11 +837,39 @@ class OpoDefensaApp {
               </div>
             ` : ''}
 
+            <!-- ESQUEMA CONCEPTUAL ASOCIADO -->
+            ${(() => {
+              const topicSchemeMap = { 1: 'reformas_ce', 2: 'age', 7: 'din_formatos', 8: 'circuito_postal' };
+              const linkedSchemeId = topicSchemeMap[activeTopic.id];
+              const linkedScheme = linkedSchemeId ? this.esquemas.find(e => e.id === linkedSchemeId) : null;
+              if (!linkedScheme) return '';
+              return `
+                <div class="mt-8 pt-6 border-t border-slate-800 space-y-4">
+                  <div class="flex items-center justify-between">
+                    <h4 class="text-sm font-extrabold text-sky-400 uppercase tracking-wider flex items-center gap-2">
+                      <span>🗺️</span> Esquema Conceptual Oficial: ${linkedScheme.title}
+                    </h4>
+                    <button onclick="window.app.selectEsquema('${linkedScheme.id}')" class="text-xs font-bold text-sky-400 hover:underline flex items-center gap-1">
+                      Ver en Módulo de Esquemas &rarr;
+                    </button>
+                  </div>
+                  <div class="bg-slate-950 rounded-2xl border border-slate-800 p-2 sm:p-4 overflow-x-auto">
+                    ${linkedScheme.renderSvg()}
+                  </div>
+                </div>
+              `;
+            })()}
+
             <!-- BOTONES DE ACCIÓN AL PIE DEL TEMA -->
             <div class="mt-8 pt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-              <button onclick="window.app.startTopicQuiz(${activeTopic.id})" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-lg">
-                <span>🎯</span> Entrenar Preguntas de este Tema
-              </button>
+              <div class="flex flex-wrap items-center gap-2">
+                <button onclick="window.app.startTopicQuiz(${activeTopic.id})" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-lg">
+                  <span>🎯</span> Entrenar Preguntas de este Tema
+                </button>
+                <button onclick="window.app.playTrack(${activeTopic.id}); window.app.setTab('podcast');" class="px-4 py-2.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-bold rounded-xl text-xs sm:text-sm border border-sky-500/30 flex items-center gap-2">
+                  <span>🎧</span> Audio-Repaso
+                </button>
+              </div>
               <button onclick="window.app.setTab('flashcards')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs sm:text-sm border border-slate-700">
                 <span>🗂️</span> Ver Flashcards Relacionadas
               </button>
@@ -1951,6 +2008,30 @@ class OpoDefensaApp {
       }
       return;
     }
+
+    // 4. ATAJOS EN EL MÓDULO DE PODCAST & AUDIO
+    if (this.activeTab === 'podcast') {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        this.togglePlayPodcast();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        this.seekAudio(15);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.seekAudio(-15);
+      } else if (e.key === '1') {
+        e.preventDefault();
+        this.setAudioPlaybackRate(1.0);
+      } else if (e.key === '2') {
+        e.preventDefault();
+        this.setAudioPlaybackRate(1.2);
+      } else if (e.key === '3') {
+        e.preventDefault();
+        this.setAudioPlaybackRate(1.5);
+      }
+      return;
+    }
   }
 
   confirmFinishExam() {
@@ -2710,6 +2791,940 @@ class OpoDefensaApp {
       localStorage.removeItem('opo_e1_history');
       this.setTab('analiticas');
     }
+  }
+
+  // =========================================================================
+  // MÓDULO 6: PODCAST Y AUDIO-REPASO TÁCTICO (HTML5 + WEB SPEECH DUAL ENGINE)
+  // =========================================================================
+  setupAudioListeners() {
+    this.audioElement.addEventListener('timeupdate', () => {
+      this.podcastState.currentTime = this.audioElement.currentTime;
+      this.podcastState.duration = this.audioElement.duration || 0;
+      this.updateAudioProgressUI();
+    });
+    this.audioElement.addEventListener('ended', () => {
+      this.onAudioTrackEnded();
+    });
+    this.audioElement.addEventListener('play', () => {
+      this.podcastState.isPlaying = true;
+      this.updateAudioPlayButtonUI();
+      this.updateMiniPlayer();
+    });
+    this.audioElement.addEventListener('pause', () => {
+      this.podcastState.isPlaying = false;
+      this.updateAudioPlayButtonUI();
+      this.updateMiniPlayer();
+    });
+    this.audioElement.addEventListener('error', (e) => {
+      console.warn('Audio file error or missing, fallback to Web Speech available:', e);
+    });
+  }
+
+  formatTime(seconds) {
+    if (!seconds || isNaN(seconds)) return '00:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  cleanScriptForSpeech(text) {
+    if (!text) return '';
+    return text
+      .replace(/<[^>]+>/g, '')
+      .replace(/[#*`_~]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  playSpeech() {
+    if (!('speechSynthesis' in window)) {
+      alert('Tu navegador no cuenta con soporte nativo para Síntesis de Voz Web.');
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const track = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
+    const textToSpeak = this.cleanScriptForSpeech(track.script);
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'es-ES';
+    utterance.rate = this.podcastState.playbackRate;
+
+    const voices = window.speechSynthesis.getVoices();
+    const esVoice = voices.find(v => v.lang.startsWith('es') || v.lang.includes('es'));
+    if (esVoice) utterance.voice = esVoice;
+
+    utterance.onstart = () => {
+      this.podcastState.isPlaying = true;
+      this.updateAudioPlayButtonUI();
+      this.updateMiniPlayer();
+    };
+    utterance.onend = () => {
+      this.onAudioTrackEnded();
+    };
+    utterance.onerror = () => {
+      this.podcastState.isPlaying = false;
+      this.updateAudioPlayButtonUI();
+      this.updateMiniPlayer();
+    };
+
+    this.speechUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+    this.podcastState.isPlaying = true;
+    this.updateAudioPlayButtonUI();
+    this.updateMiniPlayer();
+  }
+
+  pauseSpeech() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    this.podcastState.isPlaying = false;
+    this.updateAudioPlayButtonUI();
+    this.updateMiniPlayer();
+  }
+
+  togglePlayPodcast() {
+    if (this.podcastState.engine === 'mp3') {
+      const track = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
+      if (!this.audioElement.src || !this.audioElement.src.includes(track.audioSrc.replace('./', ''))) {
+        this.audioElement.src = track.audioSrc;
+      }
+
+      if (this.podcastState.isPlaying) {
+        this.audioElement.pause();
+      } else {
+        this.audioElement.playbackRate = this.podcastState.playbackRate;
+        this.audioElement.play().catch(err => {
+          console.warn('HTML5 Audio falló o archivo local no presente; activando Voz Neuronal Web Speech:', err);
+          this.toggleAudioEngine('speech');
+          this.playSpeech();
+        });
+      }
+    } else {
+      if (this.podcastState.isPlaying) {
+        this.pauseSpeech();
+      } else {
+        this.playSpeech();
+      }
+    }
+  }
+
+  playTrack(trackId) {
+    this.podcastState.currentTrackId = trackId;
+    const track = this.podcasts.find(t => t.id === trackId) || this.podcasts[0];
+
+    if (this.podcastState.engine === 'mp3') {
+      this.audioElement.src = track.audioSrc;
+      this.audioElement.playbackRate = this.podcastState.playbackRate;
+      this.audioElement.currentTime = 0;
+      this.audioElement.play().catch(() => {
+        this.toggleAudioEngine('speech');
+        this.playSpeech();
+      });
+    } else {
+      this.playSpeech();
+    }
+
+    if (this.activeTab === 'podcast') {
+      const mainContainer = document.getElementById('app-main-content');
+      if (mainContainer) mainContainer.innerHTML = this.renderPodcastView();
+    }
+    this.updateMiniPlayer();
+  }
+
+  seekAudio(deltaSeconds) {
+    if (this.podcastState.engine === 'mp3') {
+      this.audioElement.currentTime = Math.max(0, Math.min(this.audioElement.duration || 3600, this.audioElement.currentTime + deltaSeconds));
+    } else {
+      this.playSpeech();
+    }
+  }
+
+  handleProgressBarClick(event) {
+    if (this.podcastState.engine === 'mp3' && this.podcastState.duration > 0) {
+      const bar = event.currentTarget;
+      const rect = bar.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      this.audioElement.currentTime = pct * this.podcastState.duration;
+    }
+  }
+
+  setAudioPlaybackRate(rate) {
+    this.podcastState.playbackRate = rate;
+    this.audioElement.playbackRate = rate;
+    if (this.podcastState.engine === 'speech' && this.podcastState.isPlaying) {
+      this.playSpeech();
+    } else if (this.activeTab === 'podcast') {
+      const mainContainer = document.getElementById('app-main-content');
+      if (mainContainer) mainContainer.innerHTML = this.renderPodcastView();
+    }
+  }
+
+  toggleAudioEngine(forceEngine) {
+    const wasPlaying = this.podcastState.isPlaying;
+    if (this.podcastState.engine === 'speech') {
+      this.pauseSpeech();
+    } else {
+      this.audioElement.pause();
+    }
+
+    this.podcastState.engine = forceEngine || (this.podcastState.engine === 'mp3' ? 'speech' : 'mp3');
+
+    if (wasPlaying) {
+      if (this.podcastState.engine === 'speech') {
+        this.playSpeech();
+      } else {
+        const track = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
+        this.audioElement.src = track.audioSrc;
+        this.audioElement.play().catch(() => this.playSpeech());
+      }
+    }
+
+    if (this.activeTab === 'podcast') {
+      const mainContainer = document.getElementById('app-main-content');
+      if (mainContainer) mainContainer.innerHTML = this.renderPodcastView();
+    }
+    this.updateMiniPlayer();
+  }
+
+  toggleTranscriptCollapse() {
+    this.podcastState.transcriptCollapsed = !this.podcastState.transcriptCollapsed;
+    if (this.activeTab === 'podcast') {
+      const mainContainer = document.getElementById('app-main-content');
+      if (mainContainer) mainContainer.innerHTML = this.renderPodcastView();
+    }
+  }
+
+  onAudioTrackEnded() {
+    this.podcastState.isPlaying = false;
+    this.podcastState.currentTime = 0;
+    this.updateAudioPlayButtonUI();
+    this.updateMiniPlayer();
+    if (this.podcastState.currentTrackId < 10) {
+      this.playTrack(this.podcastState.currentTrackId + 1);
+    }
+  }
+
+  updateAudioProgressUI() {
+    const curTimeEl = document.getElementById('podcast-current-time');
+    const durEl = document.getElementById('podcast-duration');
+    const barEl = document.getElementById('podcast-progress-bar');
+    if (curTimeEl) curTimeEl.textContent = this.formatTime(this.podcastState.currentTime);
+    if (durEl && this.podcastState.duration > 0) durEl.textContent = this.formatTime(this.podcastState.duration);
+    if (barEl && this.podcastState.duration > 0) {
+      barEl.style.width = `${(this.podcastState.currentTime / this.podcastState.duration) * 100}%`;
+    }
+  }
+
+  updateAudioPlayButtonUI() {
+    const btn = document.getElementById('podcast-play-btn');
+    if (btn) {
+      btn.innerHTML = `
+        <span class="text-xl">${this.podcastState.isPlaying ? '⏸️' : '▶️'}</span>
+        <span>${this.podcastState.isPlaying ? 'Pausar' : 'Reproducir'}</span>
+      `;
+    }
+    const miniBtn = document.getElementById('mini-player-play-btn');
+    if (miniBtn) {
+      miniBtn.textContent = this.podcastState.isPlaying ? '⏸️' : '▶️';
+    }
+  }
+
+  updateMiniPlayer() {
+    const container = document.getElementById('podcast-mini-player');
+    if (!container) return;
+
+    if (this.activeTab === 'podcast' || (!this.podcastState.isPlaying && this.podcastState.currentTime === 0)) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const currentTrack = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
+
+    container.innerHTML = `
+      <div class="fixed bottom-16 xl:bottom-4 right-4 left-4 xl:left-auto xl:w-96 z-40 bg-slate-900/95 backdrop-blur-md border border-sky-500/40 rounded-2xl p-3 shadow-2xl flex items-center justify-between gap-3 animate-fadeIn">
+        <div class="flex items-center gap-3 overflow-hidden cursor-pointer flex-1" onclick="window.app.setTab('podcast')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-lg text-white shrink-0 ${this.podcastState.isPlaying ? 'animate-pulse' : ''}">
+            🎧
+          </div>
+          <div class="overflow-hidden min-w-0">
+            <div class="text-[10px] font-bold text-sky-400 uppercase truncate">Audio-Repaso Táctico</div>
+            <div class="text-xs font-bold text-white truncate">${currentTrack.title}</div>
+            <div class="text-[10px] text-slate-400 font-mono">${this.formatTime(this.podcastState.currentTime)} / ${currentTrack.duration}</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="window.app.togglePlayPodcast()" id="mini-player-play-btn" class="w-9 h-9 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 flex items-center justify-center font-bold text-sm shadow">
+            ${this.podcastState.isPlaying ? '⏸️' : '▶️'}
+          </button>
+          <button onclick="window.app.setTab('podcast')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold border border-slate-700">
+            Ver ↗
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  selectTopicAndOpenStudy(topicId) {
+    this.selectedTopicId = topicId;
+    this.studySubTab = 'temas';
+    this.setTab('estudio');
+  }
+
+  renderPodcastView() {
+    const currentTrack = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
+    const isPlaying = this.podcastState.isPlaying;
+    const rate = this.podcastState.playbackRate;
+    const isSpeech = this.podcastState.engine === 'speech';
+
+    return `
+      <div class="max-w-5xl mx-auto space-y-8 animate-fadeIn pb-16">
+        <!-- HEADER DEL MÓDULO -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                10 Pistas Locutadas &bull; Convocatoria 2026
+              </span>
+              <span class="text-xs text-slate-400">&bull; 100% Offline-Ready</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-black text-white mt-1 flex items-center gap-2">
+              <span>🎧</span> Podcast & Audio-Repaso Táctico
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400">
+              Locución de alta retención para los 10 temas oficiales (33% Común / 67% Específico) con guion dinámico mnemotécnico.
+            </p>
+          </div>
+
+          <!-- SELECTOR DE MOTOR DE AUDIO (DUAL ENGINE) -->
+          <div class="inline-flex items-center p-1 bg-slate-900 border border-slate-800 rounded-2xl">
+            <button onclick="window.app.toggleAudioEngine('mp3')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${!isSpeech ? 'bg-sky-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
+              <span>📻</span> Archivo MP3
+            </button>
+            <button onclick="window.app.toggleAudioEngine('speech')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${isSpeech ? 'bg-sky-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
+              <span>🗣️</span> Voz Neuronal (Voz Web)
+            </button>
+          </div>
+        </div>
+
+        <!-- REPRODUCTOR PRINCIPAL HERO CARD -->
+        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950 border border-sky-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-lg text-xs font-black uppercase ${currentTrack.topicId <= 4 ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+                  ${currentTrack.topicId <= 4 ? 'Bloque Común (33%)' : 'Bloque Específico (67%)'}
+                </span>
+                <span class="text-xs text-slate-400 font-mono">Pista #${currentTrack.id} de 10</span>
+              </div>
+              <h2 class="text-xl sm:text-3xl font-black text-white leading-tight">
+                ${currentTrack.title}
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                ${currentTrack.summary}
+              </p>
+            </div>
+
+            <div class="flex flex-col items-center md:items-end justify-center shrink-0">
+              <div class="text-xs text-slate-400 font-medium">Duración Estimada</div>
+              <div class="text-2xl font-black text-sky-400 font-mono">${currentTrack.duration}</div>
+              <button onclick="window.app.selectTopicAndOpenStudy(${currentTrack.topicId})" class="mt-2 text-xs font-bold text-sky-400 hover:text-sky-300 underline flex items-center gap-1">
+                <span>📖</span> Ver Tema en Manual &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- BARRA DE TIEMPO Y PROGRESO -->
+          <div class="space-y-2 pt-2">
+            <div class="flex items-center justify-between text-xs font-mono font-bold">
+              <span id="podcast-current-time" class="text-sky-400">${this.formatTime(this.podcastState.currentTime)}</span>
+              <span id="podcast-duration" class="text-slate-400">${this.formatTime(this.podcastState.duration) || currentTrack.duration}</span>
+            </div>
+            <div class="relative w-full h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden cursor-pointer" onclick="window.app.handleProgressBarClick(event)">
+              <div id="podcast-progress-bar" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full transition-all duration-150" style="width: ${this.podcastState.duration > 0 ? (this.podcastState.currentTime / this.podcastState.duration) * 100 : 0}%"></div>
+            </div>
+          </div>
+
+          <!-- CONTROLES DE REPRODUCCIÓN Y VELOCIDAD -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-800/80">
+            <!-- SELECTOR DE VELOCIDAD -->
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-bold">
+              <span class="px-2 text-slate-500 text-[10px] uppercase">Vel:</span>
+              <button onclick="window.app.setAudioPlaybackRate(1.0)" class="px-2.5 py-1 rounded-lg transition-all ${rate === 1.0 ? 'bg-sky-500 text-slate-950 font-black' : 'text-slate-400 hover:text-white'}">
+                1.0x
+              </button>
+              <button onclick="window.app.setAudioPlaybackRate(1.2)" class="px-2.5 py-1 rounded-lg transition-all ${rate === 1.2 ? 'bg-sky-500 text-slate-950 font-black' : 'text-slate-400 hover:text-white'}">
+                1.2x
+              </button>
+              <button onclick="window.app.setAudioPlaybackRate(1.5)" class="px-2.5 py-1 rounded-lg transition-all ${rate === 1.5 ? 'bg-sky-500 text-slate-950 font-black' : 'text-slate-400 hover:text-white'}">
+                1.5x
+              </button>
+            </div>
+
+            <!-- BOTONES CENTRALES DE TRANSPORTE -->
+            <div class="flex items-center gap-3">
+              <button onclick="window.app.seekAudio(-15)" title="Retroceder 15 segundos" class="w-11 h-11 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center font-bold text-sm border border-slate-700 transition-all">
+                ⏪ 15s
+              </button>
+              <button onclick="window.app.togglePlayPodcast()" id="podcast-play-btn" class="px-8 h-14 rounded-2xl bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-black text-base flex items-center gap-2.5 shadow-xl shadow-sky-500/25 transition-all">
+                <span class="text-xl">${isPlaying ? '⏸️' : '▶️'}</span>
+                <span>${isPlaying ? 'Pausar' : 'Reproducir'}</span>
+              </button>
+              <button onclick="window.app.seekAudio(15)" title="Avanzar 15 segundos" class="w-11 h-11 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center font-bold text-sm border border-slate-700 transition-all">
+                15s ⏩
+              </button>
+            </div>
+
+            <!-- ATAJOS DE TECLADO NOTIFICACIÓN -->
+            <div class="hidden lg:flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+              <span>Atajos:</span>
+              <kbd class="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-400">[Espacio]</kbd> Play/Pause
+              <kbd class="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-400">[←/→]</kbd> ±15s
+            </div>
+          </div>
+        </div>
+
+        <!-- GUION DINÁMICO DE LOCUCIÓN (COLLAPSIBLE TRANSCRIPTION PANEL) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl">📄</span>
+              <div>
+                <h3 class="text-lg font-black text-white">Guion Completo y Transcripción de Estudio</h3>
+                <p class="text-xs text-slate-400">Lectura sincronizada con resaltado mnemotécnico de cifras exactas y trampas del BOE</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="window.app.toggleTranscriptCollapse()" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all flex items-center gap-1.5">
+                <span>${this.podcastState.transcriptCollapsed ? '👁️ Mostrar Guion' : '🙈 Plegar Guion'}</span>
+              </button>
+            </div>
+          </div>
+
+          ${!this.podcastState.transcriptCollapsed ? `
+            <div class="prose prose-invert max-w-none text-slate-300 text-sm sm:text-base leading-relaxed bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80 max-h-[500px] overflow-y-auto space-y-4">
+              <div class="whitespace-pre-line">
+                ${this.applyMnemonicHighlights(currentTrack.script.trim())}
+              </div>
+            </div>
+          ` : `
+            <div class="p-4 text-center text-xs text-slate-500 bg-slate-950/40 rounded-xl border border-slate-800">
+              Guion de estudio plegado. Pulsa "Mostrar Guion" para seguir la locución con la vista.
+            </div>
+          `}
+        </div>
+
+        <!-- LISTA COMPLETA DE LAS 10 PISTAS (TRACKLIST) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-black text-white flex items-center gap-2">
+              <span>📋</span> Programa Completo de Audio (10 Temas Oficiales)
+            </h3>
+            <span class="text-xs text-slate-400 font-mono">10 Temas Íntegros</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${this.podcasts.map(track => {
+              const isCurrent = track.id === this.podcastState.currentTrackId;
+              const isPlayingThis = isCurrent && this.podcastState.isPlaying;
+
+              return `
+                <div onclick="window.app.playTrack(${track.id})" class="cursor-pointer bg-slate-900 border ${isCurrent ? 'border-sky-500 bg-sky-950/15 ring-1 ring-sky-500/40' : 'border-slate-800 hover:border-slate-700'} rounded-2xl p-4 transition-all flex items-start justify-between gap-3 shadow-md hover:-translate-y-0.5">
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center font-black text-sm transition-all ${isCurrent ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/20' : 'bg-slate-800 text-slate-400'}">
+                      ${isPlayingThis ? '⏸️' : isCurrent ? '▶️' : track.id}
+                    </div>
+                    <div class="space-y-1">
+                      <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded ${track.topicId <= 4 ? 'bg-indigo-500/20 text-indigo-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                          ${track.topicId <= 4 ? 'Común' : 'Específico'}
+                        </span>
+                        <span class="text-xs font-mono text-slate-400">${track.duration}</span>
+                      </div>
+                      <h4 class="text-xs sm:text-sm font-bold text-white leading-snug">
+                        ${track.title}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // MÓDULO 7: ESQUEMAS VISUALES Y MAPAS CONCEPTUALES VECTORIALES
+  // =========================================================================
+  selectEsquema(id) {
+    this.selectedEsquemaId = id;
+    this.setTab('esquemas');
+  }
+
+  renderEsquemasView() {
+    const currentEsquema = this.esquemas.find(e => e.id === this.selectedEsquemaId) || this.esquemas[0];
+
+    return `
+      <div class="space-y-8 animate-fadeIn pb-16">
+        <!-- HEADER DEL MÓDULO DE ESQUEMAS -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                Fijación Visual Vectorial &bull; Memoria Fotográfica
+              </span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-black text-white mt-1 flex items-center gap-2">
+              <span>🗺️</span> Esquemas Visuales y Mapas Conceptuales
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400">
+              Mapas sinópticos e infografías vectoriales SVG/CSS de los puntos más preguntados en el examen de Defensa E1.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+              <span>🖨️</span> Imprimir Esquema
+            </button>
+            <button onclick="window.app.selectTopicAndOpenStudy(${currentEsquema.topicId})" class="px-3.5 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+              <span>📖</span> Ver Tema ${currentEsquema.topicId}
+            </button>
+          </div>
+        </div>
+
+        <!-- SELECTOR DE ESQUEMAS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          ${this.esquemas.map(esq => {
+            const isSelected = esq.id === this.selectedEsquemaId;
+            return `
+              <button onclick="window.app.selectEsquema('${esq.id}')" class="p-4 rounded-2xl border text-left transition-all ${isSelected ? 'bg-sky-500/15 border-sky-500 ring-2 ring-sky-500/30' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}">
+                <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-slate-800 text-sky-400">
+                  ${esq.badge}
+                </span>
+                <h4 class="text-xs sm:text-sm font-bold text-white mt-2 leading-tight">
+                  ${esq.title}
+                </h4>
+              </button>
+            `;
+          }).join('')}
+        </div>
+
+        <!-- CONTENEDOR PRINCIPAL DEL ESQUEMA SELECCIONADO -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+          <div class="space-y-2 border-b border-slate-800 pb-4">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase px-2.5 py-1 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                ${currentEsquema.badge}
+              </span>
+              <span class="text-xs text-slate-400">Infografía Vectorial Oficial</span>
+            </div>
+            <h2 class="text-xl sm:text-3xl font-black text-white">
+              ${currentEsquema.title}
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300">
+              ${currentEsquema.subtitle}
+            </p>
+          </div>
+
+          <!-- RENDERIZADO VECTORIAL DEL ESQUEMA -->
+          <div class="bg-slate-950 rounded-2xl border border-slate-800/80 p-2 sm:p-4">
+            ${currentEsquema.renderSvg()}
+          </div>
+
+          <!-- DESGLOSE PEDAGÓGICO Y CLAVES DE RETENCIÓN -->
+          <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-3">
+            <h3 class="text-sm font-black text-amber-400 uppercase tracking-wider flex items-center gap-2">
+              <span>⭐</span> Puntos Calientes de Examen en este Esquema
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              ${this.applyMnemonicHighlights(currentEsquema.description)}
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // MÓDULO 8: DOSSIERS E IMPRESIÓN OFICIAL (@media print / PDF)
+  // =========================================================================
+  openPrintModal() {
+    const container = document.getElementById('print-modal-container');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl space-y-6 animate-fadeIn">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl">🖨️</span>
+              <div>
+                <h3 class="text-lg font-black text-white">Modo Imprimir / Dossiers Oficiales (PDF)</h3>
+                <p class="text-xs text-slate-400">Documentos formateados para papel A4 sin elementos web</p>
+              </div>
+            </div>
+            <button onclick="window.app.closePrintModal()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center font-bold">
+              ✕
+            </button>
+          </div>
+
+          <p class="text-xs text-slate-300">
+            Selecciona el tipo de dossier que deseas imprimir o guardar en PDF con tu navegador (elige "Guardar como PDF" y tamaño A4):
+          </p>
+
+          <div class="space-y-3">
+            <!-- DOSSIER 1: MANUAL COMPLETO -->
+            <div onclick="window.app.printDossier('manual')" class="cursor-pointer bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-sky-500/50 rounded-2xl p-4 transition-all flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl shrink-0">
+                📖
+              </div>
+              <div class="space-y-1">
+                <div class="text-xs font-black text-white">Dossier 1: Manual Completo de Estudio (10 Temas Íntegros)</div>
+                <p class="text-xs text-slate-400">
+                  Todo el temario desarrollado de la convocatoria con epígrafes, tablas de medidas DIN, pesos de correspondencia, citas del BOE y saltos de página por tema.
+                </p>
+              </div>
+            </div>
+
+            <!-- DOSSIER 2: FICHA DE ULTRA-PRECISIÓN -->
+            <div onclick="window.app.printDossier('cifras')" class="cursor-pointer bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-amber-500/50 rounded-2xl p-4 transition-all flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shrink-0">
+                ⭐
+              </div>
+              <div class="space-y-1">
+                <div class="text-xs font-black text-white">Dossier 2: Ficha de Ultra-Precisión (50 Cifras Sagradas + Trampas)</div>
+                <p class="text-xs text-slate-400">
+                  Tabla de alta densidad con los 50 plazos, mayorías, temperaturas y dimensiones clave + catálogo de trampas lingüísticas para el repaso de última hora.
+                </p>
+              </div>
+            </div>
+
+            <!-- DOSSIER 3: CUADERNILLO OFICIAL DE EXAMEN -->
+            <div onclick="window.app.printDossier('examen')" class="cursor-pointer bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-4 transition-all flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl shrink-0">
+                📝
+              </div>
+              <div class="space-y-1">
+                <div class="text-xs font-black text-white">Dossier 3: Cuadernillo de Examen Oficial en Papel (60 + 6 Reserva)</div>
+                <p class="text-xs text-slate-400">
+                  Formato real de examen para entrenamiento con bolígrafo: Cuestionario oficial, Hoja de Respuestas en cuadrícula y Plantilla de Soluciones razonadas al dorso.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button onclick="window.app.closePrintModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.classList.remove('hidden');
+  }
+
+  closePrintModal() {
+    const container = document.getElementById('print-modal-container');
+    if (container) {
+      container.classList.add('hidden');
+      container.innerHTML = '';
+    }
+  }
+
+  printDossier(type) {
+    let dossierHtml = '';
+    if (type === 'manual') {
+      dossierHtml = this.generateManualDossierHtml();
+    } else if (type === 'cifras') {
+      dossierHtml = this.generateCifrasDossierHtml();
+    } else if (type === 'examen') {
+      dossierHtml = this.generateExamDossierHtml();
+    }
+
+    const printOutput = document.getElementById('print-output');
+    if (printOutput) {
+      printOutput.innerHTML = dossierHtml;
+      this.closePrintModal();
+      window.print();
+    }
+  }
+
+  generateManualDossierHtml() {
+    return `
+      <div class="p-8 max-w-4xl mx-auto space-y-8">
+        <div class="border-b-2 border-black pb-4 text-center space-y-1">
+          <div class="text-xs font-bold tracking-widest uppercase">MINISTERIO DE DEFENSA &bull; SUBSECRETARÍA DE DEFENSA</div>
+          <h1 class="text-2xl font-black uppercase">MANUAL TÉCNICO OFICIAL DE ESTUDIO</h1>
+          <div class="text-sm font-semibold">Grupo Profesional E1 &bull; Especialidad: Servicios Administrativos (IV CUAGE)</div>
+          <div class="text-xs text-gray-600 font-mono">Conforme a Resolución 430/38310/2026 &bull; Programa Íntegro de 10 Temas</div>
+        </div>
+
+        <div class="space-y-12">
+          ${this.syllabus.map(topic => `
+            <div class="space-y-4 page-break">
+              <div class="border-b border-gray-400 pb-2">
+                <div class="text-xs font-bold uppercase text-gray-600">${topic.icon} ${topic.weight} &bull; TEMA ${topic.id}</div>
+                <h2 class="text-xl font-bold text-black">${topic.title}</h2>
+                <div class="text-xs font-mono text-gray-700 mt-0.5">Referencia legal: ${topic.lawRef}</div>
+              </div>
+
+              <div class="space-y-6 text-sm text-gray-900 leading-relaxed">
+                ${topic.sections.map(sec => `
+                  <div class="space-y-2 avoid-break">
+                    <h3 class="text-base font-bold text-black border-b border-gray-300 pb-1">${sec.title}</h3>
+                    <div class="text-justify">${sec.content}</div>
+                    ${sec.quote ? `
+                      <div class="border-l-4 border-gray-500 pl-3 italic text-xs my-2">
+                        "${sec.quote}" &mdash; <strong>${sec.quoteSource}</strong>
+                      </div>
+                    ` : ''}
+                    ${sec.alert ? `
+                      <div class="border border-black p-2 rounded text-xs bg-gray-100 my-2">
+                        <strong>⚠️ ${sec.alert.title}:</strong> ${sec.alert.desc}
+                      </div>
+                    ` : ''}
+                  </div>
+                `).join('')}
+              </div>
+
+              ${topic.keyFigures && topic.keyFigures.length > 0 ? `
+                <div class="mt-4 pt-3 border-t border-gray-300 avoid-break">
+                  <h4 class="text-xs font-bold uppercase mb-2">Cifras y Plazos Clave del Tema</h4>
+                  <table class="data-table text-xs">
+                    <thead>
+                      <tr>
+                        <th style="width: 50%;">Concepto / Trámite</th>
+                        <th style="width: 50%;">Cifra o Plazo Oficial</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${topic.keyFigures.map(kf => `
+                        <tr>
+                          <td><strong>${kf.term}</strong></td>
+                          <td>${kf.value}</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              ` : ''}
+
+              ${topic.examTraps && topic.examTraps.length > 0 ? `
+                <div class="mt-3 avoid-break">
+                  <h4 class="text-xs font-bold uppercase mb-1">Trampas Recurrentes del Tribunal</h4>
+                  <ul class="list-disc pl-5 text-xs space-y-1">
+                    ${topic.examTraps.map(trap => `<li>${trap}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  generateCifrasDossierHtml() {
+    return `
+      <div class="p-8 max-w-4xl mx-auto space-y-6">
+        <div class="border-b-2 border-black pb-4 text-center space-y-1">
+          <div class="text-xs font-bold tracking-widest uppercase">MINISTERIO DE DEFENSA &bull; GRUPO PROFESIONAL E1</div>
+          <h1 class="text-2xl font-black uppercase">FICHA DE ULTRA-PRECISIÓN BOE</h1>
+          <div class="text-sm font-semibold">Las 50 Cifras Sagradas y Control de Trampas del Tribunal</div>
+          <div class="text-xs text-gray-600 font-mono">Plazos, Mayorías, Dimensiones DIN 476, Pesos de Correos y Condiciones Ambientales PRL</div>
+        </div>
+
+        <div class="space-y-4">
+          <h2 class="text-base font-bold uppercase border-b border-black pb-1">1. Tabla Maestra de las 50 Cifras Sagradas</h2>
+          <table class="data-table text-xs">
+            <thead>
+              <tr>
+                <th style="width: 8%;">#</th>
+                <th style="width: 22%;">Tema</th>
+                <th style="width: 25%;">Cifra Oficial</th>
+                <th style="width: 45%;">Concepto y Referencia Legal</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${this.cifras.map(c => `
+                <tr class="avoid-break">
+                  <td class="font-bold">${c.id}</td>
+                  <td>${c.tema}</td>
+                  <td class="font-bold">${c.cifra}</td>
+                  <td>
+                    <div><strong>${c.concepto}</strong></div>
+                    <div class="text-gray-600 text-[10px]">${c.detalle}</div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="space-y-4 pt-4">
+          <h2 class="text-base font-bold uppercase border-b border-black pb-1">2. Catálogo Oficial de Trampas Lingüísticas y Funcionales</h2>
+          <table class="data-table text-xs">
+            <thead>
+              <tr>
+                <th style="width: 8%;">#</th>
+                <th style="width: 22%;">Tema</th>
+                <th style="width: 35%;">Trampa Frecuente del Tribunal</th>
+                <th style="width: 35%;">Regla Técnica / Salvedad Legal</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${this.trampas.map(t => `
+                <tr class="avoid-break">
+                  <td class="font-bold">${t.id}</td>
+                  <td>${t.tema}</td>
+                  <td class="text-red-700 font-semibold">${t.trampa}</td>
+                  <td class="text-green-800 font-medium">${t.solucion}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  generateExamDossierHtml() {
+    const comunQ = this.questionBank.filter(q => q.topicId <= 4);
+    const espQ = this.questionBank.filter(q => q.topicId >= 5);
+
+    const selectedComun = comunQ.slice(0, 20);
+    const selectedEsp = espQ.slice(0, 40);
+    const reserveComun = comunQ.slice(20, 22);
+    const reserveEsp = espQ.slice(40, 44);
+
+    const mainQuestions = [...selectedComun, ...selectedEsp];
+    const reserveQuestions = [...reserveComun, ...reserveEsp];
+    const allQuestions = [...mainQuestions, ...reserveQuestions];
+
+    return `
+      <div class="p-8 max-w-4xl mx-auto space-y-6">
+        <!-- PORTADA E INSTRUCCIONES OFICIALES -->
+        <div class="border-2 border-black p-6 rounded-lg text-center space-y-4">
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-700">SUBSECRETARÍA DE DEFENSA &bull; CONVOCATORIA 2026</div>
+          <h1 class="text-2xl font-black uppercase tracking-tight">CUADERNILLO OFICIAL DE EXAMEN</h1>
+          <div class="text-base font-bold">GRUPO PROFESIONAL E1 &bull; SERVICIOS ADMINISTRATIVOS (IV CUAGE)</div>
+          <div class="text-xs font-mono text-gray-600">Resolución 430/38310/2026 (BOE 07/07/2026)</div>
+
+          <div class="border-t border-b border-gray-400 py-3 text-left text-xs space-y-1.5 my-4">
+            <div class="font-bold uppercase text-center mb-1">INSTRUCCIONES PARA EL OPOSITOR</div>
+            <p>&bull; <strong>Tiempo disponible:</strong> 60 minutos ininterrumpidos.</p>
+            <p>&bull; <strong>Estructura:</strong> 60 preguntas ordinarias (1 a 60) + 6 preguntas de reserva (R1 a R6).</p>
+            <p>&bull; <strong>Distribución oficial:</strong> 20 preguntas Bloque Común + 40 preguntas Bloque Específico.</p>
+            <p>&bull; <strong>Baremo de calificación:</strong> Cada acierto suma <strong>+1,00 punto</strong>. Cada fallo penaliza <strong>-0,33 puntos</strong> (-1/3). Las preguntas no contestadas no puntúan ni penalizan (0,00).</p>
+            <p>&bull; <strong>Corte de aprobado:</strong> Mínimo <strong>30,00 puntos netos</strong> (50% de la puntuación máxima).</p>
+          </div>
+
+          <!-- HOJA OFICIAL DE RESPUESTAS EN CUADRÍCULA -->
+          <div class="pt-2 avoid-break">
+            <h2 class="text-sm font-black uppercase mb-3">HOJA OFICIAL DE RESPUESTAS (RELLENAR A BOLÍGRAFO)</h2>
+            <div class="grid grid-cols-4 gap-2 text-[10px] font-mono border border-gray-400 p-3 rounded">
+              ${allQuestions.map((q, idx) => {
+                const isReserve = idx >= 60;
+                const label = isReserve ? `R${idx - 59}` : `${idx + 1}`;
+                return `
+                  <div class="flex items-center justify-between border-b border-gray-200 py-1">
+                    <span class="font-bold text-gray-700 w-6">${label}.</span>
+                    <span class="text-gray-500">[A]&nbsp;[B]&nbsp;[C]&nbsp;[D]</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- CUESTIONARIO DE PREGUNTAS -->
+        <div class="space-y-6">
+          <div class="border-b-2 border-black pb-2 flex justify-between items-center">
+            <span class="font-bold text-sm uppercase">CUESTIONARIO DE PREGUNTAS ORDINARIAS (1 A 60)</span>
+            <span class="text-xs font-mono">60 Minutos &bull; -0,33</span>
+          </div>
+
+          <div class="space-y-4 text-xs">
+            ${mainQuestions.map((q, idx) => `
+              <div class="avoid-break border-b border-gray-200 pb-3 space-y-1.5">
+                <div class="font-bold text-sm">
+                  ${idx + 1}. ${q.question}
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 pl-4 pt-1">
+                  ${q.options.map((opt, oIdx) => `
+                    <div><strong>${['A', 'B', 'C', 'D'][oIdx]})</strong> ${opt}</div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="page-break"></div>
+
+          <!-- PREGUNTAS DE RESERVA -->
+          <div class="border-b-2 border-black pb-2 flex justify-between items-center pt-4">
+            <span class="font-bold text-sm uppercase">PREGUNTAS DE RESERVA (R1 A R6)</span>
+            <span class="text-xs font-mono">2 Comunes + 4 Específicas</span>
+          </div>
+
+          <div class="space-y-4 text-xs">
+            ${reserveQuestions.map((q, rIdx) => `
+              <div class="avoid-break border-b border-gray-200 pb-3 space-y-1.5">
+                <div class="font-bold text-sm">
+                  R${rIdx + 1}. ${q.question}
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 pl-4 pt-1">
+                  ${q.options.map((opt, oIdx) => `
+                    <div><strong>${['A', 'B', 'C', 'D'][oIdx]})</strong> ${opt}</div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- PLANTILLA Y SOLUCIONARIO RAZONADO -->
+        <div class="space-y-6 pt-4">
+          <div class="border-b-2 border-black pb-2 text-center">
+            <h2 class="text-lg font-black uppercase">PLANTILLA OFICIAL Y SOLUCIONARIO RAZONADO</h2>
+            <div class="text-xs text-gray-600">Fundamentación jurídica y referencias normativas del BOE</div>
+          </div>
+
+          <table class="data-table text-xs">
+            <thead>
+              <tr>
+                <th style="width: 10%;">Pregunta</th>
+                <th style="width: 15%;">Opción Correcta</th>
+                <th style="width: 25%;">Referencia Legal</th>
+                <th style="width: 50%;">Justificación Oficial</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allQuestions.map((q, idx) => {
+                const label = idx >= 60 ? `R${idx - 59}` : `${idx + 1}`;
+                return `
+                  <tr class="avoid-break">
+                    <td class="font-bold">${label}</td>
+                    <td class="font-bold text-center">[${['A', 'B', 'C', 'D'][q.correct]}]</td>
+                    <td>${q.law} ${q.article ? `&bull; ${q.article}` : ''}</td>
+                    <td>${q.explanation}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
   }
 
   // =========================================================================

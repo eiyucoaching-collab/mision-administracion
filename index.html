@@ -257,14 +257,41 @@
       body {
         background: #ffffff !important;
         color: #000000 !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
       }
-      header, nav, footer, button, .no-print {
+      header, nav, footer, button, .no-print, #podcast-mini-player, #print-modal-container {
         display: none !important;
       }
-      .data-table td, .data-table th {
+      .page-break {
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .avoid-break {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 1.5cm;
+      }
+      .data-table {
+        width: 100% !important;
+        border: 1px solid #333333 !important;
+        page-break-inside: avoid !important;
+      }
+      .data-table th {
+        background-color: #f1f5f9 !important;
+        color: #000000 !important;
+        border-bottom: 2px solid #000000 !important;
+      }
+      .data-table td {
         background: #ffffff !important;
         color: #000000 !important;
-        border-color: #cccccc !important;
+        border-bottom: 1px solid #cccccc !important;
+      }
+      .print-only {
+        display: block !important;
       }
     }
   </style>
@@ -273,7 +300,7 @@
 <body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-slate-950 pb-20 md:pb-8">
 
   <!-- CABECERA SUPERIOR (DESKTOP & TABLET) -->
-  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-8 py-3.5 flex items-center justify-between no-print">
     <div class="flex items-center gap-3 cursor-pointer" onclick="window.app.setTab('dashboard')">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-xl shadow-lg shadow-sky-500/20">
         ⚔️
@@ -289,40 +316,45 @@
       </div>
     </div>
 
-    <!-- NAVEGACIÓN PRINCIPAL EN DESKTOP (5 MÓDULOS) -->
-    <nav class="hidden md:flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-slate-800 text-xs font-bold">
-      <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-2">
+    <!-- NAVEGACIÓN PRINCIPAL EN DESKTOP (7 MÓDULOS COMPLETOS) -->
+    <nav class="hidden xl:flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-slate-800 text-xs font-bold">
+      <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
         <span>🏛️</span> Inicio
       </button>
-      <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-2">
-        <span>📖</span> Manual 10 Temas
+      <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>📖</span> Manual 10
       </button>
-      <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-2">
-        <span>🎯</span> Simulador Test
+      <button data-tab-target="esquemas" onclick="window.app.setTab('esquemas')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🗺️</span> Esquemas
       </button>
-      <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-2">
-        <span>🗂️</span> Flashcards
+      <button data-tab-target="podcast" onclick="window.app.setTab('podcast')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🎧</span> Podcast
       </button>
-      <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-2">
-        <span>📊</span> Analíticas
+      <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🎯</span> Test
+      </button>
+      <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🗂️</span> Tarjetas
+      </button>
+      <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>📊</span> Progreso
       </button>
     </nav>
 
-    <!-- ESTADO OFFLINE / CONVOCATORIA -->
+    <!-- ACCIONES DE CABECERA: IMPRIMIR PDF Y SIMULACRO -->
     <div class="flex items-center gap-2">
-      <span class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        Offline-Ready
-      </span>
+      <button onclick="window.app.openPrintModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+        <span>🖨️</span>
+        <span class="hidden sm:inline">Modo Imprimir / PDF</span>
+      </button>
       <button onclick="window.app.startNewExam('oficial')" class="hidden sm:flex px-4 py-2 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all items-center gap-1.5">
-        <span>⚡</span> Simulacro Rápido
+        <span>⚡</span> Simulacro
       </button>
     </div>
   </header>
 
   <!-- CONTENEDOR PRINCIPAL DINÁMICO (SPA) -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8" id="app-main-content">
-    <!-- El contenido de cada vista se renderiza dinámicamente mediante src/app.js -->
     <div class="flex items-center justify-center min-h-[50vh]">
       <div class="text-center space-y-3">
         <div class="w-12 h-12 border-4 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
@@ -332,37 +364,54 @@
   </main>
 
   <!-- PIE DE PÁGINA (DESKTOP) -->
-  <footer class="hidden md:block border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+  <footer class="hidden md:block border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 no-print">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
       <p>Misión Administración &bull; Preparación Oficial E1 Servicios Administrativos (Ministerio de Defensa / CUAGE)</p>
       <p class="font-mono text-slate-600">Resolución 430/38310/2026 &bull; Sincronizado en GitHub Pages</p>
     </div>
   </footer>
 
+  <!-- REPRODUCTOR PERSISTENTE DE AUDIO MINI-PLAYER DOCK -->
+  <div id="podcast-mini-player" class="no-print"></div>
+
+  <!-- MODAL DE EXPORTACIÓN / IMPRESIÓN OFICIAL -->
+  <div id="print-modal-container" class="no-print hidden"></div>
+
   <!-- BARRA DE NAVEGACIÓN INFERIOR FIJA PARA MÓVILES (MOBILE BOTTOM BAR) -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-2 py-2 flex items-center justify-around">
-    <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="flex flex-col items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-white px-2 py-1.5 rounded-xl transition-all">
-      <span class="text-xl leading-none">🏛️</span>
+  <nav class="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-1 py-1.5 flex items-center justify-around no-print overflow-x-auto">
+    <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
+      <span class="text-lg leading-none">🏛️</span>
       <span>Inicio</span>
     </button>
-    <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="flex flex-col items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-white px-2 py-1.5 rounded-xl transition-all">
-      <span class="text-xl leading-none">📖</span>
-      <span>Manual</span>
+    <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
+      <span class="text-lg leading-none">📖</span>
+      <span>Temario</span>
     </button>
-    <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="flex flex-col items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-white px-2 py-1.5 rounded-xl transition-all relative">
-      <span class="text-xl leading-none">🎯</span>
+    <button data-tab-target="esquemas" onclick="window.app.setTab('esquemas')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
+      <span class="text-lg leading-none">🗺️</span>
+      <span>Mapas</span>
+    </button>
+    <button data-tab-target="podcast" onclick="window.app.setTab('podcast')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
+      <span class="text-lg leading-none">🎧</span>
+      <span>Audio</span>
+    </button>
+    <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all relative">
+      <span class="text-lg leading-none">🎯</span>
       <span>Test</span>
-      <span class="absolute top-1 right-2 w-2 h-2 rounded-full bg-sky-400"></span>
+      <span class="absolute top-0.5 right-1 w-1.5 h-1.5 rounded-full bg-sky-400"></span>
     </button>
-    <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="flex flex-col items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-white px-2 py-1.5 rounded-xl transition-all">
-      <span class="text-xl leading-none">🗂️</span>
+    <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
+      <span class="text-lg leading-none">🗂️</span>
       <span>Tarjetas</span>
     </button>
-    <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="flex flex-col items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-white px-2 py-1.5 rounded-xl transition-all">
-      <span class="text-xl leading-none">📊</span>
+    <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
+      <span class="text-lg leading-none">📊</span>
       <span>Progreso</span>
     </button>
   </nav>
+
+  <!-- CONTENEDOR DEDICADO PARA IMPRESIÓN Y EXPORTACIÓN A PDF (@media print) -->
+  <div id="print-output" class="print-only"></div>
 
   <!-- SCRIPT CENTRAL ES6 MODULAR -->
   <script type="module" src="./src/app.js"></script>
