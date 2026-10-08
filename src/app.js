@@ -35,6 +35,7 @@ class OpoDefensaApp {
       currentTime: 0,
       duration: 0,
       engine: 'mp3', // 'mp3' | 'speech'
+      voiceType: 'alvaro', // 'alvaro' (Álvaro Neural) | 'elvira' (Elvira Neural)
       transcriptCollapsed: false
     };
     this.audioElement = new Audio();
@@ -2829,11 +2830,77 @@ class OpoDefensaApp {
 
   cleanScriptForSpeech(text) {
     if (!text) return '';
-    return text
+    let cleaned = text
       .replace(/<[^>]+>/g, '')
-      .replace(/[#*`_~]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
+      .replace(/[#*`_~]/g, '');
+
+    const expansions = [
+      [/\barts?\.\s*/gi, 'artículo '],
+      [/\barts\.\s*/gi, 'artículos '],
+      [/\bn[ºo]\.?\s*/gi, 'número '],
+      [/\bCE\b/g, 'Constitución Española'],
+      [/\bAGE\b/g, 'A-G-E'],
+      [/\bBOE\b/g, 'B-O-E'],
+      [/\bCUAGE\b/g, 'Convenio Único'],
+      [/\bTRLET\b/g, 'Estatuto de los Trabajadores'],
+      [/\bLO\s*3\/2007\b/gi, 'Ley Orgánica tres de dos mil siete'],
+      [/\bLO\s*1\/2004\b/gi, 'Ley Orgánica una de dos mil cuatro'],
+      [/\b3\/5\b/g, 'tres quintos'],
+      [/\b2\/3\b/g, 'dos tercios'],
+      [/\b1\/10\b/g, 'una décima parte'],
+      [/\b1\s*m²\b/gi, 'un metro cuadrado'],
+      [/\b2\s*m²\b/gi, 'dos metros cuadrados'],
+      [/\b10\s*m³\b/gi, 'diez metros cúbicos'],
+      [/\b80\s*g\/m²\b/gi, 'ochenta gramos por metro cuadrado'],
+      [/\b17\s*ºC\b/gi, 'diecisiete grados centígrados'],
+      [/\b27\s*ºC\b/gi, 'veintisiete grados centígrados'],
+      [/\bDNI\b/g, 'D-N-I'],
+      [/\bTIE\b/g, 'T-I-E'],
+      [/\bNRBQ\b/g, 'N-R-B-Q'],
+      [/\bCO2\b/g, 'C-O-dos'],
+      [/\bRGPD\b/g, 'Reglamento General de Protección de Datos'],
+      [/\bDIN\s*A(\d)\b/gi, 'DIN A $1']
+    ];
+
+    for (const [regex, replacement] of expansions) {
+      cleaned = cleaned.replace(regex, replacement);
+    }
+
+    return cleaned.replace(/\s+/g, ' ').trim();
+  }
+
+  getTrackAudioSrc(track, voiceType = this.podcastState.voiceType) {
+    if (!track) return '';
+    if (voiceType === 'elvira') {
+      return track.audioSrc.replace('.mp3', '_elvira.mp3');
+    }
+    return track.audioSrc;
+  }
+
+  setPodcastVoice(voiceType) {
+    this.podcastState.voiceType = voiceType;
+    const track = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
+    const wasPlaying = this.podcastState.isPlaying;
+    const currentTime = this.podcastState.currentTime;
+
+    if (this.podcastState.engine === 'mp3') {
+      this.audioElement.src = this.getTrackAudioSrc(track, voiceType);
+      this.audioElement.currentTime = currentTime;
+      this.audioElement.playbackRate = this.podcastState.playbackRate;
+      if (wasPlaying) {
+        this.audioElement.play().catch(e => console.warn('Error al cambiar voz de audio:', e));
+      }
+    } else if (this.podcastState.engine === 'speech') {
+      if (wasPlaying) {
+        this.playSpeech();
+      }
+    }
+
+    if (this.activeTab === 'podcast') {
+      const mainContainer = document.getElementById('app-main-content');
+      if (mainContainer) mainContainer.innerHTML = this.renderPodcastView();
+    }
+    this.updateMiniPlayer();
   }
 
   playSpeech() {
@@ -2849,8 +2916,16 @@ class OpoDefensaApp {
     utterance.rate = this.podcastState.playbackRate;
 
     const voices = window.speechSynthesis.getVoices();
-    const esVoice = voices.find(v => v.lang.startsWith('es') || v.lang.includes('es'));
-    if (esVoice) utterance.voice = esVoice;
+    let preferredVoice = null;
+    if (this.podcastState.voiceType === 'elvira') {
+      preferredVoice = voices.find(v => v.lang.startsWith('es') && (v.name.includes('Elvira') || v.name.includes('Monica') || v.name.includes('Helena') || v.name.includes('Laura') || v.name.toLowerCase().includes('female')));
+    } else {
+      preferredVoice = voices.find(v => v.lang.startsWith('es') && (v.name.includes('Alvaro') || v.name.includes('Pablo') || v.name.includes('Jorge') || v.name.toLowerCase().includes('male')));
+    }
+    if (!preferredVoice) {
+      preferredVoice = voices.find(v => v.lang.startsWith('es') || v.lang.includes('es'));
+    }
+    if (preferredVoice) utterance.voice = preferredVoice;
 
     utterance.onstart = () => {
       this.podcastState.isPlaying = true;
@@ -2885,8 +2960,9 @@ class OpoDefensaApp {
   togglePlayPodcast() {
     if (this.podcastState.engine === 'mp3') {
       const track = this.podcasts.find(t => t.id === this.podcastState.currentTrackId) || this.podcasts[0];
-      if (!this.audioElement.src || !this.audioElement.src.includes(track.audioSrc.replace('./', ''))) {
-        this.audioElement.src = track.audioSrc;
+      const targetSrc = this.getTrackAudioSrc(track, this.podcastState.voiceType);
+      if (!this.audioElement.src || !this.audioElement.src.includes(targetSrc.replace('./', ''))) {
+        this.audioElement.src = targetSrc;
       }
 
       if (this.podcastState.isPlaying) {
@@ -2913,7 +2989,7 @@ class OpoDefensaApp {
     const track = this.podcasts.find(t => t.id === trackId) || this.podcasts[0];
 
     if (this.podcastState.engine === 'mp3') {
-      this.audioElement.src = track.audioSrc;
+      this.audioElement.src = this.getTrackAudioSrc(track, this.podcastState.voiceType);
       this.audioElement.playbackRate = this.podcastState.playbackRate;
       this.audioElement.currentTime = 0;
       this.audioElement.play().catch(() => {
@@ -3096,14 +3172,27 @@ class OpoDefensaApp {
             </p>
           </div>
 
-          <!-- SELECTOR DE MOTOR DE AUDIO (DUAL ENGINE) -->
-          <div class="inline-flex items-center p-1 bg-slate-900 border border-slate-800 rounded-2xl">
-            <button onclick="window.app.toggleAudioEngine('mp3')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${!isSpeech ? 'bg-sky-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
-              <span>📻</span> Archivo MP3
-            </button>
-            <button onclick="window.app.toggleAudioEngine('speech')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${isSpeech ? 'bg-sky-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
-              <span>🗣️</span> Voz Neuronal (Voz Web)
-            </button>
+          <!-- SELECTOR DE VOZ NEURONAL HD Y MOTOR -->
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- SELECTOR DE VOZ (ÁLVARO / ELVIRA) -->
+            <div class="inline-flex items-center p-1 bg-slate-900 border border-slate-800 rounded-2xl">
+              <button onclick="window.app.setPodcastVoice('alvaro')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.podcastState.voiceType === 'alvaro' ? 'bg-sky-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
+                <span>👨</span> Álvaro (Táctica)
+              </button>
+              <button onclick="window.app.setPodcastVoice('elvira')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${this.podcastState.voiceType === 'elvira' ? 'bg-sky-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
+                <span>👩</span> Elvira (Pedagógica)
+              </button>
+            </div>
+
+            <!-- SELECTOR DE MOTOR DE AUDIO (DUAL ENGINE) -->
+            <div class="inline-flex items-center p-1 bg-slate-900 border border-slate-800 rounded-2xl">
+              <button onclick="window.app.toggleAudioEngine('mp3')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${!isSpeech ? 'bg-emerald-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
+                <span>📻</span> MP3 Estudio HD
+              </button>
+              <button onclick="window.app.toggleAudioEngine('speech')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${isSpeech ? 'bg-emerald-500 text-slate-950 font-black shadow' : 'text-slate-400 hover:text-white'}">
+                <span>🗣️</span> Voz Sintética Web
+              </button>
+            </div>
           </div>
         </div>
 
@@ -3111,11 +3200,14 @@ class OpoDefensaApp {
         <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950 border border-sky-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div class="space-y-2">
-              <div class="flex items-center gap-2">
+              <div class="flex flex-wrap items-center gap-2">
                 <span class="px-3 py-1 rounded-lg text-xs font-black uppercase ${currentTrack.topicId <= 4 ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
                   ${currentTrack.topicId <= 4 ? 'Bloque Común (33%)' : 'Bloque Específico (67%)'}
                 </span>
                 <span class="text-xs text-slate-400 font-mono">Pista #${currentTrack.id} de 10</span>
+                <span class="px-2.5 py-0.5 rounded-md text-[10px] font-black tracking-wide bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                  ✨ ${this.podcastState.voiceType === 'elvira' ? 'Locutora Elvira Neural (HD)' : 'Locutor Álvaro Neural (HD)'}
+                </span>
               </div>
               <h2 class="text-xl sm:text-3xl font-black text-white leading-tight">
                 ${currentTrack.title}

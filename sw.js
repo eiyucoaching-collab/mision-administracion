@@ -1,5 +1,5 @@
 // Service Worker - Misión Administración (Opo-Defensa E1)
-const CACHE_NAME = 'opo-defensa-e1-v2';
+const CACHE_NAME = 'opo-defensa-e1-v3';
 
 const STATIC_ASSETS = [
   './',
@@ -52,6 +52,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return;
+
+  // Bypass audio range requests to let native browser media streaming work seamlessly
+  if (event.request.headers.get('range') || event.request.url.includes('/audio/')) {
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
