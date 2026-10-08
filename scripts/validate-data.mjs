@@ -98,6 +98,14 @@ const longestPct = total > 0 ? (longestCorrectCount / total) * 100 : 0;
 console.log(`Distribución de letras fijas en base: A=${letterDist[0]}, B=${letterDist[1]}, C=${letterDist[2]}, D=${letterDist[3]} (Máxima letra: ${maxLetterPct.toFixed(1)}%)`);
 console.log(`Opción correcta más larga: ${longestCorrectCount}/${total} (${longestPct.toFixed(1)}%)\n`);
 
+if (maxLetterPct > 35) {
+  errors.push(`[SESGO DISTRIBUCIÓN] Una letra de respuesta correcta supera el umbral máximo de tolerancia del 35%: ${maxLetterPct.toFixed(1)}%`);
+}
+
+if (longestPct > 40) {
+  errors.push(`[SESGO LONGITUD] La opción correcta es la más larga en más del 40% de las preguntas: ${longestPct.toFixed(1)}%`);
+}
+
 if (errors.length > 0) {
   console.error(`❌ SE ENCONTRARON ${errors.length} ERRORES DE INTEGRIDAD:`);
   errors.slice(0, 20).forEach(err => console.error(`  - ${err}`));

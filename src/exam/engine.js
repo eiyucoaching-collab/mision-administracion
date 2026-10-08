@@ -63,8 +63,9 @@ export function getTimeLimitForMode(mode, questionCount = 60) {
 export function createExamPool(questionBank, mode, options = {}) {
   const { failedQuestionsSet = new Set(), allowUnverified = false, rng = Math.random } = options;
 
-  // Filtrar preguntas sin verificar salvo que se autoricen expresamente
-  const validBank = allowUnverified 
+  // En simulacro oficial/real nunca entran preguntas sin verificar bajo ninguna circunstancia
+  const effectiveAllow = (mode === 'oficial' || mode === 'real2025') ? false : allowUnverified;
+  const validBank = effectiveAllow 
     ? questionBank 
     : questionBank.filter(q => q.sourceType !== 'sin_verificar');
 

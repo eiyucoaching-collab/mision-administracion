@@ -4,7 +4,7 @@
   "description": "Suite de preparación E1 Servicios Administrativos - Ministerio de Defensa",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/**/*.test.mjs",
+    "test": "node scripts/validate-data.mjs && node --test tests/**/*.test.mjs",
     "validate": "node scripts/validate-data.mjs"
   },
   "keywords": [

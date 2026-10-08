@@ -39,7 +39,9 @@ describe('P0 Exam Engine Tests', () => {
 
   it('P0.1: Simulación de 2000 exámenes: Alumno que marca siempre B obtiene ~25% y SUSPENDE', () => {
     let passedCount = 0;
-    const totalSimulations = 500;
+    let totalCorrect = 0;
+    let totalNetScore = 0;
+    const totalSimulations = 2000;
 
     for (let s = 0; s < totalSimulations; s++) {
       // Creamos un simulacro oficial de 60 preguntas con opciones barajadas
@@ -59,11 +61,29 @@ describe('P0 Exam Engine Tests', () => {
       });
 
       if (score.passed) passedCount++;
+      totalCorrect += score.correct;
+      totalNetScore += score.netScore;
     }
 
     const passRate = (passedCount / totalSimulations) * 100;
-    console.log(`[SIMULACIÓN 500 EXÁMENES ALUMNO B] Tasa de aprobados: ${passRate.toFixed(2)}%`);
+    const avgCorrect = totalCorrect / totalSimulations;
+    const avgNet = totalNetScore / totalSimulations;
+
+    console.log(`[SIMULACIÓN 2000 EXÁMENES ALUMNO B] Media aciertos: ${avgCorrect.toFixed(2)}/60, Media neta: ${avgNet.toFixed(2)}/60, Tasa aprobados: ${passRate.toFixed(2)}%`);
     assert.equal(passedCount, 0, `Un alumno marcando siempre B aprobó ${passedCount} simulacros (debe ser 0)`);
+    assert.ok(avgCorrect >= 13 && avgCorrect <= 17, `Los aciertos medios (${avgCorrect}) deben rondar 15`);
+    assert.ok(avgNet < 5, `La nota media neta (${avgNet}) debe rondar 0-2 puntos y nunca superar 5`);
+  });
+
+  it('P0.8: Las preguntas "sin_verificar" quedan estrictamente excluidas del simulacro oficial', () => {
+    const bankWithUnverified = [
+      ...QUESTION_BANK.slice(0, 66),
+      { id: 9999, block: 'especifico', topicId: 5, question: 'Dudosa', options: ['A','B','C','D'], correct: 0, law: 'Manual Desconocido', article: 'Art. 1', explanation: 'Test', sourceType: 'sin_verificar' }
+    ];
+
+    const officialPool = createExamPool(bankWithUnverified, 'oficial', { allowUnverified: true }); // Intento forzado de incluir
+    const hasUnverified = officialPool.questions.some(q => q.sourceType === 'sin_verificar');
+    assert.equal(hasUnverified, false, 'El simulacro oficial no debe permitir preguntas sin verificar');
   });
 
   it('P0.4: createExamPool soporta modo "tema:N" y no crashea si el pool está vacío', () => {

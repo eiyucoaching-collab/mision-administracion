@@ -1240,7 +1240,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Control de Accesos",
     "explanation": "El protocolo exige un saludo cortés e institucional y la solicitud inmediata de un documento oficial de identificación en vigor antes de realizar el registro en el libro de visitas.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 70,
@@ -1258,7 +1258,7 @@ export const QUESTION_BANK = [
     "law": "Normativa de Seguridad en Edificios Públicos",
     "article": "Acreditación de Identidad",
     "explanation": "El DNI y el Pasaporte en vigor son los documentos oficiales plenos de identificación de los ciudadanos españoles.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 71,
@@ -1276,7 +1276,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Libro de Visitas",
     "explanation": "Deben constar: nombre, apellidos, tipo y número de documento identificativo, hora de acceso, unidad/persona de destino y pase asignado (completándose con la hora de salida al marcharse).",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 72,
@@ -1294,7 +1294,7 @@ export const QUESTION_BANK = [
     "law": "Normas de Seguridad en Instalaciones Militares",
     "article": "Pases de Acceso",
     "explanation": "La tarjeta de visitante debe llevarse siempre en lugar perfectamente visible para que el personal de servicio pueda verificar que su presencia está autorizada.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 73,
@@ -1312,7 +1312,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Límites del Personal E1",
     "explanation": "El personal de servicios administrativos no tiene facultades policiales coercitivas ni de uso de la fuerza. Deniega el paso con serenidad y solicita la intervención de la seguridad del centro.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 74,
@@ -1330,7 +1330,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Custodia de Llaves",
     "explanation": "El clavero debe permanecer cerrado bajo llave en un recinto controlado y seguro, entregándose las llaves únicamente previa anotación y verificación.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 75,
@@ -1348,7 +1348,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Registro de Llaves",
     "explanation": "Cada entrega y devolución debe consignar fecha, hora, número de llave, dependencia, datos y firma del receptor en el libro de control.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 76,
@@ -1366,7 +1366,7 @@ export const QUESTION_BANK = [
     "law": "Plan de Seguridad de Instalaciones",
     "article": "Llaves Maestras",
     "explanation": "Las llaves maestras se custodian bajo precinto o en caja de caudales y solo pueden emplearse ante emergencias justificadas o con autorización de la jefatura.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 77,
@@ -1384,7 +1384,7 @@ export const QUESTION_BANK = [
     "law": "Código de Buenas Prácticas AGE",
     "article": "Atención al Ciudadano",
     "explanation": "El servicio público exige amabilidad, neutralidad, lenguaje accesible y vocación de resolución ágil de dudas.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 78,
@@ -1402,7 +1402,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Gestión de Citas",
     "explanation": "Nunca se deja a un visitante solo en un despacho oficial desierto. Se gestiona la alternativa con cortesía y dentro de las salas de espera autorizadas.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 79,
@@ -1420,7 +1420,7 @@ export const QUESTION_BANK = [
     "law": "Normativa de Extranjería y Seguridad",
     "article": "Identificación de Extranjeros",
     "explanation": "La TIE (que contiene el NIE) y el Pasaporte en vigor son documentos oficiales plenos de identificación de extranjeros.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 80,
@@ -1438,7 +1438,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Salida de Visitas",
     "explanation": "Al marcharse el visitante devuelve el pase asignado, se firma la hora de salida en el libro y se le reintegra cualquier credencial depositada.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 81,
@@ -1456,7 +1456,7 @@ export const QUESTION_BANK = [
     "law": "Sistemas de Seguridad Electrónica",
     "article": "Control Físico",
     "explanation": "Los tornos con tarjetas electromagnéticas o de proximidad filtran el acceso exclusivo de personal con credencial activa.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 82,
@@ -1474,7 +1474,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Visitas Familiares",
     "explanation": "En instalaciones militares nadie accede a zonas interiores sin la confirmación y autorización previa del militar o servicio correspondiente.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 83,
@@ -1492,7 +1492,7 @@ export const QUESTION_BANK = [
     "law": "Equipos de Seguridad en Accesos",
     "article": "Inspección Técnica",
     "explanation": "El escáner de rayos X y los arcos detectores permiten inspeccionar bultos y personas sin contacto físico intrusivo.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 84,
@@ -1510,7 +1510,7 @@ export const QUESTION_BANK = [
     "law": "Límites Funcionales del Grupo E1",
     "article": "Seguridad y Custodia",
     "explanation": "La intervención ante armas o ilícitos penales corresponde con exclusividad a las Fuerzas y Cuerpos de Seguridad o a la Guardia Militar del acuartelamiento.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 85,
@@ -1546,7 +1546,7 @@ export const QUESTION_BANK = [
     "law": "Control de Contratas Externas AGE",
     "article": "Acceso a Instalaciones",
     "explanation": "El personal de empresas externas debe figurar en relaciones nominales autorizadas previamente por la dirección del centro y presentar su DNI.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 87,
@@ -1564,7 +1564,7 @@ export const QUESTION_BANK = [
     "law": "Seguridad de Cierre de Edificios AGE",
     "article": "Cierre y Verificación",
     "explanation": "Debe investigarse si la persona sigue dentro del edificio antes de cerrar y armar los sistemas de alarma perimetrales.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 88,
@@ -1600,7 +1600,7 @@ export const QUESTION_BANK = [
     "law": "Seguridad en Recintos Militares",
     "article": "Paquetería en Accesos",
     "explanation": "Los repartidores comerciales externos no deambulan libremente por edificios administrativos militares; la entrega se centraliza en la conserjería o control de entrada.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 90,
@@ -1618,7 +1618,7 @@ export const QUESTION_BANK = [
     "law": "Gestión de Credenciales AGE",
     "article": "Bajas de Personal",
     "explanation": "Toda baja o traslado exige la revocación electrónica de los permisos y la recuperación de la credencial física para evitar accesos indebidos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 91,
@@ -1636,7 +1636,7 @@ export const QUESTION_BANK = [
     "law": "Planes de Autoprotección y Emergencia AGE",
     "article": "Cometidos en Evacuación",
     "explanation": "El personal de accesos abre expeditamente salidas, orienta hacia las vías de escape, no permite a nadie volver a entrar y recibe a los servicios externos de auxilio.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 92,
@@ -1654,7 +1654,7 @@ export const QUESTION_BANK = [
     "law": "Procedimiento de Recepción de Mercancías",
     "article": "El Albarán",
     "explanation": "El albarán acredita la entrega y recepción de las mercancías, debiendo cotejarse con los bultos recibidos antes de firmarlo.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 93,
@@ -1672,7 +1672,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Procedimientos de Recepción AGE",
     "article": "Cotejo de Bultos",
     "explanation": "Debe contarse el número de bultos, comprobar que va dirigido al centro y revisar que los embalajes no presentan roturas ni manipulaciones.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 94,
@@ -1690,7 +1690,7 @@ export const QUESTION_BANK = [
     "law": "Condiciones de Transporte y Recepción",
     "article": "Salvedades en Albarán",
     "explanation": "Es indispensable consignar la salvedad por escrito en el albarán del transportista para permitir la posterior reclamación de daños ante el seguro de transporte.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 95,
@@ -1708,7 +1708,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Firma de Albarán",
     "explanation": "La recepción formal exige identificar plenamente al receptor con fecha, hora, DNI, firma y sello de entrada.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 96,
@@ -1726,7 +1726,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Concepto de Valija",
     "explanation": "La valija oficial es el canal protegido de transporte periódico de sacas o maletines oficiales entre sedes, acuartelamientos y centros del departamento.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 97,
@@ -1744,7 +1744,7 @@ export const QUESTION_BANK = [
     "law": "Seguridad en la Cadena de Envíos",
     "article": "Precintos de Valija",
     "explanation": "Las sacas se cierran con precintos numerados de seguridad de un solo uso, cuyo código alfanumérico figura registrado en el albarán o manifiesto de valija.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 98,
@@ -1762,7 +1762,7 @@ export const QUESTION_BANK = [
     "law": "Procedimiento Operativo de Valijas",
     "article": "Hoja de Ruta",
     "explanation": "La hoja de ruta o manifiesto de valija detalla el número de saca, precinto, y los envíos individuales incluidos con sus códigos de destino.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 99,
@@ -1780,7 +1780,7 @@ export const QUESTION_BANK = [
     "law": "Régimen de Valijas Oficiales",
     "article": "Objetos Prohibidos",
     "explanation": "La valija oficial está reservada en exclusiva para asuntos y documentación oficial del servicio público, prohibiéndose cualquier uso privado o mercantil.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 100,
@@ -1798,7 +1798,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Verificación de Precinto",
     "explanation": "Se verifica la integridad física del precinto y la coincidencia exacta de su numeración antes de cortarlo y registrar el contenido.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 101,
@@ -1816,7 +1816,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Envíos Sospechosos",
     "explanation": "Ante un paquete sospechoso la norma de oro es la no manipulación: no abrir, no presionar, no perforar y aislar la estancia.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 102,
@@ -1834,7 +1834,7 @@ export const QUESTION_BANK = [
     "law": "Guía de Identificación de Riesgos Postales",
     "article": "Indicios de Sospecha",
     "explanation": "Los paquetes trampa o con sustancias peligrosas suelen presentar manchas, asimetrías de peso, cables, cierres rígidos o excesivo sellado con cinta y franqueo desmesurado.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 103,
@@ -1852,7 +1852,7 @@ export const QUESTION_BANK = [
     "law": "Planes de Emergencia NRBQ y Explosivos",
     "article": "Activación de Seguridad",
     "explanation": "Se avisa de forma urgente a los servicios de seguridad propios y especializados (TEDAX / Guardia Civil / CNP) para su neutralización técnica.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 104,
@@ -1870,7 +1870,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Aislamiento de Ventilación",
     "explanation": "Para evitar la dispersión aérea de agentes químicos o biológicos se clausura la ventilación, se aísla el local y se procede a la descontaminación e higiene de quienes estuvieron expuestos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 105,
@@ -1888,7 +1888,7 @@ export const QUESTION_BANK = [
     "law": "Normativa Postal AGE",
     "article": "Destinatarios Ausentes",
     "explanation": "No se desecha nunca correspondencia o paquetería; se gestiona el reenvío a su nuevo destino o se devuelve formalmente al remitente consignando la incidencia.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 106,
@@ -1906,7 +1906,7 @@ export const QUESTION_BANK = [
     "law": "Procedimiento de Distribución Interna",
     "article": "Libro de Reparto",
     "explanation": "Para salvaguardar la trazabilidad de la entrega interna, el receptor final firma el libro de reparto acreditando que la custodia de conserjería ha concluido con éxito.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 107,
@@ -1924,7 +1924,7 @@ export const QUESTION_BANK = [
     "law": "Ergonomía y Medios Materiales AGE",
     "article": "Medios de Transporte",
     "explanation": "La carretilla de mano (diablo) y los carros de plataforma con ruedas son los equipos adecuados para la manipulación y transporte manual de cargas en edificios.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 108,
@@ -1942,7 +1942,7 @@ export const QUESTION_BANK = [
     "law": "Guía Técnica de Manipulación Manual de Cargas (INSST)",
     "article": "Técnica Ergonómica",
     "explanation": "La técnica correcta exige flexión de rodillas, espalda erguida, carga pegada al centro de gravedad del cuerpo y empuje con la musculatura de las piernas sin torsión de tronco.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 109,
@@ -1978,7 +1978,7 @@ export const QUESTION_BANK = [
     "law": "Procedimiento de Incidencias en Transporte",
     "article": "Rechazo Justificado",
     "explanation": "Puede rehusarse la entrega si el daño o falta es grave, o documentarse con precisión en el albarán haciendo constar las piezas ausentes o el embalaje forzado.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 111,
@@ -1996,7 +1996,7 @@ export const QUESTION_BANK = [
     "law": "Circuito Administrativo de Compras AGE",
     "article": "Gestión de Albaranes",
     "explanation": "Los albaranes de entrega son los justificantes que necesita la oficina económica para conformar las facturas de los proveedores y autorizar su pago.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 112,
@@ -2014,7 +2014,7 @@ export const QUESTION_BANK = [
     "law": "Términos Comerciales de Transporte",
     "article": "Portes Debidos",
     "explanation": "En portes debidos el coste del transporte corre a cargo del receptor en destino. En las Administraciones la norma general es que los envíos oficiales se contraten a 'Portes Pagados'.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 113,
@@ -2032,7 +2032,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Portes Debidos no Autorizados",
     "explanation": "El personal de servicios administrativos no debe abonar entregas de sus fondos privados ni asumir cargos económicos sin la partida de anticipo de caja fija autorizada.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 114,
@@ -2050,7 +2050,7 @@ export const QUESTION_BANK = [
     "law": "Normativa de Seguridad y Lugares de Trabajo",
     "article": "Almacenamiento Temporal",
     "explanation": "Los bultos no deben comprometer la seguridad contra incendios, debiendo depositarse en dependencias de almacenamiento temporal sin invadir pasillos ni salidas.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 115,
@@ -2230,7 +2230,7 @@ export const QUESTION_BANK = [
     "law": "Pliegos Técnicos Centralizados AGE",
     "article": "Gramaje de Papel",
     "explanation": "El papel estándar multifunción de oficina tiene un gramaje normalizado de 80 g/m².",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 125,
@@ -2248,7 +2248,7 @@ export const QUESTION_BANK = [
     "law": "Cálculo Técnico de Papelería",
     "article": "Peso DIN A4",
     "explanation": "Como un DIN A0 mide 1 m² y equivale a 16 hojas A4, el peso de un folio A4 es de 80 / 16 = 5 gramos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 126,
@@ -2266,7 +2266,7 @@ export const QUESTION_BANK = [
     "law": "Componentes de Reprografía",
     "article": "Alimentador ADF",
     "explanation": "El ADF (Automatic Document Feeder) alimenta mecánicamente los originales página a página hacia el sensor de escaneo.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 127,
@@ -2284,7 +2284,7 @@ export const QUESTION_BANK = [
     "law": "Mantenimiento Preventivo de Reprografía",
     "article": "Uso del ADF",
     "explanation": "Grapas, clips o dobleces pueden atascar y rayar irreversiblemente el cristal de escaneo y los rodillos de tracción.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 128,
@@ -2302,7 +2302,7 @@ export const QUESTION_BANK = [
     "law": "Resolución de Incidencias Técnicas",
     "article": "Desatasco de Papel",
     "explanation": "Se tira suavemente y con ambas manos siguiendo el circuito de avance natural del papel para evitar desgarros y no dañar rodillos ni el fusor.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 129,
@@ -2320,7 +2320,7 @@ export const QUESTION_BANK = [
     "law": "Instrucciones del Fabricante de Equipos",
     "article": "Mantenimiento Seguro",
     "explanation": "Los objetos metálicos punzantes dañan los recubrimientos delicados del tambor y del fusor térmico, provocando averías graves.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 130,
@@ -2338,7 +2338,7 @@ export const QUESTION_BANK = [
     "law": "Principios de Reprografía Láser",
     "article": "El Fusor",
     "explanation": "El fusor somete la hoja a altas temperaturas y presión de rodillos para derretir y adherir permanentemente las partículas plásticas de tóner a las fibras del papel.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 131,
@@ -2356,7 +2356,7 @@ export const QUESTION_BANK = [
     "law": "Sustitución de Consumibles",
     "article": "Instalación de Tóner",
     "explanation": "Se agita horizontalmente con suavidad para homogeneizar el tóner compactado durante el transporte y se retiran todos los precintos y plásticos protectores.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 132,
@@ -2374,7 +2374,7 @@ export const QUESTION_BANK = [
     "law": "Funciones del Personal E1",
     "article": "Mantenimiento de Primer Nivel",
     "explanation": "El personal de conserjería/reprografía realiza el mantenimiento básico y preventivo elemental; las reparaciones mecánicas complejas las asume el servicio técnico oficial.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 133,
@@ -2392,7 +2392,7 @@ export const QUESTION_BANK = [
     "law": "Maquinaria Auxiliar de Reprografía",
     "article": "Encuadernación",
     "explanation": "La encuadernadora de espiral troquela orificios redondos u ovalados en el margen del papel y facilita la inserción de la espiral metálica continua.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 134,
@@ -2410,7 +2410,7 @@ export const QUESTION_BANK = [
     "law": "Equipos de Acabado y Reprografía",
     "article": "Corte de Papel",
     "explanation": "Se utiliza la cizalla o guillotina con protecciones de seguridad (pantalla o célula fotoeléctrica) que impiden el descenso de la cuchilla si las manos están en la zona de corte.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 135,
@@ -2446,7 +2446,7 @@ export const QUESTION_BANK = [
     "law": "Técnicas de Impresión Especial",
     "article": "Bandeja Bypass",
     "explanation": "La bandeja manual (bypass) tiene un recorrido recto y plano del papel, evitando que soportes gruesos o etiquetas adhesivas se encallen en los rodillos curvos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 137,
@@ -2500,7 +2500,7 @@ export const QUESTION_BANK = [
     "law": "Servicio Postal Universal / Correos",
     "article": "Límite Peso Carta",
     "explanation": "El peso máximo reglamentario para el formato de carta (ordinaria o certificada) es de 2 kg. Por encima de ese peso pasa a modalidad de paquetería.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 140,
@@ -2518,7 +2518,7 @@ export const QUESTION_BANK = [
     "law": "Tarifas y Productos de Correos",
     "article": "Paquete Azul",
     "explanation": "El Paquete Azul admite envíos de hasta 20 kilogramos con entrega bajo firma y seguimiento para España y Andorra.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 141,
@@ -2536,7 +2536,7 @@ export const QUESTION_BANK = [
     "law": "Servicios Postales Telemáticos",
     "article": "El Burofax",
     "explanation": "El burofax con testimonio y certificación de contenido acredita fehacientemente ante juzgados y administraciones no solo la recepción, sino el texto literal transmitido.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 142,
@@ -2554,7 +2554,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Documentos Administrativos AGE",
     "article": "Nota Interior",
     "explanation": "La Nota Interior se reserva con exclusividad para las comunicaciones internas entre unidades u órganos del mismo Ministerio o centro directivo.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 143,
@@ -2572,7 +2572,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Documentos Administrativos AGE",
     "article": "El Oficio",
     "explanation": "El Oficio es el instrumento ordinario de comunicación interorgánica externa (con otros ministerios, autoridades judiciales o ciudadanos).",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 144,
@@ -2608,7 +2608,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Documentos Administrativos AGE",
     "article": "El Certificado",
     "explanation": "El certificado acredita de forma fehaciente hechos, resoluciones o acuerdos que obran en los archivos y expedientes administrativos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 146,
@@ -2626,7 +2626,7 @@ export const QUESTION_BANK = [
     "law": "Normas de Correos sobre Franqueo Mecánico",
     "article": "Depósito de Envíos",
     "explanation": "La fecha de la huella de franqueo de la máquina debe coincidir con la fecha de admisión y depósito en la oficina postal.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 147,
@@ -2644,7 +2644,7 @@ export const QUESTION_BANK = [
     "law": "Servicio Postal Universal",
     "article": "Acuse de Recibo",
     "explanation": "El acuse de recibo acredita legalmente la fecha, hora, identidad y firma de quien se hizo cargo de la notificación o carta en destino.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 148,
@@ -2662,7 +2662,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Estilo y Documentos AGE",
     "article": "Estructura Documental",
     "explanation": "La antefirma y firma se ubican al final del texto en la parte inferior, consignando denominación del cargo, nombre, apellidos y fecha.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 149,
@@ -2680,7 +2680,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Documentos Administrativos AGE",
     "article": "Modernización del Lenguaje",
     "explanation": "La modernización del lenguaje administrativo erradicó las fórmulas serviles decimonónicas, adoptando fórmulas sobrias, directas y claras.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 150,
@@ -2734,7 +2734,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Estilo AGE",
     "article": "El Saluda",
     "explanation": "El Saluda es una comunicación de protocolo y cortesía entre autoridades para invitar o agradecer acontecimientos de relieve institucional.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 153,
@@ -2789,7 +2789,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Correspondencia Urgente",
     "explanation": "La correspondencia urgente debe ser canalizada de forma prioritaria para evitar la caducidad de plazos legales perentorios.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 156,
@@ -2825,7 +2825,7 @@ export const QUESTION_BANK = [
     "law": "Manual de Documentos Administrativos AGE",
     "article": "La Memoria",
     "explanation": "La Memoria es el documento descriptivo y de balance que recopila las actividades, proyectos y logros de un centro directivo a lo largo del año.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 158,
@@ -2843,7 +2843,7 @@ export const QUESTION_BANK = [
     "law": "Servicios Comerciales de Correos",
     "article": "Franqueo en Destino",
     "explanation": "El franqueo en destino permite a empresas y administraciones recibir respuestas de ciudadanos sin coste previo para estos, liquidándose las tarifas a la entrega.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 159,
@@ -2861,7 +2861,7 @@ export const QUESTION_BANK = [
     "law": "Procedimiento Operativo Postal AGE",
     "article": "Clasificación de Salida",
     "explanation": "La correspondencia se agrupa por ámbito geográfico tarifario (provincial, nacional, internacional) y por modalidad (ordinaria, certificada) para agilizar la admisión en Correos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 160,
@@ -2897,7 +2897,7 @@ export const QUESTION_BANK = [
     "law": "Régimen Interior de Servicios Generales",
     "article": "Tipos de Recados",
     "explanation": "El recado interior discurre por las dependencias del propio acuartelamiento o complejo ministerial; el exterior requiere desplazamiento físico fuera del recinto.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 162,
@@ -2933,7 +2933,7 @@ export const QUESTION_BANK = [
     "law": "Manual Operativo de Servicios Generales",
     "article": "Justificante de Entrega",
     "explanation": "La entrega de documentos exige siempre recabar la firma, fecha, hora y sello oficial del organismo receptor en la copia del recibí o nota de entrega.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 164,
@@ -3023,7 +3023,7 @@ export const QUESTION_BANK = [
     "law": "Normativa Nacional de Seguridad Clasificada",
     "article": "HPS (ONS/CNI)",
     "explanation": "El acceso y manejo de materias clasificadas exige contar con la preceptiva Habilitación Personal de Seguridad (HPS) en el grado correspondiente.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 169,
@@ -3041,7 +3041,7 @@ export const QUESTION_BANK = [
     "law": "Seguridad Documental AGE",
     "article": "Pérdida de Documentos",
     "explanation": "La pérdida o robo de documentación oficial exige aviso inmediato a los superiores y denuncia judicial para limitar daños y posibles brechas de seguridad.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 170,
@@ -3059,7 +3059,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Protección Física",
     "explanation": "La cartera o maletín impermeable de dotación protege el papel oficial de la humedad, roturas y miradas de curiosos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 171,
@@ -3077,7 +3077,7 @@ export const QUESTION_BANK = [
     "law": "Protección de Datos y Custodia Interna",
     "article": "Entrega Segura",
     "explanation": "Nunca se dejan expedientes en despachos desiertos al alcance de personal ajeno; se entregan personalmente al funcionario receptor.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 172,
@@ -3095,7 +3095,7 @@ export const QUESTION_BANK = [
     "law": "Gestión de Anticipos de Caja Fija",
     "article": "Traslado de Fondos",
     "explanation": "El traslado de dinero exige máxima discreción, sobre cerrado, custodia física personal y liquidación inmediata del recibo ante la Habilitación.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 173,
@@ -3113,7 +3113,7 @@ export const QUESTION_BANK = [
     "law": "Deberes de Custodia AGE",
     "article": "Inseparabilidad de la Custodia",
     "explanation": "El deber de custodia prohíbe delegar el control de la documentación en personas extrañas al servicio.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 174,
@@ -3168,7 +3168,7 @@ export const QUESTION_BANK = [
     "law": "Instrucciones de Seguridad en Desplazamientos",
     "article": "Custodia en Vehículos",
     "explanation": "Nunca se dejan expedientes o maletines a la vista en coches desatendidos por el riesgo de rotura de cristales y robo.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 177,
@@ -3186,7 +3186,7 @@ export const QUESTION_BANK = [
     "law": "Procedimiento Administrativo Común",
     "article": "Negativa a Firmar",
     "explanation": "Se levanta diligencia formal acreditando el intento de entrega y la negativa a firmar para que surta los efectos jurídicos procedentes.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 178,
@@ -3204,7 +3204,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Medios de Transporte Urbano",
     "explanation": "Los desplazamientos ordinarios se realizan a pie o en transporte público mediante bonos o pases oficiales de servicio autorizados.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 179,
@@ -3222,7 +3222,7 @@ export const QUESTION_BANK = [
     "law": "Gestión de Recados AGE",
     "article": "Justificación del Recado",
     "explanation": "Al volver se rinde cuenta formal del recado entregando las hojas de remisión con el sello y firma de recepción a la unidad que lo encomendó.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 180,
@@ -3240,7 +3240,7 @@ export const QUESTION_BANK = [
     "law": "Régimen Disciplinario y Deberes",
     "article": "Cumplimiento de Órdenes",
     "explanation": "El empleado debe acatar las instrucciones de servicio sobre urgencias y plazos perentorios de entrega.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 181,
@@ -3420,7 +3420,7 @@ export const QUESTION_BANK = [
     "law": "Manual Operativo de Mantenimiento AGE",
     "article": "Partes de Avería",
     "explanation": "El parte debe precisar: fecha, hora, lugar exacto, naturaleza de la avería, nivel de prioridad y datos de quien la comunica.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 191,
@@ -3438,7 +3438,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Averías Críticas",
     "explanation": "Ante riesgos graves e inminentes se activa la comunicación verbal y telefónica inmediata, aislando la zona y cortando llaves de paso o magnetotérmicos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 192,
@@ -3474,7 +3474,7 @@ export const QUESTION_BANK = [
     "law": "Planes de Autoprotección AGE",
     "article": "Uso de Ascensores",
     "explanation": "El uso de ascensores está terminantemente prohibido durante un incendio ante el riesgo de quedar atrapados en el hueco por corte eléctrico o acumulación de humos tóxicos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 194,
@@ -3528,7 +3528,7 @@ export const QUESTION_BANK = [
     "law": "Protección Contra Incendios",
     "article": "Extintores de CO2",
     "explanation": "El CO2 sofoca por desplazamiento de oxígeno y enfriamiento sin ser conductor de la electricidad y sin dejar polvo que dañe los circuitos electrónicos.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 197,
@@ -3546,7 +3546,7 @@ export const QUESTION_BANK = [
     "law": "Reglamento de Instalaciones de Protección contra Incendios",
     "article": "Altura de Extintores",
     "explanation": "El RIPCI fija que la parte superior del extintor estará situada entre 80 cm y 120 cm sobre el suelo para facilitar su descuelgue rápido por cualquier usuario.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 198,
@@ -3600,7 +3600,7 @@ export const QUESTION_BANK = [
     "law": "Mantenimiento de Medios de Seguridad",
     "article": "Alumbrado de Emergencia",
     "explanation": "El alumbrado de emergencia debe estar operativo al 100% en todo momento para garantizar visibilidad durante una evacuación por corte eléctrico.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 201,
@@ -3618,7 +3618,7 @@ export const QUESTION_BANK = [
     "law": "Planes de Autoprotección",
     "article": "Punto de Reunión",
     "explanation": "El Punto de Encuentro exterior permite reagrupar a los evacuados, verificar ausencias y coordinar las directrices de los servicios de emergencia.",
-    "sourceType": "original_propia"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 202,
