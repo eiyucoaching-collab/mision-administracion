@@ -218,7 +218,9 @@ export function calculateExamScore(sessionState) {
   const totalGraded = questionsToGrade.length;
   // Penalización oficial de 1/3 (-0.333...)
   const penalty = wrong * (1 / 3);
-  const netScore = Math.max(0, +(correct - penalty).toFixed(2));
+  const rawNetScore = +(correct - penalty).toFixed(2);
+  // La calificación de examen oficial tiene suelo en 0 (no se publican notas negativas en listas oficiales)
+  const netScore = Math.max(0, rawNetScore);
   const cutoffScore = +(totalGraded * 0.5).toFixed(2);
   const passed = netScore >= cutoffScore;
 
@@ -236,6 +238,7 @@ export function calculateExamScore(sessionState) {
     wrong,
     blank,
     netScore,
+    rawNetScore,
     cutoffScore,
     passed,
     timeSpentSecs,

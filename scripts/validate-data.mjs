@@ -24,8 +24,8 @@ const ALLOWED_LAWS = new Set([
 ]);
 
 const ALLOWED_SOURCE_TYPES = new Set([
-  'real_exam',
   'norma_verificada',
+  'norma_identificada_sin_auditar',
   'original_propia',
   'sin_verificar'
 ]);
@@ -34,6 +34,7 @@ const errors = [];
 const seenIds = new Set();
 const letterDist = { 0: 0, 1: 0, 2: 0, 3: 0 };
 let longestCorrectCount = 0;
+let shortestCorrectCount = 0;
 
 console.log(`\n=== INICIANDO VALIDACIÓN DE ${QUESTION_BANK.length} PREGUNTAS ===\n`);
 
@@ -67,11 +68,15 @@ QUESTION_BANK.forEach((q, idx) => {
   } else if (Array.isArray(q.options) && q.options.length === 4) {
     letterDist[q.correct]++;
 
-    // Medición de opción más larga
+    // Medición de opción más larga y más corta
     const lengths = q.options.map(opt => opt.length);
     const maxLength = Math.max(...lengths);
+    const minLength = Math.min(...lengths);
     if (q.options[q.correct].length === maxLength) {
       longestCorrectCount++;
+    }
+    if (q.options[q.correct].length === minLength) {
+      shortestCorrectCount++;
     }
   }
 
@@ -94,16 +99,22 @@ QUESTION_BANK.forEach((q, idx) => {
 const total = QUESTION_BANK.length;
 const maxLetterPct = total > 0 ? (Math.max(...Object.values(letterDist)) / total) * 100 : 0;
 const longestPct = total > 0 ? (longestCorrectCount / total) * 100 : 0;
+const shortestPct = total > 0 ? (shortestCorrectCount / total) * 100 : 0;
 
 console.log(`Distribución de letras fijas en base: A=${letterDist[0]}, B=${letterDist[1]}, C=${letterDist[2]}, D=${letterDist[3]} (Máxima letra: ${maxLetterPct.toFixed(1)}%)`);
-console.log(`Opción correcta más larga: ${longestCorrectCount}/${total} (${longestPct.toFixed(1)}%)\n`);
+console.log(`Opción correcta más larga: ${longestCorrectCount}/${total} (${longestPct.toFixed(1)}%) [Banda requerida: 15%–35%]`);
+console.log(`Opción correcta más corta: ${shortestCorrectCount}/${total} (${shortestPct.toFixed(1)}%) [Banda requerida: 15%–35%]\n`);
 
 if (maxLetterPct > 35) {
   errors.push(`[SESGO DISTRIBUCIÓN] Una letra de respuesta correcta supera el umbral máximo de tolerancia del 35%: ${maxLetterPct.toFixed(1)}%`);
 }
 
-if (longestPct > 40) {
-  errors.push(`[SESGO LONGITUD] La opción correcta es la más larga en más del 40% de las preguntas: ${longestPct.toFixed(1)}%`);
+if (longestPct < 15 || longestPct > 35) {
+  errors.push(`[SESGO LONGITUD] La opción correcta es la más larga en ${longestPct.toFixed(1)}%, fuera de la banda admisible (15%–35%).`);
+}
+
+if (shortestPct < 15 || shortestPct > 35) {
+  errors.push(`[SESGO LONGITUD] La opción correcta es la más corta en ${shortestPct.toFixed(1)}%, fuera de la banda admisible (15%–35%).`);
 }
 
 if (errors.length > 0) {

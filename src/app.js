@@ -1460,11 +1460,11 @@ class OpoDefensaApp {
   }
 
   getSourceBadge(sourceType, isRealExam2025) {
-    if (sourceType === 'real_exam' || isRealExam2025) {
-      return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-300 uppercase bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">🏛️ Examen Convocatoria</span>';
-    }
     if (sourceType === 'norma_verificada') {
       return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-sky-300 uppercase bg-sky-500/15 px-2 py-0.5 rounded border border-sky-500/30">⚖️ Norma Verificada</span>';
+    }
+    if (sourceType === 'norma_identificada_sin_auditar') {
+      return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-300 uppercase bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">📜 Norma Identificada (Sin Auditar)</span>';
     }
     if (sourceType === 'original_propia') {
       return '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-300 uppercase bg-slate-800 px-2 py-0.5 rounded border border-slate-700">📋 Práctica Administrativa</span>';
@@ -1558,6 +1558,9 @@ class OpoDefensaApp {
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               El ejercicio íntegro: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas bajo 60 min. Corte: 30 pts netos.
             </p>
+            <div class="mt-3 p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-300/90 leading-tight">
+              ⚠️ Banco específico en fase de ampliación (46 con norma identificada para 44 plazas). Mínima rotación entre intentos hasta incorporar Anexos VI y VII.
+            </div>
           </button>
 
           <button onclick="window.app.startNewExam('real2025')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
@@ -1698,6 +1701,17 @@ class OpoDefensaApp {
             </button>
           </div>
         </div>
+
+        <!-- AVISO DE VARIABILIDAD EN MODO OFICIAL -->
+        ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? `
+          <div class="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-2.5 text-xs text-amber-200">
+            <span class="text-base shrink-0">⚠️</span>
+            <div>
+              <strong>Aviso pedagógico sobre representatividad:</strong>
+              El banco específico cuenta actualmente con 46 preguntas con norma identificada para 44 puestos específicos del examen. La rotación entre intentos es reducida. No considerar este simulacro como plenamente representativo de variabilidad hasta que se incorporen los Anexos VI y VII definitivos de la convocatoria.
+            </div>
+          </div>
+        ` : ''}
 
         <!-- TARJETA DE PREGUNTA PRINCIPAL -->
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">

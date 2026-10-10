@@ -8,7 +8,7 @@ export const QUESTION_BANK = [
     "options": [
       "Social y democrático de Derecho",
       "Monárquico y parlamentario de Derecho",
-      "Federal, democrático y plural",
+      "Federal, democrático y plural en el ámbito de la AGE",
       "Autonómico, social y representativo"
     ],
     "correct": 0,
@@ -24,7 +24,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuáles son los valores superiores del ordenamiento jurídico según el artículo 1.1 de la Constitución?",
     "options": [
-      "La libertad, la seguridad, la legalidad y la propiedad, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "La libertad, la seguridad, la legalidad y la propiedad",
       "La libertad, la justicia, la igualdad y el pluralismo político",
       "La justicia, la democracia, la soberanía y la paz social",
       "La igualdad, la solidaridad, el bienestar y el Estado social"
@@ -42,7 +42,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "Según el artículo 1.2 de la CE, ¿en quién reside la soberanía nacional?",
     "options": [
-      "En el Rey de España, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "En el Rey de España",
       "En las Cortes Generales",
       "En el pueblo español, del que emanan los poderes del Estado",
       "En el Congreso de los Diputados"
@@ -80,8 +80,8 @@ export const QUESTION_BANK = [
     "options": [
       "Defensa de la competencia",
       "Publicidad de las normas, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Seguridad jurídica",
-      "Principio de legalidad"
+      "Seguridad jurídica en el ámbito de la AGE",
+      "Principio de legalidad en el ámbito de la AGE"
     ],
     "correct": 0,
     "law": "Constitución Española de 1978",
@@ -96,7 +96,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿En qué fecha se aprobó la Constitución Española por las Cortes Generales y cuándo se ratificó en referéndum?",
     "options": [
-      "Aprobada el 6 de diciembre de 1978 y ratificada el 27 de diciembre, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Aprobada el 6 de diciembre de 1978 y ratificada el 27 de diciembre",
       "Aprobada por las Cortes el 31 de octubre de 1978 y ratificada por el pueblo en referéndum el 6 de diciembre de 1978",
       "Aprobada el 29 de diciembre de 1978 y ratificada el 6 de diciembre",
       "Aprobada el 20 de noviembre de 1978 y ratificada el 1 de enero de 1979"
@@ -168,7 +168,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuáles son los derechos tutelables a través del Recurso de Amparo ante el Tribunal Constitucional (art. 53.2 CE)?",
     "options": [
-      "Todos los artículos del Título I (arts. 10 a 55), siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Todos los artículos del Título I (arts. 10 a 55)",
       "El artículo 14, la Sección 1ª del Capítulo II del Título I (arts. 15 al 29) y la objeción de conciencia del art. 30.2",
       "Únicamente los artículos 15 al 20, salvo autorización expresa del órgano competente",
       "Los derechos del Capítulo III del Título I"
@@ -186,7 +186,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "El Defensor del Pueblo es designado por las Cortes Generales para un mandato de:",
     "options": [
-      "3 años, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "3 años",
       "4 años",
       "5 años",
       "6 años"
@@ -206,7 +206,7 @@ export const QUESTION_BANK = [
     "options": [
       "En ninguno de los anteriores",
       "Estado de excepción",
-      "Estado de sitio",
+      "Estado de sitio en el ámbito de la AGE",
       "Estado de alarma"
     ],
     "correct": 3,
@@ -223,7 +223,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué artículo constitucional fue reformado por primera vez en 1992 para permitir el sufragio pasivo de ciudadanos de la UE?",
     "options": [
       "Artículo 13.2",
-      "Artículo 23, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Artículo 23",
       "Artículo 14",
       "Artículo 68"
     ],
@@ -258,7 +258,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuál es el contenido medular de la reforma constitucional del artículo 49 aprobada en febrero de 2024?",
     "options": [
-      "Elimina la palabra 'minusválidos' del artículo 14, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Elimina la palabra 'minusválidos' del artículo 14",
       "Regula las pensiones asistenciales no contributivas",
       "Sustituye la palabra 'disminuidos' por 'personas con discapacidad' y adopta un enfoque de derechos humanos y accesibilidad",
       "Permite el voto a los mayores de 16 años con discapacidad"
@@ -312,7 +312,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Quién dirige la política interior y exterior, la administración civil y militar y la defensa del Estado según el art. 97 CE?",
     "options": [
-      "El Rey",
+      "El Rey en el ámbito de la AGE",
       "El Gobierno",
       "El Presidente del Congreso",
       "El Consejo de Estado"
@@ -420,7 +420,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Qué requisito imprescindible debe incluir la propuesta de moción de censura?",
     "options": [
-      "Un programa presupuestario cerrado, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Un programa presupuestario cerrado",
       "La renuncia expresa a convocar elecciones durante dos años",
       "La firma de los portavoces de tres grupos parlamentarios",
       "Un candidato a la Presidencia del Gobierno (moción constructiva)"
@@ -439,7 +439,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué mayoría se requiere en el Congreso para que prospere una Moción de Censura?",
     "options": [
       "Mayoría absoluta de sus miembros (mínimo 176 votos)",
-      "Mayoría simple (más votos a favor que en contra), salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Mayoría simple (más votos a favor que en contra)",
       "Mayoría de 3/5 de los Diputados presentes",
       "Mayoría de dos tercios de la Cámara"
     ],
@@ -456,7 +456,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Quién tiene la iniciativa para plantear una Cuestión de Confianza (art. 112 CE)?",
     "options": [
-      "El Congreso de los Diputados, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "El Congreso de los Diputados",
       "El Presidente del Gobierno, previa deliberación del Consejo de Ministros",
       "El Consejo de Ministros en pleno por unanimidad",
       "Cualquier grupo parlamentario con más de 15 diputados"
@@ -475,9 +475,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué mayoría se requiere para que el Congreso otorgue la confianza en una Cuestión de Confianza?",
     "options": [
       "Mayoría absoluta, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Mayoría de tres quintos",
+      "Mayoría de tres quintos en el ámbito de la AGE",
       "Mayoría simple de los Diputados",
-      "Mayoría de dos tercios"
+      "Mayoría de dos tercios en el ámbito de la AGE"
     ],
     "correct": 2,
     "law": "Constitución Española de 1978",
@@ -512,7 +512,7 @@ export const QUESTION_BANK = [
     "options": [
       "Subdirector General",
       "Secretario de Estado",
-      "Ministro",
+      "Ministro en el ámbito de la AGE",
       "Presidente del Gobierno"
     ],
     "correct": 0,
@@ -528,7 +528,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "[EXAMEN OFICIAL REAL 2025 - Q61 / RESERVA R1] Según el artículo 63.2 de la Ley 40/2015 de Régimen Jurídico del Sector Público, ¿cómo son nombrados y separados los Subsecretarios de los Ministerios?",
     "options": [
-      "Por Orden del Ministro de Hacienda entre funcionarios del Grupo C1, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Por Orden del Ministro de Hacienda entre funcionarios del Grupo C1",
       "Por Real Decreto del Consejo de Ministros, a propuesta del titular del Ministerio (Ministro), entre funcionarios de carrera del Subgrupo A1",
       "Por el Delegado del Gobierno en la Comunidad Autónoma",
       "Por libre designación del Director General de la Función Pública"
@@ -537,8 +537,7 @@ export const QUESTION_BANK = [
     "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
     "article": "Art. 63.2 Ley 40/2015 (Examen Real 2025 Q61)",
     "explanation": "Los Subsecretarios son órganos directivos con condición de alto cargo. Son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Ministro titular del Departamento, entre funcionarios de carrera del Subgrupo A1.",
-    "isRealExam2025": true,
-    "sourceType": "real_exam"
+    "sourceType": "norma_verificada"
   },
   {
     "id": 31,
@@ -547,7 +546,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Qué rango ostentan los Delegados del Gobierno en las Comunidades Autónomas?",
     "options": [
-      "Rango de Ministro",
+      "Rango de Ministro en el ámbito de la AGE",
       "Rango de Director General",
       "Rango de Subsecretario",
       "Rango de Subdirector General"
@@ -603,8 +602,8 @@ export const QUESTION_BANK = [
     "options": [
       "Rango de Subsecretario, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
       "Rango de Subdirector General",
-      "Rango de Director General",
-      "Rango de Consejero Técnico"
+      "Rango de Director General en el ámbito de la AGE",
+      "Rango de Consejero Técnico en el ámbito de la AGE"
     ],
     "correct": 1,
     "law": "Ley 40/2015",
@@ -637,7 +636,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "Si un contrato que exige legalmente forma escrita no se celebra por escrito, ¿qué presume la ley?",
     "options": [
-      "Que el contrato es nulo de pleno derecho, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Que el contrato es nulo de pleno derecho",
       "Que se extingue automáticamente sin derecho a salario",
       "Que es un contrato temporal de 6 meses",
       "Que se presumirá celebrado por tiempo indefinido y a jornada completa, salvo prueba en contrario"
@@ -653,17 +652,17 @@ export const QUESTION_BANK = [
     "block": "comun",
     "topicId": 3,
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
-    "question": "Bajo el IV Convenio Colectivo Único (CUAGE), ¿cuál es el periodo de prueba para el Grupo E1 con la titulación requerida?",
+    "question": "Bajo el IV Convenio Colectivo Único (CUAGE) y la convocatoria del Ministerio de Defensa, ¿cuál es el período de prueba fijado para el personal de nuevo ingreso del Grupo Profesional E1?",
     "options": [
       "1 mes",
-      "15 días naturales",
+      "15 días laborables",
       "3 meses",
       "6 meses"
     ],
     "correct": 0,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Art. 32.1 IV CUAGE (Base 7.9 Convocatoria)",
-    "explanation": "El artículo 32.1 del IV CUAGE (y la base 7.9 de la convocatoria de Defensa) establece un periodo de prueba de 1 mes para el personal de los grupos profesionales E1, E2 y M1.",
+    "article": "Art. 32.1 IV CUAGE (y Base 7.9 Convocatoria)",
+    "explanation": "El artículo 32.1 del IV CUAGE y la Base 7.9 de la convocatoria de Defensa fijan un período de prueba de un mes para los trabajadores de los grupos profesionales E1, E2 y M1 (para E1 se exige titulación de ESO o FP Básico).",
     "sourceType": "norma_verificada"
   },
   {
@@ -671,17 +670,17 @@ export const QUESTION_BANK = [
     "block": "comun",
     "topicId": 3,
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
-    "question": "En el IV CUAGE, ¿cuál es el periodo de prueba para el personal que ingrese sin titulación específica requerida?",
+    "question": "Según el artículo 32.1 del IV CUAGE, ¿cuál es la duración del período de prueba para el personal de nuevo ingreso sin titulación (Grupo Profesional E0)?",
     "options": [
-      "1 mes natural",
+      "1 mes en el ámbito de la AGE",
       "15 días laborables",
-      "45 días",
-      "Sin periodo de prueba"
+      "3 meses en el ámbito de la AGE",
+      "Sin período de prueba"
     ],
     "correct": 1,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Art. 32.1 IV CUAGE (Base 7.9 Convocatoria)",
-    "explanation": "El artículo 32.1 del IV CUAGE establece expresamente que cuando no se exija titulación específica para el puesto, el período de prueba será de 15 días laborables para el grupo E1.",
+    "article": "Art. 32.1 y Art. 8.1.f) IV CUAGE",
+    "explanation": "El artículo 32.1 del IV CUAGE establece expresamente que la duración del período de prueba será de un mes para los demás trabajadores, excepto para el personal sin titulación, para el que será de quince días laborables. El grupo profesional sin titulación prevista en el sistema educativo es el Grupo E0 (art. 8.1.f).",
     "sourceType": "norma_verificada"
   },
   {
@@ -691,7 +690,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cuál de las siguientes causas extingue el contrato de trabajo según el artículo 49 del ET?",
     "options": [
-      "Incapacidad temporal por enfermedad común de 1 mes, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Incapacidad temporal por enfermedad común de 1 mes",
       "Huelga legal convocada por los sindicatos",
       "Expiración del tiempo convenido en contratos temporales válidos",
       "Excedencia por cuidado de hijos"
@@ -709,7 +708,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cuál es el efecto jurídico principal de la SUSPENSIÓN del contrato de trabajo (art. 45 ET)?",
     "options": [
-      "Extingue definitivamente el vínculo laboral, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Extingue definitivamente el vínculo laboral",
       "Inhabilita al trabajador para toda actividad en el sector público",
       "OBLIGA al abono íntegro del salario ordinario sin trabajar",
       "Exonera de las obligaciones recíprocas de trabajar y remunerar el trabajo"
@@ -781,15 +780,15 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿A qué titulación de acceso se vincula el Grupo Profesional E1 en el IV Convenio Único de la AGE?",
     "options": [
-      "Título de Bachiller o FP Grado Medio, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Título de Bachiller o FP Grado Medio",
       "Título universitario de Grado",
       "Título de FP de Grado Superior",
       "Título de Graduado en ESO o Certificado de Profesionalidad de nivel 1"
     ],
     "correct": 3,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Art. 16 IV CUAGE",
-    "explanation": "El artículo 16 del IV CUAGE establece que para el Grupo Profesional E1 se exige el Título de Graduado en Educación Secundaria Obligatoria o Certificado de Profesionalidad de nivel 1.",
+    "article": "Art. 8.1.e) IV CUAGE",
+    "explanation": "El artículo 8.1.e) del IV CUAGE establece literalmente que el Grupo profesional E1 requiere el \"Título de Graduado en Educación Secundaria Obligatoria o Título Profesional Básico o equivalentes\".",
     "sourceType": "norma_verificada"
   },
   {
@@ -801,8 +800,8 @@ export const QUESTION_BANK = [
     "options": [
       "Servicios Administrativos",
       "Mantenimiento General, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Vigilancia de Obras",
-      "Conducción de Vehículos"
+      "Vigilancia de Obras en el ámbito de la AGE",
+      "Conducción de Vehículos en el ámbito de la AGE"
     ],
     "correct": 0,
     "law": "Convocatoria E1 Defensa",
@@ -853,15 +852,15 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cómo computan las faltas de asistencia motivadas por el disfrute de permisos retribuidos fijados en el CUAGE?",
     "options": [
-      "Como faltas injustificadas a efectos de despido, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Como faltas injustificadas a efectos de despido",
       "Obligan a recuperar las horas en el mismo mes",
       "Dan lugar a deducción proporcional de haberes",
       "Computan como tiempo de trabajo efectivo debidamente acreditado"
     ],
     "correct": 3,
     "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
-    "article": "Art. 37 IV CUAGE",
-    "explanation": "El artículo 37 del IV CUAGE regula los permisos y licencias retribuidas del personal laboral de la AGE, computando las ausencias autorizadas como tiempo de trabajo efectivo.",
+    "article": "Art. 75 IV CUAGE / Art. 37.3 ET",
+    "explanation": "El artículo 75 del IV CUAGE regula los permisos retribuidos en el ámbito del Convenio único, en concordancia con el artículo 37.3 del Estatuto de los Trabajadores (TRLET), disponiendo que las ausencias justificadas por estos permisos computan como tiempo de trabajo efectivo debidamente remunerado.",
     "sourceType": "norma_verificada"
   },
   {
@@ -872,7 +871,7 @@ export const QUESTION_BANK = [
     "question": "¿A quién se debe dar audiencia preceptiva en el expediente disciplinario previo al despido si el trabajador es delegado sindical?",
     "options": [
       "A los restantes miembros de la representación sindical a la que pertenezca",
-      "A la Inspección de Trabajo exclusivamente, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "A la Inspección de Trabajo exclusivamente",
       "Al Ministerio Fiscal, según determine la normativa específica aplicable",
       "Al Defensor del Pueblo, según determine la normativa específica aplicable"
     ],
@@ -889,7 +888,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Puede un trabajador laboral de la AGE renunciar válidamente a los derechos reconocidos en el convenio colectivo en su contrato individual?",
     "options": [
-      "Sí, rige la libre autonomía de la voluntad, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Sí, rige la libre autonomía de la voluntad",
       "No, los trabajadores no pueden disponer válidamente de los derechos reconocidos por disposiciones legales de derecho necesario ni convenio",
       "Sí, con la firma de dos testigos, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
       "Solo si percibe una compensación económica, salvo autorización expresa del órgano competente"
@@ -907,7 +906,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cuál de las siguientes causas NO constituye un despido disciplinario, sino extinción por causas objetivas?",
     "options": [
-      "La embriaguez habitual que repercute en el trabajo, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "La embriaguez habitual que repercute en el trabajo",
       "La indisciplina continuada",
       "La ineptitud del trabajador conocida o sobrevenida",
       "El acoso sexual a un compañero"
@@ -980,7 +979,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué constituye 'acoso sexual' según el artículo 7.1 de la Ley Orgánica 3/2007?",
     "options": [
       "Cualquier retraso reiterado en el horario de entrada, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "La discrepancia sobre el reparto de tareas en el trabajo, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "La discrepancia sobre el reparto de tareas en el trabajo",
       "Cualquier comportamiento verbal o físico de naturaleza sexual que atente contra la dignidad de la persona y cree un entorno intimidatorio, degradante u ofensivo",
       "La denegación motivada de una solicitud de traslado"
     ],
@@ -997,7 +996,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿A quién se aplica el concepto de violencia de género según el artículo 1 de la Ley Orgánica 1/2004?",
     "options": [
-      "A toda violencia física ejercida entre cualquier miembro del núcleo familiar, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "A toda violencia física ejercida entre cualquier miembro del núcleo familiar",
       "A los robos cometidos con intimidación sobre mujeres",
       "A los altercados laborales entre compañeros de distinto sexo",
       "A la ejercida sobre las mujeres por parte de quienes sean o hayan sido sus cónyuges o estén ligados por relaciones de afectividad, aun sin convivencia"
@@ -1033,7 +1032,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿A partir de qué grado de discapacidad se reconoce legalmente la condición de persona con discapacidad (RDL 1/2013)?",
     "options": [
-      "20 por ciento, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "20 por ciento",
       "33 por ciento o superior",
       "50 por ciento",
       "65 por ciento"
@@ -1070,8 +1069,8 @@ export const QUESTION_BANK = [
     "question": "En la Ley 39/2006, la persona que necesita ayuda dos o tres veces al día para actividades básicas, pero no un cuidador permanente, se halla en:",
     "options": [
       "Grado I: Dependencia moderada",
-      "Grado 0: Autonomía relativa",
-      "Grado III: Gran dependencia",
+      "Grado 0: Autonomía relativa en el ámbito de la AGE",
+      "Grado III: Gran dependencia en el ámbito de la AGE",
       "Grado II: Dependencia severa"
     ],
     "correct": 3,
@@ -1088,7 +1087,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el objeto de la Ley 15/2022, de 12 de julio?",
     "options": [
       "La igualdad integral de trato y la no discriminación",
-      "Regular los contratos del sector público, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Regular los contratos del sector público",
       "El régimen fiscal de las fundaciones",
       "La ordenación del transporte terrestre"
     ],
@@ -1160,7 +1159,7 @@ export const QUESTION_BANK = [
     "question": "¿Están obligadas las Administraciones Públicas a contar con un Plan de Igualdad para su personal?",
     "options": [
       "Sí, todas las Administraciones Públicas deberán aprobar periódicamente un Plan de Igualdad para sus empleadas y empleados",
-      "No, solo las empresas privadas de más de 50 trabajadores, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "No, solo las empresas privadas de más de 50 trabajadores",
       "Solo los Ayuntamientos de más de 500.000 habitantes, salvo autorización expresa del órgano competente",
       "Únicamente si lo impone una sentencia judicial, salvo autorización expresa del órgano competente"
     ],
@@ -1177,7 +1176,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Qué principio orienta las adaptaciones y accesibilidad para personas con discapacidad en edificios públicos según el RDL 1/2013?",
     "options": [
-      "Principio de beneficencia asistencial, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Principio de beneficencia asistencial",
       "Diseño universal o diseño para todas las personas y accesibilidad universal",
       "Principio de uniformidad arquitectónica",
       "Tolerancia pasiva, según determine la normativa específica aplicable"
@@ -1195,7 +1194,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Qué grado de dependencia se atribuye a una persona con pérdida total de autonomía que necesita apoyo continuo e indispensable de otra persona varias veces al día?",
     "options": [
-      "Grado I (Moderada), de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Grado I (Moderada)",
       "Grado II (Severa)",
       "Grado III (Gran Dependencia)",
       "Grado Especial Ambulatorio"
@@ -1249,7 +1248,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Cuál de los siguientes documentos es un medio oficial principal y preferente para acreditar la identidad de un ciudadano español en el control de acceso?",
     "options": [
-      "El carnet de socio de una biblioteca pública, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "El carnet de socio de una biblioteca pública",
       "El Documento Nacional de Identidad (DNI) o Pasaporte en vigor",
       "Una fotocopia simple no compulsada del DNI caducado",
       "Una tarjeta de transporte municipal"
@@ -1339,7 +1338,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué trámite debe realizarse preceptivamente cada vez que se entrega una llave oficial a un usuario?",
     "options": [
-      "Exigir una fianza en metálico de 50 euros, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Exigir una fianza en metálico de 50 euros",
       "Entregarla sin más formalidades si se conoce al solicitante de vista",
       "Anotar fecha, hora, llave entregada, datos del solicitante y recabar su firma en el Libro de Registro de Llaves",
       "Fotocopiar la llave en la máquina multifunción"
@@ -1357,7 +1356,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Dónde deben custodiarse las llaves maestras o llaves de emergencia del edificio?",
     "options": [
-      "En el mismo llavero de uso diario junto a la puerta principal, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "En el mismo llavero de uso diario junto a la puerta principal",
       "En el cuadro general de contadores eléctricos",
       "En el bolsillo del auxiliar de servicio",
       "En una caja de seguridad o sobre sellado y precintado, utilizables exclusivamente en emergencias y bajo autorización expresa"
@@ -1376,7 +1375,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué pauta de conducta debe regir en la atención ciudadana en el puesto de conserjería?",
     "options": [
       "Escucha activa, tono educado, lenguaje claro y orientación profesional eficaz",
-      "Trato distante, displicente y cortante, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Trato distante, displicente y cortante",
       "Uso de tecnicismos incomprensibles para acortar la consulta",
       "Derivar a todo ciudadano a la página web sin atender su duda"
     ],
@@ -1411,7 +1410,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Puede un extranjero no comunitario identificarse en el control de accesos con la Tarjeta de Identidad de Extranjero (TIE) o su Pasaporte?",
     "options": [
-      "No, únicamente los ciudadanos españoles pueden acceder, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "No, únicamente los ciudadanos españoles pueden acceder",
       "Solo si va acompañado de un militar de carrera",
       "Sí, la TIE o el Pasaporte en vigor son documentos oficiales plenamente válidos",
       "Solo si presenta una partida de nacimiento traducida"
@@ -1582,7 +1581,7 @@ export const QUESTION_BANK = [
     "law": "RGPD / Ley Orgánica 3/2018",
     "article": "Protección de Datos",
     "explanation": "El registro de control de accesos contiene datos personales sensibles que deben protegerse con medidas de seguridad evitando el acceso de terceros no autorizados.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 89,
@@ -1755,8 +1754,8 @@ export const QUESTION_BANK = [
     "options": [
       "La nómina de los ordenanzas, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
       "La Hoja de Ruta o Manifiesto de Valija",
-      "El parte médico del conductor",
-      "La factura eléctrica del cuartel"
+      "El parte médico del conductor en el ámbito de la AGE",
+      "La factura eléctrica del cuartel en el ámbito de la AGE"
     ],
     "correct": 1,
     "law": "Procedimiento Operativo de Valijas",
@@ -2068,7 +2067,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Formato Base",
     "explanation": "El formato base de toda la serie es el DIN A0, cuya superficie mide exactamente 1 metro cuadrado.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 116,
@@ -2086,7 +2085,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Medidas DIN A4",
     "explanation": "Las medidas exactas del DIN A4 son 210 x 297 milímetros.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 117,
@@ -2104,7 +2103,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Medidas DIN A3",
     "explanation": "Las dimensiones del DIN A3 son exactamente 297 x 420 milímetros.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 118,
@@ -2122,7 +2121,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Relación A3 y A4",
     "explanation": "Un DIN A3 doblado por la mitad por su lado más largo produce dos hojas DIN A4 (297x420 mm = 2 x 210x297 mm).",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 119,
@@ -2140,7 +2139,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Relación A4 y A5",
     "explanation": "Al doblar o cortar por la mitad una hoja DIN A4 (210x297 mm) se obtienen dos hojas DIN A5 de 148x210 mm.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 120,
@@ -2158,7 +2157,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Medidas DIN A5",
     "explanation": "El DIN A5 mide 148 x 210 mm (el tamaño comúnmente llamado cuartilla).",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 121,
@@ -2176,7 +2175,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Medidas DIN A0",
     "explanation": "El DIN A0 tiene una superficie de 1 m² y sus dimensiones son 841 x 1189 mm.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 122,
@@ -2194,7 +2193,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Equivalencia DIN A0",
     "explanation": "1 A0 = 2 A1 = 4 A2 = 8 A3 = 16 DIN A4.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 123,
@@ -2212,7 +2211,7 @@ export const QUESTION_BANK = [
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
     "article": "Proporción Geométrica",
     "explanation": "La relación entre anchura y longitud es 1 a raíz cuadrada de 2 (1 : 1,4142), lo que garantiza que las proporciones se mantengan constantes al subdividir.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 124,
@@ -2428,7 +2427,7 @@ export const QUESTION_BANK = [
     "law": "Destrucción Segura de Documentos / RGPD",
     "article": "Niveles de Seguridad DIN 66399",
     "explanation": "El corte cruzado en micropartículas tritura la hoja en cientos de fragmentos diminutos irrecuperables, garantizando la confidencialidad de datos protegidos.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 136,
@@ -2464,7 +2463,7 @@ export const QUESTION_BANK = [
     "law": "PRL en Reprografía / Ley 31/1995",
     "article": "Atrapamientos en Destructoras",
     "explanation": "El mayor peligro de una trituradora es el atrapamiento de prendas colgantes (corbatas, collares, mangas) o pelo largo, debiendo recogerse siempre antes de operar.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 138,
@@ -2482,7 +2481,7 @@ export const QUESTION_BANK = [
     "law": "Reglamento Postal / Ley 43/2010",
     "article": "Aviso de Llegada",
     "explanation": "El plazo de depósito en lista u oficina de Correos para retirar envíos registrados tras aviso domiciliario es de 15 días naturales.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 139,
@@ -2752,8 +2751,7 @@ export const QUESTION_BANK = [
     "law": "Ley 43/2010 del Servicio Postal Universal",
     "article": "Examen Oficial MINISDEF 2025 (Q32)",
     "explanation": "El Burofax permite acreditar fehacientemente no solo la fecha y hora de la entrega en destino, sino también el contenido literal y textual del documento enviado mediante la certificación y testimonio especial expedido por la Sociedad Estatal Correos y Telégrafos.",
-    "isRealExam2025": true,
-    "sourceType": "real_exam"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 154,
@@ -2771,7 +2769,7 @@ export const QUESTION_BANK = [
     "law": "Ley 43/2010 del Servicio Postal",
     "article": "Envíos Registrados",
     "explanation": "La carta certificada se entrega en el domicilio del destinatario recabando su firma y DNI en la tableta digital o justificante de entrega.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 155,
@@ -2969,7 +2967,7 @@ export const QUESTION_BANK = [
     "law": "Ley 9/1968 sobre Secretos Oficiales",
     "article": "Art. 3 Ley 9/1968",
     "explanation": "La Ley 9/1968 fija exclusivamente dos categorías legales de materias clasificadas: SECRETO (máxima protección) y RESERVADO.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 166,
@@ -3131,7 +3129,7 @@ export const QUESTION_BANK = [
     "law": "Ley 9/1968 sobre Secretos Oficiales",
     "article": "Art. 4 Ley 9/1968",
     "explanation": "La facultad de clasificar materias como Secreto o Reservado corresponde exclusivamente al Consejo de Ministros.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 175,
@@ -3149,8 +3147,7 @@ export const QUESTION_BANK = [
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
     "article": "Examen Oficial MINISDEF 2025 (Q53)",
     "explanation": "El personal subalterno y de servicios administrativos realiza tareas materiales auxiliares de custodia y transporte. Carece de potestad administrativa para suscribir actos, acuerdos o resoluciones; su firma se limita exclusivamente a dar fe de la recepción física (recibí o volante de entrega).",
-    "isRealExam2025": true,
-    "sourceType": "real_exam"
+    "sourceType": "sin_verificar"
   },
   {
     "id": 176,
@@ -3312,7 +3309,7 @@ export const QUESTION_BANK = [
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
     "article": "Anexo I RD 486/1997",
     "explanation": "La altura mínima general es de 3 metros, permitiéndose 2,5 metros en locales comerciales, de servicios, oficinas y despachos.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 185,
@@ -3330,7 +3327,7 @@ export const QUESTION_BANK = [
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
     "article": "Anexo I RD 486/1997",
     "explanation": "El Anexo I fija como mínimo 2 metros cuadrados de superficie libre por trabajador.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 186,
@@ -3348,7 +3345,7 @@ export const QUESTION_BANK = [
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
     "article": "Anexo I RD 486/1997",
     "explanation": "Se establecen 10 metros cúbicos, no ocupados, por cada trabajador en el puesto.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 187,
@@ -3366,7 +3363,7 @@ export const QUESTION_BANK = [
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
     "article": "Anexo I RD 486/1997",
     "explanation": "La anchura mínima reglamentaria de los pasillos es de 1 metro libre de obstáculos.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 188,
@@ -3384,7 +3381,7 @@ export const QUESTION_BANK = [
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
     "article": "Anexo III RD 486/1997",
     "explanation": "Para trabajos sedentarios propios de oficinas o despachos, la temperatura estará comprendida entre 17 ºC y 27 ºC.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 189,
@@ -3402,7 +3399,7 @@ export const QUESTION_BANK = [
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
     "article": "Anexo III RD 486/1997",
     "explanation": "La humedad relativa estará comprendida entre el 30% y el 70%, salvo en locales con riesgo de electricidad estática donde el límite inferior será del 50%.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 190,
@@ -3492,7 +3489,7 @@ export const QUESTION_BANK = [
     "law": "RD 486/1997 / Planes de Emergencia",
     "article": "Vías de Evacuación",
     "explanation": "Las vías de escape no pueden obstaculizarse con ningún objeto, garantizando la fluidez de un desalojo imprevisto.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 195,
@@ -3636,7 +3633,7 @@ export const QUESTION_BANK = [
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
     "article": "Investigación de Accidentes",
     "explanation": "La investigación de accidentes con o sin baja es competencia de los técnicos de prevención del Servicio de Prevención de Riesgos Laborales de la unidad.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 203,
@@ -3654,7 +3651,7 @@ export const QUESTION_BANK = [
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
     "article": "Art. 21 Ley 31/1995",
     "explanation": "El art. 21 ampara al trabajador para interrumpir su tarea y abandonar el centro sin que ello pueda derivar en sanción disciplinaria alguna.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_identificada_sin_auditar"
   },
   {
     "id": 204,

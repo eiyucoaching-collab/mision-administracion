@@ -41,6 +41,7 @@ describe('P0 Exam Engine Tests', () => {
     let passedCount = 0;
     let totalCorrect = 0;
     let totalNetScore = 0;
+    let totalRawNetScore = 0;
     const totalSimulations = 2000;
 
     for (let s = 0; s < totalSimulations; s++) {
@@ -63,16 +64,25 @@ describe('P0 Exam Engine Tests', () => {
       if (score.passed) passedCount++;
       totalCorrect += score.correct;
       totalNetScore += score.netScore;
+      totalRawNetScore += score.rawNetScore;
     }
 
     const passRate = (passedCount / totalSimulations) * 100;
     const avgCorrect = totalCorrect / totalSimulations;
     const avgNet = totalNetScore / totalSimulations;
+    const avgRawNet = totalRawNetScore / totalSimulations;
 
-    console.log(`[SIMULACIÓN 2000 EXÁMENES ALUMNO B] Media aciertos: ${avgCorrect.toFixed(2)}/60, Media neta: ${avgNet.toFixed(2)}/60, Tasa aprobados: ${passRate.toFixed(2)}%`);
+    console.log(`[SIMULACIÓN 2000 EXÁMENES ALUMNO B] Media aciertos: ${avgCorrect.toFixed(2)}/60`);
+    console.log(`[SIMULACIÓN 2000 EXÁMENES ALUMNO B] Media neta truncada (suelo 0): ${avgNet.toFixed(2)}/60`);
+    console.log(`[SIMULACIÓN 2000 EXÁMENES ALUMNO B] Media neta teórica sin truncar: ${avgRawNet.toFixed(2)}/60 (esperado: 0.00)`);
+    console.log(`[SIMULACIÓN 2000 EXÁMENES ALUMNO B] Tasa aprobados: ${passRate.toFixed(2)}%`);
+
     assert.equal(passedCount, 0, `Un alumno marcando siempre B aprobó ${passedCount} simulacros (debe ser 0)`);
     assert.ok(avgCorrect >= 13 && avgCorrect <= 17, `Los aciertos medios (${avgCorrect}) deben rondar 15`);
-    assert.ok(avgNet < 5, `La nota media neta (${avgNet}) debe rondar 0-2 puntos y nunca superar 5`);
+    // La media sin truncar debe ser prácticamente 0 (-0.5 a +0.5)
+    assert.ok(Math.abs(avgRawNet) < 0.5, `La media teórica sin truncar (${avgRawNet}) debe aproximar 0.00`);
+    // La media truncada en 0 (donde valores negativos se redondean a 0) ronda 1.7-1.9 puntos
+    assert.ok(avgNet >= 1.4 && avgNet <= 2.2, `La media truncada en 0 (${avgNet}) debe situarse en torno a 1.75 puntos`);
   });
 
   it('P0.8: Las preguntas "sin_verificar" quedan estrictamente excluidas del simulacro oficial', () => {

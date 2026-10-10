@@ -4,43 +4,51 @@ import { QUESTION_BANK } from '../src/data/questions.js';
 
 describe('P0 Baseline Audit & Bug Reproduction Tests', () => {
 
-  it('FALLA EN LÍNEA BASE: El banco de preguntas no debe tener una letra con > 35% de aciertos ni > 40% de respuestas más largas', () => {
+  it('FALLA EN LÍNEA BASE: El banco de preguntas no debe tener una letra con > 35% de aciertos ni sesgo de longitud fuera de banda (15-35%)', () => {
     const total = QUESTION_BANK.length;
     const distribution = { 0: 0, 1: 0, 2: 0, 3: 0 };
     let longestIsCorrectCount = 0;
+    let shortestIsCorrectCount = 0;
 
     QUESTION_BANK.forEach(q => {
       distribution[q.correct] = (distribution[q.correct] || 0) + 1;
 
-      // Medir si la opción correcta es la más larga
+      // Medir si la opción correcta es la más larga o la más corta
       const lengths = q.options.map(opt => opt.length);
       const maxLength = Math.max(...lengths);
-      const isLongest = q.options[q.correct].length === maxLength;
-      if (isLongest) longestIsCorrectCount++;
+      const minLength = Math.min(...lengths);
+      if (q.options[q.correct].length === maxLength) longestIsCorrectCount++;
+      if (q.options[q.correct].length === minLength) shortestIsCorrectCount++;
     });
 
     const bPercentage = (distribution[1] / total) * 100;
     const longestPercentage = (longestIsCorrectCount / total) * 100;
+    const shortestPercentage = (shortestIsCorrectCount / total) * 100;
 
     console.log(`[AUDITORÍA ACTUAL] Total preguntas: ${total}`);
     console.log(`[AUDITORÍA ACTUAL] Distribución de letras: A=${distribution[0]}, B=${distribution[1]}, C=${distribution[2]}, D=${distribution[3]}`);
     console.log(`[AUDITORÍA ACTUAL] % de respuestas en B: ${bPercentage.toFixed(1)}% (Límite admisible: <= 35%)`);
-    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más larga: ${longestPercentage.toFixed(1)}% (Límite admisible: <= 40%)`);
+    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más larga: ${longestPercentage.toFixed(1)}% (Banda admisible: 15%–35%)`);
+    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más corta: ${shortestPercentage.toFixed(1)}% (Banda admisible: 15%–35%)`);
 
-    // Este test DEBE FALLAR con los datos actuales sin barajar/reequilibrar (B está al 82.8% y la más larga al 79.9%)
     assert.ok(
       bPercentage <= 35,
       `SESGO CRÍTICO DETECTADO: La letra B representa el ${bPercentage.toFixed(1)}% de las respuestas correctas (máximo permitido 35%)`
     );
 
     assert.ok(
-      longestPercentage <= 40,
-      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más larga en el ${longestPercentage.toFixed(1)}% (máximo permitido 40%)`
+      longestPercentage >= 15 && longestPercentage <= 35,
+      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más larga en el ${longestPercentage.toFixed(1)}% (banda requerida: 15%–35%)`
+    );
+
+    assert.ok(
+      shortestPercentage >= 15 && shortestPercentage <= 35,
+      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más corta en el ${shortestPercentage.toFixed(1)}% (banda requerida: 15%–35%)`
     );
   });
 
   it('FALLA EN LÍNEA BASE: Todas las preguntas deben tener sourceType definido y válido', () => {
-    const validSourceTypes = ['real_exam', 'norma_verificada', 'original_propia', 'sin_verificar'];
+    const validSourceTypes = ['norma_verificada', 'norma_identificada_sin_auditar', 'original_propia', 'sin_verificar'];
     const missingSourceType = QUESTION_BANK.filter(q => !q.sourceType || !validSourceTypes.includes(q.sourceType));
 
     console.log(`[AUDITORÍA ACTUAL] Preguntas sin sourceType válido: ${missingSourceType.length} de ${QUESTION_BANK.length}`);
