@@ -2,9 +2,8 @@
  * MISIÓN ADMINISTRACIÓN (OPO-DEFENSA E1)
  * Arquitectura SPA Frontend Senior - Modo Offline-First
  * E1 Servicios Administrativos (Personal Laboral Fijo Defensa / CUAGE)
- * Incluye:
- * - Preguntas del Examen Oficial Real (1 de Febrero de 2025)
- * - Simulación Oficial 60 + 6 Reservas y Anulaciones Reales del Tribunal
+ * - Simulador Formato Convocatoria 2025 (Provisional, pendiente de plantilla oficial)
+ * - Simulación 60 + 6 Reservas con gestión de anulaciones
  * - Copia de Seguridad: Exportar / Importar Progreso en JSON (LocalStorage)
  * - Plan de Estudio Táctico con Regla 33% / 67%
  */
@@ -77,7 +76,7 @@ class OpoDefensaApp {
       timerInterval: null,
       filterReview: 'all', // 'all' | 'wrong' | 'correct' | 'blank'
       results: null,
-      applyAnnulments: false // Simulación de las 7 anulaciones históricas de 2025
+      applyAnnulments: false // Anulaciones sujetas a plantilla oficial definitiva
     };
 
     // Estado de Flashcards (Sistema Leitner con Re-inserción Automática)
@@ -913,8 +912,8 @@ class OpoDefensaApp {
       { day: 5, block: "Específico (67%)", title: "Tema 5 (1 Esp): Control de Accesos", tasks: "Identificación obligatoria (DNI/Pasaporte/TIE), Libro de Visitas, pases visibles, límites del conserje E1 (cero fuerza) y custodia de llaves en clavero.", badge: "bg-emerald-500/20 text-emerald-400" },
       { day: 6, block: "Específico (67%)", title: "Tema 6 (2 Esp): Paquetería y Valija", tasks: "Albaranes y salvedades por daños externos, valija oficial MINISDEF con precintos y hoja de ruta. Protocolo TEDAX ante paquetes sospechosos.", badge: "bg-emerald-500/20 text-emerald-400" },
       { day: 7, block: "Específico (67%)", title: "Tema 7 (3 Esp): Reprografía y DIN 476", tasks: "Norma ISO 216 / DIN 476: medidas exactas A0 a A5, relación de escalas, gramaje 80 g/m² (peso folio 5 g), alimentador ADF, bypass y desatascos.", badge: "bg-emerald-500/20 text-emerald-400" },
-      { day: 8, block: "Específico (67%)", title: "Tema 8 (4 Esp): Correspondencia Correos", tasks: "Carta ordinaria, certificada (15 días naturales en oficina), Burofax probatorio (Q32 examen 2025), Paquete Azul (20 kg). Oficios vs Notas Interiores.", badge: "bg-emerald-500/20 text-emerald-400" },
-      { day: 9, block: "Específico (67%)", title: "Tema 9 (5 Esp): Recados Oficiales", tasks: "Recados interiores y exteriores, recibí por duplicado. Actuación ante firmas (Q53 examen 2025: solo firmar recibí material). Ley 9/1968 Secretos: doble sobre neutro.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 8, block: "Específico (67%)", title: "Tema 8 (4 Esp): Correspondencia Correos", tasks: "Carta ordinaria, certificada (15 días naturales en oficina), Burofax probatorio (Q32 práctica), Paquete Azul (20 kg). Oficios vs Notas Interiores.", badge: "bg-emerald-500/20 text-emerald-400" },
+      { day: 9, block: "Específico (67%)", title: "Tema 9 (5 Esp): Recados Oficiales", tasks: "Recados interiores y exteriores, recibí por duplicado. Actuación ante firmas (Q53: solo firmar recibí material). Ley 9/1968 Secretos: doble sobre neutro.", badge: "bg-emerald-500/20 text-emerald-400" },
       { day: 10, block: "Específico (67%)", title: "Tema 10 (6 Esp): Averías y PRL", tasks: "Partes de avería y avisos urgentes. RD 486/1997: techos 3 m, superficie libre 2 m², pasillos 1 m, temperaturas 17 a 27 ºC. Prohibido ascensor en incendio.", badge: "bg-emerald-500/20 text-emerald-400" },
       { day: 11, block: "Específico (67%)", title: "Entrenamiento Específico Intensivo", tasks: "Realizar test exclusivo de 40 preguntas del Bloque Específico. Repaso de las 50 Cifras Sagradas y tablas mnemotécnicas.", badge: "bg-emerald-500/20 text-emerald-400" },
       { day: 12, block: "Específico (67%)", title: "Caza-Trampas Funcional", tasks: "Revisión de las 10 trampas lingüísticas recurrentes de los tribunales de oposición de conserjería militar.", badge: "bg-emerald-500/20 text-emerald-400" },
@@ -1571,10 +1570,13 @@ class OpoDefensaApp {
 
           <button onclick="window.app.startNewExam('real2025')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🏛️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Simulacro Convocatoria 2025</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Simulacro formato 2025 (provisional)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Prioriza preguntas identificadas de convocatorias recientes (60 ord + 6 reservas, 60 min). Corte: 30 pts netos.
+              Estructura estimada de 60 ord. + 6 reservas (60 min). Pendiente de contrastar con plantilla oficial de 2025. Corte provisional: 30 pts netos.
             </p>
+            <div class="mt-2 text-[11px] text-amber-300/80">
+              ⚠️ Sin plantilla oficial aportada; no constituye examen real verificado.
+            </div>
           </button>
 
           <button onclick="window.app.startNewExam('comun')" class="p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
