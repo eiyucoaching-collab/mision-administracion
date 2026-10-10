@@ -261,7 +261,7 @@ Bienvenido al audio-repaso del Tema 9: Recados Oficiales, Sigilo y Custodia Docu
 
 El recado oficial es una encomienda de servicio que realiza el personal de Servicios Administrativos desplazándose dentro de la sede o acudiendo a otros organismos oficiales (Hacienda, Juzgados, otros cuarteles, bancos o notarías).
 
-La regla de oro del examen de 2025: Prohibición de firmar.
+La regla de oro en recados oficiales: Prohibición de firmar.
 Si durante la realización de un recado oficial en un banco, juzgado o ventanilla administrativa el funcionario requiere al conserje/ordenanza que 'firme la solicitud o acepte un cargo en nombre del centro':
 El ordenanza tiene TERMINANTEMENTE PROHIBIDO firmar o asumir compromisos jurídicos en nombre del centro.
 Su actuación correcta es: abstenerse de firmar, recoger el impreso y trasladarlo de inmediato al Oficial habilitado o Administrador del centro para su firma autorizada.

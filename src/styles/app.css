@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+@source "../../index.html";
+@source "../**/*.js";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-outfit: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  --color-brand-50: #f0f9ff;
+  --color-brand-100: #e0f2fe;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-900: #0c4a6e;
+  --color-brand-950: #082f49;
+}
+
+:root {
+  --bg-dark: #070b14;
+  --card-dark: #0f172a;
+  --border-dark: #1e293b;
+  --primary: #38bdf8;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-outfit);
+}
+
+/* Estilo de navegación activa */
+.nav-active {
+  color: #38bdf8 !important;
+  background-color: rgba(56, 189, 248, 0.12) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+}
+.bottom-nav-active {
+  color: #38bdf8 !important;
+}
+
+/* 3D Perspective para Flashcards */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Animación Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Tablas legibles */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  font-size: 0.85rem;
+}
+.data-table th {
+  background-color: #0b1329;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: #94a3b8;
+  border-bottom: 1px solid #1e293b;
+}
+.data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #1e293b;
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #070b14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+/* =========================================================================
+   TÉCNICAS DE ESTUDIO COGNITIVO: ROTULADOR Y SUBRAYADO MNEMOTÉCNICO
+   ========================================================================= */
+.subrayado-amarillo {
+  background: linear-gradient(104deg, rgba(250, 204, 21, 0.32) 0%, rgba(234, 179, 8, 0.18) 100%);
+  border-bottom: 2.5px solid #facc15;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem 0.25rem 0 0;
+  color: #fef08a !important;
+  font-weight: 700;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-shadow: 0 0 10px rgba(250, 204, 21, 0.25);
+}
+
+.subrayado-cian {
+  background: linear-gradient(104deg, rgba(56, 189, 248, 0.30) 0%, rgba(14, 165, 233, 0.18) 100%);
+  border-bottom: 2.5px solid #38bdf8;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem 0.25rem 0 0;
+  color: #bae6fd !important;
+  font-weight: 700;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+.subrayado-verde {
+  background: linear-gradient(104deg, rgba(52, 211, 153, 0.30) 0%, rgba(16, 185, 129, 0.18) 100%);
+  border-bottom: 2.5px solid #34d399;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem 0.25rem 0 0;
+  color: #a7f3d0 !important;
+  font-weight: 700;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-shadow: 0 0 10px rgba(52, 211, 153, 0.25);
+}
+
+.subrayado-rosa {
+  background: linear-gradient(104deg, rgba(244, 63, 94, 0.32) 0%, rgba(225, 29, 72, 0.18) 100%);
+  border-bottom: 2.5px solid #fb7185;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem 0.25rem 0 0;
+  color: #fecdd3 !important;
+  font-weight: 700;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-shadow: 0 0 10px rgba(244, 63, 94, 0.25);
+}
+
+.subrayado-lila {
+  background: linear-gradient(104deg, rgba(168, 85, 247, 0.30) 0%, rgba(147, 51, 234, 0.18) 100%);
+  border-bottom: 2.5px solid #c084fc;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem 0.25rem 0 0;
+  color: #e9d5ff !important;
+  font-weight: 700;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
+}
+
+.subrayado-ondulado-amarillo {
+  text-decoration: underline wavy #facc15;
+  text-underline-offset: 4px;
+  font-weight: 700;
+  color: #fef08a !important;
+}
+
+.subrayado-ondulado-rosa {
+  text-decoration: underline wavy #fb7185;
+  text-underline-offset: 4px;
+  font-weight: 700;
+  color: #fecdd3 !important;
+}
+
+.prose strong, .prose b {
+  color: #ffffff;
+  font-weight: 800;
+  background: linear-gradient(104deg, rgba(56, 189, 248, 0.16) 0%, rgba(250, 204, 21, 0.16) 100%);
+  border-bottom: 2px solid #facc15;
+  padding: 0.05em 0.25em;
+  border-radius: 0.2rem 0.2rem 0 0;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.pulse-cifra {
+  box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.4);
+  animation: pulseCifra 2.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+@keyframes pulseCifra {
+  to {
+    box-shadow: 0 0 0 8px rgba(250, 204, 21, 0);
+  }
+}
+
+.option-crossed {
+  opacity: 0.38 !important;
+  background-color: rgba(15, 23, 42, 0.4) !important;
+  border-color: rgba(244, 63, 94, 0.25) !important;
+  filter: grayscale(0.5);
+}
+
+@keyframes comboPop {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.animate-combo {
+  animation: comboPop 0.25s ease-out;
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+  header, nav, footer, button, .no-print, #podcast-mini-player, #print-modal-container {
+    display: none !important;
+  }
+  .page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm;
+  }
+  .data-table {
+    width: 100% !important;
+    border: 1px solid #333333 !important;
+    page-break-inside: avoid !important;
+  }
+  .data-table th {
+    background-color: #f1f5f9 !important;
+    color: #000000 !important;
+    border-bottom: 2px solid #000000 !important;
+  }
+  .data-table td {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-bottom: 1px solid #cccccc !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}

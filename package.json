@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "node scripts/validate-data.mjs && node --test tests/**/*.test.mjs",
-    "validate": "node scripts/validate-data.mjs"
+    "test:e2e": "node --test tests/e2e_offline.test.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "build:css": "tailwindcss -i ./src/styles/app.css -o ./assets/css/app.min.css --minify"
   },
   "keywords": [
     "oposiciones",
@@ -14,5 +16,10 @@
     "e1"
   ],
   "author": "",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "playwright": "^1.64.0",
+    "tailwindcss": "^4.3.3"
+  }
 }
