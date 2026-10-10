@@ -24,6 +24,11 @@ import {
   calculateDashboardMetrics,
   initExamSessionState
 } from './exam/engine.js';
+import {
+  STORAGE_KEYS,
+  CURRENT_STORAGE_VERSION,
+  migrateStorage
+} from './storage/migration.js';
 
 class OpoDefensaApp {
   constructor() {
@@ -113,12 +118,15 @@ class OpoDefensaApp {
   // =========================================================================
   loadPersistence() {
     try {
-      this.examHistory = JSON.parse(localStorage.getItem('opo_e1_history')) || [];
-      this.failedQuestions = new Set(JSON.parse(localStorage.getItem('opo_e1_failed_qids')) || []);
-      this.cardRatings = JSON.parse(localStorage.getItem('opo_e1_flashcards_rating')) || {};
-      this.planChecklist = JSON.parse(localStorage.getItem('opo_e1_plan_checklist')) || {};
-      this.highlighterEnabled = localStorage.getItem('opo_e1_highlighter') !== 'false';
-      this.cifrasBestScore = JSON.parse(localStorage.getItem('opo_e1_cifras_drill')) || { bestScore: 0, bestStreak: 0 };
+      if (typeof localStorage !== 'undefined') {
+        migrateStorage(localStorage);
+      }
+      this.examHistory = JSON.parse(localStorage.getItem(STORAGE_KEYS.HISTORY)) || [];
+      this.failedQuestions = new Set(JSON.parse(localStorage.getItem(STORAGE_KEYS.FAILED_QIDS)) || []);
+      this.cardRatings = JSON.parse(localStorage.getItem(STORAGE_KEYS.FLASHCARDS_RATING)) || {};
+      this.planChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLAN_CHECKLIST)) || {};
+      this.highlighterEnabled = localStorage.getItem(STORAGE_KEYS.HIGHLIGHTER) !== 'false';
+      this.cifrasBestScore = JSON.parse(localStorage.getItem(STORAGE_KEYS.CIFRAS_DRILL)) || { bestScore: 0, bestStreak: 0 };
     } catch (e) {
       console.warn('Error cargando LocalStorage:', e);
       this.examHistory = [];
@@ -134,8 +142,8 @@ class OpoDefensaApp {
     this.examHistory.unshift(result);
     if (this.examHistory.length > 50) this.examHistory.pop();
     try {
-      localStorage.setItem('opo_e1_history', JSON.stringify(this.examHistory));
-      localStorage.setItem('opo_e1_failed_qids', JSON.stringify(Array.from(this.failedQuestions)));
+      localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(this.examHistory));
+      localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(Array.from(this.failedQuestions)));
     } catch (e) {
       console.warn('Error guardando en LocalStorage:', e);
     }
@@ -144,14 +152,14 @@ class OpoDefensaApp {
   saveCardRating(cardId, rating) {
     this.cardRatings[cardId] = rating;
     try {
-      localStorage.setItem('opo_e1_flashcards_rating', JSON.stringify(this.cardRatings));
+      localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(this.cardRatings));
     } catch (e) {}
   }
 
   togglePlanDay(dayNum) {
     this.planChecklist[dayNum] = !this.planChecklist[dayNum];
     try {
-      localStorage.setItem('opo_e1_plan_checklist', JSON.stringify(this.planChecklist));
+      localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(this.planChecklist));
     } catch (e) {}
     this.setTab(this.activeTab);
   }
@@ -161,6 +169,7 @@ class OpoDefensaApp {
     const backupData = {
       app: 'Misión Administración - Opo-Defensa E1',
       version: '2.1.0',
+      storageVersion: CURRENT_STORAGE_VERSION,
       exportDate: new Date().toISOString(),
       examHistory: this.examHistory,
       failedQuestionIds: Array.from(this.failedQuestions),
@@ -190,29 +199,34 @@ class OpoDefensaApp {
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target.result);
-        if (data.examHistory) {
-          this.examHistory = data.examHistory;
-          localStorage.setItem('opo_e1_history', JSON.stringify(this.examHistory));
-        }
-        if (data.failedQuestionIds) {
-          this.failedQuestions = new Set(data.failedQuestionIds);
-          localStorage.setItem('opo_e1_failed_qids', JSON.stringify(Array.from(this.failedQuestions)));
-        }
-        if (data.cardRatings) {
-          this.cardRatings = data.cardRatings;
-          localStorage.setItem('opo_e1_flashcards_rating', JSON.stringify(this.cardRatings));
-        }
-        if (data.planChecklist) {
-          this.planChecklist = data.planChecklist;
-          localStorage.setItem('opo_e1_plan_checklist', JSON.stringify(this.planChecklist));
-        }
-        if (data.highlighterEnabled !== undefined) {
-          this.highlighterEnabled = data.highlighterEnabled;
-          localStorage.setItem('opo_e1_highlighter', this.highlighterEnabled ? 'true' : 'false');
-        }
-        if (data.cifrasBestScore) {
-          this.cifrasBestScore = data.cifrasBestScore;
-          localStorage.setItem('opo_e1_cifras_drill', JSON.stringify(this.cifrasBestScore));
+        if (typeof localStorage !== 'undefined') {
+          if (data.examHistory) {
+            localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(data.examHistory));
+          }
+          if (data.failedQuestionIds) {
+            localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(data.failedQuestionIds));
+          }
+          if (data.cardRatings) {
+            localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(data.cardRatings));
+          }
+          if (data.planChecklist) {
+            localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
+          }
+          if (data.highlighterEnabled !== undefined) {
+            localStorage.setItem(STORAGE_KEYS.HIGHLIGHTER, data.highlighterEnabled ? 'true' : 'false');
+          }
+          if (data.cifrasBestScore) {
+            localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
+          }
+          if (data.storageVersion) {
+            localStorage.setItem(STORAGE_KEYS.VERSION, String(data.storageVersion));
+          } else {
+            localStorage.removeItem(STORAGE_KEYS.VERSION);
+          }
+
+          // Ejecutar sanitización y migración si el archivo importado procede de formato legado
+          migrateStorage(localStorage);
+          this.loadPersistence();
         }
 
         this.initFlashcardSession();
@@ -252,7 +266,7 @@ class OpoDefensaApp {
   toggleHighlighter() {
     this.highlighterEnabled = !this.highlighterEnabled;
     try {
-      localStorage.setItem('opo_e1_highlighter', this.highlighterEnabled ? 'true' : 'false');
+      localStorage.setItem(STORAGE_KEYS.HIGHLIGHTER, this.highlighterEnabled ? 'true' : 'false');
     } catch (e) {}
     this.setTab(this.activeTab);
   }
@@ -1190,7 +1204,7 @@ class OpoDefensaApp {
         bestStreak: Math.max(this.cifrasDrillState.score.maxStreak, this.cifrasBestScore?.bestStreak || 0)
       };
       try {
-        localStorage.setItem('opo_e1_cifras_drill', JSON.stringify(this.cifrasBestScore));
+        localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(this.cifrasBestScore));
       } catch (e) {}
     }
 
@@ -2119,7 +2133,7 @@ class OpoDefensaApp {
     results.newlySucceededIds.forEach(id => this.failedQuestions.delete(id));
     results.newlyFailedIds.forEach(id => this.failedQuestions.add(id));
     try {
-      localStorage.setItem('opo_e1_failed_qids', JSON.stringify(Array.from(this.failedQuestions)));
+      localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(Array.from(this.failedQuestions)));
     } catch (e) {}
 
     this.examState.results = results;
@@ -2843,7 +2857,7 @@ class OpoDefensaApp {
   clearHistory() {
     if (confirm('¿Estás seguro de que deseas borrar tu histórico de simulacros?')) {
       this.examHistory = [];
-      localStorage.removeItem('opo_e1_history');
+      localStorage.removeItem(STORAGE_KEYS.HISTORY);
       this.setTab('analiticas');
     }
   }
