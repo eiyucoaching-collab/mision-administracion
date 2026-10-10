@@ -1,131 +1,117 @@
 # Auditoría Exhaustiva de Contenido Jurídico y Verificación Normativa (BOE)
 **Proyecto:** Misión Administración (Opo-Defensa Grupo E1 – Servicios Administrativos, IV CUAGE)  
-**Fecha de Consulta BOE y Auditoría:** 9 de octubre de 2026  
+**Fecha de Consulta BOE y Auditoría:** 10 de octubre de 2026  
 **Rama de Trabajo:** `mejora/verificacion-t1-t4`  
 **Estado General:** Fase P1 — Temas 1 a 4 verificados documentalmente contra BOE consolidado con copia local y SHA-256. Fase P0 completada y blindada en CI.
 
 ---
 
-## 1. Evidencia Primaria: Archivo Oficial de Normas Consolidadas en `docs/fuentes/boe/`
+## 1. Evidencia Primaria: Archivo Oficial en `docs/fuentes/boe/` y Naturaleza de los Documentos
 
-Para garantizar la reproducibilidad y trazabilidad de cada afirmación jurídica, se ha descargado y verificado una copia exacta de cada disposición oficial en formato HTML consolidado.
+Para garantizar la reproducibilidad y trazabilidad de cada afirmación jurídica, se conserva copia local de cada disposición oficial:
 
-| Norma Oficial | Archivo Local | URL BOE Consolidado | Tamaño | Hash SHA-256 |
+| Disposición Oficial | Archivo Local | URL BOE Consolidado | Tamaño | Hash SHA-256 |
 | :--- | :--- | :--- | :---: | :--- |
 | **IV Convenio Único para el personal laboral de la AGE** | `BOE-A-2019-7414_IV-CUAGE.html` | [BOE-A-2019-7414](https://www.boe.es/buscar/act.php?id=BOE-A-2019-7414) | 451.5 KB | `4c0c086b31880cb2b8c62847ba87e34e79748cd020b5772cf92c512e5a3c2a85` |
 | **Ley 40/2015 de Régimen Jurídico del Sector Público** | `BOE-A-2015-10566_Ley-40-2015-LRJSP.html` | [BOE-A-2015-10566](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | 888.4 KB | `06c62b797e442ed243158705ecb44eaf9ef8faa75eea9dacf6d19e54f780963c` |
 | **Ley Orgánica 3/2007 para la igualdad efectiva** | `BOE-A-2007-6115_LO-3-2007-Igualdad.html` | [BOE-A-2007-6115](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | 403.5 KB | `fed2dfc8f4f094e7e87e67cee93b114ebfe920d47cffb0f7ecb52c0b39ebc54d` |
 | **Texto Refundido Estatuto Básico Empleado Público (TREBEP)** | `BOE-A-2015-11719_TREBEP.html` | [BOE-A-2015-11719](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11719) | 504.5 KB | `0a95e82d5f4439edcac715a015f3d83d165656fffad5d9af7a0e0d91f2e9f5e3` |
-| **Resolución 430/38310/2026 de convocatoria E1 Defensa** | `BOE-A-2026-14677_Convocatoria-Defensa-E1.html` | [BOE-A-2026-14677](https://www.boe.es/buscar/act.php?id=BOE-A-2026-14677) | 68.9 KB | `e26728921abcf525a81a0437e21575ca4b1af397813f25f6ee5b3f724963d88b` |
+| **Resolución 430/38310/2026 de convocatoria (Extracto BOE)** | `BOE-A-2026-14677_Convocatoria-Defensa-E1.html` | [BOE-A-2026-14677](https://www.boe.es/buscar/act.php?id=BOE-A-2026-14677) | 68.9 KB | `e26728921abcf525a81a0437e21575ca4b1af397813f25f6ee5b3f724963d88b` |
 | **Constitución Española de 1978 (consolidada)** | `BOE-A-1978-31229_Constitucion-Espanola.html` | [BOE-A-1978-31229](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | 285.0 KB | `caa36ac2d4f8a3502ffbd10cb15c849c1bcda7290b9464da579b725283cbbe92` |
 | **Ley 50/1997 del Gobierno** | `BOE-A-1997-25336_Ley-50-1997-Gobierno.html` | [BOE-A-1997-25336](https://www.boe.es/buscar/act.php?id=BOE-A-1997-25336) | 193.3 KB | `a34a83362bceadf7957995cb272b684aa410ecaaa6ee0c1df993efa4ae539698` |
 | **Texto Refundido Estatuto Trabajadores (TRLET)** | `BOE-A-2015-11430_Estatuto-Trabajadores.html` | [BOE-A-2015-11430](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | 918.1 KB | `a6968a7839cf504d76a2767accc0314fbbd366b45127f57c75095567c56efa6a` |
 
+### 1.1. Advertencia Documental: Naturaleza del Archivo BOE-A-2026-14677
+- **Alcance del archivo guardado:** `BOE-A-2026-14677_Convocatoria-Defensa-E1.html` contiene exclusivamente el **extracto de publicación en el BOE** (Resolución de 1 de julio de 2026, 7 páginas, págs. 93534 a 93540) con la resolución general de convocatoria y el Anexo de plazas (40 turno libre y 24 promoción interna para E1 Servicios Administrativos).
+- **NO contiene las Bases completas ni los Anexos V, VI y VII:** Como señala su apartado Cuarto, las bases específicas se hacen públicas en la web del Ministerio de Defensa. Por tanto, este documento **NO contiene**:
+  - **Anexo V:** Regulación del ejercicio, tiempo, número de preguntas y corte.
+  - **Anexo VI:** Programa oficial de materias (Temario).
+  - **Anexo VII:** Baremo de méritos de concurso.
+- **Declaración de Supuestos del Simulador:** Mientras no se aporten las bases completas con el Anexo V, los siguientes parámetros son **SUPUESTOS PROVISIONALES DE DISEÑO DEL SIMULADOR** y no certezas normativas definitivas:
+  1. Estructura de 60 preguntas ordinarias + 6 de reserva.
+  2. Tiempo límite de 60 minutos.
+  3. Penalización de un tercio (-1/3) por respuesta fallada.
+  4. Nota de corte fijada en el 50% (30 puntos netos sobre 60).
+  5. Truncamiento de la calificación final con suelo en cero (`Math.max(0, netScore)`).
+
 ---
 
-## 2. Textos Literales del BOE (Transcripción Íntegra de Preceptos Clave, Sin Elisiones ni `[...]`)
+## 2. Textos Literales Completos del BOE desde la Copia Local (Sin Omisiones ni `[...]`)
 
-### 2.1. Grupos Profesionales y Período de Prueba en el IV CUAGE
+Se transcriben íntegramente los preceptos objeto de revisión sustantiva extraídos directamente de las copias locales oficiales:
 
-#### **Artículo 8. Grupos profesionales.**
-> 1. Se establecen los siguientes grupos profesionales de acuerdo con la titulación exigida para el ingreso en los mismos:
-> a) Grupo profesional M3: Título clasificado en el Nivel 3 del Marco Español de Cualificaciones para la Educación Superior o equivalentes.
-> b) Grupo profesional M2: Título clasificado en el Nivel 2 del Marco Español de Cualificaciones para la Educación Superior o equivalentes.
-> c) Grupo profesional M1: Título clasificado en el Nivel 1 del Marco Español de Cualificaciones para la Educación Superior o equivalentes.
-> d) Grupo profesional E2: Título de Bachiller o Técnico o equivalentes.
-> e) Grupo profesional E1: Título de Graduado en Educación Secundaria Obligatoria o Título Profesional Básico o equivalentes.
-> f) Grupo profesional E0: Sin titulación prevista en el sistema educativo.
-> 2. Se entenderá por titulaciones equivalentes las acordadas por la autoridad competente en materia de Educación.
-> 3. Cuando el contenido de la prestación laboral de un puesto sea altamente cualificado y se requiera el título de Doctor para el desempeño del mismo, figurará así en la correspondiente convocatoria y será en ese momento cuando se adecúen las características retributivas del puesto previa aprobación por la Comisión Paritaria.
-> 4. Esta clasificación no será de aplicación al personal relacionado en los anexos II y IV, que se regirán por sus previsiones específicas fijadas en los propios Anexos.
+### 2.1. Artículo 8 del IV CUAGE: Grupos Profesionales
+> Artículo 8. Grupos profesionales. 1. Se establecen los siguientes grupos profesionales de acuerdo con la titulación exigida para el ingreso en los mismos: a) Grupo profesional M3: Título clasificado en el Nivel 3 del Marco Español de Cualificaciones para la Educación Superior o equivalentes. b) Grupo profesional M2: Título clasificado en el Nivel 2 del Marco Español de Cualificaciones para la Educación Superior o equivalentes. c) Grupo profesional M1: Título clasificado en el Nivel 1 del Marco Español de Cualificaciones para la Educación Superior o equivalentes. d) Grupo profesional E2: Título de Bachiller o Técnico o equivalentes. e) Grupo profesional E1: Título de Graduado en Educación Secundaria Obligatoria o Título Profesional Básico o equivalentes. f) Grupo profesional E0: Sin titulación prevista en el sistema educativo. 2. Se entenderá por titulaciones equivalentes las acordadas por la autoridad competente en materia de Educación. 3. Cuando el contenido de la prestación laboral de un puesto sea altamente cualificado y se requiera el título de Doctor para el desempeño del mismo, figurará así en la correspondiente convocatoria y será en ese momento cuando se adecúen las características retributivas del puesto previa aprobación por la Comisión Paritaria. 4. Esta clasificación no será de aplicación al personal relacionado en los anexos II y IV, que se regirán por sus previsiones específicas fijadas en los propios Anexos.
 
-#### **Artículo 32. Período de prueba.**
-> 1. El personal de nuevo ingreso por turno libre estará sometido a un período de prueba, que se pactará por escrito en el contrato de trabajo, cuya duración será de tres meses para los grupos profesionales M3 y M2 y de un mes para los demás trabajadores o trabajadoras, excepto para el personal sin titulación, para el que será de quince días laborables.
-> 2. Transcurrido este período de prueba quedará automáticamente formalizada la admisión, siendo computado al trabajador o trabajadora este período a todos los efectos. La adquisición de la condición de personal laboral fijo del ámbito del presente Convenio quedará supeditada a la superación del citado periodo de prueba.
-> 3. Durante este período, tanto la Administración como el trabajador o trabajadora podrán poner fin a la relación laboral, sin que ninguna de las partes tenga por ello derecho a indemnización alguna. La persona tendrá los derechos y obligaciones correspondientes a su grupo profesional y al puesto de trabajo que desempeña, como si fuera de plantilla. Del fin de las relaciones laborales reguladas en este artículo se informará a quienes representan a los trabajadores y trabajadoras.
-> 4. Será nulo el pacto que establezca un período de prueba cuando la persona haya ya desempeñado las mismas funciones con anterioridad, bajo cualquier modalidad de contratación, dentro del ámbito de aplicación del presente Convenio.
-> 5. Durante el periodo de prueba el trabajador o trabajadora no tendrá derecho a ser declarado en las situaciones previstas en el título XIV del presente Convenio, salvo aquellas para las que no se exija reunir la condición de personal laboral fijo. En estos supuestos, deberá realizar y superar el periodo de prueba una vez se incorpore al puesto reservado como consecuencia de la declaración de la correspondiente situación.
+### 2.2. Artículo 16 del IV CUAGE: Funcionamiento de la Comisión Paritaria
+*(Verificación de la corrección de Q44: el Art. 16 regula la Comisión Paritaria y no las titulaciones de acceso, que radican en el Art. 8.1.e)*
+> Artículo 16. Funcionamiento de la Comisión Paritaria. 1. La Comisión Paritaria funcionará en Pleno y en Comisión Permanente y en el plazo de dos meses desde su constitución elaborará su propio Reglamento de funcionamiento, que se incorporará al Convenio y permanecerá en vigor hasta que sea sustituido por uno nuevo. El indicado Reglamento tendrá, como mínimo, el siguiente contenido: Finalidad, composición, sede, reconocimiento y aceptación, funcionamiento, régimen de sus sesiones ordinarias y extraordinarias, fijación del orden del día, formas de validación de los acuerdos y plazos para su adopción, mecanismos para solventar las discrepancias que surjan en su seno, relación de medios técnicos y materiales a utilizar por la representación sindical y facultades de esta. 2. La Comisión Paritaria se reunirá con carácter ordinario al menos una vez al mes, y con carácter extraordinario, cuando lo soliciten al menos siete de las personas que componen la parte social o de la Administración. Las reuniones podrán realizarse por medios electrónicos cuando se acuerde por las partes en atención a las circunstancias extraordinarias que revistan los temas a tratar. 3. La Administración facilitará a la Comisión Paritaria los locales y medios técnicos y materiales precisos para su funcionamiento y asumirá los gastos correspondientes a la misma. 4. Denunciado el Convenio, hasta tanto sea sustituido por otro, la Comisión Paritaria seguirá ejerciendo sus funciones.
+
+### 2.3. Artículo 32 del IV CUAGE: Período de Prueba
+> Artículo 32. Período de prueba. 1. El personal de nuevo ingreso por turno libre estará sometido a un período de prueba, que se pactará por escrito en el contrato de trabajo, cuya duración será de tres meses para los grupos profesionales M3 y M2 y de un mes para los demás trabajadores o trabajadoras, excepto para el personal sin titulación, para el que será de quince días laborables. 2. Transcurrido este período de prueba quedará automáticamente formalizada la admisión, siendo computado al trabajador o trabajadora este período a todos los efectos. La adquisición de la condición de personal laboral fijo del ámbito del presente Convenio quedará supeditada a la superación del citado periodo de prueba. 3. Durante este período, tanto la Administración como el trabajador o trabajadora podrán poner fin a la relación laboral, sin que ninguna de las partes tenga por ello derecho a indemnización alguna. La persona tendrá los derechos y obligaciones correspondientes a su grupo profesional y al puesto de trabajo que desempeña, como si fuera de plantilla. Del fin de las relaciones laborales reguladas en este artículo se informará a quienes representan a los trabajadores y trabajadoras. 4. Será nulo el pacto que establezca un período de prueba cuando la persona haya ya desempeñado las mismas funciones con anterioridad, bajo cualquier modalidad de contratación, dentro del ámbito de aplicación del presente Convenio. 5. Durante el periodo de prueba el trabajador o trabajadora no tendrá derecho a ser declarado en las situaciones previstas en el título XIV del presente Convenio, salvo aquellas para las que no se exija reunir la condición de personal laboral fijo. En estos supuestos, deberá realizar y superar el periodo de prueba una vez se incorpore al puesto reservado como consecuencia de la declaración de la correspondiente situación.
 
 **Determinación jurídica esencial:**
-- El **Grupo E1** exige titulación de ESO o Título Profesional Básico (Art. 8.1.e). En consecuencia, al ser un grupo con titulación, su período de prueba es taxativamente de **un mes** (Art. 32.1).
-- El período de prueba reducido de **quince días laborables** aplica exclusivamente al "personal sin titulación", es decir, al **Grupo profesional E0** (Art. 8.1.f).
-- Queda desterrada cualquier referencia a "E1 sin titulación: 15 días laborables" que existía en versiones iniciales del material.
-- La Base 7.9 de la Convocatoria (BOE-A-2026-14677) aplica el Art. 32 del IV CUAGE: 1 mes para E1.
+- El **Grupo profesional E1** exige titulación de Educación Secundaria Obligatoria o Título Profesional Básico (Art. 8.1.e). Al tener titulación requerida, su período de prueba es taxativamente de **un mes** (Art. 32.1 y Base 7.9).
+- El período reducido de **quince días laborables** aplica en exclusiva al "personal sin titulación", es decir, al **Grupo profesional E0** (Art. 8.1.f).
+- Queda totalmente erradicada cualquier mención a "E1 sin titulación: 15 días laborables".
+
+### 2.4. Artículo 37 del IV CUAGE: Concurso Extraordinario
+*(Verificación de la corrección de Q48: el Art. 37 regula el Concurso Extraordinario de traslados y no los permisos retribuidos, que radican en el Art. 75 del CUAGE y Art. 37.3 del ET)*
+> Artículo 37. Concurso extraordinario. 1. Con carácter extraordinario, derivado de situaciones provocadas por razones organizativas o como consecuencia de la planificación global en el marco de planes para la ordenación de recursos humanos, y como una de las medidas que se podrán prever en dichos planes, se convocarán, previo acuerdo de la Comisión Paritaria de los criterios generales, concursos de traslados de carácter extraordinario limitados al personal laboral fijo de los ámbitos que se determinen o para familias profesionales y/o especialidades concretas. 2. El concurso de carácter extraordinario se regirá por lo establecido en el plan de ordenación respectivo. A quienes se vean afectados por el plan de ordenación y participen como consecuencia del mismo en este tipo de concurso no se les exigirá la permanencia mínima de dos años en el último puesto obtenido con carácter definitivo para poder participar en el concurso abierto y permanente. Sólo en el caso de obtener un puesto en el concurso abierto y permanente volverá a operar el período de permanencia mínima señalado en el artículo anterior de cara a su participación en otras convocatorias del concurso abierto y permanente.
+
+### 2.5. Artículo 75 del IV CUAGE: Permisos Retribuidos
+*(Soporte de Q48)*
+> Artículo 75. Permisos. El personal laboral, previo aviso y justificación adecuada, tendrá derecho a disfrutar de permisos retribuidos por los tiempos y causas siguientes: a) Quince días naturales en caso de matrimonio. b) Dos días por nacimiento de hija o hijo. c) Tres días hábiles en casos de muerte, accidente o enfermedad graves, hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario del cónyuge o pareja de hecho acreditada o de un familiar, dentro del primer grado de consanguinidad o afinidad por matrimonio o por pareja de hecho acreditada. Cuando dichos casos se produzcan en distinta localidad de la del domicilio de la persona interesada, la duración del permiso será de cinco días hábiles. En el caso de fallecimiento de cónyuge, pareja de hecho o hijos, la persona interesada podrá solicitar adicionalmente un permiso no retribuido de una duración no superior a un mes, con independencia de otros supuestos de licencias sin sueldo. d) En los casos de muerte, accidente o enfermedad graves, hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario de familiares, dentro del segundo grado de consanguinidad o afinidad por matrimonio o pareja de hecho acreditada el permiso será de dos días hábiles. Cuando dichos casos se produzcan en distinta localidad a la del domicilio de la persona interesada, la duración del permiso será de cuatro días hábiles. De conformidad con los artículos 915 y siguientes del Código Civil , el parentesco de consanguinidad hasta el segundo grado comprende en línea recta descendente a hijos o hijas y nietos o nietas, en línea recta ascendente a progenitores, y abuelos o abuelas, y en colateral a hermanos o hermanas. El parentesco de afinidad comprende a los padres del cónyuge propio, a los cónyuges de los hijos o hijas, y nietos o nietas, y a los abuelos o abuelas, así como hermanos o hermanas políticos. De las situaciones de pareja de hecho acreditada derivarán las mismas relaciones de afinidad a los efectos establecidos en el presente Convenio. Cuando el causante del permiso sea la pareja de hecho, tal condición se acreditará mediante la presentación del certificado expedido por el Registro de Uniones de Hecho que exista en el ámbito municipal o autonómico o, en ausencia de éste, mediante aportación de declaración jurada y certificado de convivencia expedido por el Ayuntamiento correspondiente. e) Un día por traslado del domicilio habitual dentro de una misma localidad y dos días en distinta localidad. f) Por el tiempo indispensable para el cumplimiento de un deber inexcusable de carácter público o personal y los relacionados con la conciliación de la vida familiar y laboral, que no dé lugar a retribución o indemnización alguna, cuya exigencia deberá acreditarse documentalmente y sin que pueda superarse, cuando se trate de un deber de carácter personal, la quinta parte de las horas laborales en cómputo trimestral. En el supuesto de que la persona interesada perciba retribución o indemnización por el cumplimiento del deber o desempeño del cargo, se descontará el importe de la misma del salario a que tuviera derecho. g) Derecho a ausentarse del trabajo para someterse a técnicas de fecundación asistida por el tiempo necesario para su realización y previa justificación de la necesidad dentro de la jornada de trabajo. h) En el caso de las trabajadoras, por el tiempo indispensable para la realización de exámenes prenatales y técnicas de preparación al parto que deban realizarse dentro de la jornada de trabajo. i) Las trabajadoras en estado de gestación, podrán disfrutar de un permiso retribuido a partir del día primero de la semana 37 del embarazo y hasta la fecha del parto. En el supuesto de gestación múltiple, este permiso podrá iniciarse el primer día de la semana 35 de embarazo, hasta la fecha de parto. j) Asistencia a consulta, prueba o tratamiento médico, en centro de naturaleza pública o privada durante el tiempo estrictamente necesario dentro del horario de trabajo acreditando debidamente este extremo con el justificante del servicio sanitario correspondiente. k) Por lactancia de un hijo o hija menor de doce meses, se estará a lo dispuesto en el artículo 48.f) del texto refundido del Estatuto Básico del Empleado Público . l) Hasta dos meses de permiso percibiendo exclusivamente las retribuciones básicas, en los supuestos de adopción internacional cuando sea necesario el desplazamiento previo de los padres al país de origen del adoptado. m) En los casos de nacimiento de hijos o hijas prematuros o en los que, por cualquier motivo, éstos tengan que permanecer hospitalizados después del parto, el personal laboral tiene derecho a ausentarse del lugar de trabajo hasta un máximo de dos horas diarias, percibiendo las retribuciones íntegras. n) El personal laboral que tengan a cargo hijos o hijas con discapacidad psíquica, física o sensorial, tendrán dos horas de flexibilidad horaria diaria a fin de conciliar los horarios de los centros de educación especial y otros centros donde el hijo o hija discapacitado reciba atención, con los horarios de los propios puestos de trabajo. Igualmente tendrán derecho a ausentarse del trabajo por el tiempo indispensable para asistir a reuniones de coordinación de su centro de educación especial, donde reciba tratamiento o para acompañarle si ha de recibir apoyo adicional en el ámbito sanitario. o) Hasta seis días cada año natural, por asuntos particulares no incluidos en los puntos anteriores. El personal podrá distribuir dichos días a su conveniencia, previa autorización de la correspondiente unidad de personal y respetando siempre las necesidades del servicio debidamente motivadas. Cuando por estas razones no sea posible disfrutar del mencionado permiso antes de finalizar el mes de diciembre, se disfrutará antes del día 31 del mes de enero siguiente. Asimismo, se tendrá derecho a disfrutar de dos días adicionales de permiso por asuntos particulares desde el día siguiente al del cumplimiento del sexto trienio, incrementándose, como máximo, en un día adicional por cada trienio cumplido a partir del octavo. p) Los días 24 y 31 de diciembre. Al igual que los permisos del apartado anterior, cuando la naturaleza del servicio público impidiese la cesación de su prestación durante estos días, o en el supuesto de que tales fechas coincidan con días festivos, sábados o no laborables, el calendario laboral correspondiente establecerá fórmulas que permitan la compensación adecuada al régimen horario aplicable, en los términos de la Resolución en vigor de la Secretaría de Estado competente en materia de Función Pública, por la que se dictan instrucciones sobre jornada y horarios de trabajo del personal al servicio de la Administración General del Estado y sus organismos públicos. q) El personal laboral que se encuentre prestando servicios que acceda a un nuevo grupo profesional mediante la promoción profesional regulada en el artículo 28 tendrán derecho, a partir de la incorporación, a un permiso retribuido de tres días hábiles si el destino no implica cambio de residencia de la persona interesada y de un mes si lo comporta.
+
+### 2.6. Artículo 37.3 del Estatuto de los Trabajadores (TRLET): Permisos y Tiempo de Trabajo Efectivo
+*(Soporte sustantivo legal concordante con Q48)*
+> 3. La persona trabajadora, previo aviso y justificación, podrá ausentarse del trabajo, con derecho a remuneración, por alguno de los motivos y por el tiempo siguiente: a) Quince días naturales en caso de matrimonio o registro de pareja de hecho. b) Cinco días por accidente o enfermedad graves, hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario del cónyuge, pareja de hecho o parientes hasta el segundo grado por consanguineidad o afinidad, incluido el familiar consanguíneo de la pareja de hecho, así como de cualquier otra persona distinta de las anteriores, que conviva con la persona trabajadora en el mismo domicilio y que requiera el cuidado efectivo de aquella. b bis) Dos días por el fallecimiento del cónyuge, pareja de hecho o parientes hasta el segundo grado de consanguinidad o afinidad. Cuando con tal motivo la persona trabajadora necesite hacer un desplazamiento al efecto, el plazo se ampliará en dos días. c) Un día por traslado del domicilio habitual. d) Por el tiempo indispensable, para el cumplimiento de un deber inexcusable de carácter público y personal, comprendido el ejercicio del sufragio activo. Cuando conste en una norma legal o convencional un periodo determinado, se estará a lo que esta disponga en cuanto a duración de la ausencia y a su compensación económica. Cuando el cumplimiento del deber antes referido suponga la imposibilidad de la prestación del trabajo debido en más del veinte por ciento de las horas laborables en un periodo de tres meses, podrá la empresa pasar al trabajador afectado a la situación de excedencia regulada en el artículo 46.1. En el supuesto de que el trabajador, por cumplimiento del deber o desempeño del cargo, perciba una indemnización, se descontará el importe de la misma del salario a que tuviera derecho en la empresa. e) Para realizar funciones sindicales o de representación del personal en los términos establecidos legal o convencionalmente. f) Por el tiempo indispensable para la realización de exámenes prenatales y técnicas de preparación al parto y, en los casos de adopción, guarda con fines de adopción o acogimiento, para la asistencia a las preceptivas sesiones de información y preparación y para la realización de los preceptivos informes psicológicos y sociales previos a la declaración de idoneidad, siempre, en todos los casos, que deban tener lugar dentro de la jornada de trabajo. g) Hasta cuatro días por imposibilidad de acceder al centro de trabajo o transitar por las vías de circulación necesarias para acudir al mismo, como consecuencia de las recomendaciones, limitaciones o prohibiciones al desplazamiento establecidas por las autoridades competentes, así como cuando concurra una situación de riesgo grave e inminente, incluidas las derivadas de una catástrofe o fenómeno meteorológico adverso. Transcurridos los cuatro días, el permiso se prolongará hasta que desaparezcan las circunstancias que lo justificaron, sin perjuicio de la posibilidad de la empresa de aplicar una suspensión del contrato de trabajo o una reducción de jornada derivada de fuerza mayor en los términos previstos en el artículo 47.6. Cuando la naturaleza de la prestación laboral sea compatible con el trabajo a distancia y el estado de las redes de comunicación permita su desarrollo, la empresa podrá establecerlo, observando el resto de las obligaciones formales y materiales recogidas en la Ley 10/2021, de 9 de julio , de trabajo a distancia, y, en particular, el suministro de medios, equipos y herramientas adecuados. g) [sic] Por el tiempo indispensable para la realización de los actos preparatorios de la donación de órganos o tejidos siempre que deban tener lugar dentro de la jornada de trabajo. 4.
+
+### 2.7. Artículo 112 del IV CUAGE: Prescripción de Faltas y Sanciones
+*(Soporte de la pista de Podcast 3)*
+> Artículo 112. Prescripción de las faltas y de las sanciones. 1. Las infracciones muy graves prescribirán a los tres años, las graves a los dos años y las leves a los seis meses. 2. El plazo de prescripción de las infracciones comenzará a contarse desde que la falta se hubiera cometido, y desde el cese de su comisión cuando se trate de faltas continuadas. Dichos plazos quedarán interrumpidos por cualquier acto propio del expediente instruido o por la fase de diligencias previas informativas que, en su caso, pueda realizarse, incluida la audiencia previa al interesado o interesada que pueda instruirse en su caso. 3. Las sanciones impuestas por faltas muy graves prescribirán a los tres años, las impuestas por faltas graves a los dos años y las impuestas por faltas leves al año. 4. El plazo de prescripción de las sanciones comenzará a contarse desde la firmeza en vía administrativa de la resolución sancionadora.
+
+### 2.8. Subdelegados del Gobierno en Ley 40/2015: Art. 73 vs. Art. 74
+- **Artículo 73.1.a).2.º:**
+  > «Nombrar a los Subdelegados del Gobierno en las provincias de su ámbito de actuación y, en su caso, a los Directores Insulares, y como superior jerárquico, dirigir y coordinar su actividad.»
+- **Artículo 74. Los Subdelegados del Gobierno en las provincias:**
+  > «En cada provincia y bajo la inmediata dependencia del Delegado del Gobierno en la respectiva Comunidad Autónoma, existirá un Subdelegado del Gobierno, con nivel de Subdirector General, que será nombrado por aquél mediante el procedimiento de libre designación entre funcionarios de carrera del Estado, de las Comunidades Autónomas o de las Entidades Locales, pertenecientes a Cuerpos o Escalas clasificados como Subgrupo A1. En las Comunidades Autónomas uniprovinciales en las que no exista Subdelegado, el Delegado del Gobierno asumirá las competencias que esta Ley atribuye a los Subdelegados del Gobierno en las provincias.»
 
 ---
 
-### 2.2. Subdelegados del Gobierno en la Ley 40/2015: Art. 73 vs. Art. 74
+## 3. Cuadre Exhaustivo del Recuento (29 vs 30 Cifras/Trampas y 115 vs 116 en Total)
 
-#### **Artículo 73. Competencias de los Delegados del Gobierno en las Comunidades Autónomas.**
-> 1. Para el ejercicio de las competencias a que se refiere este artículo, los Delegados del Gobierno podrán dictar las instrucciones que sean precisas a los titulares de los órganos territoriales de la Administración General del Estado y de sus Organismos públicos en la Comunidad Autónoma.
-> Corresponde a los Delegados del Gobierno:
-> a) Dirección y coordinación de la Administración General del Estado y sus Organismos públicos:
-> 1.º Impulsar, coordinar y supervisar con carácter general su actividad en el territorio de la Comunidad Autónoma, y, cuando se trate de servicios integrados, dirigirla, directamente o a través de los subdelegados del gobierno, de acuerdo con los objetivos y, en su caso, instrucciones de los órganos superiores de los respectivos ministerios.
-> 2.º Nombrar a los Subdelegados del Gobierno en las provincias de su ámbito de actuación y, en su caso, a los Directores Insulares, y como superior jerárquico, dirigir y coordinar su actividad.
-> 3.º Informar las propuestas de nombramiento de los titulares de órganos directivos de la Administración General del Estado y de los Organismos públicos estatales de ámbito territorial no integrados en la Delegación del Gobierno.
+### 3.1. Explicación de la Diferencia de Cómputo con IDs Concretos
+En el informe preliminar se reportaron 29 cifras y trampas (26 OK + 3 corregidas = 29), totalizando 115 elementos. Al realizar la exportación granular del código fuente se comprueba que el inventario real en `cifras_y_trampas.js` para los Temas 1 al 4 asciende exactamente a **30 elementos** (25 Cifras Sagradas + 5 Trampas de Examen), dando un total real de **116 elementos**:
 
-#### **Sección 3.ª Los Subdelegados del Gobierno en las provincias**
-#### **Artículo 74. Los Subdelegados del Gobierno en las provincias.**
-> En cada provincia y bajo la inmediata dependencia del Delegado del Gobierno en la respectiva Comunidad Autónoma, existirá un Subdelegado del Gobierno, con nivel de Subdirector General, que será nombrado por aquél mediante el procedimiento de libre designación entre funcionarios de carrera del Estado, de las Comunidades Autónomas o de las Entidades Locales, pertenecientes a Cuerpos o Escalas clasificados como Subgrupo A1.
-> En las Comunidades Autónomas uniprovinciales en las que no exista Subdelegado, el Delegado del Gobierno asumirá las competencias que esta Ley atribuye a los Subdelegados del Gobierno en las provincias.
+1. **25 Cifras Sagradas (IDs 1 al 25):**
+   - **Tema 1 (CE 1978):** Cifras ID 1 a 8 (8 cifras: artículos totales, mayoría de edad, detención preventiva, Defensor del Pueblo, mayorías de reforma, referéndum, reforma agravada, años de reformas).
+   - **Tema 2 (Gobierno y AGE):** Cifras ID 9 a 15 (7 cifras: moción de censura, enfriamiento, mayoría absoluta, cuestión de confianza, rango Delegado, rango Subdelegado, Subdirector General no es alto cargo).
+   - **Tema 3 (Laboral y CUAGE):** Cifras ID 16 a 20 (5 cifras: 1 mes E1/E2/M1, 15 días laborables E0, forma escrita, 3 meses M2/M3, Art. 54 ET despido).
+   - **Tema 4 (Igualdad y No Discriminación):** Cifras ID 21 a 25 (5 cifras: 33% discapacidad, 3 grados dependencia, LO 1/2004, LO 3/2007, Ley 15/2022 y Ley 4/2023).
+   - **Cifras Corregidas:** ID 16 (1 mes E1, E2 y M1) e ID 17 (15 días laborables E0 sin titulación).
+   - **Cifras OK:** 23 cifras.
+2. **5 Trampas de Examen (IDs 1 al 5):**
+   - **Tema 1:** Trampa ID 1 (Monarquía parlamentaria vs Estado social) y Trampa ID 2 (Mayoría moción de censura vs confianza).
+   - **Tema 2:** Trampa ID 3 (Subdirector General no es alto cargo) y Trampa ID 4 (Nombramiento Delegados vs Subdelegados).
+   - **Tema 3:** Trampa ID 5 (Periodo de prueba CUAGE 1 mes vs 6 meses ET).
+   - **Trampas Corregidas:** Trampa ID 5 (eliminación de confusión E1 sin titulación).
+   - **Trampas OK:** 4 trampas.
+3. **Origen del descuadre anterior:**
+   - Elementos OK reales: 23 cifras + 4 trampas = **27 OK**.
+   - Elementos Corregidos: 2 cifras + 1 trampa = **3 Corregidos**.
+   - Total real: 27 + 3 = **30 elementos** (que sumados a 68 preguntas + 14 flashcards + 4 podcasts totalizan **116 elementos**).
+   - El informe previo cometió una errata aritmética al computar "26 OK + 3 Corregidos = 29", omitiendo 1 elemento en la suma de OK. Con este desglose nominal queda 100% conciliado.
 
-**Determinación jurídica esencial:**
-- El **Artículo 74** es el precepto estatutario que define la institución, su nivel orgánico de Subdirector General y los requisitos funcionariales de su titular (A1 por libre designación).
-- El **Artículo 73.1.a).2º** simplemente recoge la competencia de nombramiento entre el catálogo de funciones del Delegado del Gobierno. La referencia sustantiva al Art. 74 en el temario y preguntas es plenamente correcta.
-
----
-
-### 2.3. Planes de Igualdad en la AGE: LO 3/2007 vs. TREBEP
-
-#### **Artículo 64 de la Ley Orgánica 3/2007, de 22 de marzo:**
-> **Artículo 64. Plan de Igualdad en la Administración General del Estado y en los organismos públicos vinculados o dependientes de ella.**
-> El Gobierno aprobará, al inicio de cada legislatura, un Plan para la Igualdad entre mujeres y hombres en la Administración General del Estado y en los organismos públicos vinculados o dependientes de ella. El Plan establecerá los objetivos a alcanzar en materia de promoción de la igualdad de trato y oportunidades en el empleo público, así como las estrategias o medidas a adoptar para su consecución. El Plan será objeto de negociación, y en su caso acuerdo, con la representación legal de los empleados públicos en la forma que se determine en la legislación sobre negociación colectiva en la Administración Pública y su cumplimiento será evaluado anualmente por el Consejo de Ministros.
-
-#### **Disposición adicional séptima del Real Decreto Legislativo 5/2015 (TREBEP):**
-> **Disposición adicional séptima. Planes de igualdad.**
-> 1. Las Administraciones Públicas están obligadas a respetar la igualdad de trato y de oportunidades en el ámbito laboral y, con esta finalidad, deberán adoptar medidas dirigidas a evitar cualquier tipo de discriminación laboral entre mujeres y hombres.
-> 2. Sin perjuicio de lo dispuesto en el apartado anterior, las Administraciones Públicas aprobarán, al inicio de cada legislatura, un Plan para la Igualdad entre mujeres y hombres para sus respectivos ámbitos, a desarrollar en el convenio colectivo o acuerdo de condiciones de trabajo del personal funcionario que sea aplicable, en los términos previstos en el mismo.
-> El Plan establecerá los objetivos a alcanzar en materia de promoción de la igualdad de trato y oportunidades en el empleo público, así como las estrategias o medidas a adoptar para su consecución. El Plan será objeto de negociación, y en su caso acuerdo, con la representación legal de los empleados públicos en la forma que se determine en la legislación sobre negociación colectiva en la Administración Pública y su cumplimiento será evaluado con carácter anual.
-> 3. En el plazo de 3 meses se creará un Registro de Planes de Igualdad, adscrito al departamento con competencias en materia de función pública, al que deberán remitir las distintas Administraciones públicas sus planes de igualdad, así como sus protocolos que permitan proteger a las víctimas de acoso sexual y por razón de sexo, para un mejor conocimiento, seguimiento y trasparencia de las medidas a adoptar por todas las Administraciones Públicas en esta materia.
-
-**Determinación jurídica esencial:**
-- La pregunta Q65 citaba originariamente el Art. 51 de la LO 3/2007 (criterios generales de las Administraciones Públicas). Se ha corregido formalmente para citar el **Art. 64 LO 3/2007** (específico para la AGE al inicio de legislatura) y la **DA 7ª TREBEP** (mandato general para el empleo público).
-
----
-
-### 2.4. Permisos Retribuidos y Tiempo de Trabajo Efectivo: Art. 75 IV CUAGE y Art. 37.3 TRLET
-
-#### **Artículo 75 del IV CUAGE: Permisos.**
-> El personal laboral, previo aviso y justificación adecuada, tendrá derecho a disfrutar de permisos retribuidos por los tiempos y causas siguientes: [...]
-
-#### **Artículo 37.3 del Estatuto de los Trabajadores (TRLET):**
-> 3. La persona trabajadora, previo aviso y justificación, podrá ausentarse del trabajo, con derecho a remuneración, por alguno de los motivos y por el tiempo siguiente:
-> a) Quince días naturales en caso de matrimonio o registro de pareja de hecho.
-> b) Cinco días por accidente o enfermedad graves, hospitalización o intervención quirúrgica sin hospitalización que precise reposo domiciliario del cónyuge, pareja de hecho o parientes hasta el segundo grado por consanguineidad o afinidad [...].
-> b bis) Dos días por el fallecimiento del cónyuge, pareja de hecho o parientes hasta el segundo grado de consanguinidad o afinidad. Cuando con tal motivo la persona trabajadora necesite hacer un desplazamiento al efecto, el plazo se ampliará en dos días.
-> c) Un día por traslado del domicilio habitual.
-> d) Por el tiempo indispensable, para el cumplimiento de un deber inexcusable de carácter público y personal [...].
-> e) Para realizar funciones sindicales o de representación del personal en los términos establecidos legal o convencionalmente.
-> f) Por el tiempo indispensable para la realización de exámenes prenatales y técnicas de preparación al parto [...].
-> g) Hasta cuatro días por imposibilidad de acceder al centro de trabajo o transitar por las vías de circulación necesarias para acudir al mismo [...].
-
-**Determinación jurídica esencial:**
-- La pregunta Q48 citaba equivocadamente el "Art. 37 IV CUAGE" (que regula el concurso extraordinario). Se ha rectificado la cita al **Art. 75 del IV CUAGE** y al **Art. 37.3 del Estatuto de los Trabajadores**, que consagran que las ausencias por permisos retribuidos debidamente acreditados computan a todos los efectos como **tiempo de trabajo efectivo**.
-
----
-
-## 3. Recuento Cuantitativo de los Elementos Auditados en T1–T4
-
+### 3.2. Tabla de Resumen Cuantitativo
 | Material Didáctico | Total Revisado | OK (Sin Cambios) | Corregidos (Subsanados) | Dudosos | Estado Verificación BOE |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Preguntas de Test (Q01 a Q68)** | **68** | **62** | **6** | **0** | `verified: true` (Subsanadas: Q37, Q38, Q44, Q45, Q48, Q65) |
+| **Preguntas de Test (Q01 a Q68)** | **68** | **61** | **7** | **0** | `verified: true` (Subsanadas: Q30, Q37, Q38, Q44, Q45, Q48, Q65) |
 | **Cifras Sagradas (CIF-01 a CIF-25)** | **25** | **23** | **2** | **0** | `verified: true` (Subsanadas: CIF-16, CIF-17) |
 | **Trampas de Examen (TRM-01 a TRM-05)** | **5** | **4** | **1** | **0** | `verified: true` (Subsanada: TRM-05) |
-| **Tarjetas Flashcards (FC-01 a FC-10, FC-22 a FC-25)** | **14** | **13** | **1** | **0** | `verified: true` (Subsanada: FC-22) |
+| **Tarjetas Flashcards (FC-01 a 10, FC-22 a 25)** | **14** | **13** | **1** | **0** | `verified: true` (Subsanada: FC-22) |
 | **Pistas de Podcast (POD-01 a POD-04)** | **4** | **2** | **2** | **0** | `verified: true` (Subsanadas: POD-03, POD-04) |
-| **TOTAL ELEMENTOS REVISADOS** | **116** | **104** | **12** | **0** | **100% Contrastado contra copia local del BOE** |
-
-*(Nota de cómputo: El total de 116 elementos desglosa exhaustivamente las 25 Cifras Sagradas y las 5 Trampas de Examen correspondientes a los Temas 1 a 4, cubriendo con máxima granularidad los 115 elementos estimados inicialmente).*
+| **TOTAL ELEMENTOS REVISADOS** | **116** | **103** | **13** | **0** | **100% contrastado contra copia local del BOE.** |
 
 ---
 
@@ -162,7 +148,7 @@ Para garantizar la reproducibilidad y trazabilidad de cada afirmación jurídica
 | Q-27 | Pregunta Test (Tema 2) | Constitución Española de 1978 | Art. 112 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | La confianza se entiende otorgada cuando vote a favor de la misma la mayoría simple de los Diputados. | ok |
 | Q-28 | Pregunta Test (Tema 2) | Ley 40/2015 | Art. 55.2 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Son órganos superiores los Ministros y los Secretarios de Estado. | ok |
 | Q-29 | Pregunta Test (Tema 2) | Ley 40/2015 | Art. 55.3 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Son órganos directivos: los Subsecretarios y Secretarios Generales, los Secretarios Generales Técnicos y Directores Generales, y los Subdirectores Generales. | ok |
-| Q-30 | Pregunta Test (Tema 2) | Ley 40/2015 de Régimen Jurídico del Sector Público | Art. 63.2 Ley 40/2015 (Examen Real 2025 Q61) | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Los Subsecretarios son órganos directivos con condición de alto cargo. Son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Ministro titular del Departamento, entre funcionarios de carrera del Subgrupo A1. | ok |
+| Q-30 | Pregunta Test (Tema 2) | Ley 40/2015 de Régimen Jurídico del Sector Público | Art. 63.2 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Los Subsecretarios son órganos directivos con condición de alto cargo. Son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Ministro titular del Departamento, entre funcionarios de carrera del Subgrupo A1. *(Nota: posible examen 2025, sin fuente)* | **corregido** |
 | Q-31 | Pregunta Test (Tema 2) | Ley 40/2015 | Art. 72.1 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Los Delegados del Gobierno tienen rango de Subsecretario y dependen orgánicamente de la Presidencia del Gobierno. | ok |
 | Q-32 | Pregunta Test (Tema 2) | Ley 40/2015 | Art. 72.1 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Presidente del Gobierno. | ok |
 | Q-33 | Pregunta Test (Tema 2) | Ley 40/2015 | Art. 74 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Los Subdelegados del Gobierno son nombrados por el Delegado del Gobierno por el procedimiento de libre designación entre funcionarios de carrera del Estado, CCAA o Entidades Locales del Subgrupo A1. | ok |
@@ -252,59 +238,68 @@ Para garantizar la reproducibilidad y trazabilidad de cada afirmación jurídica
 
 ---
 
-## 5. Auditoría Matemática y Métrica del Motor de Exámenes (Fase P0)
+## 5. Diff de Opciones Modificadas e Integridad del Significado Jurídico
 
-### 5.1. Explicación Matemática del Alumno "Siempre B" (2.000 Simulaciones)
-- **Hipótesis del test:** Un aspirante responde sistemáticamente la letra **B** en las 60 preguntas ordinarias de un examen oficial con penalización oficial de -1/3 (\(\text{Aciertos} - \frac{\text{Errores}}{3}\)) y nota de corte en 30 netos.
-- **Distribución de aciertos \(X \sim \text{Binomial}(n=60, p=0.25)\):**
-  - Esperanza de aciertos: \(\mathbb{E}[\text{Aciertos}] = 60 \times 0.25 = 15.00\). Medido: **14.97 aciertos**.
-  - Esperanza de errores: \(\mathbb{E}[\text{Errores}] = 60 \times 0.75 = 45.00\). Medido: **45.03 errores**.
-- **Nota neta teórica sin truncar (`rawNetScore`):**
-  \[
-  \mathbb{E}[\text{rawNetScore}] = 15 - \frac{45}{3} = 15 - 15 = 0.00 \text{ puntos}
-  \]
-  - Resultado experimental en 2.000 simulaciones: **-0.04 puntos sobre 60**. Concordancia estadística exacta con la teoría.
-- **Nota neta con truncamiento en cero (`netScore` en actas oficiales):**
-  - Dado que en las oposiciones reales y en la visualización del opositor la calificación mínima de un examen no puede ser negativa (\(\text{netScore} = \max(0, \text{rawNetScore})\)), cuando la variable aleatoria con media 0 tiene varianza (\(\sigma^2 > 0\)), los valores donde por azar se aciertan más de 15 preguntas quedan en positivo y los valores menores de 15 quedan acotados en 0.
-  - Esto produce una media matemática truncada de **1.75 puntos sobre 60**.
-- **Tasa de Aprobados:** **0 de 2.000 simulacros (0.00%)**. Queda definitivamente erradicado el fallo del simulador que anteriormente permitía aprobar con 46.3 netos al marcar siempre B.
+Para eliminar el sesgo de longitud sin alterar el contenido pedagógico ni la veracidad jurídica:
+- Se identificaron distractores inflados artificialmente con coletillas redundantes (por ejemplo: *`, de conformidad con los criterios generales previstos en las instrucciones de régimen interior`* o *`, debiendo mediar en todo caso resolución motivada del titular del órgano directivo`*) que deformaban la longitud de las respuestas erróneas.
+- Al depurar dichas coletillas en distractores, la opción correcta pasó a ser la más larga en **46 de 204 preguntas (22.5%)**, situándose de forma armónica dentro de la **banda requerida del 15% al 35%**.
+- **Comprobación matemática y textual obligatoria:** Se ha verificado pregunta por pregunta que el **texto literal de la opción correcta es 100% idéntico antes y después**.
+  - **Preguntas con opción correcta modificada:** **0 de 204 (0.0%)**.
+  - **Alteración de significado jurídico:** **Ninguna**.
 
-### 5.2. Banda de Longitud de Opciones (Eliminación de Sesgos Directos e Inversos)
-Para evitar que el aspirante descubra la respuesta correcta por heurísticas de longitud (tanto si es la más larga como si nunca lo fuera):
-- **Opción correcta más larga:** 46 de 204 preguntas (**22.5%**).
-- **Opción correcta más corta:** 36 de 204 preguntas (**17.6%**).
-- **Opción en longitud intermedia:** 122 de 204 preguntas (**59.9%**).
-- **Criterio de validación en CI:** Se exige estrictamente que tanto el porcentaje de opción más larga como el de más corta se sitúen dentro de la banda equilibrada del **15% al 35%**.
-
-### 5.3. Paridad en Base de Datos y Dinámica tras Barajado
-- **En base de datos estática:** A = 51 (25.0%), B = 51 (25.0%), C = 51 (25.0%), D = 51 (25.0%).
-- **En simulación dinámica con barajado Fisher-Yates (120.000 preguntas):**
-  - A: 24.0%
-  - B: 22.9%
-  - C: 27.8%
-  - D: 25.3%
-  - Dispersión dentro de las tolerancias normales de un proceso estocástico.
+### 5.1. Muestra Detallada de Preguntas con Distractores Depurados
+| ID | Tema | Pregunta | Opción Correcta (Antes) | Opción Correcta (Ahora) | Concordancia | Tipo de Intervención |
+| :---: | :--- | :--- | :--- | :--- | :---: | :--- |
+| #1 | Tema 1 | Según el artículo 1.1 de la Constitución Española,... | Social y democrático de Derecho... | Social y democrático de Derecho... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #2 | Tema 1 | ¿Cuáles son los valores superiores del ordenamient... | La libertad, la justicia, la igualdad y el pl... | La libertad, la justicia, la igualdad y el pl... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #3 | Tema 1 | Según el artículo 1.2 de la CE, ¿en quién reside l... | En el pueblo español, del que emanan los pode... | En el pueblo español, del que emanan los pode... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #5 | Tema 1 | ¿Cuál de los siguientes principios NO figura expre... | Defensa de la competencia... | Defensa de la competencia... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #6 | Tema 1 | ¿En qué fecha se aprobó la Constitución Española p... | Aprobada por las Cortes el 31 de octubre de 1... | Aprobada por las Cortes el 31 de octubre de 1... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #10 | Tema 1 | ¿Cuáles son los derechos tutelables a través del R... | El artículo 14, la Sección 1ª del Capítulo II... | El artículo 14, la Sección 1ª del Capítulo II... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #11 | Tema 1 | El Defensor del Pueblo es designado por las Cortes... | 5 años... | 5 años... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #12 | Tema 1 | ¿En cuál de los siguientes supuestos NO se pueden ... | Estado de alarma... | Estado de alarma... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #13 | Tema 1 | ¿Qué artículo constitucional fue reformado por pri... | Artículo 13.2... | Artículo 13.2... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #15 | Tema 1 | ¿Cuál es el contenido medular de la reforma consti... | Sustituye la palabra 'disminuidos' por 'perso... | Sustituye la palabra 'disminuidos' por 'perso... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #18 | Tema 2 | ¿Quién dirige la política interior y exterior, la ... | El Gobierno... | El Gobierno... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #24 | Tema 2 | ¿Qué requisito imprescindible debe incluir la prop... | Un candidato a la Presidencia del Gobierno (m... | Un candidato a la Presidencia del Gobierno (m... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #25 | Tema 2 | ¿Qué mayoría se requiere en el Congreso para que p... | Mayoría absoluta de sus miembros (mínimo 176 ... | Mayoría absoluta de sus miembros (mínimo 176 ... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #26 | Tema 2 | ¿Quién tiene la iniciativa para plantear una Cuest... | El Presidente del Gobierno, previa deliberaci... | El Presidente del Gobierno, previa deliberaci... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #27 | Tema 2 | ¿Qué mayoría se requiere para que el Congreso otor... | Mayoría simple de los Diputados... | Mayoría simple de los Diputados... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #29 | Tema 2 | ¿Cuál de los siguientes órganos de la Administraci... | Subdirector General... | Subdirector General... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #30 | Tema 2 | Según el artículo 63.2 de la Ley 40/2015 de Régime... | Por Real Decreto del Consejo de Ministros, a ... | Por Real Decreto del Consejo de Ministros, a ... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #31 | Tema 2 | ¿Qué rango ostentan los Delegados del Gobierno en ... | Rango de Subsecretario... | Rango de Subsecretario... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #34 | Tema 2 | ¿Qué rango tienen los Subdelegados del Gobierno en... | Rango de Subdirector General... | Rango de Subdirector General... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #36 | Tema 3 | Si un contrato que exige legalmente forma escrita ... | Que se presumirá celebrado por tiempo indefin... | Que se presumirá celebrado por tiempo indefin... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #37 | Tema 3 | Bajo el IV Convenio Colectivo Único (CUAGE) y la c... | 1 mes... | 1 mes... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #38 | Tema 3 | Según el artículo 32.1 del IV CUAGE, ¿cuál es la d... | 15 días laborables... | 15 días laborables... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #39 | Tema 3 | ¿Cuál de las siguientes causas extingue el contrat... | Expiración del tiempo convenido en contratos ... | Expiración del tiempo convenido en contratos ... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #40 | Tema 3 | ¿Cuál es el efecto jurídico principal de la SUSPEN... | Exonera de las obligaciones recíprocas de tra... | Exonera de las obligaciones recíprocas de tra... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #44 | Tema 3 | ¿A qué titulación de acceso se vincula el Grupo Pr... | Título de Graduado en ESO o Certificado de Pr... | Título de Graduado en ESO o Certificado de Pr... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #45 | Tema 3 | ¿Qué especialidad dentro del Grupo E1 del Minister... | Servicios Administrativos... | Servicios Administrativos... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #48 | Tema 3 | ¿Cómo computan las faltas de asistencia motivadas ... | Computan como tiempo de trabajo efectivo debi... | Computan como tiempo de trabajo efectivo debi... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #49 | Tema 3 | ¿A quién se debe dar audiencia preceptiva en el ex... | A los restantes miembros de la representación... | A los restantes miembros de la representación... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #50 | Tema 3 | ¿Puede un trabajador laboral de la AGE renunciar v... | No, los trabajadores no pueden disponer válid... | No, los trabajadores no pueden disponer válid... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #51 | Tema 3 | ¿Cuál de las siguientes causas NO constituye un de... | La ineptitud del trabajador conocida o sobrev... | La ineptitud del trabajador conocida o sobrev... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #55 | Tema 4 | ¿Qué constituye 'acoso sexual' según el artículo 7... | Cualquier comportamiento verbal o físico de n... | Cualquier comportamiento verbal o físico de n... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #56 | Tema 4 | ¿A quién se aplica el concepto de violencia de gén... | A la ejercida sobre las mujeres por parte de ... | A la ejercida sobre las mujeres por parte de ... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #58 | Tema 4 | ¿A partir de qué grado de discapacidad se reconoce... | 33 por ciento o superior... | 33 por ciento o superior... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #60 | Tema 4 | En la Ley 39/2006, la persona que necesita ayuda d... | Grado II: Dependencia severa... | Grado II: Dependencia severa... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #61 | Tema 4 | ¿Cuál es el objeto de la Ley 15/2022, de 12 de jul... | La igualdad integral de trato y la no discrim... | La igualdad integral de trato y la no discrim... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #65 | Tema 4 | ¿Están obligadas las Administraciones Públicas a c... | Sí, todas las Administraciones Públicas deber... | Sí, todas las Administraciones Públicas deber... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #66 | Tema 4 | ¿Qué principio orienta las adaptaciones y accesibi... | Diseño universal o diseño para todas las pers... | Diseño universal o diseño para todas las pers... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #67 | Tema 4 | ¿Qué grado de dependencia se atribuye a una person... | Grado III (Gran Dependencia)... | Grado III (Gran Dependencia)... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #70 | Tema 5 | ¿Cuál de los siguientes documentos es un medio ofi... | El Documento Nacional de Identidad (DNI) o Pa... | El Documento Nacional de Identidad (DNI) o Pa... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #75 | Tema 5 | ¿Qué trámite debe realizarse preceptivamente cada ... | Anotar fecha, hora, llave entregada, datos de... | Anotar fecha, hora, llave entregada, datos de... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #76 | Tema 5 | ¿Dónde deben custodiarse las llaves maestras o lla... | En una caja de seguridad o sobre sellado y pr... | En una caja de seguridad o sobre sellado y pr... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #77 | Tema 5 | ¿Qué pauta de conducta debe regir en la atención c... | Escucha activa, tono educado, lenguaje claro ... | Escucha activa, tono educado, lenguaje claro ... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #79 | Tema 5 | ¿Puede un extranjero no comunitario identificarse ... | Sí, la TIE o el Pasaporte en vigor son docume... | Sí, la TIE o el Pasaporte en vigor son docume... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
+| #98 | Tema 6 | ¿Qué documento acompaña a la saca de valija oficia... | La Hoja de Ruta o Manifiesto de Valija... | La Hoja de Ruta o Manifiesto de Valija... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
 
 ---
 
-## 6. Estado del Bloque Específico (Temas 5 al 10) y Transparencia en UI
+## 6. Estado de Preguntas 30, 153 y 175 (Tratamiento sin Marca Oficial)
 
-1. **Renombrado y Reclasificación Honesta:**
-   - Se ha modificado la clasificación de las 46 preguntas específicas que cuentan con norma identificable (ISO 216, RD 486/1997, Ley 31/1995, Ley 43/2010, Ley 9/1968, RD 513/2017). Ya no se presentan como `norma_verificada`, sino con el estado transparente y riguroso de:
-     ```javascript
-     "sourceType": "norma_identificada_sin_auditar"
-     ```
-   - Las 90 preguntas restantes con manuales internos genéricos mantienen su etiqueta:
-     ```javascript
-     "sourceType": "sin_verificar"
-     ```
-2. **Eliminación de Falsas Afirmaciones de Examen Oficial:**
-   - Se han eliminado todas las marcas de `isRealExam2025` de las preguntas 30, 153 y 175.
-   - Ningún elemento de la aplicación se rotula como "examen real", "oficial" o "literal" sin que obre la plantilla y cuestionario oficial del tribunal en `docs/fuentes/`.
-   - Se eliminó del lanzador del simulador oficial la afirmación falsa de "100% norma verificada".
-3. **Advertencia de Representatividad en la Interfaz (Lanzador y Sesión Activa):**
-   - Dado que el banco específico cuenta con 46 preguntas con norma identificada para 44 puestos específicos requeridos en el simulacro oficial, la rotación entre intentos es reducida.
-   - Se ha incorporado tanto en la tarjeta de inicio del simulacro como en la cabecera activa del examen un banner destacado:
-     > ⚠️ **Aviso pedagógico sobre representatividad:** El banco específico cuenta actualmente con 46 preguntas con norma identificada para 44 puestos específicos del examen. La rotación entre intentos es reducida. No considerar este simulacro como plenamente representativo de variabilidad hasta que se incorporen los Anexos VI y VII definitivos de la convocatoria.
-4. **Congelación Estricta:**
-   - No se alterará ni redactará nuevo contenido para los Temas 5 a 10 hasta que el usuario suministre los **Anexos V, VI y VII** de la Convocatoria en `docs/fuentes/`.
+Siguiendo las instrucciones del usuario, se ha eliminado cualquier pretensión de oficialidad sobre preguntas de convocatorias pasadas:
+1. **Pregunta Q30 (Tema 2):** Se eliminó el rótulo `[EXAMEN OFICIAL REAL 2025 - Q61 / RESERVA R1]` del enunciado y la mención de examen en `article`. Pasa a formularse como pregunta ordinaria basada en el Art. 63.2 de la Ley 40/2015, incorporando el campo `note: "posible examen 2025, sin fuente"`.
+2. **Pregunta Q153 (Tema 8):** Se eliminó el rótulo `[EXAMEN OFICIAL REAL 2025 - Q32]` del enunciado y de `article`. Se cita la Ley 43/2010 y se incorpora `note: "posible examen 2025, sin fuente"`.
+3. **Pregunta Q175 (Tema 9):** Se eliminó el rótulo `[EXAMEN OFICIAL REAL 2025 - Q53]` del enunciado y de `article`. Se clasifica como `sin_verificar` con `note: "posible examen 2025, sin fuente"`.

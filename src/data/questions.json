@@ -526,7 +526,7 @@
     "block": "comun",
     "topicId": 2,
     "topic": "Tema 2: El Gobierno y la AGE",
-    "question": "[EXAMEN OFICIAL REAL 2025 - Q61 / RESERVA R1] Según el artículo 63.2 de la Ley 40/2015 de Régimen Jurídico del Sector Público, ¿cómo son nombrados y separados los Subsecretarios de los Ministerios?",
+    "question": "Según el artículo 63.2 de la Ley 40/2015 de Régimen Jurídico del Sector Público, ¿cómo son nombrados y separados los Subsecretarios de los Ministerios?",
     "options": [
       "Por Orden del Ministro de Hacienda entre funcionarios del Grupo C1",
       "Por Real Decreto del Consejo de Ministros, a propuesta del titular del Ministerio (Ministro), entre funcionarios de carrera del Subgrupo A1",
@@ -535,9 +535,10 @@
     ],
     "correct": 1,
     "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
-    "article": "Art. 63.2 Ley 40/2015 (Examen Real 2025 Q61)",
+    "article": "Art. 63.2 Ley 40/2015",
     "explanation": "Los Subsecretarios son órganos directivos con condición de alto cargo. Son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Ministro titular del Departamento, entre funcionarios de carrera del Subgrupo A1.",
-    "sourceType": "norma_verificada"
+    "sourceType": "norma_verificada",
+    "note": "posible examen 2025, sin fuente"
   },
   {
     "id": 31,
@@ -2740,7 +2741,7 @@
     "block": "especifico",
     "topicId": 8,
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
-    "question": "[EXAMEN OFICIAL REAL 2025 - Q32] Según la normativa postal, ¿cuál es la característica jurídica distintiva del servicio de Burofax frente a una carta certificada con acuse de recibo?",
+    "question": "Según la normativa postal, ¿cuál es la característica jurídica distintiva del servicio de Burofax frente a una carta certificada con acuse de recibo?",
     "options": [
       "Permite obtener de Correos la certificación de entrega y testimonio fehaciente del contenido íntegro del texto transmitido, con pleno valor probatorio judicial",
       "Es un envío ordinario sin número de seguimiento ni prueba en juicio, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
@@ -2749,9 +2750,10 @@
     ],
     "correct": 0,
     "law": "Ley 43/2010 del Servicio Postal Universal",
-    "article": "Examen Oficial MINISDEF 2025 (Q32)",
+    "article": "Ley 43/2010 del Servicio Postal Universal",
     "explanation": "El Burofax permite acreditar fehacientemente no solo la fecha y hora de la entrega en destino, sino también el contenido literal y textual del documento enviado mediante la certificación y testimonio especial expedido por la Sociedad Estatal Correos y Telégrafos.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "norma_identificada_sin_auditar",
+    "note": "posible examen 2025, sin fuente"
   },
   {
     "id": 154,
@@ -3136,7 +3138,7 @@
     "block": "especifico",
     "topicId": 9,
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
-    "question": "[EXAMEN OFICIAL REAL 2025 - Q53] Durante la realización de un recado oficial exterior en una sede administrativa, la persona que atiende al ordenanza le solicita que firme un documento oficial que va a entregar o retirar. ¿Cuál debe ser su actuación correcta?",
+    "question": "Durante la realización de un recado oficial exterior en una sede administrativa, la persona que atiende al ordenanza le solicita que firme un documento oficial que va a entregar o retirar. ¿Cuál debe ser su actuación correcta?",
     "options": [
       "Firmar cualquier documento que le presenten para no demorar la gestión del servicio, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
       "Romper el documento y negarse a realizar la entrega, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
@@ -3145,9 +3147,10 @@
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Examen Oficial MINISDEF 2025 (Q53)",
+    "article": "Manual Operativo de Conserjería / Pautas de custodia",
     "explanation": "El personal subalterno y de servicios administrativos realiza tareas materiales auxiliares de custodia y transporte. Carece de potestad administrativa para suscribir actos, acuerdos o resoluciones; su firma se limita exclusivamente a dar fe de la recepción física (recibí o volante de entrega).",
-    "sourceType": "sin_verificar"
+    "sourceType": "sin_verificar",
+    "note": "posible examen 2025, sin fuente"
   },
   {
     "id": 176,

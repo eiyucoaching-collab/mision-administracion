@@ -421,7 +421,7 @@ class OpoDefensaApp {
             </h1>
 
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Preparación técnica para Personal Laboral Fijo (IV CUAGE). Formato de <strong>60 preguntas ordinarias + 6 de reserva (60 min)</strong>, penalización (-1/3) y ponderación <strong>33% Común (Temas 1-4) / 67% Específico (Temas 5-10)</strong>.
+              Preparación técnica para Personal Laboral Fijo (IV CUAGE). Formato modelado sobre supuestos estándar AGE: <strong>60 preguntas ordinarias + 6 de reserva (60 min)</strong>, penalización (-1/3) y ponderación <strong>33% Común / 67% Específico</strong> (supuestos provisionales del simulador a ratificar por el Anexo V oficial).
             </p>
 
             <div class="pt-4 flex flex-wrap gap-3">
@@ -1554,9 +1554,9 @@ class OpoDefensaApp {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🎖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Oficial (60 + 6 Res)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Tipo Examen (60 + 6 Res)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              El ejercicio íntegro: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas bajo 60 min. Corte: 30 pts netos.
+              Modelado sobre supuestos AGE: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, 60 min, penalización -1/3 y corte 30 pts (supuestos provisionales a confirmar con el Anexo V oficial).
             </p>
             <div class="mt-3 p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-300/90 leading-tight">
               ⚠️ Banco específico en fase de ampliación (46 con norma identificada para 44 plazas). Mínima rotación entre intentos hasta incorporar Anexos VI y VII.
@@ -1706,9 +1706,10 @@ class OpoDefensaApp {
         ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? `
           <div class="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-2.5 text-xs text-amber-200">
             <span class="text-base shrink-0">⚠️</span>
-            <div>
-              <strong>Aviso pedagógico sobre representatividad:</strong>
-              El banco específico cuenta actualmente con 46 preguntas con norma identificada para 44 puestos específicos del examen. La rotación entre intentos es reducida. No considerar este simulacro como plenamente representativo de variabilidad hasta que se incorporen los Anexos VI y VII definitivos de la convocatoria.
+            <div class="space-y-1">
+              <div><strong>Aviso sobre representatividad y supuestos del simulador:</strong></div>
+              <div>• El banco específico cuenta con 46 preguntas con norma identificada para 44 puestos específicos requeridos: la variabilidad entre intentos es reducida.</div>
+              <div>• El formato (60+6 preguntas, 60 min, penalización de -1/3, corte en 30 netos y calificación con suelo en 0) son <em>supuestos metodológicos estándar</em> pendientes de confirmación en el Anexo V oficial de las bases.</div>
             </div>
           </div>
         ` : ''}
@@ -2145,9 +2146,15 @@ class OpoDefensaApp {
 
           <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
             ${res.passed
-              ? `Has superado el umbral del 50% (${res.cutoffScore} puntos netos) establecido para esta modalidad.`
-              : `Para superar el corte del 50% necesitabas un mínimo de ${res.cutoffScore} puntos netos. Repasa tus errores en el solucionario abajo.`}
+              ? `Has superado el umbral del 50% (${res.cutoffScore} puntos netos) establecido provisionalmente para esta modalidad.`
+              : `Para superar el umbral del 50% necesitabas un mínimo de ${res.cutoffScore} puntos netos. Repasa tus errores en el solucionario abajo.`}
           </p>
+
+          ${res.rawNetScore !== res.netScore ? `
+            <div class="text-[11px] text-slate-400 bg-slate-950/60 inline-block px-3 py-1 rounded-lg border border-slate-800">
+              Puntuación bruta teórica sin truncar: <strong>${res.rawNetScore} pts</strong> (calificación ajustada a 0 como supuesto provisional del simulador).
+            </div>
+          ` : ''}
 
           <!-- 4 TARJETAS RESUMEN -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">

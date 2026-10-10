@@ -216,11 +216,12 @@ export function calculateExamScore(sessionState) {
   });
 
   const totalGraded = questionsToGrade.length;
-  // Penalización oficial de 1/3 (-0.333...)
+  // Penalización de 1/3 (supuesto del simulador pendiente de Anexo V)
   const penalty = wrong * (1 / 3);
   const rawNetScore = +(correct - penalty).toFixed(2);
-  // La calificación de examen oficial tiene suelo en 0 (no se publican notas negativas en listas oficiales)
+  // Supuesto provisional del simulador: suelo en 0 (pendiente de confirmación por Anexo V)
   const netScore = Math.max(0, rawNetScore);
+  // Supuesto provisional del simulador: nota de corte en el 50%
   const cutoffScore = +(totalGraded * 0.5).toFixed(2);
   const passed = netScore >= cutoffScore;
 
