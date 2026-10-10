@@ -150,9 +150,9 @@ export const FLASHCARDS = [
   {
     "id": 22,
     "category": "Leyes Orgánicas y Laboral",
-    "front": "¿Cuál es el periodo de prueba para el Grupo E1 con titulación según el IV CUAGE?",
-    "back": "1 MES (artículo 26 del IV CUAGE). Si es personal sin titulación requerida: 15 días laborables.",
-    "reference": "Art. 26 IV CUAGE"
+    "front": "¿Cuál es el período de prueba para el Grupo E1 en el IV CUAGE?",
+    "back": "1 MES (art. 32.1 IV CUAGE y Base 7.9 Convocatoria). El plazo de 15 días laborables corresponde en exclusiva al Grupo E0 (personal sin titulación, arts. 8.1.f y 32.1 IV CUAGE).",
+    "reference": "Art. 32.1 y Art. 8 IV CUAGE"
   },
   {
     "id": 23,

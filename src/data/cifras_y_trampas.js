@@ -103,21 +103,21 @@ export const CIFRAS_SAGRADAS = [
     "tema": "Tema 2: Gobierno y AGE",
     "cifra": "NO es Alto Cargo",
     "concepto": "Condición de Subdirector General",
-    "detalle": "La Ley 3/2015 excluye expresamente a los Subdirectores Generales de la condición de alto cargo."
+    "detalle": "Artículo 55.6 Ley 40/2015: 'Los órganos superiores y directivos tienen además la condición de alto cargo, excepto los Subdirectores generales y asimilados, de acuerdo con lo previsto en la Ley 3/2015, de 30 de marzo'."
   },
   {
     "id": 16,
     "tema": "Tema 3: Laboral y CUAGE",
     "cifra": "1 mes",
-    "concepto": "Periodo de prueba Grupo E1 (con título)",
-    "detalle": "Artículo 26 del IV CUAGE: un mes para grupos E1, E2 y M1."
+    "concepto": "Periodo de prueba Grupos E1, E2 y M1",
+    "detalle": "Artículo 32.1 del IV CUAGE y Base 7.9 Convocatoria: un mes para grupos E1, E2 y M1 (para E1 se exige titulación de ESO o FP Básico)."
   },
   {
     "id": 17,
     "tema": "Tema 3: Laboral y CUAGE",
     "cifra": "15 días laborables",
-    "concepto": "Periodo de prueba E1 sin titulación",
-    "detalle": "Personal no cualificado sin titulación específica en el CUAGE."
+    "concepto": "Periodo de prueba Grupo E0 (sin titulación)",
+    "detalle": "Artículo 32.1 del IV CUAGE: quince días laborables para el personal sin titulación prevista en el sistema educativo (Grupo profesional E0, art. 8.1.f)."
   },
   {
     "id": 18,
@@ -131,7 +131,7 @@ export const CIFRAS_SAGRADAS = [
     "tema": "Tema 3: Laboral y CUAGE",
     "cifra": "3 meses",
     "concepto": "Periodo de prueba grupos M2 y M3",
-    "detalle": "Titulados de Grado y Máster bajo el IV CUAGE."
+    "detalle": "Artículo 32.1 del IV CUAGE: tres meses para titulados de Grado, Licenciatura y Máster (grupos profesionales M2 y M3)."
   },
   {
     "id": 20,
@@ -381,7 +381,7 @@ export const TRAMPAS_EXAMEN = [
     "id": 5,
     "titulo": "Periodo de Prueba en E1 de Defensa (CUAGE)",
     "trampa": "Marcar 6 meses por confusión con el Estatuto de los Trabajadores genérico.",
-    "realidad": "Bajo el IV Convenio Único de la AGE (art. 26), el periodo de prueba para el Grupo E1 con titulación es exactamente de 1 MES (y 15 días laborables si es sin titulación)."
+    "realidad": "Bajo el IV Convenio Único de la AGE (art. 32.1 y Base 7.9 Convocatoria), el periodo de prueba para el Grupo E1 (que exige Graduado en ESO o FP Básico) es de 1 MES. El plazo de 15 días laborables es exclusivo del personal sin titulación del Grupo profesional E0 (artículos 8.1.f y 32.1 IV CUAGE)."
   },
   {
     "id": 6,
