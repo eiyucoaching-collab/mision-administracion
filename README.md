@@ -12,17 +12,19 @@ El contenido se somete a una estricta política de rigor normativo: **no se inve
 
 | Bloque / Componente | Estado de Verificación | Documentación y Fuentes |
 | :--- | :--- | :--- |
-| **Temas 1 a 4 (Bloque Común)** | **100% Auditado y Contrastado** | Citas literales, encabezados y URLs de BOE consolidado recogidos en [`docs/auditoria_contenido.md`](docs/auditoria_contenido.md). Copias HTML descargadas en [`docs/fuentes/boe/`](docs/fuentes/boe/). |
+| **Temas 1 a 4 (Bloque Común)** | **Auditado contra copias del BOE** | Citas literales, encabezados y URLs del BOE consolidado recogidos en [`docs/auditoria_contenido.md`](docs/auditoria_contenido.md). Copias HTML guardadas en [`docs/fuentes/boe/`](docs/fuentes/boe/). Sujeto a comprobación independiente. |
 | **Temas 5 a 10 (Bloque Específico)** | ⏸️ **Pausado preventivamente** | En espera de la incorporación de los **Anexos VI y VII** oficiales en [`docs/fuentes/`](docs/fuentes/). Las preguntas con fuentes no consolidadas permanecen con `verified: false` y excluidas del simulacro oficial. |
-| **Parámetros del Ejercicio** | *Supuestos provisionales aislados* | 60 preguntas ordinarias + 6 de reserva, 60 minutos, penalización de -1/3 por fallo y corte en el 50% (30 puntos). Sujeto a confirmación final mediante el **Anexo V** oficial de la convocatoria. |
+| **Modelo de Examen (Estructura)** | ⚠️ *Modelo provisional pendiente del Anexo V* | El modelo actual (60 preguntas ordinarias + 6 de reserva, 60 minutos, penalización de -1/3 por fallo y corte en 30 puntos) es un **supuesto provisional del simulador**, sujeto a confirmación final mediante el **Anexo V** oficial de la convocatoria. |
 
 ---
 
 ## ⚡ Características Principales
 
-1. **Simulador de Examen Real y Exigente**:
+1. **Simulador de Examen Táctico (Modelo Provisional)**:
+   - Formato modelado sobre supuestos provisionales AGE (60 ord + 6 reservas, 60 min, corte 30, penalización -1/3) a la espera de confirmación por el Anexo V.
+   - Modo formato 2025: simulacro estructurado con aviso de provisionalidad, sin atribuirse condición de examen real oficial al carecer de plantilla definitiva.
    - Barajado algorítmico Fisher-Yates sin sesgo posicional (distribución uniforme ~25% por opción).
-   - Sustitución estricta de preguntas anuladas exclusivamente por reservas legítimas (R1–R6) y recálculo automático si las anulaciones exceden el cupo de reservas.
+   - Sustitución de preguntas anuladas por reservas del simulacro (R1–R6) y recálculo automático si las anulaciones exceden el cupo de reservas.
    - Temporizador dinámico proporcional por modalidad (oficial, bloques, temas monográficos).
    - Separación estricta de métricas: las notas y porcentajes del simulacro oficial no se mezclan con pruebas parciales ni desvirtúan el promedio.
 
