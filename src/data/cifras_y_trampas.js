@@ -103,7 +103,7 @@ export const CIFRAS_SAGRADAS = [
     "tema": "Tema 2: Gobierno y AGE",
     "cifra": "NO es Alto Cargo",
     "concepto": "Condición de Subdirector General",
-    "detalle": "La Ley 3/2015 excluye expresamente a los Subdirectores Generales de la condición de alto cargo."
+    "detalle": "Artículo 55.6 Ley 40/2015: 'Los órganos superiores y directivos tienen además la condición de alto cargo, excepto los Subdirectores generales y asimilados, de acuerdo con lo previsto en la Ley 3/2015, de 30 de marzo'."
   },
   {
     "id": 16,

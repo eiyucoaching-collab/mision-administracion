@@ -18,11 +18,20 @@ describe('P0 Exam Engine Tests', () => {
       correct: 1 // siempre B en origen
     };
 
+    function createSeededRng(seed = 123456789) {
+      let s = seed;
+      return function() {
+        s = (s * 1664525 + 1013904223) % 4294967296;
+        return s / 4294967296;
+      };
+    }
+    const rng = createSeededRng(100);
+
     const iterations = 2000;
     const distribution = { 0: 0, 1: 0, 2: 0, 3: 0 };
 
     for (let i = 0; i < iterations; i++) {
-      const prepared = shuffleQuestionOptions(sampleQuestion);
+      const prepared = shuffleQuestionOptions(sampleQuestion, rng);
       assert.equal(prepared.options.length, 4);
       // La respuesta correcta debe seguir apuntando al texto correcto original
       assert.equal(prepared.options[prepared.correct], sampleQuestion.options[sampleQuestion.correct]);
@@ -38,6 +47,15 @@ describe('P0 Exam Engine Tests', () => {
   });
 
   it('P0.1: Simulación de 2000 exámenes: Alumno que marca siempre B obtiene ~25% y SUSPENDE', () => {
+    function createSeededRng(seed = 123456789) {
+      let s = seed;
+      return function() {
+        s = (s * 1664525 + 1013904223) % 4294967296;
+        return s / 4294967296;
+      };
+    }
+    const rng = createSeededRng(42);
+
     let passedCount = 0;
     let totalCorrect = 0;
     let totalNetScore = 0;
@@ -45,8 +63,8 @@ describe('P0 Exam Engine Tests', () => {
     const totalSimulations = 2000;
 
     for (let s = 0; s < totalSimulations; s++) {
-      // Creamos un simulacro oficial de 60 preguntas con opciones barajadas
-      const poolResult = createExamPool(QUESTION_BANK, 'oficial');
+      // Creamos un simulacro oficial de 60 preguntas con opciones barajadas deterministamente
+      const poolResult = createExamPool(QUESTION_BANK, 'oficial', { rng });
       assert.ok(poolResult.questions.length >= 60);
 
       // Alumno marca siempre 'B' (índice 1) en las 60 preguntas

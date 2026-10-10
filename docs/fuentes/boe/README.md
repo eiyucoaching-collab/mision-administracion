@@ -19,10 +19,7 @@ Fecha de descarga y verificación: 9 de octubre de 2026
 
 1. **Naturaleza del documento:** El archivo local `BOE-A-2026-14677_Convocatoria-Defensa-E1.html` reproduce estrictamente la publicación aparecida en el BOE núm. 164, de 7 de julio de 2026 (7 páginas, páginas 93534 a 93540). Se trata de un **extracto de resolución administrativa** y la tabla con la relación de plazas convocadas por especialidad (40 plazas libre y 24 promoción interna para E1 Servicios Administrativos).
 2. **NO son las bases completas:** Como indica expresamente el apartado Cuarto de dicha resolución, las bases específicas completas se publican en el portal web del Ministerio de Defensa y del Punto de Acceso General.
-3. **Ausencia de Anexos V, VI y VII:** El extracto publicado en el BOE **NO incluye**:
-   - **Anexo V:** Descripción de los ejercicios de la fase de oposición, número de preguntas, reservas, tiempo máximo, penalización de respuestas erróneas y nota de corte.
-   - **Anexo VI:** Programa oficial de materias / temario del proceso selectivo (Temas 1 al 10).
-   - **Anexo VII:** Baremo de méritos de la fase de concurso.
+3. **Ausencia de Anexos V, VI y VII (y demás anexos específicos):** El extracto publicado en el BOE **NO incluye los anexos de la convocatoria**. Su contenido exacto (estructura de examen, número de preguntas ordinarias y de reserva, tiempo máximo, penalización, temarios común y específico, baremos) queda **pendiente de confirmación con las bases completas aportadas por el opositor/usuario**. No se da por sentada la asignación de materias o reglas a ningún anexo concreto hasta verificar el documento oficial íntegro en `docs/fuentes/`.
 4. **Condición de los parámetros del simulador:**
    Hasta que el usuario o el tribunal aporten el texto íntegro del Anexo V, los siguientes parámetros del simulador se declaran formalmente como **SUPUESTOS METODOLÓGICOS Y TÉCNICOS (no normas verificadas)**:
    - Formato de 60 preguntas ordinarias + 6 de reserva.
