@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { QUESTION_BANK } from '../src/data/questions.js';
+import { createExamPool } from '../src/exam/engine.js';
 
 describe('P0 Baseline Audit & Bug Reproduction Tests', () => {
 
@@ -87,17 +88,17 @@ describe('P0 Baseline Audit & Bug Reproduction Tests', () => {
     );
   });
 
-  it('FALLA EN LÍNEA BASE: startNewExam con "tema:1" o "Tema 1" no debe dejar preguntas vacías ni crashear', async () => {
-    // Importamos la función de selección o comprobamos el soporte
-    // Actualmente startNewExam sólo tiene 'oficial', 'real2025', 'comun', 'especifico', 'falladas'
-    // 'tema:1' o 'Tema 1' produce pool = [] y crashea
-    const supportedModes = ['oficial', 'comun', 'especifico', 'falladas'];
-    const testTopicMode = 'tema:1';
-    
-    assert.ok(
-      supportedModes.includes(testTopicMode) || testTopicMode.startsWith('tema:'),
-      'El motor de exámenes debe soportar formalmente modos por tema como "tema:N"'
-    );
+  it('INTEGRIDAD: createExamPool genera pools válidos y no vacíos para cada tema (1 al 10)', () => {
+    for (let topicId = 1; topicId <= 10; topicId++) {
+      const poolResult = createExamPool(QUESTION_BANK, `tema:${topicId}`);
+      assert.ok(!poolResult.error, `El tema ${topicId} no debe producir error`);
+      assert.ok(poolResult.questions.length > 0, `El tema ${topicId} debe contener preguntas disponibles`);
+      poolResult.questions.forEach(q => {
+        assert.equal(q.topicId, topicId, `Pregunta ID ${q.id} debe pertenecer al tema ${topicId}`);
+        assert.equal(q.options.length, 4, `Pregunta ID ${q.id} debe contener exactamente 4 opciones`);
+        assert.ok(q.correct >= 0 && q.correct < 4, `Pregunta ID ${q.id} debe tener un índice correcto válido (0-3)`);
+      });
+    }
   });
 
 });

@@ -128,7 +128,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.ok(temaInvalido.error, 'Debe indicar error cuando el pool está vacío');
   });
 
-  it('P0.5: calculateExamScore califica 60 ordinarias y sólo aplica reservas a preguntas legítimamente anuladas', () => {
+  it('[Supuesto provisional pendiente del Anexo V] calculateExamScore califica 60 ordinarias y sólo aplica reservas a preguntas legítimamente anuladas', () => {
     // 60 preguntas ordinarias + 6 de reserva
     const pool = createExamPool(QUESTION_BANK, 'oficial').questions;
     assert.equal(pool.length, 66);
@@ -156,7 +156,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resStandard.passed, true); // 30 >= 50% de 60
   });
 
-  it('P0.6: getTimeLimitForMode devuelve tiempos proporcionales según el modo y número de preguntas', () => {
+  it('[Supuesto provisional pendiente del Anexo V] getTimeLimitForMode devuelve tiempos proporcionales según el modo y número de preguntas', () => {
     assert.equal(getTimeLimitForMode('oficial', 60), 3600); // 60 min
     assert.equal(getTimeLimitForMode('real2025', 60), 3600); // 60 min
     assert.equal(getTimeLimitForMode('comun', 20), 1200);   // 20 min
@@ -164,7 +164,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(getTimeLimitForMode('tema:1', 10), 600);   // 10 min
   });
 
-  it('P0.5: real2025 califica 60 ordinarias y no 66, corte en 30', () => {
+  it('[Supuesto provisional pendiente del Anexo V] Formato 2025 califica 60 ordinarias y no 66, corte en 30', () => {
     const pool = createExamPool(QUESTION_BANK, 'real2025').questions;
     assert.equal(pool.length, 66);
 
@@ -193,7 +193,7 @@ describe('P0 Exam Engine Tests', () => {
     res.questions.forEach(q => assert.equal(q.topicId, 2));
   });
 
-  it('P0.5: Penalización estricta de -1/3', () => {
+  it('[Supuesto provisional pendiente del Anexo V] Penalización provisional de -1/3', () => {
     const questions = [
       { id: 101, correct: 0, options: ['A','B','C','D'] },
       { id: 102, correct: 1, options: ['A','B','C','D'] },
@@ -254,7 +254,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(sessionInvalida.questions.length, 0);
   });
 
-  it('CASO 2: Puntuación y umbral exactos en modos oficial y real2025 (corte en 30.00)', () => {
+  it('CASO 2: [Supuesto provisional pendiente del Anexo V] Puntuación y umbral de corte al 50% (30.00 puntos)', () => {
     // Modo Oficial: 33 aciertos, 9 fallos (-3 puntos), 18 blancos = 30.00 netos -> APROBADO justo
     const mockQuestions60 = [];
     for (let i = 1; i <= 60; i++) {
@@ -290,7 +290,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resRealFail.passed, false);
   });
 
-  it('CASO 3: Anulaciones: sustitución estricta por preguntas de reserva y recálculo si exceden reservas', () => {
+  it('CASO 3: [Supuesto provisional pendiente del Anexo V] Anulaciones: sustitución de anuladas por reservas en el simulador', () => {
     // Simulamos un pool de 60 ordinarias + 6 reservas
     const ordinarias = [];
     for (let i = 1; i <= 60; i++) {
@@ -341,7 +341,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resExceeded.cutoffScore, +(59 * 0.5).toFixed(2));
   });
 
-  it('CASO 4: Temporizador exacto asignado por modo y volumen de preguntas', () => {
+  it('CASO 4: [Supuesto provisional pendiente del Anexo V] Temporizador del simulador (3600s oficial, 1200s común, 2400s específico)', () => {
     // Oficiales
     assert.equal(getTimeLimitForMode('oficial', 60), 3600);
     assert.equal(getTimeLimitForMode('real2025', 60), 3600);
