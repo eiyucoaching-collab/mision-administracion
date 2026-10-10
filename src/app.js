@@ -20,7 +20,9 @@ import {
   shuffleQuestionOptions,
   createExamPool,
   calculateExamScore,
-  getTimeLimitForMode
+  getTimeLimitForMode,
+  calculateDashboardMetrics,
+  initExamSessionState
 } from './exam/engine.js';
 
 class OpoDefensaApp {
@@ -384,21 +386,9 @@ class OpoDefensaApp {
   // MÓDULO 1: DASHBOARD / INICIO
   // =========================================================================
   renderDashboard() {
-    const totalSimulacros = this.examHistory.length;
-    const getBase60 = (h) => {
-      const total = h.totalGraded || h.total || 60;
-      return total > 0 ? (h.netScore / total) * 60 : 0;
-    };
-
-    const mediaPuntosBase60 = totalSimulacros > 0
-      ? (this.examHistory.reduce((acc, curr) => acc + getBase60(curr), 0) / totalSimulacros).toFixed(2)
-      : '0.00';
-
-    const oficialSims = this.examHistory.filter(h => h.mode === 'oficial' || h.mode === 'real2025');
-    const aprobadosOficialCount = oficialSims.filter(h => h.passed).length;
-    const pctOficialAprobado = oficialSims.length > 0
-      ? Math.round((aprobadosOficialCount / oficialSims.length) * 100)
-      : null;
+    const metrics = calculateDashboardMetrics(this.examHistory);
+    const mediaPuntosOficial = metrics.oficialCount > 0 ? metrics.mediaOficial : null;
+    const pctOficialAprobado = metrics.pctOficialAprobado;
 
     return `
       <div class="space-y-8 animate-fadeIn">
@@ -438,7 +428,7 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- 4 INDICADORES CARDINALES -->
+        <!-- 4 INDICADORES CARDINALES (MÉTRICAS AISLADAS POR MODALIDAD) -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
             <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Regla de Examen</div>
@@ -453,20 +443,22 @@ class OpoDefensaApp {
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Media Neta / 60</div>
-            <div class="text-2xl sm:text-3xl font-black ${Number(mediaPuntosBase60) >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
-              ${mediaPuntosBase60} <span class="text-sm font-normal text-slate-400">/ 60</span>
+            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Media Neta Oficial / 60</div>
+            <div class="text-2xl sm:text-3xl font-black ${mediaPuntosOficial !== null && Number(mediaPuntosOficial) >= 30 ? 'text-emerald-400' : mediaPuntosOficial !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
+              ${mediaPuntosOficial !== null ? `${mediaPuntosOficial} <span class="text-sm font-normal text-slate-400">/ 60</span>` : '—'}
             </div>
-            <div class="text-xs text-slate-400 mt-1">Normalizada (Corte: 30,00 netos)</div>
+            <div class="text-xs text-slate-400 mt-1">
+              ${metrics.oficialCount > 0 ? `${metrics.oficialCount} simulacro(s) oficial(es)` : 'Sin simulacros de 60q'}
+            </div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">% Simulacros Oficiales Aprobados</div>
+            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">% Simulacros Aprobados</div>
             <div class="text-2xl sm:text-3xl font-black ${pctOficialAprobado !== null && pctOficialAprobado >= 50 ? 'text-emerald-400' : pctOficialAprobado !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
               ${pctOficialAprobado !== null ? `${pctOficialAprobado}%` : '—'}
             </div>
             <div class="text-xs text-slate-400 mt-1">
-              ${pctOficialAprobado !== null ? `${aprobadosOficialCount} de ${oficialSims.length} oficiales superados` : 'Sin simulacros oficiales de 60q'}
+              ${pctOficialAprobado !== null ? `${metrics.aprobadosOficialCount} de ${metrics.oficialCount} oficiales superados` : 'Sin simulacros oficiales de 60q'}
             </div>
           </div>
         </div>
@@ -1603,17 +1595,33 @@ class OpoDefensaApp {
 
   startNewExam(mode) {
     const isExcluding = this.excludeUnverified !== false;
-    const poolResult = createExamPool(this.questionBank, mode, {
+    const session = initExamSessionState(this.questionBank, mode, {
       failedQuestionsSet: this.failedQuestions,
       allowUnverified: !isExcluding
     });
 
-    if (poolResult.error || !poolResult.questions || poolResult.questions.length === 0) {
-      alert(poolResult.error || 'No se han podido cargar preguntas para esta modalidad.');
+    if (session.error || !session.questions || session.questions.length === 0) {
+      alert(session.error || 'No se han podido cargar preguntas para esta modalidad.');
       return;
     }
 
-    this.setupExamSession(poolResult.questions, mode);
+    if (this.examState.timerInterval) {
+      clearInterval(this.examState.timerInterval);
+      this.examState.timerInterval = null;
+    }
+
+    this.examState = {
+      ...session,
+      timerInterval: setInterval(() => {
+        this.examState.timeRemaining--;
+        this.updateTimerDisplay();
+        if (this.examState.timeRemaining <= 0) {
+          this.finishExam(true);
+        }
+      }, 1000)
+    };
+
+    this.setTab('simulador');
   }
 
   setupExamSession(questions, mode) {
@@ -2575,22 +2583,13 @@ class OpoDefensaApp {
   // MÓDULO 5: ANALÍTICAS Y CUADRO DE MANDO
   // =========================================================================
   renderAnalytics() {
-    const totalSimulacros = this.examHistory.length;
-    const getBase60 = (h) => {
-      const total = h.totalGraded || h.total || 60;
-      return total > 0 ? (h.netScore / total) * 60 : 0;
-    };
-
-    const mediaPuntosBase60 = totalSimulacros > 0
-      ? (this.examHistory.reduce((acc, curr) => acc + getBase60(curr), 0) / totalSimulacros).toFixed(2)
-      : '0.00';
-
-    const oficialSims = this.examHistory.filter(h => h.mode === 'oficial' || h.mode === 'real2025');
-    const otrosSims = this.examHistory.filter(h => h.mode !== 'oficial' && h.mode !== 'real2025');
-    const aprobadosOficialCount = oficialSims.filter(h => h.passed).length;
-    const pctOficialAprobado = oficialSims.length > 0
-      ? Math.round((aprobadosOficialCount / oficialSims.length) * 100)
-      : null;
+    const metrics = calculateDashboardMetrics(this.examHistory);
+    const totalSimulacros = metrics.totalExams;
+    const mediaPuntosOficial = metrics.oficialCount > 0 ? metrics.mediaOficial : null;
+    const oficialSimsCount = metrics.oficialCount;
+    const otrosSimsCount = metrics.parcialCount;
+    const aprobadosOficialCount = metrics.aprobadosOficialCount;
+    const pctOficialAprobado = metrics.pctOficialAprobado;
 
     let totalComunCorrect = 0, totalComunTotal = 0;
     let totalEspCorrect = 0, totalEspTotal = 0;
@@ -2664,20 +2663,20 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- 3 KPIS MAESTROS (MÉTRICAS HONESTAS) -->
+        <!-- 3 KPIS MAESTROS (MÉTRICAS AISLADAS POR MODALIDAD) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
             <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Simulacros Realizados</div>
             <div class="text-3xl font-black text-white mt-1">${totalSimulacros}</div>
-            <div class="text-xs text-sky-400 mt-1">${oficialSims.length} oficiales &bull; ${otrosSims.length} temas/bloques</div>
+            <div class="text-xs text-sky-400 mt-1">${oficialSimsCount} oficiales &bull; ${otrosSimsCount} parciales</div>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-            <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Media Neta / 60 (-1/3)</div>
-            <div class="text-3xl font-black ${Number(mediaPuntosBase60) >= 30 ? 'text-emerald-400' : 'text-amber-400'} mt-1">
-              ${mediaPuntosBase60} <span class="text-base text-slate-500 font-normal">/ 60</span>
+            <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Media Neta Oficial / 60 (-1/3)</div>
+            <div class="text-3xl font-black ${mediaPuntosOficial !== null && Number(mediaPuntosOficial) >= 30 ? 'text-emerald-400' : mediaPuntosOficial !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
+              ${mediaPuntosOficial !== null ? `${mediaPuntosOficial} <span class="text-base text-slate-500 font-normal">/ 60</span>` : '—'}
             </div>
-            <div class="text-xs text-slate-400 mt-1">Normalizada a base 60 (Corte: 30,00)</div>
+            <div class="text-xs text-slate-400 mt-1">${oficialSimsCount > 0 ? 'Corte: 30,00 netos' : 'Sin simulacros oficiales de 60q'}</div>
           </div>
 
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
@@ -2686,7 +2685,7 @@ class OpoDefensaApp {
               ${pctOficialAprobado !== null ? `${pctOficialAprobado}%` : '—'}
             </div>
             <div class="text-xs text-slate-400 mt-1">
-              ${pctOficialAprobado !== null ? `${aprobadosOficialCount} de ${oficialSims.length} oficiales aprobados` : 'Excluye pruebas cortas de 20/40q'}
+              ${pctOficialAprobado !== null ? `${aprobadosOficialCount} de ${oficialSimsCount} oficiales aprobados` : 'Excluye pruebas cortas de 20/40q'}
             </div>
           </div>
         </div>

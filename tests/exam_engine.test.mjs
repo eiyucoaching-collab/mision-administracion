@@ -4,7 +4,9 @@ import {
   shuffleQuestionOptions,
   createExamPool,
   calculateExamScore,
-  getTimeLimitForMode
+  getTimeLimitForMode,
+  initExamSessionState,
+  calculateDashboardMetrics
 } from '../src/exam/engine.js';
 import { QUESTION_BANK } from '../src/data/questions.js';
 
@@ -226,4 +228,168 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(res.passed, false); // 2.00 < 3.00
   });
 
+  // =========================================================================
+  // CASOS DE VERIFICACIÓN SOLICITADOS POR EL USUARIO (PUNTO 6)
+  // =========================================================================
+
+  it('CASO 1: startNewExam / initExamSessionState con "Tema N" inicializa sesión correctamente', () => {
+    // Formato con espacio "Tema 1"
+    const session1 = initExamSessionState(QUESTION_BANK, 'Tema 1');
+    assert.equal(session1.error, null);
+    assert.equal(session1.status, 'running');
+    assert.ok(session1.questions.length > 0);
+    session1.questions.forEach(q => assert.equal(q.topicId, 1));
+    assert.equal(session1.timeRemaining, getTimeLimitForMode('tema:1', session1.questions.length));
+
+    // Formato con dos puntos "tema:3"
+    const session3 = initExamSessionState(QUESTION_BANK, 'tema:3');
+    assert.equal(session3.error, null);
+    assert.ok(session3.questions.length > 0);
+    session3.questions.forEach(q => assert.equal(q.topicId, 3));
+
+    // Tema inexistente no crashea y devuelve error controlado
+    const sessionInvalida = initExamSessionState(QUESTION_BANK, 'Tema 99');
+    assert.ok(sessionInvalida.error);
+    assert.equal(sessionInvalida.status, 'idle');
+    assert.equal(sessionInvalida.questions.length, 0);
+  });
+
+  it('CASO 2: Puntuación y umbral exactos en modos oficial y real2025 (corte en 30.00)', () => {
+    // Modo Oficial: 33 aciertos, 9 fallos (-3 puntos), 18 blancos = 30.00 netos -> APROBADO justo
+    const mockQuestions60 = [];
+    for (let i = 1; i <= 60; i++) {
+      mockQuestions60.push({ id: 200 + i, correct: 0, options: ['A','B','C','D'] });
+    }
+
+    const answersAprobado = {};
+    for (let i = 1; i <= 33; i++) answersAprobado[200 + i] = 0; // 33 aciertos
+    for (let i = 34; i <= 42; i++) answersAprobado[200 + i] = 1; // 9 fallos (-3.00)
+    // 43 a 60 en blanco (18 en blanco)
+
+    const resOficialPass = calculateExamScore({
+      mode: 'oficial',
+      questions: mockQuestions60,
+      userAnswers: answersAprobado
+    });
+    assert.equal(resOficialPass.totalGraded, 60);
+    assert.equal(resOficialPass.cutoffScore, 30.00);
+    assert.equal(resOficialPass.netScore, 30.00);
+    assert.equal(resOficialPass.passed, true);
+
+    // Modo real2025: 32 aciertos, 9 fallos (-3 puntos) = 29.00 netos -> SUSPENSO por debajo de 30.00
+    const answersSuspenso = { ...answersAprobado };
+    delete answersSuspenso[200 + 33]; // queda en blanco: 32 aciertos - 3 fallos = 29.00
+    const resRealFail = calculateExamScore({
+      mode: 'real2025',
+      questions: mockQuestions60,
+      userAnswers: answersSuspenso
+    });
+    assert.equal(resRealFail.totalGraded, 60);
+    assert.equal(resRealFail.cutoffScore, 30.00);
+    assert.equal(resRealFail.netScore, 29.00);
+    assert.equal(resRealFail.passed, false);
+  });
+
+  it('CASO 3: Anulaciones: sustitución estricta por preguntas de reserva y recálculo si exceden reservas', () => {
+    // Simulamos un pool de 60 ordinarias + 6 reservas
+    const ordinarias = [];
+    for (let i = 1; i <= 60; i++) {
+      ordinarias.push({ id: 1000 + i, correct: 0, options: ['A','B','C','D'], annulled: false });
+    }
+    const reservas = [];
+    for (let r = 1; r <= 6; r++) {
+      reservas.push({ id: 2000 + r, correct: 1, options: ['A','B','C','D'], isReserve: true });
+    }
+    const fullPool = [...ordinarias, ...reservas];
+
+    // Anulamos 2 preguntas ordinarias (#5 y #12)
+    fullPool[4].annulled = true; // Q5
+    fullPool[11].annulled = true; // Q12
+
+    // Respuestas:
+    // Ordinarias: 28 aciertos en las no anuladas
+    const userAnswers = {};
+    for (let i = 1; i <= 28; i++) {
+      if (i !== 5 && i !== 12) userAnswers[1000 + i] = 0;
+    }
+    // El alumno responde la Reserva 1 (R1 = id 2001) BIEN (+1) y la Reserva 2 (R2 = id 2002) MAL (-0.33)
+    userAnswers[2001] = 1; // acierto en R1
+    userAnswers[2002] = 0; // fallo en R2 (correcta era 1)
+
+    const resAnnulled = calculateExamScore({
+      mode: 'oficial',
+      questions: fullPool,
+      userAnswers
+    });
+
+    assert.equal(resAnnulled.totalGraded, 60, 'El total calificado sigue siendo 60 al haber reservas disponibles');
+    // Aciertos: 26 de las ordinarias + 1 de R1 = 27
+    assert.equal(resAnnulled.correct, 27);
+    // Fallos: 1 de R2 = 1
+    assert.equal(resAnnulled.wrong, 1);
+    assert.equal(resAnnulled.netScore, +(27 - 1/3).toFixed(2));
+
+    // Comprobar caso extremo: exactamente 7 preguntas ordinarias anuladas (exceden las 6 reservas por 1)
+    const poolWith7Annulled = ordinarias.map((q, idx) => ({ ...q, annulled: idx < 7 })).concat(reservas);
+    const resExceeded = calculateExamScore({
+      mode: 'oficial',
+      questions: poolWith7Annulled,
+      userAnswers: {}
+    });
+    // 60 ordinarias - 7 anuladas + 6 reservas = 59 preguntas calificadas
+    assert.equal(resExceeded.totalGraded, 59);
+    assert.equal(resExceeded.cutoffScore, +(59 * 0.5).toFixed(2));
+  });
+
+  it('CASO 4: Temporizador exacto asignado por modo y volumen de preguntas', () => {
+    // Oficiales
+    assert.equal(getTimeLimitForMode('oficial', 60), 3600);
+    assert.equal(getTimeLimitForMode('real2025', 60), 3600);
+    // Bloques
+    assert.equal(getTimeLimitForMode('comun', 20), 1200);
+    assert.equal(getTimeLimitForMode('especifico', 40), 2400);
+    // Temas (mínimo 600s / 10 min o 60s por pregunta)
+    assert.equal(getTimeLimitForMode('tema:1', 8), 600); // 8*60 = 480 < 600 -> suelo 600s
+    assert.equal(getTimeLimitForMode('Tema 2', 25), 1500); // 25 * 60 = 1500s (25 min)
+    // Falladas
+    assert.equal(getTimeLimitForMode('falladas', 5), 600);
+    assert.equal(getTimeLimitForMode('falladas', 18), 1080);
+  });
+
+  it('CASO 5: Métricas del panel y analíticas aíslan estrictamente los modos (no mezclan 20 con 60 preguntas)', () => {
+    // Historial con 1 examen oficial suspensivo (24 netos sobre 60)
+    // y 2 exámenes parciales cortos de 20 preguntas con notas altas (18/20 y 16/20)
+    const history = [
+      { id: 1, mode: 'oficial', totalGraded: 60, netScore: 24.00, passed: false },
+      { id: 2, mode: 'comun', totalGraded: 20, netScore: 18.00, passed: true },
+      { id: 3, mode: 'tema:1', totalGraded: 20, netScore: 16.00, passed: true }
+    ];
+
+    const metrics = calculateDashboardMetrics(history);
+
+    assert.equal(metrics.totalExams, 3);
+    assert.equal(metrics.oficialCount, 1);
+    assert.equal(metrics.parcialCount, 2);
+
+    // La media oficial NO debe verse inflada por los parciales (debe ser exactamente 24.00, no >30)
+    assert.equal(metrics.mediaOficial, '24.00', 'La media oficial debe considerar exclusivamente exámenes oficiales');
+    // El % de aprobados oficial debe ser 0% (0 de 1 oficial aprobado)
+    assert.equal(metrics.pctOficialAprobado, 0, 'El porcentaje de aprobados oficial no debe contar aprobados de 20 preguntas');
+    assert.equal(metrics.aprobadosOficialCount, 0);
+
+    // Las métricas de parciales se calculan por separado
+    // Media de 18/20 (90%) y 16/20 (80%) = 85.0%
+    assert.equal(metrics.mediaParcialPct, '85.0');
+
+    // Historial sin exámenes oficiales
+    const historyNoOficial = [
+      { id: 10, mode: 'comun', totalGraded: 20, netScore: 15.00, passed: true }
+    ];
+    const metricsNoOficial = calculateDashboardMetrics(historyNoOficial);
+    assert.equal(metricsNoOficial.oficialCount, 0);
+    assert.equal(metricsNoOficial.mediaOficial, '0.00');
+    assert.equal(metricsNoOficial.pctOficialAprobado, null, 'Debe ser null para mostrar guion "—" en la UI');
+  });
+
 });
+
