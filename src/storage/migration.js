@@ -3,7 +3,7 @@
  * Misión Administración (Opo-Defensa E1)
  *
  * Controla la evolución del esquema de almacenamiento local, garantizando
- * compatibilidad hacia atrás y sanitización de datos legados.
+ * compatibilidad hacia atrás, sanitización no destructiva y copias de seguridad de origen.
  */
 
 export const STORAGE_KEYS = {
@@ -13,16 +13,20 @@ export const STORAGE_KEYS = {
   FLASHCARDS_RATING: 'opo_e1_flashcards_rating',
   PLAN_CHECKLIST: 'opo_e1_plan_checklist',
   HIGHLIGHTER: 'opo_e1_highlighter',
-  CIFRAS_DRILL: 'opo_e1_cifras_drill'
+  CIFRAS_DRILL: 'opo_e1_cifras_drill',
+  // Claves de copia de seguridad del estado original previo a migración v2
+  HISTORY_V1_BACKUP: 'opo_e1_history_v1_backup',
+  FAILED_QIDS_V1_BACKUP: 'opo_e1_failed_qids_v1_backup',
+  CIFRAS_DRILL_V1_BACKUP: 'opo_e1_cifras_drill_v1_backup'
 };
 
 export const CURRENT_STORAGE_VERSION = 2;
 
 /**
- * Sanitiza y normaliza un registro histórico de examen
+ * Normaliza campos básicos de un registro histórico sin recalcular notas ni umbrales
  * @param {Object} rawItem - Entrada histórica en bruto
  * @param {number} index - Posición en la lista
- * @returns {Object} Entrada normalizada para v2
+ * @returns {Object} Entrada normalizada preservando todos los datos originales
  */
 export function migrateHistoryItem(rawItem, index = 0) {
   if (!rawItem || typeof rawItem !== 'object') {
@@ -31,61 +35,27 @@ export function migrateHistoryItem(rawItem, index = 0) {
 
   const date = rawItem.date || new Date().toISOString();
   const id = rawItem.id || `exam_${new Date(date).getTime() || Date.now()}_${index}`;
-  
-  // Normalizar modo
-  let mode = rawItem.mode;
-  if (!mode || typeof mode !== 'string') {
-    const total = rawItem.totalGraded || (rawItem.correct || 0) + (rawItem.wrong || 0) + (rawItem.blank || 0);
-    if (total === 60 || total === 66) {
-      mode = 'oficial';
-    } else if (total === 20) {
-      mode = 'comun';
-    } else if (total === 40) {
-      mode = 'especifico';
-    } else {
-      mode = 'practica';
-    }
-  }
+  const mode = (typeof rawItem.mode === 'string' && rawItem.mode) ? rawItem.mode : (rawItem.mode || 'desconocido');
 
-  const correct = Number(rawItem.correct) || 0;
-  const wrong = Number(rawItem.wrong) || 0;
-  const blank = Number(rawItem.blank) || 0;
-  const totalGraded = Number(rawItem.totalGraded) || (correct + wrong + blank) || 60;
+  // Clonar para no perder ninguna propiedad preexistente
+  const normalized = { ...rawItem, id, date, mode };
 
-  // Puntuación neta
-  let score = Number(rawItem.score);
-  if (isNaN(score)) {
-    const penalty = wrong * (1 / 3);
-    score = Math.max(0, +(correct - penalty).toFixed(2));
-  } else {
-    score = Math.max(0, +score.toFixed(2));
-  }
+  if (rawItem.correct !== undefined) normalized.correct = Number(rawItem.correct);
+  if (rawItem.wrong !== undefined) normalized.wrong = Number(rawItem.wrong);
+  if (rawItem.blank !== undefined) normalized.blank = Number(rawItem.blank);
+  if (rawItem.totalGraded !== undefined) normalized.totalGraded = Number(rawItem.totalGraded);
+  if (rawItem.timeSpentSecs !== undefined) normalized.timeSpentSecs = Number(rawItem.timeSpentSecs);
 
-  // Corte
-  let cutoffScore = Number(rawItem.cutoffScore);
-  if (isNaN(cutoffScore)) {
-    cutoffScore = +(totalGraded * 0.5).toFixed(2);
-  }
+  // NO recalcular notas ni umbrales provisionales: mantener exactamente lo registrado originalmente
+  if (rawItem.score !== undefined) normalized.score = Number(rawItem.score);
+  if (rawItem.cutoffScore !== undefined) normalized.cutoffScore = Number(rawItem.cutoffScore);
+  if (rawItem.passed !== undefined) normalized.passed = Boolean(rawItem.passed);
 
-  const passed = rawItem.passed !== undefined ? Boolean(rawItem.passed) : score >= cutoffScore;
-
-  return {
-    id,
-    date,
-    mode,
-    score,
-    correct,
-    wrong,
-    blank,
-    totalGraded,
-    cutoffScore,
-    passed,
-    timeSpentSecs: Number(rawItem.timeSpentSecs) || 0
-  };
+  return normalized;
 }
 
 /**
- * Sanitiza la lista de IDs de preguntas falladas
+ * Sanitiza la lista de IDs de preguntas falladas asegurando números enteros positivos
  * @param {any} rawIds 
  * @returns {number[]} Array de enteros positivos sin duplicados
  */
@@ -102,7 +72,7 @@ export function sanitizeFailedQuestionIds(rawIds) {
 }
 
 /**
- * Sanitiza el récord de cifras rápidas
+ * Sanitiza el récord de cifras rápidas asegurando tipos numéricos no negativos
  * @param {any} rawDrill 
  * @returns {{ bestScore: number, bestStreak: number }}
  */
@@ -117,7 +87,7 @@ export function sanitizeCifrasDrill(rawDrill) {
 }
 
 /**
- * Ejecuta la migración del almacenamiento si la versión guardada es inferior a CURRENT_STORAGE_VERSION
+ * Ejecuta la migración del almacenamiento a v2 con copia de seguridad obligatoria previa
  * @param {Storage|Object} storage - Objeto compatible con localStorage (getItem, setItem)
  * @returns {{ migrated: boolean, fromVersion: number, toVersion: number }}
  */
@@ -133,10 +103,24 @@ export function migrateStorage(storage) {
     return { migrated: false, fromVersion: currentVer, toVersion: currentVer };
   }
 
-  // Migración de v1 a v2
+  // 1. ANTES DE MIGRAR: Preservar copia de seguridad intacta de las claves v1 si no existen backups
+  const rawHistoryStr = storage.getItem(STORAGE_KEYS.HISTORY);
+  if (rawHistoryStr !== null && storage.getItem(STORAGE_KEYS.HISTORY_V1_BACKUP) === null) {
+    storage.setItem(STORAGE_KEYS.HISTORY_V1_BACKUP, rawHistoryStr);
+  }
+
+  const rawFailedStr = storage.getItem(STORAGE_KEYS.FAILED_QIDS);
+  if (rawFailedStr !== null && storage.getItem(STORAGE_KEYS.FAILED_QIDS_V1_BACKUP) === null) {
+    storage.setItem(STORAGE_KEYS.FAILED_QIDS_V1_BACKUP, rawFailedStr);
+  }
+
+  const rawCifrasStr = storage.getItem(STORAGE_KEYS.CIFRAS_DRILL);
+  if (rawCifrasStr !== null && storage.getItem(STORAGE_KEYS.CIFRAS_DRILL_V1_BACKUP) === null) {
+    storage.setItem(STORAGE_KEYS.CIFRAS_DRILL_V1_BACKUP, rawCifrasStr);
+  }
+
+  // 2. Normalización no destructiva
   try {
-    // 1. Historial de exámenes
-    const rawHistoryStr = storage.getItem(STORAGE_KEYS.HISTORY);
     if (rawHistoryStr) {
       try {
         const rawHistory = JSON.parse(rawHistoryStr);
@@ -151,8 +135,6 @@ export function migrateStorage(storage) {
       }
     }
 
-    // 2. Cuaderno de falladas
-    const rawFailedStr = storage.getItem(STORAGE_KEYS.FAILED_QIDS);
     if (rawFailedStr) {
       try {
         const rawFailed = JSON.parse(rawFailedStr);
@@ -163,8 +145,6 @@ export function migrateStorage(storage) {
       }
     }
 
-    // 3. Cifras drill
-    const rawCifrasStr = storage.getItem(STORAGE_KEYS.CIFRAS_DRILL);
     if (rawCifrasStr) {
       try {
         const rawCifras = JSON.parse(rawCifrasStr);
@@ -175,7 +155,7 @@ export function migrateStorage(storage) {
       }
     }
 
-    // 4. Actualizar versión a v2
+    // 3. Actualizar versión a v2
     storage.setItem(STORAGE_KEYS.VERSION, String(CURRENT_STORAGE_VERSION));
 
     return {
