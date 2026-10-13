@@ -4,7 +4,7 @@
   "description": "Suite de preparación E1 Servicios Administrativos - Ministerio de Defensa",
   "type": "module",
   "scripts": {
-    "test": "node scripts/validate-data.mjs && node --test tests/**/*.test.mjs",
+    "test": "node scripts/validate-data.mjs && node --test",
     "test:e2e": "node --test tests/e2e_offline.test.mjs",
     "validate": "node scripts/validate-data.mjs",
     "build:css": "tailwindcss -i ./src/styles/app.css -o ./assets/css/app.min.css --minify"
