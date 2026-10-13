@@ -27,8 +27,8 @@ Para garantizar la reproducibilidad y trazabilidad de cada afirmación jurídica
   - Estructura del examen de la fase de oposición, preguntas ordinarias y de reserva, tiempo máximo, penalización y corte (**contenido por confirmar con las bases completas**).
   - Programa oficial de materias / temario común y específico (**contenido por confirmar con las bases completas**).
   - Baremos de méritos para concurso/promoción (**contenido por confirmar con las bases completas**).
-  *Nota metodológica:* No se da por sentada la numeración o asignación de materias a ningún anexo concreto (V, VI, VII) hasta verificar el PDF oficial de las bases completas en `docs/fuentes/`.
-- **Declaración de Supuestos del Simulador:** Mientras no se aporten las bases completas con el Anexo V, los siguientes parámetros son **SUPUESTOS PROVISIONALES DE DISEÑO DEL SIMULADOR** y no certezas normativas definitivas:
+  *Nota metodológica:* No se describe ni asigna contenido a ningún anexo concreto (V, VI, VII) hasta verificar el PDF oficial de las bases completas en `docs/fuentes/`. Tampoco se afirma ni presupone que los anexos, ejercicios o baremos sean iguales entre el Turno Libre (40 plazas, exclusivamente oposición) y la Promoción Interna (24 plazas, concurso-oposición), cuyas pruebas y fases pueden diferir.
+- **Declaración de Supuestos del Simulador:** Mientras no se aporten las bases completas (**contenido por confirmar con las bases completas**), los siguientes parámetros son **SUPUESTOS PROVISIONALES DE DISEÑO DEL SIMULADOR** y no certezas normativas definitivas:
   1. Estructura de 60 preguntas ordinarias + 6 de reserva.
   2. Tiempo límite de 60 minutos.
   3. Penalización de un tercio (-1/3) por respuesta fallada.

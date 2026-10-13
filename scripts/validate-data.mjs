@@ -3,7 +3,25 @@
  * Misión Administración (Opo-Defensa E1)
  */
 
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { QUESTION_BANK } from '../src/data/questions.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const INVALID_E1_E2_PATTERNS = [
+  /\b(?:grupo\s+(?:profesional\s+)?)?E[12]\b[^\.\n]*\bsin\s+titulaci[oó]n/i,
+  /\bsin\s+titulaci[oó]n[^\.\n]*\b(?:grupo\s+(?:profesional\s+)?)?E[12]\b/i,
+  /\b(?:periodo|período)\s+de\s+prueba\b[^\.\n]*\bE[12]\b[^\.\n]*(?:15\s+d[ií]as|quince\s+d[ií]as)/i,
+  /\bE[12]\b[^\.\n]*(?:periodo|período)\s+de\s+prueba\b[^\.\n]*(?:15\s+d[ií]as|quince\s+d[ií]as)/i,
+  /\b(?:15\s+d[ií]as|quince\s+d[ií]as)\b[^\.\n]*(?:periodo|período)\s+de\s+prueba\b[^\.\n]*\bE[12]\b/i,
+  /15\s+d[ií]as\s+laborables\s*\([^)]*E[12][^)]*\)/i,
+  /sin\s+titulaci[oó]n\s+de\s+los\s+grupos\s+[^.\n]*E[12]/i,
+  /15\s+d[ií]as\s+laborables\s+para\s+[^.\n]*E[12]/i
+];
+
 
 const ALLOWED_LAWS = new Set([
   'Constitución Española de 1978',
@@ -93,7 +111,60 @@ QUESTION_BANK.forEach((q, idx) => {
   if (!q.sourceType || !ALLOWED_SOURCE_TYPES.has(q.sourceType)) {
     errors.push(`${prefix}: 'sourceType' no válido o ausente ('${q.sourceType}'). Permitidos: ${[...ALLOWED_SOURCE_TYPES].join(', ')}.`);
   }
+
+  // 6. Integridad normativa estricta: Art. 32.1 y Art. 8.1 IV CUAGE
+  // E1 y E2 exigen titulación y tienen 1 MES de período de prueba.
+  // 15 días laborables es exclusivo del Grupo E0 (personal sin titulación).
+  const textElements = [q.question, ...(q.options || []), q.explanation];
+  for (const text of textElements) {
+    if (!text || typeof text !== 'string') continue;
+    const clean = text.replace(/<[^>]+>/g, '\n');
+    const segments = clean.split(/[.\n;]/);
+    for (const segment of segments) {
+      if (INVALID_E1_E2_PATTERNS.some(p => p.test(segment))) {
+        errors.push(`${prefix}: Infracción normativa: relaciona erróneamente E1/E2 con 'sin titulación' o '15 días'. Fragmento: "${segment.trim()}"`);
+      }
+    }
+  }
+
+  if (/(?:periodo|período)\s+de\s+prueba/i.test(q.question) && /\bE[12]\b/i.test(q.question)) {
+    const correctOpt = q.options[q.correct];
+    if (/(?:15\s+d[ií]as|quince\s+d[ií]as)/i.test(correctOpt)) {
+      errors.push(`${prefix}: La respuesta correcta para periodo de prueba de E1/E2 no puede ser 15 días (debe ser 1 mes según Art. 32.1 IV CUAGE).`);
+    }
+  }
+
+  if (/titulaci[oó]n/i.test(q.question) && /\bE1\b/i.test(q.question)) {
+    const correctOpt = q.options[q.correct];
+    if (/sin\s+titulaci[oó]n/i.test(correctOpt)) {
+      errors.push(`${prefix}: La respuesta correcta para titulación de acceso de E1 no puede ser 'sin titulación' (exige Graduado en ESO o FP Básico según Art. 8.1.e IV CUAGE).`);
+    }
+  }
 });
+
+// Validación cruzada de archivos de contenido contra la asociación errónea E1/E2 con 15 días / sin titulación
+const contentFilesToAudit = [
+  '../src/data/cifras_y_trampas.js',
+  '../src/data/syllabus.js',
+  '../src/data/flashcards.js',
+  '../src/data/podcasts.js',
+  '../guias/guia_tema_03_personal_laboral_cuage.md'
+];
+
+contentFilesToAudit.forEach(relPath => {
+  const fullPath = path.resolve(__dirname, relPath);
+  if (fs.existsSync(fullPath)) {
+    const raw = fs.readFileSync(fullPath, 'utf8');
+    const clean = raw.replace(/<[^>]+>/g, '\n');
+    const segments = clean.split(/[.\n;]/);
+    segments.forEach((seg, idx) => {
+      if (INVALID_E1_E2_PATTERNS.some(p => p.test(seg))) {
+        errors.push(`[Archivo ${relPath}]: Infracción normativa en segmento ${idx}: relaciona erróneamente E1/E2 con 'sin titulación' o '15 días'. Texto: "${seg.trim()}"`);
+      }
+    });
+  }
+});
+
 
 // Comprobar sesgos estadísticos
 const total = QUESTION_BANK.length;

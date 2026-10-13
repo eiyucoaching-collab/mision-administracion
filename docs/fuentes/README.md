@@ -4,9 +4,9 @@ En este directorio se almacenan los documentos oficiales que acreditan el temari
 
 ## Documentos Oficiales Clave Requeridos:
 
-1. **Bases Específicas de la Convocatoria** (PDF BOE):
-   - Estructura del ejercicio (número de preguntas ordinarias y de reserva, tiempo, sistema de penalización -1/3 y corte).
-   - Anexo de Temario Oficial: Epígrafes exactos del Bloque Común (Temas 1 a 4) y Bloque Específico (Temas 5 a 10).
+1. **Bases Específicas Completas de la Convocatoria** (Ministerio de Defensa / Punto de Acceso General):
+   - Contenido de los Anexos V, VI, VII y restantes: **contenido por confirmar con las bases completas**.
+   - Diferenciación de procesos: Turno Libre (40 plazas, solo oposición) y Promoción Interna (24 plazas, concurso-oposición). No se afirma ni presupone que los ejercicios, baremos o anexos sean idénticos entre ambos turnos.
 
 2. **IV Convenio Único para el personal laboral de la AGE (IV CUAGE)** (BOE):
    - Articulado oficial relativo a grupos profesionales (E1), periodo de prueba (artículo aplicable), retribuciones, permisos y régimen disciplinario.
