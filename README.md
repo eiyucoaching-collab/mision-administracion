@@ -1,8 +1,8 @@
 # Misión Administración — Opo-Defensa E1
 
-Plataforma de preparación intensiva y simulación táctica para las oposiciones de **Personal Laboral Fijo del Ministerio de Defensa** (Grupo Profesional **E1 – Servicios Administrativos**, regulado por el **IV Convenio Único de la AGE - IV CUAGE**).
+Plataforma de preparación intensiva y simulación táctica para las oposiciones de **Personal Laboral Fijo del Ministerio de Defensa**, modalidad **Turno Libre (40 plazas)** (Grupo Profesional **E1 – Servicios Administrativos**, regulado por el **IV Convenio Único de la AGE - IV CUAGE**).
 
-La aplicación es una Single Page Application (SPA) moderna, **offline-first**, diseñada para garantizar la máxima fidelidad técnica y jurídica con respecto al proceso selectivo real.
+Al concurrir por **Turno Libre**, el proceso selectivo se rige exclusivamente por el sistema de **oposición pura** (sin fase de concurso ni baremo de méritos). La calificación final y la obtención de plaza dependen al 100% de la nota neta en la fase de examen. La aplicación es una Single Page Application (SPA) moderna, **offline-first**, orientada a maximizar el rendimiento táctico en el examen.
 
 ---
 
