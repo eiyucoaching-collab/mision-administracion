@@ -182,6 +182,13 @@ h1, h2, h3, h4, .font-heading {
   color: #fecdd3 !important;
 }
 
+.prose {
+  color: #cbd5e1;
+}
+.prose-invert {
+  color: #f1f5f9;
+}
+
 .prose strong, .prose b {
   color: #ffffff;
   font-weight: 800;

@@ -2500,7 +2500,7 @@ class OpoDefensaApp {
                   <div class="flex items-center gap-1">
                     <span>❌</span>
                     <span>Fallada</span>
-                    <kbd class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-rose-950/80 border border-rose-800/80 text-rose-300 ml-1">[1]</kbd>
+                    <kbd class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-950/80 border border-rose-800/80 text-rose-300 ml-1">[1]</kbd>
                   </div>
                   <span class="text-[10px] text-rose-300/80 font-normal">Reinserta al final</span>
                 </button>
@@ -2509,7 +2509,7 @@ class OpoDefensaApp {
                   <div class="flex items-center gap-1">
                     <span>🤔</span>
                     <span>Con Duda</span>
-                    <kbd class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-950/80 border border-amber-800/80 text-amber-300 ml-1">[2]</kbd>
+                    <kbd class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/80 text-amber-300 ml-1">[2]</kbd>
                   </div>
                   <span class="text-[10px] text-amber-300/80 font-normal">Para repasar</span>
                 </button>
@@ -2518,7 +2518,7 @@ class OpoDefensaApp {
                   <div class="flex items-center gap-1">
                     <span>✅</span>
                     <span>Fácil</span>
-                    <kbd class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 ml-1">[3]</kbd>
+                    <kbd class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 ml-1">[3]</kbd>
                   </div>
                   <span class="text-[10px] text-emerald-300/80 font-normal">Consolidada</span>
                 </button>

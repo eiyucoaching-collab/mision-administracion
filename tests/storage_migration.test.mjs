@@ -146,4 +146,46 @@ describe('Storage Migration v1 -> v2 Tests', () => {
     const failed = JSON.parse(storage.getItem(STORAGE_KEYS.FAILED_QIDS));
     assert.deepEqual(failed, [105, 106]);
   });
+
+  it('crea los *_v1_backup solo si no existen, preservando la copia original intacta en ejecuciones posteriores', () => {
+    const originalHistoryBackup = JSON.stringify([{ id: 'pristine_v1_history_entry', score: 20 }]);
+    const originalFailedBackup = JSON.stringify([101, 102]);
+    const originalCifrasBackup = JSON.stringify({ bestScore: 8, bestStreak: 2 });
+
+    const newCurrentHistory = JSON.stringify([{ id: 'new_session_exam', score: 45 }]);
+    const newCurrentFailed = JSON.stringify([201, 202, 203]);
+    const newCurrentCifras = JSON.stringify({ bestScore: 25, bestStreak: 10 });
+
+    const storage = createMockStorage({
+      [STORAGE_KEYS.VERSION]: '1',
+      // Backups ya existentes generados en una ejecución previa
+      [STORAGE_KEYS.HISTORY_V1_BACKUP]: originalHistoryBackup,
+      [STORAGE_KEYS.FAILED_QIDS_V1_BACKUP]: originalFailedBackup,
+      [STORAGE_KEYS.CIFRAS_DRILL_V1_BACKUP]: originalCifrasBackup,
+      // Datos activos nuevos modificados en sesiones posteriores
+      [STORAGE_KEYS.HISTORY]: newCurrentHistory,
+      [STORAGE_KEYS.FAILED_QIDS]: newCurrentFailed,
+      [STORAGE_KEYS.CIFRAS_DRILL]: newCurrentCifras
+    });
+
+    const res = migrateStorage(storage);
+    assert.equal(res.migrated, true);
+
+    // Los backups preexistentes NUNCA deben sobrescribirse con los datos activos posteriores
+    assert.equal(
+      storage.getItem(STORAGE_KEYS.HISTORY_V1_BACKUP),
+      originalHistoryBackup,
+      'HISTORY_V1_BACKUP no debe sobrescribirse si ya existía'
+    );
+    assert.equal(
+      storage.getItem(STORAGE_KEYS.FAILED_QIDS_V1_BACKUP),
+      originalFailedBackup,
+      'FAILED_QIDS_V1_BACKUP no debe sobrescribirse si ya existía'
+    );
+    assert.equal(
+      storage.getItem(STORAGE_KEYS.CIFRAS_DRILL_V1_BACKUP),
+      originalCifrasBackup,
+      'CIFRAS_DRILL_V1_BACKUP no debe sobrescribirse si ya existía'
+    );
+  });
 });
