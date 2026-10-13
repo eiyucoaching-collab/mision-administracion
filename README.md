@@ -13,15 +13,15 @@ El contenido se somete a una estricta política de rigor normativo: **no se inve
 | Bloque / Componente | Estado de Verificación | Documentación y Fuentes |
 | :--- | :--- | :--- |
 | **Temas 1 a 4 (Bloque Común)** | **Auditado contra copias del BOE** | Citas literales, encabezados y URLs del BOE consolidado recogidos en [`docs/auditoria_contenido.md`](docs/auditoria_contenido.md). Copias HTML guardadas en [`docs/fuentes/boe/`](docs/fuentes/boe/). Sujeto a comprobación independiente. |
-| **Temas 5 a 10 (Bloque Específico)** | ⏸️ **Pausado preventivamente** | En espera de la incorporación de los **Anexos VI y VII** oficiales en [`docs/fuentes/`](docs/fuentes/). Las preguntas con fuentes no consolidadas permanecen con `verified: false` y excluidas del simulacro oficial. |
-| **Modelo de Examen (Estructura)** | ⚠️ *Modelo provisional pendiente del Anexo V* | El modelo actual (60 preguntas ordinarias + 6 de reserva, 60 minutos, penalización de -1/3 por fallo y corte en 30 puntos) es un **supuesto provisional del simulador**, sujeto a confirmación final mediante el **Anexo V** oficial de la convocatoria. |
+| **Temas 5 a 10 (Bloque Específico)** | ⏸️ **Pausado preventivamente** | En espera de la aportación de las bases completas oficiales en [`docs/fuentes/`](docs/fuentes/) (**contenido por confirmar con las bases completas**). Las preguntas con fuentes no consolidadas permanecen con `verified: false` y excluidas del simulacro oficial. |
+| **Modelo de Examen (Estructura)** | ⚠️ *Modelo provisional* | El modelo actual (60 preguntas ordinarias + 6 de reserva, 60 minutos, penalización de -1/3 por fallo y corte en 30 puntos) es un **supuesto provisional del simulador** (**contenido por confirmar con las bases completas**). No se presupone ni afirma que los ejercicios, baremos o anexos sean iguales entre el Turno Libre (40 plazas, oposición) y la Promoción Interna (24 plazas, concurso-oposición), cuyas pruebas y fases pueden diferir. |
 
 ---
 
 ## ⚡ Características Principales
 
 1. **Simulador de Examen Táctico (Modelo Provisional)**:
-   - Formato modelado sobre supuestos provisionales AGE (60 ord + 6 reservas, 60 min, corte 30, penalización -1/3) a la espera de confirmación por el Anexo V.
+   - Formato modelado sobre supuestos provisionales AGE (60 ord + 6 reservas, 60 min, corte 30, penalización -1/3), con **contenido por confirmar con las bases completas** (diferenciando turno libre y promoción interna).
    - Modo formato 2025: simulacro estructurado con aviso de provisionalidad, sin atribuirse condición de examen real oficial al carecer de plantilla definitiva.
    - Barajado algorítmico Fisher-Yates sin sesgo posicional (distribución uniforme ~25% por opción).
    - Sustitución de preguntas anuladas por reservas del simulacro (R1–R6) y recálculo automático si las anulaciones exceden el cupo de reservas.
