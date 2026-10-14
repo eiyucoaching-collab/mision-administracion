@@ -199,3 +199,88 @@ export const CLOZE_BANK = [
     explanation: 'Oficina (sedentario): 17 a 27 ºC. Trabajos ligeros: 14 a 25 ºC. Humedad: 30 a 70%. Altura: 3 m (despacho: 2,5 m).'
   }
 ];
+
+export const CLOZE_EXPANSION_PACK = [
+  {
+    id: "cloze-l39-notificaciones-42",
+    topicId: 7,
+    temaId: 7,
+    topicName: "Tema 7: Tratamiento de la Correspondencia y Envíos Postales",
+    titulo: "Ley 39/2015 (Art. 42.2) - Práctica de notificaciones en papel",
+    preguntaGuia: "Práctica de notificaciones en papel y reglas horarias",
+    referencia: "Art. 42.2 Ley 39/2015 LPACAP",
+    norma: "Art. 42.2 Ley 39/2015 LPACAP",
+    texto: "Cuando la notificación se practique en el domicilio del interesado, de no hallarse presente éste, podrá hacerse cargo cualquier persona mayor de {{14 años}} que se encuentre en el domicilio y haga constar su identidad. Si nadie se hiciera cargo, se repetirá el intento por {{una sola vez}} y en una hora distinta dentro de los {{tres días siguientes}}. En caso de que el primer intento se haya realizado antes de las {{quince horas}}, el segundo intento deberá realizarse después de las {{quince horas}} y viceversa, dejando en todo caso al menos un margen de diferencia de {{tres horas}} entre ambos intentos.",
+    text: "Cuando la notificación se practique en el domicilio del interesado, de no hallarse presente éste, podrá hacerse cargo cualquier persona mayor de {{14 años}} que se encuentre en el domicilio y haga constar su identidad. Si nadie se hiciera cargo, se repetirá el intento por {{una sola vez}} y en una hora distinta dentro de los {{tres días siguientes}}. En caso de que el primer intento se haya realizado antes de las {{quince horas}}, el segundo intento deberá realizarse después de las {{quince horas}} y viceversa, dejando en todo caso al menos un margen de diferencia de {{tres horas}} entre ambos intentos.",
+    explanation: "Doble requisito: cambio de turno respecto a las 15:00 h y al menos 3 horas de margen entre intentos."
+  },
+  {
+    id: "cloze-ivcuage-prescripcion-faltas",
+    topicId: 3,
+    temaId: 3,
+    topicName: "Tema 3: Personal Laboral al Servicio de la AGE (IV CUAGE)",
+    titulo: "IV Convenio Único AGE - Prescripción de Faltas Disciplinarias",
+    preguntaGuia: "Prescripción de faltas leves, graves y muy graves",
+    referencia: "Régimen Disciplinario IV CUAGE y Art. 97 TREBEP",
+    norma: "Régimen Disciplinario IV CUAGE y Art. 97 TREBEP",
+    texto: "Las faltas {{leves}} prescribirán a los {{diez días}}; las faltas {{graves}} a los {{veinte días}}, y las {{muy graves}} a los {{sesenta días}}, contados a partir de la fecha en que la Administración tuvo conocimiento de su comisión y, en todo caso, a los {{seis meses}} de haberse cometido.",
+    text: "Las faltas {{leves}} prescribirán a los {{diez días}}; las faltas {{graves}} a los {{veinte días}}, y las {{muy graves}} a los {{sesenta días}}, contados a partir de la fecha en que la Administración tuvo conocimiento de su comisión y, en todo caso, a los {{seis meses}} de haberse cometido.",
+    explanation: "Leves: 10 días; graves: 20 días; muy graves: 60 días desde conocimiento, y en todo caso a los 6 meses."
+  },
+  {
+    id: "cloze-rd486-termohigrometrico",
+    topicId: 10,
+    temaId: 10,
+    topicName: "Tema 10: Prevención de Riesgos Laborales",
+    titulo: "RD 486/1997 (Anexo III) - Temperatura y Humedad en Locales de Trabajo",
+    preguntaGuia: "Rangos termohigrométricos en oficinas y riesgo de estática",
+    referencia: "Anexo III.3 del Real Decreto 486/1997",
+    norma: "Anexo III.3 del Real Decreto 486/1997",
+    texto: "La temperatura de los locales donde se realicen trabajos sedentarios propios de oficinas o similares estará comprendida entre {{17 y 27 °C}}. La temperatura de los locales donde se realicen trabajos ligeros estará comprendida entre {{14 y 25 °C}}. La humedad relativa estará comprendida entre el {{30 y el 70 por 100}}, excepto en los locales donde existan riesgos por electricidad estática en los que el límite inferior será el {{50 por 100}}.",
+    text: "La temperatura de los locales donde se realicen trabajos sedentarios propios de oficinas o similares estará comprendida entre {{17 y 27 °C}}. La temperatura de los locales donde se realicen trabajos ligeros estará comprendida entre {{14 y 25 °C}}. La humedad relativa estará comprendida entre el {{30 y el 70 por 100}}, excepto en los locales donde existan riesgos por electricidad estática en los que el límite inferior será el {{50 por 100}}.",
+    explanation: "Electricidad estática eleva el límite inferior de humedad del 30% al 50%."
+  },
+  {
+    id: "cloze-rd486-dimensiones",
+    topicId: 10,
+    temaId: 10,
+    topicName: "Tema 10: Prevención de Riesgos Laborales",
+    titulo: "RD 486/1997 (Anexo I) - Dimensiones Mínimas de los Locales",
+    preguntaGuia: "Dimensiones y volúmenes mínimos por trabajador",
+    referencia: "Anexo I.2 del Real Decreto 486/1997",
+    norma: "Anexo I.2 del Real Decreto 486/1997",
+    texto: "Las dimensiones de los locales de trabajo deberán permitir que los trabajadores realicen su trabajo sin riesgos: {{3 metros}} de altura desde el piso hasta el techo, No obstante, en locales comerciales, de servicios, oficinas y despachos, la altura podrá reducirse a {{2,5 metros}}. Asimismo, deberán existir {{2 metros cuadrados}} de superficie libre por trabajador y {{10 metros cúbicos}}, no ocupados, por trabajador.",
+    text: "Las dimensiones de los locales de trabajo deberán permitir que los trabajadores realicen su trabajo sin riesgos: {{3 metros}} de altura desde el piso hasta el techo, No obstante, en locales comerciales, de servicios, oficinas y despachos, la altura podrá reducirse a {{2,5 metros}}. Asimismo, deberán existir {{2 metros cuadrados}} de superficie libre por trabajador y {{10 metros cúbicos}}, no ocupados, por trabajador.",
+    explanation: "Altura: 3 m (2,5 m en oficinas); Superficie: 2 m² libres; Volumen: 10 m³ no ocupados por trabajador."
+  },
+  {
+    id: "cloze-iso216-formatos-papel",
+    topicId: 8,
+    temaId: 8,
+    topicName: "Tema 8: Reprografía, Encuadernación y Formatos Normalizados",
+    titulo: "Norma ISO 216 / DIN 476 - Dimensiones Serie A y Peso Base",
+    preguntaGuia: "Formatos de papel normalizados ISO 216 / DIN 476",
+    referencia: "Norma UNE-EN ISO 216 (DIN 476)",
+    norma: "Norma UNE-EN ISO 216 (DIN 476)",
+    texto: "El formato base de la serie principal es el {{A0}}, cuya superficie equivale a {{1 metro cuadrado}} y sus dimensiones exactas son {{841 x 1189 mm}}. El formato estándar de oficina {{A4}} mide {{210 x 297 mm}}, el formato {{A3}} mide {{297 x 420 mm}} y el formato {{A5}} mide {{148 x 210 mm}}. La serie complementaria {{B}} posee medidas intermedias (promedios geométricos de la serie A) y la serie {{C}} se destina exclusivamente a {{sobres y carpetas}}.",
+    text: "El formato base de la serie principal es el {{A0}}, cuya superficie equivale a {{1 metro cuadrado}} y sus dimensiones exactas son {{841 x 1189 mm}}. El formato estándar de oficina {{A4}} mide {{210 x 297 mm}}, el formato {{A3}} mide {{297 x 420 mm}} y el formato {{A5}} mide {{148 x 210 mm}}. La serie complementaria {{B}} posee medidas intermedias (promedios geométricos de la serie A) y la serie {{C}} se destina exclusivamente a {{sobres y carpetas}}.",
+    explanation: "Serie A: papel general; Serie B: pósteres/pasaportes; Serie C: sobres y carpetas diseñados para albergar formatos A."
+  },
+  {
+    id: "cloze-correos-pesos-dimensiones",
+    topicId: 7,
+    temaId: 7,
+    topicName: "Tema 7: Tratamiento de la Correspondencia y Envíos Postales",
+    titulo: "Servicios Postales - Pesos y Dimensiones de Cartas y Paquetería",
+    preguntaGuia: "Límites de peso y dimensiones en cartas de Correos",
+    referencia: "Condiciones Generales de Productos de Correos",
+    norma: "Condiciones Generales de Productos de Correos",
+    texto: "Tanto la carta ordinaria como la carta certificada tienen un peso máximo admisible de {{2 kilogramos}}. En formato sobre o caja para cartas, la suma de largo, ancho y alto no debe superar los {{90 cm}}, sin que la mayor dimensión exceda de {{60 cm}}. En formato rollo o tubo, la suma del largo más dos veces el diámetro no superará los {{104 cm}}, sin que la mayor dimensión supere los {{90 cm}}.",
+    text: "Tanto la carta ordinaria como la carta certificada tienen un peso máximo admisible de {{2 kilogramos}}. En formato sobre o caja para cartas, la suma de largo, ancho y alto no debe superar los {{90 cm}}, sin que la mayor dimensión exceda de {{60 cm}}. En formato rollo o tubo, la suma del largo más dos veces el diámetro no superará los {{104 cm}}, sin que la mayor dimensión supere los {{90 cm}}.",
+    explanation: "Cartas: máx 2 kg. Sobre/caja: L+A+A <= 90 cm (máx 60 cm). Rollo: L+2D <= 104 cm (máx 90 cm)."
+  }
+];
+
+// Integrar automáticamente los extractos de expansión en el banco principal
+CLOZE_BANK.push(...CLOZE_EXPANSION_PACK);
+

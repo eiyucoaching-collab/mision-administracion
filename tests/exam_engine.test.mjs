@@ -9,7 +9,7 @@ import {
   calculateDashboardMetrics
 } from '../src/exam/engine.js';
 import { QUESTION_BANK } from '../src/data/questions.js';
-import { CLOZE_BANK } from '../src/data/cloze_data.js';
+import { CLOZE_BANK, CLOZE_EXPANSION_PACK } from '../src/data/cloze_data.js';
 
 describe('P0 Exam Engine Tests', () => {
 
@@ -451,9 +451,10 @@ describe('P0 Exam Engine Tests', () => {
     assert.ok(score25.tacticalAdvice.includes('Rentabilidad en Dudas 50/50: +0.75'));
   });
 
-  it('ALTO RENDIMIENTO: CLOZE_BANK contiene 19 extractos normativos con sintaxis válida y citas BOE', () => {
+  it('ALTO RENDIMIENTO: CLOZE_BANK contiene 25 extractos normativos con sintaxis válida y citas BOE', () => {
     assert.ok(Array.isArray(CLOZE_BANK));
-    assert.equal(CLOZE_BANK.length, 19, 'Debe haber 19 extractos de literalidad en el banco');
+    assert.equal(CLOZE_BANK.length, 25, 'Debe haber 25 extractos de literalidad en el banco');
+    assert.equal(CLOZE_EXPANSION_PACK.length, 6, 'CLOZE_EXPANSION_PACK debe contener los 6 extractos críticos');
 
     CLOZE_BANK.forEach(item => {
       assert.ok(item.id, 'Debe tener id');

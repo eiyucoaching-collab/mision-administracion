@@ -3673,5 +3673,100 @@
     "article": "Guía Técnica INSST / RD 488/1997",
     "explanation": "La Guía Técnica del INSST sobre pantallas de visualización de datos recomienda situar la pantalla a una distancia de entre 40 y 70 cm (la longitud aproximada del brazo del usuario) para evitar la fatiga visual.",
     "sourceType": "original_propia"
+  },
+  {
+    "id": 205,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Personal Laboral al Servicio de la AGE (IV CUAGE)",
+    "question": "De acuerdo con el IV Convenio Único para el personal laboral de la Administración General del Estado, ¿qué titulación académica se exige para el ingreso en el Grupo Profesional E1?",
+    "options": [
+      "Título de Graduado en Educación Secundaria Obligatoria o Título de Técnico (Grado Medio)",
+      "Título de Técnico Básico (Formación Profesional Básica) o equivalente reconocido a efectos laborales",
+      "No se exige estar en posesión de ninguna de las titulaciones previstas en el sistema educativo",
+      "Título de Bachiller o Técnico Superior"
+    ],
+    "correct": 1,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 8.1.e y Art. 9 IV CUAGE",
+    "explanation": "El Grupo E0 no exige titulación del sistema educativo; el Grupo E1 exige el Título de Técnico Básico (FP Básica); y el Grupo E2 exige Graduado en ESO o Título de Técnico (FP Grado Medio).",
+    "sourceType": "norma_verificada",
+    "isTrap": true
+  },
+  {
+    "id": 206,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Tratamiento de la Correspondencia y Envíos Postales",
+    "question": "Si el primer intento de entrega de una notificación administrativa en papel en el domicilio del interesado resulta infructuoso a las 13:30 horas de un lunes, ¿cuál de los siguientes segundos intentos es jurídicamente VÁLIDO según el artículo 42.2 de la Ley 39/2015?",
+    "options": [
+      "El martes a las 15:30 horas",
+      "El martes a las 17:00 horas",
+      "El viernes de esa misma semana a las 18:00 horas",
+      "El martes a las 10:00 horas"
+    ],
+    "correct": 1,
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 42.2 Ley 39/2015 / RD 1829/1999",
+    "explanation": "Doble condición del art. 42.2 de la Ley 39/2015: 1) Como el primer intento fue antes de las 15:00 h (13:30 h), el segundo debe ser después de las 15:00 h. 2) Debe existir un margen mínimo de tres horas de diferencia (13:30 + 3h = a partir de las 16:30 h). Por tanto, a las 15:30 h es inválido por no cumplir las 3 horas de margen; a las 17:00 h cumple ambas reglas.",
+    "sourceType": "norma_verificada",
+    "isTrap": true
+  },
+  {
+    "id": 207,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
+    "question": "Según el Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo, en una dependencia administrativa de oficina donde existan riesgos por electricidad estática, la humedad relativa deberá mantenerse entre:",
+    "options": [
+      "El 30% y el 70%",
+      "El 50% y el 70%",
+      "El 40% y el 60%",
+      "El 45% y el 75%"
+    ],
+    "correct": 1,
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo III.3 Real Decreto 486/1997",
+    "explanation": "Con carácter general la humedad relativa debe estar entre el 30% y el 70%, pero la norma establece expresamente la excepción para locales con riesgo por electricidad estática, elevando el límite inferior al 50% (rango 50% - 70%).",
+    "sourceType": "norma_verificada",
+    "isTrap": true
+  },
+  {
+    "id": 208,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Reprografía, Encuadernación y Formatos Normalizados",
+    "question": "En tareas de reprografía en una unidad administrativa de Defensa, ¿cuántos pliegos de tamaño DIN A4 se obtienen exactamente a partir de un pliego base DIN A0 sin desperdicio de papel?",
+    "options": [
+      "4 pliegos",
+      "8 pliegos",
+      "16 pliegos",
+      "32 pliegos"
+    ],
+    "correct": 2,
+    "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
+    "article": "Norma UNE-EN ISO 216 (DIN 476)",
+    "explanation": "Cada salto en la serie A duplica el número de hojas al doblar por la mitad el lado mayor: A0 = 1; A1 = 2; A2 = 4; A3 = 8; A4 = 16 pliegos (2 elevado a 4 = 16).",
+    "sourceType": "original_propia",
+    "isTrap": true
+  },
+  {
+    "id": 209,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "De acuerdo con el artículo 53.2 de la Constitución Española, ¿cuál de los siguientes derechos es susceptible de recurso de amparo ante el Tribunal Constitucional aunque NO forme parte de la Sección 1.ª del Capítulo II del Título I?",
+    "options": [
+      "El derecho a la propiedad privada y a la herencia (art. 33)",
+      "La objeción de conciencia reconocida en el artículo 30",
+      "El derecho a la protección de la salud (art. 43)",
+      "El derecho a la negociación colectiva laboral (art. 37)"
+    ],
+    "correct": 1,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 53.2 CE",
+    "explanation": "El recurso de amparo protege el art. 14 (igualdad), la Sección 1.ª del Capítulo II (arts. 15 a 29) y, como única excepción fuera de dicha sección, la objeción de conciencia del artículo 30.2.",
+    "sourceType": "norma_verificada",
+    "isTrap": true
   }
 ]

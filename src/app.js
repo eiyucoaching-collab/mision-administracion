@@ -30,6 +30,7 @@ import {
   CURRENT_STORAGE_VERSION,
   migrateStorage
 } from './storage/migration.js';
+import { DailyMissionsManager } from './modules/missions_engine.js';
 
 class OpoDefensaApp {
   constructor() {
@@ -121,6 +122,28 @@ class OpoDefensaApp {
 
     // Almacenamiento Local (Offline-First)
     this.loadPersistence();
+
+    // Motor de Misiones Diarias, Persistencia Reactiva y Notificaciones PWA
+    this.missionsManager = new DailyMissionsManager((state) => {
+      if (this.gistConfig && this.gistConfig.token) {
+        this.syncToGist().catch(() => {});
+      }
+    });
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('opo:missions-updated', () => {
+        if (this.activeTab === 'dashboard') {
+          const card = document.getElementById('daily-missions-card');
+          if (card) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = this.renderDailyMissionCard();
+            if (tempDiv.firstElementChild) {
+              card.replaceWith(tempDiv.firstElementChild);
+            }
+          }
+        }
+      });
+    }
 
     // Inicializar la baraja de flashcards
     this.initFlashcardSession();
@@ -219,6 +242,10 @@ class OpoDefensaApp {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+    if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:backup-synced'));
+    }
   }
 
   // IMPORTAR PROGRESO DESDE FICHERO JSON
@@ -606,6 +633,203 @@ class OpoDefensaApp {
   }
 
   // =========================================================================
+  // MÓDULO: MISIONES DIARIAS Y PERSISTENCIA REACTIVA
+  // =========================================================================
+  toggleMissionTask(taskId) {
+    if (this.missionsManager) {
+      this.missionsManager.toggleTaskManual(taskId);
+      if (this.activeTab === 'dashboard') {
+        const card = document.getElementById('daily-missions-card');
+        if (card) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = this.renderDailyMissionCard();
+          if (tempDiv.firstElementChild) {
+            card.replaceWith(tempDiv.firstElementChild);
+          }
+        }
+      }
+    }
+  }
+
+  async requestStudyAlerts() {
+    if (this.missionsManager) {
+      const granted = await this.missionsManager.requestNotificationPermission();
+      if (this.activeTab === 'dashboard') {
+        const card = document.getElementById('daily-missions-card');
+        if (card) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = this.renderDailyMissionCard();
+          if (tempDiv.firstElementChild) {
+            card.replaceWith(tempDiv.firstElementChild);
+          }
+        }
+      }
+      return granted;
+    }
+    return false;
+  }
+
+  renderDailyMissionCard() {
+    if (!this.missionsManager) return '';
+    const mission = this.missionsManager.getTodayMission();
+    const state = this.missionsManager.state;
+    if (!mission) return '';
+
+    const tareas = mission.tareas || [];
+    const totalTasks = tareas.length;
+    const completedTasks = tareas.filter(t => t.actual >= t.meta).length;
+    const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    const isAllDone = totalTasks > 0 && completedTasks >= totalTasks;
+
+    const notifBtn = state.notificationsEnabled
+      ? `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold">
+           <span>🔔</span> Alertas Activas
+         </span>`
+      : `<button type="button" onclick="window.app.requestStudyAlerts()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-bold transition-all cursor-pointer">
+           <span>🔔</span> Activar Alertas de Estudio
+         </button>`;
+
+    return `
+      <div id="daily-missions-card" class="bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950/40 border border-sky-500/30 rounded-3xl p-6 sm:p-7 shadow-xl space-y-5">
+        <!-- CABECERA DE MISIÓN DIARIA -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase tracking-wider text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/30">
+                🎯 Misión Diaria en Curso
+              </span>
+              <span class="text-xs text-slate-400 font-mono flex items-center gap-1">
+                <span>⏰</span> ${mission.ventana}
+              </span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              ${mission.titulo}
+            </h3>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <!-- CONTADOR DE RACHA -->
+            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-black" title="Días consecutivos cumpliendo misiones">
+              <span>🔥</span>
+              <span>${state.streak} ${state.streak === 1 ? 'día' : 'días'} de racha</span>
+            </div>
+            <!-- CONTADOR DE XP -->
+            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-black" title="Puntos de experiencia táctica acumulados">
+              <span>⚡</span>
+              <span>${state.totalXp} XP</span>
+            </div>
+            <!-- BOTÓN ALERTAS -->
+            ${notifBtn}
+          </div>
+        </div>
+
+        <!-- BARRA DE PROGRESO DE MISIÓN -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold">
+              Progreso del objetivo (${completedTasks} de ${totalTasks} tareas)
+            </span>
+            <span class="font-mono font-black ${isAllDone ? 'text-emerald-400' : 'text-sky-400'}">
+              ${progressPct}%
+            </span>
+          </div>
+          <div class="w-full bg-slate-950/80 rounded-full h-3 border border-slate-800 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-400 transition-all duration-500 rounded-full" style="width: ${progressPct}%"></div>
+          </div>
+          ${isAllDone ? `
+            <div class="text-xs text-emerald-400 font-bold flex items-center gap-1.5 animate-fadeIn">
+              <span>🏆</span> ¡Misión diaria completada! Bonus de +100 XP acreditado. Mantén la racha mañana.
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- LISTA DE TAREAS INTERACTIVAS -->
+        <div class="space-y-2.5">
+          ${tareas.map(tarea => {
+            const isDone = tarea.actual >= tarea.meta;
+            let actionBtn = '';
+            if (tarea.tipo === 'admin') {
+              actionBtn = `
+                <a href="https://ips.redsara.es" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl shadow transition-all shrink-0 flex items-center gap-1">
+                  <span>Portal IPS</span>
+                  <span>&rarr;</span>
+                </a>
+              `;
+            } else if (tarea.tipo === 'cloze') {
+              actionBtn = `
+                <button type="button" onclick="window.app.setTab('literalidad')" class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Entrenar &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'simulacro') {
+              actionBtn = `
+                <button type="button" onclick="window.app.startNewExam('oficial')" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs rounded-xl shadow transition-all shrink-0">
+                  Simulacro &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'sprint') {
+              actionBtn = `
+                <button type="button" onclick="window.app.startNewExam('sprint45')" class="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Sprint 45' &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'trampas') {
+              actionBtn = `
+                <button type="button" onclick="window.app.startNewExam('trampas')" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Trampas &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'srs') {
+              actionBtn = `
+                <button type="button" onclick="window.app.setTab('errores')" class="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Bóveda SRS &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'backup') {
+              actionBtn = `
+                <button type="button" onclick="window.app.exportProgress()" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Backup JSON &rarr;
+                </button>
+              `;
+            }
+
+            return `
+              <div class="flex items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl border transition-all ${
+                isDone
+                  ? 'bg-emerald-950/20 border-emerald-500/30 text-slate-300'
+                  : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 text-white'
+              }">
+                <div class="flex items-center gap-3 min-w-0">
+                  <!-- BOTÓN CHECKBOX MANUAL -->
+                  <button type="button" onclick="window.app.toggleMissionTask('${tarea.id}')" class="w-6 h-6 rounded-lg flex items-center justify-center border transition-all shrink-0 cursor-pointer ${
+                    isDone
+                      ? 'bg-emerald-500 border-emerald-400 text-slate-950 font-black text-xs'
+                      : 'border-slate-600 hover:border-sky-400 bg-slate-900 text-transparent'
+                  }" title="Marcar/desmarcar manualmente">
+                    ✓
+                  </button>
+                  <div class="min-w-0 space-y-0.5">
+                    <p class="text-xs sm:text-sm font-semibold truncate sm:whitespace-normal ${isDone ? 'line-through text-slate-400' : ''}">
+                      ${tarea.desc}
+                    </p>
+                    <div class="text-[11px] font-mono ${isDone ? 'text-emerald-400' : 'text-slate-400'}">
+                      Progreso: ${tarea.actual} / ${tarea.meta}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  ${actionBtn}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
   // MÓDULO 1: DASHBOARD / INICIO
   // =========================================================================
   renderDashboard() {
@@ -734,6 +958,9 @@ class OpoDefensaApp {
             </div>
           </div>
         </div>
+
+        <!-- TARJETA INTERACTIVA DE MISIÓN DIARIA EN CURSO -->
+        ${this.renderDailyMissionCard()}
 
         <!-- WIDGET DINÁMICO: QUÉ TOCA AHORA (PLANIFICADOR SEMANAL) -->
         <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/50 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4">
@@ -2612,6 +2839,17 @@ class OpoDefensaApp {
     this.calculateResults();
     this.examState.status = 'finished';
     this.saveHistory(this.examState.results);
+
+    if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:test-finished', {
+        detail: {
+          mode: this.examState.mode,
+          questionsCount: this.examState.questions ? this.examState.questions.length : 0,
+          netScore: this.examState.results ? this.examState.results.netScore : 0
+        }
+      }));
+    }
+
     this.setTab('simulador');
   }
 
@@ -3181,6 +3419,9 @@ class OpoDefensaApp {
       this.clozeState.revealed[clozeId] = {};
     }
     this.clozeState.revealed[clozeId][wordIdx] = !this.clozeState.revealed[clozeId][wordIdx];
+    if (this.clozeState.revealed[clozeId][wordIdx] && typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:cloze-completed', { detail: { count: 1, clozeId } }));
+    }
     this.setTab('literalidad');
   }
 
@@ -3198,6 +3439,9 @@ class OpoDefensaApp {
         this.clozeState.revealed[item.id][idx] = show;
       });
     });
+    if (show && typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:cloze-completed', { detail: { count: bank.length } }));
+    }
     this.setTab('literalidad');
   }
 
@@ -3473,6 +3717,10 @@ class OpoDefensaApp {
       try {
         localStorage.setItem(STORAGE_KEYS.GIST_CONFIG, JSON.stringify(this.gistConfig));
       } catch (e) {}
+
+      if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('opo:backup-synced'));
+      }
 
       alert(`¡Sincronización en la nube completada con éxito!\nGist ID: ${resJson.id}\nFecha: ${new Date(this.gistConfig.lastSync).toLocaleString()}`);
       this.setTab('importador');
