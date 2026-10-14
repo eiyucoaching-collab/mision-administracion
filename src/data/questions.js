@@ -8,7 +8,7 @@ export const QUESTION_BANK = [
     "options": [
       "Social y democrático de Derecho",
       "Monárquico y parlamentario de Derecho",
-      "Federal, democrático y plural en el ámbito de la AGE",
+      "Federal, democrático y plural",
       "Autonómico, social y representativo"
     ],
     "correct": 0,
@@ -24,7 +24,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuáles son los valores superiores del ordenamiento jurídico según el artículo 1.1 de la Constitución?",
     "options": [
-      "La libertad, la seguridad, la legalidad y la propiedad",
+      "La libertad individual, la seguridad ciudadana, la legalidad administrativa y el derecho de propiedad",
       "La libertad, la justicia, la igualdad y el pluralismo político",
       "La justicia, la democracia, la soberanía y la paz social",
       "La igualdad, la solidaridad, el bienestar y el Estado social"
@@ -43,7 +43,7 @@ export const QUESTION_BANK = [
     "question": "Según el artículo 1.2 de la CE, ¿en quién reside la soberanía nacional?",
     "options": [
       "En el Rey de España",
-      "En las Cortes Generales",
+      "En las Cortes Generales como representantes legítimos y exclusivos del conjunto de la ciudadanía",
       "En el pueblo español, del que emanan los poderes del Estado",
       "En el Congreso de los Diputados"
     ],
@@ -60,8 +60,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuál es la forma política del Estado español según el artículo 1.3 de la CE?",
     "options": [
-      "República parlamentaria",
-      "Democracia representativa",
+      "República federal parlamentaria",
+      "Democracia representativa directa",
       "Monarquía constitucional hereditaria",
       "Monarquía parlamentaria"
     ],
@@ -79,9 +79,9 @@ export const QUESTION_BANK = [
     "question": "¿Cuál de los siguientes principios NO figura expresamente en el artículo 9.3 de la Constitución?",
     "options": [
       "Defensa de la competencia",
-      "Publicidad de las normas, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Seguridad jurídica en el ámbito de la AGE",
-      "Principio de legalidad en el ámbito de la AGE"
+      "Principio de publicidad de las normas",
+      "Principio de seguridad jurídica",
+      "Principio de legalidad y jerarquía normativa"
     ],
     "correct": 0,
     "law": "Constitución Española de 1978",
@@ -96,7 +96,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿En qué fecha se aprobó la Constitución Española por las Cortes Generales y cuándo se ratificó en referéndum?",
     "options": [
-      "Aprobada el 6 de diciembre de 1978 y ratificada el 27 de diciembre",
+      "Aprobada por las Cortes el 6 de diciembre de 1978 y sancionada solemnemente por el Rey el 27 de diciembre",
       "Aprobada por las Cortes el 31 de octubre de 1978 y ratificada por el pueblo en referéndum el 6 de diciembre de 1978",
       "Aprobada el 29 de diciembre de 1978 y ratificada el 6 de diciembre",
       "Aprobada el 20 de noviembre de 1978 y ratificada el 1 de enero de 1979"
@@ -114,7 +114,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿De cuántos artículos consta el texto de la Constitución Española de 1978?",
     "options": [
-      "150 artículos, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "150 artículos",
       "175 artículos",
       "169 artículos",
       "180 artículos"
@@ -132,7 +132,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "A tenor del artículo 12 de la Constitución, los españoles son mayores de edad a los:",
     "options": [
-      "16 años, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "16 años",
       "20 años",
       "21 años",
       "18 años"
@@ -151,7 +151,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el plazo máximo que puede durar la detención preventiva según el artículo 17.2 de la CE?",
     "options": [
       "72 horas",
-      "48 horas, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "48 horas",
       "24 horas",
       "96 horas"
     ],
@@ -168,9 +168,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuáles son los derechos tutelables a través del Recurso de Amparo ante el Tribunal Constitucional (art. 53.2 CE)?",
     "options": [
-      "Todos los artículos del Título I (arts. 10 a 55)",
+      "Todos los derechos fundamentales, libertades y deberes recogidos en la totalidad del Título I de la Constitución (arts. 10 a 55)",
       "El artículo 14, la Sección 1ª del Capítulo II del Título I (arts. 15 al 29) y la objeción de conciencia del art. 30.2",
-      "Únicamente los artículos 15 al 20, salvo autorización expresa del órgano competente",
+      "Únicamente los artículos 15 al 20",
       "Los derechos del Capítulo III del Título I"
     ],
     "correct": 1,
@@ -206,7 +206,7 @@ export const QUESTION_BANK = [
     "options": [
       "En ninguno de los anteriores",
       "Estado de excepción",
-      "Estado de sitio en el ámbito de la AGE",
+      "Estado de sitio",
       "Estado de alarma"
     ],
     "correct": 3,
@@ -223,7 +223,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué artículo constitucional fue reformado por primera vez en 1992 para permitir el sufragio pasivo de ciudadanos de la UE?",
     "options": [
       "Artículo 13.2",
-      "Artículo 23",
+      "Artículo 23 sobre derecho de sufragio activo y pasivo",
       "Artículo 14",
       "Artículo 68"
     ],
@@ -240,7 +240,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Qué consagra la reforma constitucional de 2011 sobre el artículo 135?",
     "options": [
-      "La abolición definitiva de la pena de muerte militar, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "La consagración expresa de la suficiencia financiera de las Comunidades Autónomas y Corporaciones Locales",
       "El principio de estabilidad presupuestaria y límite del déficit estructural",
       "La equiparación laboral de las parejas de hecho",
       "La eliminación de los privilegios forales"
@@ -258,7 +258,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 1: Constitución Española de 1978",
     "question": "¿Cuál es el contenido medular de la reforma constitucional del artículo 49 aprobada en febrero de 2024?",
     "options": [
-      "Elimina la palabra 'minusválidos' del artículo 14",
+      "Sustituye la palabra 'disminuidos' por 'personas en situación de vulnerabilidad social' extendiendo la protección asistencial integral",
       "Regula las pensiones asistenciales no contributivas",
       "Sustituye la palabra 'disminuidos' por 'personas con discapacidad' y adopta un enfoque de derechos humanos y accesibilidad",
       "Permite el voto a los mayores de 16 años con discapacidad"
@@ -295,7 +295,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuándo es OBLIGATORIO celebrar referéndum en una reforma constitucional según el artículo 168 (procedimiento agravado)?",
     "options": [
       "Siempre, una vez aprobada la reforma por las nuevas Cortes Generales",
-      "Solo si lo solicita una décima parte de los Diputados, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Únicamente si lo solicita una décima parte de los miembros de cualquiera de las Cámaras en el plazo de quince días",
       "Si lo decide el Presidente del Gobierno mediante Real Decreto",
       "Solo si afecta a la Corona"
     ],
@@ -312,10 +312,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Quién dirige la política interior y exterior, la administración civil y militar y la defensa del Estado según el art. 97 CE?",
     "options": [
-      "El Rey en el ámbito de la AGE",
+      "El Presidente del Gobierno en solitario",
       "El Gobierno",
-      "El Presidente del Congreso",
-      "El Consejo de Estado"
+      "Las Cortes Generales en sesión conjunta",
+      "El Rey como Jefe supremo de las Fuerzas Armadas"
     ],
     "correct": 1,
     "law": "Ley 50/1997 / CE",
@@ -330,7 +330,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Por quién está compuesto el Gobierno según el artículo 98.1 de la Constitución?",
     "options": [
-      "Por el Presidente, los Secretarios de Estado y los Subsecretarios, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Por el Presidente del Gobierno, los Secretarios de Estado de los departamentos y los Subsecretarios ministeriales",
       "Por el Presidente y los Ministros exclusivamente",
       "Por el Presidente, los Vicepresidentes en su caso, los Ministros y los demás miembros que establezca la ley",
       "Por el Rey, el Presidente y el Consejo de Ministros"
@@ -367,9 +367,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué carácter tienen las deliberaciones del Consejo de Ministros según la Ley 50/1997?",
     "options": [
       "Son secretas",
-      "Son públicas y retransmitidas por medios oficiales",
-      "Son reservadas únicamente para los temas de defensa",
-      "Son públicas salvo decisión en contrario del Presidente"
+      "Son públicas mediante emisión en directo",
+      "Son accesibles a través del Portal de Transparencia",
+      "Son reservadas únicamente para materias militares"
     ],
     "correct": 0,
     "law": "Ley 50/1997 del Gobierno",
@@ -384,10 +384,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Quién preside la Comisión General de Secretarios de Estado y Subsecretarios?",
     "options": [
-      "El Ministro de Defensa, previa propuesta motivada del órgano directivo correspondiente",
+      "El Ministro de Política Territorial y Memoria Democrática en representación directa del Consejo de Ministros",
       "El Vicepresidente del Gobierno o, en su defecto, el Ministro de la Presidencia",
       "El Secretario de Estado de Hacienda",
-      "El Subsecretario más antiguo, previa propuesta motivada del órgano directivo correspondiente"
+      "El Subsecretario más antiguo"
     ],
     "correct": 1,
     "law": "Ley 50/1997 del Gobierno",
@@ -402,7 +402,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Por cuántos Diputados debe ser propuesta una Moción de Censura según el artículo 113.2 de la CE?",
     "options": [
-      "Al menos por la quinta parte (1/5) de los Diputados, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Al menos por la quinta parte (1/5) de los Diputados",
       "Por la mayoría absoluta del Congreso",
       "Al menos por la décima parte (1/10) de los Diputados",
       "Por 50 Diputados"
@@ -421,7 +421,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué requisito imprescindible debe incluir la propuesta de moción de censura?",
     "options": [
       "Un programa presupuestario cerrado",
-      "La renuncia expresa a convocar elecciones durante dos años",
+      "La renuncia expresa e irrevocable a convocar elecciones generales anticipadas durante toda la legislatura restante",
       "La firma de los portavoces de tres grupos parlamentarios",
       "Un candidato a la Presidencia del Gobierno (moción constructiva)"
     ],
@@ -456,7 +456,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Quién tiene la iniciativa para plantear una Cuestión de Confianza (art. 112 CE)?",
     "options": [
-      "El Congreso de los Diputados",
+      "El Congreso de los Diputados a propuesta conjunta y motivada de al menos dos grupos parlamentarios de la Cámara",
       "El Presidente del Gobierno, previa deliberación del Consejo de Ministros",
       "El Consejo de Ministros en pleno por unanimidad",
       "Cualquier grupo parlamentario con más de 15 diputados"
@@ -474,10 +474,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Qué mayoría se requiere para que el Congreso otorgue la confianza en una Cuestión de Confianza?",
     "options": [
-      "Mayoría absoluta, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Mayoría de tres quintos en el ámbito de la AGE",
+      "Mayoría absoluta",
+      "Mayoría de tres quintos",
       "Mayoría simple de los Diputados",
-      "Mayoría de dos tercios en el ámbito de la AGE"
+      "Mayoría de dos tercios"
     ],
     "correct": 2,
     "law": "Constitución Española de 1978",
@@ -511,9 +511,9 @@ export const QUESTION_BANK = [
     "question": "¿Cuál de los siguientes órganos de la Administración General del Estado es un ÓRGANO DIRECTIVO?",
     "options": [
       "Subdirector General",
-      "Secretario de Estado",
-      "Ministro en el ámbito de la AGE",
-      "Presidente del Gobierno"
+      "Secretario de Estado del departamento",
+      "Subsecretario del ministerio",
+      "Director General de servicios"
     ],
     "correct": 0,
     "law": "Ley 40/2015",
@@ -530,7 +530,7 @@ export const QUESTION_BANK = [
     "options": [
       "Por Orden del Ministro de Hacienda entre funcionarios del Grupo C1",
       "Por Real Decreto del Consejo de Ministros, a propuesta del titular del Ministerio (Ministro), entre funcionarios de carrera del Subgrupo A1",
-      "Por el Delegado del Gobierno en la Comunidad Autónoma",
+      "Por Real Decreto acordado en Consejo de Ministros, a propuesta conjunta del Presidente del Gobierno y del Ministerio de Hacienda y Función Pública",
       "Por libre designación del Director General de la Función Pública"
     ],
     "correct": 1,
@@ -547,7 +547,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Qué rango ostentan los Delegados del Gobierno en las Comunidades Autónomas?",
     "options": [
-      "Rango de Ministro en el ámbito de la AGE",
+      "Rango de Ministro",
       "Rango de Director General",
       "Rango de Subsecretario",
       "Rango de Subdirector General"
@@ -565,7 +565,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Cómo son nombrados los Delegados del Gobierno en las CCAA?",
     "options": [
-      "Por el Delegado saliente a propuesta del Rey, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Por Real Decreto del Consejo de Ministros, a propuesta vinculante del Ministro de Política Territorial oído el Presidente autonómico",
       "Por Orden del Ministro del Interior",
       "Por elección directa del Parlamento autonómico",
       "Por Real Decreto del Consejo de Ministros, a propuesta del Presidente del Gobierno"
@@ -584,7 +584,7 @@ export const QUESTION_BANK = [
     "question": "¿Quién nombra a los Subdelegados del Gobierno en las provincias?",
     "options": [
       "El Delegado del Gobierno en la Comunidad Autónoma",
-      "El Consejo de Ministros mediante Real Decreto, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "El Consejo de Ministros mediante Real Decreto, a propuesta del titular del Ministerio del Interior",
       "El Presidente del Gobierno",
       "El Ministro de Política Territorial"
     ],
@@ -601,10 +601,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 2: El Gobierno y la AGE",
     "question": "¿Qué rango tienen los Subdelegados del Gobierno en las provincias según la Ley 40/2015?",
     "options": [
-      "Rango de Subsecretario, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Rango de Subsecretario de departamento ministerial",
       "Rango de Subdirector General",
-      "Rango de Director General en el ámbito de la AGE",
-      "Rango de Consejero Técnico en el ámbito de la AGE"
+      "Rango de Director General",
+      "Rango de Consejero Técnico"
     ],
     "correct": 1,
     "law": "Ley 40/2015",
@@ -638,9 +638,9 @@ export const QUESTION_BANK = [
     "question": "Si un contrato que exige legalmente forma escrita no se celebra por escrito, ¿qué presume la ley?",
     "options": [
       "Que el contrato es nulo de pleno derecho",
-      "Que se extingue automáticamente sin derecho a salario",
+      "Que queda extinguido automáticamente sin devengo de salarios ni derecho a formular reclamación judicial ante la jurisdicción social",
       "Que es un contrato temporal de 6 meses",
-      "Que se presumirá celebrado por tiempo indefinido y a jornada completa, salvo prueba en contrario"
+      "Que se presumirá celebrado por tiempo indefinido y a jornada completa, salvo prueba en contrario que acredite su naturaleza temporal"
     ],
     "correct": 3,
     "law": "Estatuto de los Trabajadores",
@@ -673,9 +673,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "Según el artículo 32.1 del IV CUAGE, ¿cuál es la duración del período de prueba para el personal de nuevo ingreso sin titulación (Grupo Profesional E0)?",
     "options": [
-      "1 mes en el ámbito de la AGE",
+      "1 mes",
       "15 días laborables",
-      "3 meses en el ámbito de la AGE",
+      "3 meses",
       "Sin período de prueba"
     ],
     "correct": 1,
@@ -691,7 +691,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cuál de las siguientes causas extingue el contrato de trabajo según el artículo 49 del ET?",
     "options": [
-      "Incapacidad temporal por enfermedad común de 1 mes",
+      "Incapacidad temporal derivada de accidente laboral común superior a tres semanas",
       "Huelga legal convocada por los sindicatos",
       "Expiración del tiempo convenido en contratos temporales válidos",
       "Excedencia por cuidado de hijos"
@@ -710,7 +710,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el efecto jurídico principal de la SUSPENSIÓN del contrato de trabajo (art. 45 ET)?",
     "options": [
       "Extingue definitivamente el vínculo laboral",
-      "Inhabilita al trabajador para toda actividad en el sector público",
+      "Inhabilita al trabajador para el desempeño de cualquier función pública durante tres años",
       "OBLIGA al abono íntegro del salario ordinario sin trabajar",
       "Exonera de las obligaciones recíprocas de trabajar y remunerar el trabajo"
     ],
@@ -763,7 +763,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Qué trámite preceptivo debe cumplir la Administración antes de imponer una sanción por falta muy grave o despido a un empleado laboral fijo?",
     "options": [
-      "Publicación previa en el BOE, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Publicación previa y preceptiva de la propuesta de resolución sancionadora en el Boletín Oficial del Estado",
       "Aprobación por el Consejo de Ministros",
       "Instrucción de un expediente disciplinario contradictorio con trámite de audiencia al interesado",
       "Juicio previo ante el Tribunal Supremo"
@@ -781,7 +781,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿A qué titulación de acceso se vincula el Grupo Profesional E1 en el IV Convenio Único de la AGE?",
     "options": [
-      "Título de Bachiller o FP Grado Medio",
+      "Título de Técnico Medio de Formación Profesional o Certificado de Profesionalidad de nivel 2",
       "Título universitario de Grado",
       "Título de FP de Grado Superior",
       "Título de Graduado en ESO o Certificado de Profesionalidad de nivel 1"
@@ -800,9 +800,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué especialidad dentro del Grupo E1 del Ministerio de Defensa corresponde a los puestos de conserjería, atención y recados?",
     "options": [
       "Servicios Administrativos",
-      "Mantenimiento General, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Vigilancia de Obras en el ámbito de la AGE",
-      "Conducción de Vehículos en el ámbito de la AGE"
+      "Mantenimiento General",
+      "Vigilancia de Obras",
+      "Conducción de Vehículos"
     ],
     "correct": 0,
     "law": "Convocatoria E1 Defensa",
@@ -817,9 +817,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "Durante el periodo de prueba pactado válidamente, ¿puede extinguirse la relación laboral?",
     "options": [
-      "No, es obligatorio esperar a que finalice, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "No, es obligatorio esperar a que finalice el periodo",
       "Sí, a instancia de cualquiera de las partes, sin preaviso y sin derecho a indemnización",
-      "Sí, pero exige abonar 20 días de salario por año",
+      "Sí, pero exige siempre el abono previo de una indemnización tasada de veinte días de salario por año de servicio",
       "Solo si el trabajador comete falta muy grave probada"
     ],
     "correct": 1,
@@ -835,7 +835,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Qué calificación judicial recibe un despido si la Administración no respeta las formalidades legales (expediente previo, forma escrita)?",
     "options": [
-      "Procedente, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Procedente con derecho al abono de doce días de salario por año de servicio prestado",
       "Válido de pleno derecho",
       "Improcedente (o nulo si vulnera derechos fundamentales)",
       "Suspensivo"
@@ -853,7 +853,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cómo computan las faltas de asistencia motivadas por el disfrute de permisos retribuidos fijados en el CUAGE?",
     "options": [
-      "Como faltas injustificadas a efectos de despido",
+      "Como ausencias no justificadas a efectos del cómputo de absentismo laboral y despido objetivo",
       "Obligan a recuperar las horas en el mismo mes",
       "Dan lugar a deducción proporcional de haberes",
       "Computan como tiempo de trabajo efectivo debidamente acreditado"
@@ -872,9 +872,9 @@ export const QUESTION_BANK = [
     "question": "¿A quién se debe dar audiencia preceptiva en el expediente disciplinario previo al despido si el trabajador es delegado sindical?",
     "options": [
       "A los restantes miembros de la representación sindical a la que pertenezca",
-      "A la Inspección de Trabajo exclusivamente",
-      "Al Ministerio Fiscal, según determine la normativa específica aplicable",
-      "Al Defensor del Pueblo, según determine la normativa específica aplicable"
+      "A la Comisión Paritaria del Convenio Único y a la Inspección de Trabajo y Seguridad Social",
+      "Al Ministerio Fiscal",
+      "Al Defensor del Pueblo"
     ],
     "correct": 0,
     "law": "Estatuto de los Trabajadores",
@@ -889,10 +889,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Puede un trabajador laboral de la AGE renunciar válidamente a los derechos reconocidos en el convenio colectivo en su contrato individual?",
     "options": [
-      "Sí, rige la libre autonomía de la voluntad",
+      "Sí, siempre que medie consentimiento expreso e informado por escrito ante la Inspección Provincial de Trabajo y Seguridad Social competente",
       "No, los trabajadores no pueden disponer válidamente de los derechos reconocidos por disposiciones legales de derecho necesario ni convenio",
-      "Sí, con la firma de dos testigos, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Solo si percibe una compensación económica, salvo autorización expresa del órgano competente"
+      "Sí, con la firma de dos testigos",
+      "Solo si percibe una compensación económica"
     ],
     "correct": 1,
     "law": "Estatuto de los Trabajadores",
@@ -907,7 +907,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
     "question": "¿Cuál de las siguientes causas NO constituye un despido disciplinario, sino extinción por causas objetivas?",
     "options": [
-      "La embriaguez habitual que repercute en el trabajo",
+      "La transgresión de la buena fe contractual y el abuso de confianza en el desempeño del trabajo",
       "La indisciplina continuada",
       "La ineptitud del trabajador conocida o sobrevenida",
       "El acoso sexual a un compañero"
@@ -944,7 +944,7 @@ export const QUESTION_BANK = [
     "question": "Según el artículo 6.1 de la LO 3/2007, la discriminación directa por razón de sexo se define como:",
     "options": [
       "La situación en que una persona sea tratada de manera menos favorable que otra en situación comparable por razón de su sexo",
-      "La situación en que un criterio aparentemente neutro desfavorece a un sexo, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "La situación en que una disposición, criterio o práctica aparentemente neutros sitúa a personas de un sexo en desventaja particular",
       "Cualquier comentario verbal sobre el aspecto físico",
       "Toda diferencia retributiva no pactada en convenio"
     ],
@@ -961,7 +961,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Cómo se define la DISCRIMINACIÓN INDIRECTA en el artículo 6.2 de la LO 3/2007?",
     "options": [
-      "Un insulto motivado por el sexo de la persona, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Cualquier trato desfavorable hacia las mujeres relacionado con el embarazo, la maternidad o la asunción de obligaciones familiares de cuidado",
       "Una disposición, criterio o práctica aparentemente neutros que sitúa a personas de un sexo en desventaja particular respecto a las del otro",
       "Un trato hostil exclusivo entre compañeros del mismo departamento",
       "La negativa a conceder permisos de paternidad"
@@ -979,8 +979,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Qué constituye 'acoso sexual' según el artículo 7.1 de la Ley Orgánica 3/2007?",
     "options": [
-      "Cualquier retraso reiterado en el horario de entrada, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "La discrepancia sobre el reparto de tareas en el trabajo",
+      "Cualquier retraso reiterado en el horario de entrada",
+      "Cualquier conducta sistemática realizada en función del sexo con el objetivo o consecuencia de atentar contra la dignidad personal y crear un entorno intimidatorio",
       "Cualquier comportamiento verbal o físico de naturaleza sexual que atente contra la dignidad de la persona y cree un entorno intimidatorio, degradante u ofensivo",
       "La denegación motivada de una solicitud de traslado"
     ],
@@ -997,7 +997,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿A quién se aplica el concepto de violencia de género según el artículo 1 de la Ley Orgánica 1/2004?",
     "options": [
-      "A toda violencia física ejercida entre cualquier miembro del núcleo familiar",
+      "A cualquier manifestación de violencia física, psicológica o económica producida en el ámbito intrafamiliar entre parientes de primer o segundo grado",
       "A los robos cometidos con intimidación sobre mujeres",
       "A los altercados laborales entre compañeros de distinto sexo",
       "A la ejercida sobre las mujeres por parte de quienes sean o hayan sido sus cónyuges o estén ligados por relaciones de afectividad, aun sin convivencia"
@@ -1051,10 +1051,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Cuántos grados de dependencia establece el artículo 26 de la Ley 39/2006?",
     "options": [
-      "Dos grados, según determine la normativa específica aplicable, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Cuatro grados, según determine la normativa específica aplicable",
+      "Dos grados",
+      "Cuatro grados",
       "Tres grados: Grado I (Moderada), Grado II (Severa) y Grado III (Gran Dependencia)",
-      "Cinco niveles asistenciales, según determine la normativa específica aplicable"
+      "Cinco niveles asistenciales"
     ],
     "correct": 2,
     "law": "Ley 39/2006 de Dependencia",
@@ -1070,8 +1070,8 @@ export const QUESTION_BANK = [
     "question": "En la Ley 39/2006, la persona que necesita ayuda dos o tres veces al día para actividades básicas, pero no un cuidador permanente, se halla en:",
     "options": [
       "Grado I: Dependencia moderada",
-      "Grado 0: Autonomía relativa en el ámbito de la AGE",
-      "Grado III: Gran dependencia en el ámbito de la AGE",
+      "Grado 0: Autonomía relativa",
+      "Grado III: Gran dependencia",
       "Grado II: Dependencia severa"
     ],
     "correct": 3,
@@ -1088,7 +1088,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el objeto de la Ley 15/2022, de 12 de julio?",
     "options": [
       "La igualdad integral de trato y la no discriminación",
-      "Regular los contratos del sector público",
+      "La regulación básica de la contratación administrativa en las administraciones públicas",
       "El régimen fiscal de las fundaciones",
       "La ordenación del transporte terrestre"
     ],
@@ -1105,7 +1105,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Qué prohíbe taxativamente la Ley 4/2023 para la igualdad real de las personas trans y de garantía de derechos LGTBI?",
     "options": [
-      "El cambio registral de sexo, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "La rectificación registral de la mención del sexo sin necesidad de someterse previamente a tratamientos médicos o quirúrgicos",
       "Las prácticas o métodos de modificación de la orientación, identidad o expresión de género (terapias de conversión)",
       "La existencia de asociaciones LGTBI en la universidad",
       "La adopción por parejas del mismo sexo"
@@ -1123,7 +1123,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Tienen derecho las empleadas públicas víctimas de violencia de género a la reordenación o reducción de su tiempo de trabajo?",
     "options": [
-      "No, las normas de función pública son inflexibles, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "No, el régimen general de jornada de los empleados públicos es improrrogable e inalterable en todo caso",
       "Solo si han sufrido lesiones físicas graves constatadas",
       "Sí, tienen derecho a la adaptación, reducción con deducción o reordenación de su jornada",
       "Solo si acreditan una antigüedad mínima de 5 años"
@@ -1141,9 +1141,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "En un proceso judicial sobre discriminación por razón de sexo, cuando la persona perjudicada alegue indicios fundados, ¿a quién corresponde la carga de la prueba?",
     "options": [
-      "Siempre al demandante sin excepción, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Al juez de oficio, según determine la normativa específica aplicable",
-      "Al Ministerio Fiscal exclusivamente, según determine la normativa específica aplicable",
+      "Siempre a la persona demandante, debiendo aportar prueba plena y directa de la intencionalidad discriminatoria",
+      "Al juez de oficio",
+      "Al Ministerio Fiscal exclusivamente",
       "A la parte demandada, que debe probar la ausencia de discriminación (inversión de la carga de la prueba)"
     ],
     "correct": 3,
@@ -1160,9 +1160,9 @@ export const QUESTION_BANK = [
     "question": "¿Están obligadas las Administraciones Públicas a contar con un Plan de Igualdad para su personal?",
     "options": [
       "Sí, todas las Administraciones Públicas deberán aprobar periódicamente un Plan de Igualdad para sus empleadas y empleados",
-      "No, solo las empresas privadas de más de 50 trabajadores",
-      "Solo los Ayuntamientos de más de 500.000 habitantes, salvo autorización expresa del órgano competente",
-      "Únicamente si lo impone una sentencia judicial, salvo autorización expresa del órgano competente"
+      "No, la exigencia legal de planes de igualdad se reserva preceptivamente a las empresas privadas con más de cincuenta trabajadores",
+      "Solo los Ayuntamientos de más de 500.000 habitantes",
+      "Únicamente si lo impone una sentencia judicial"
     ],
     "correct": 0,
     "law": "Ley Orgánica 3/2007 / TREBEP",
@@ -1177,10 +1177,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
     "question": "¿Qué principio orienta las adaptaciones y accesibilidad para personas con discapacidad en edificios públicos según el RDL 1/2013?",
     "options": [
-      "Principio de beneficencia asistencial",
+      "Principio de proporcionalidad técnica y disponibilidad presupuestaria anual",
       "Diseño universal o diseño para todas las personas y accesibilidad universal",
       "Principio de uniformidad arquitectónica",
-      "Tolerancia pasiva, según determine la normativa específica aplicable"
+      "Tolerancia pasiva"
     ],
     "correct": 1,
     "law": "RDL 1/2013 TRLGDPD",
@@ -1232,7 +1232,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el primer paso obligatorio que debe realizar el personal de control de accesos ante la llegada de un visitante a un edificio administrativo militar?",
     "options": [
       "Saludar con cortesía y solicitar un documento oficial de identidad en vigor",
-      "Pedirle que espere en la calle sin mediar palabra, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Permitirle el paso inmediato a la sala de espera sin verificar previamente su identidad",
       "Entregarle de inmediato la llave del despacho al que se dirige",
       "Registrar sus pertenencias abriendo manualmente su maletín"
     ],
@@ -1249,10 +1249,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Cuál de los siguientes documentos es un medio oficial principal y preferente para acreditar la identidad de un ciudadano español en el control de acceso?",
     "options": [
-      "El carnet de socio de una biblioteca pública",
-      "El Documento Nacional de Identidad (DNI) o Pasaporte en vigor",
-      "Una fotocopia simple no compulsada del DNI caducado",
-      "Una tarjeta de transporte municipal"
+      "Carné de conducir o tarjeta de afiliación a un colegio profesional u organización de ámbito representativo",
+      "Documento Nacional de Identidad (DNI), Pasaporte o Número de Identidad de Extranjero (NIE/TIE) en vigor",
+      "Tarjeta de transporte público",
+      "Carné de biblioteca municipal"
     ],
     "correct": 1,
     "law": "Ley Orgánica 4/2015",
@@ -1267,10 +1267,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué datos mínimos deben hacerse constar en el Libro de Control de Accesos o sistema informático de registro de visitas?",
     "options": [
-      "Únicamente el nombre de pila y la hora de salida, salvo autorización expresa del órgano competente, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Número de teléfono personal y profesión del cónyuge",
-      "Nombre y apellidos, documento de identidad, hora de entrada, destino/persona a la que visita y número de tarjeta/pase asignado",
-      "Afiliación sindical y religión, según determine la normativa específica aplicable"
+      "Fecha de nacimiento, estado civil, número de hijos menores de edad y domicilio particular de empadronamiento habitual",
+      "Número de cuenta bancaria y teléfono móvil",
+      "Fecha, hora de entrada, nombre y apellidos, número de documento identificativo, motivo y departamento al que acude",
+      "Nivel de ingresos y profesión"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1285,10 +1285,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Dónde debe portar la tarjeta de identificación o pase de visitante la persona autorizada a entrar en el recinto?",
     "options": [
-      "Guardada en el fondo de su cartera personal, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "En la mano izquierda en todo momento",
-      "Oculta bajo la chaqueta, según determine la normativa específica aplicable",
-      "En un lugar visible de su indumentaria (solapa o pecho) durante toda su permanencia"
+      "Guardada en el bolsillo interior de la chaqueta o dentro del bolso de mano cerrado",
+      "En el interior de la cartera de mano",
+      "En el maletero de su vehículo",
+      "En lugar bien visible durante toda su permanencia en el edificio oficial"
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1306,7 +1306,7 @@ export const QUESTION_BANK = [
       "Denegar pacíficamente el acceso y avisar de inmediato a la Guardia de Seguridad Militar o Policía/Vigilancia",
       "Permitir el acceso provisional anotando la negativa en el libro de incidencias para su posterior comprobación",
       "Permitirle el paso acompañándolo en silencio hasta el despacho solicitado bajo custodia del ordenanza",
-      "Retener cautelarmente sus efectos y pertenencias en conserjería hasta que consienta en mostrar el documento"
+      "Exigirle el pago previo de una fianza administrativa para poder acceder al edificio oficial"
     ],
     "correct": 0,
     "law": "Ley Orgánica 4/2015",
@@ -1321,10 +1321,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Cómo debe custodiarse el armario o tablero de llaves (clavero) de un centro administrativo o acuartelamiento?",
     "options": [
-      "Abierto permanentemente para que cualquier trabajador tome la llave que desee, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Cerrado con llave en el puesto de conserjería o control y accesible únicamente al personal autorizado",
-      "En el pasillo general al alcance del público",
-      "En una caja de cartón bajo el mostrador"
+      "Proceder a la detención física y cacheo corporal del infractor mediante el empleo de medios defensivos reglamentarios",
+      "Avisar inmediatamente a las Fuerzas y Cuerpos de Seguridad o al servicio de vigilancia armada del edificio",
+      "Perseguir al intruso por las dependencias",
+      "Ignorar el hecho si no hay daños visibles"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1339,10 +1339,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué trámite debe realizarse preceptivamente cada vez que se entrega una llave oficial a un usuario?",
     "options": [
-      "Exigir una fianza en metálico de 50 euros",
-      "Entregarla sin más formalidades si se conoce al solicitante de vista",
-      "Anotar fecha, hora, llave entregada, datos del solicitante y recabar su firma en el Libro de Registro de Llaves",
-      "Fotocopiar la llave en la máquina multifunción"
+      "En el cajón del escritorio del mostrador principal al alcance de cualquier persona autorizada",
+      "Sobre la mesa del mostrador a la vista",
+      "En el armario o panel clavero de conserjería debidamente identificado y cerrado con llave",
+      "En una caja de cartón sin etiquetar"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1357,10 +1357,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Dónde deben custodiarse las llaves maestras o llaves de emergencia del edificio?",
     "options": [
-      "En el mismo llavero de uso diario junto a la puerta principal",
-      "En el cuadro general de contadores eléctricos",
-      "En el bolsillo del auxiliar de servicio",
-      "En una caja de seguridad o sobre sellado y precintado, utilizables exclusivamente en emergencias y bajo autorización expresa"
+      "A cualquier empleado público del edificio que manifieste verbalmente necesidad urgente de acceso fuera de jornada oficial",
+      "A cualquier visitante que lo solicite",
+      "Solo al personal de limpieza de guardia",
+      "Únicamente a las personas expresamente autorizadas, previa comprobación de identidad y firma de entrega en el registro"
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1375,10 +1375,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué pauta de conducta debe regir en la atención ciudadana en el puesto de conserjería?",
     "options": [
-      "Escucha activa, tono educado, lenguaje claro y orientación profesional eficaz",
-      "Trato distante, displicente y cortante",
-      "Uso de tecnicismos incomprensibles para acortar la consulta",
-      "Derivar a todo ciudadano a la página web sin atender su duda"
+      "Ponerlo de inmediato en conocimiento de los responsables de seguridad y anular la tarjeta en el sistema informático",
+      "Facilitar al usuario una copia manuscrita provisional autorizándole el libre tránsito durante tres semanas consecutivas",
+      "No hacer nada y esperar a que aparezca",
+      "Culpar por escrito al visitante ausente"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1393,10 +1393,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "Si un visitante acude con cita previa pero la persona o negociado con el que tiene la cita se encuentra ausente, ¿qué debe hacer el conserje?",
     "options": [
-      "Dejar pasar al visitante para que espere dentro del despacho oficial a solas hasta que regrese el responsable, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Informar cortésmente de la incidencia, comprobar si otro funcionario puede atenderle o gestionar nueva cita sin dejarle solo en zonas reservadas",
-      "Requerir al visitante que abandone el recinto inmediatamente sin ofrecerle la posibilidad de reagendar la cita",
-      "Retener el documento de identidad en el control de acceso hasta que el titular de la unidad comparezca en el centro"
+      "Permitir la entrada libre a cualquier automóvil oficial sin necesidad de cotejar matrícula ni identificar al conductor",
+      "Comprobar la matrícula, autorización previa del vehículo, identificar al conductor y verificar el motivo del servicio",
+      "Abrir la barrera a cualquier vehículo",
+      "Inspeccionar con perros todos los coches"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1429,7 +1429,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "Al término de la visita, ¿qué gestión debe realizarse obligatoriamente en el control de acceso?",
     "options": [
-      "Registrar sus huellas dactilares, según determine la normativa específica aplicable, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Registrar sus huellas dactilares",
       "Permitir que el visitante se lleve el pase a su domicilio",
       "Cobrar una tasa de salida",
       "Retirar el pase de visitante, anotar la hora exacta de salida en el registro y devolver el documento que se hubiera retenido"
@@ -1448,9 +1448,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué función tiene un torno de acceso con lector de tarjetas de proximidad (RFID) en una sede ministerial?",
     "options": [
       "Automatizar el control y paso de personal acreditado impidiendo el acceso a personas no autorizadas",
-      "Limpiar el calzado de los usuarios, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Limpiar el calzado de los usuarios",
       "Pesar a los empleados a la entrada",
-      "Controlar la temperatura corporal, según determine la normativa específica aplicable"
+      "Controlar la temperatura corporal"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1465,7 +1465,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "En un acuartelamiento, si una persona que dice ser familiar de un militar intenta entrar sin cita previa ni aviso, ¿qué debe hacer el conserje?",
     "options": [
-      "Permitirle entrar de inmediato por ser familiar directo, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Permitirle entrar de inmediato por ser familiar directo",
       "Retenerlo en el puesto de acceso, contactar telefónicamente con la unidad del militar para confirmar si autoriza la visita y recabar instrucciones",
       "Negarle el paso de por vida",
       "Entregarle el plano secreto de la base"
@@ -1483,7 +1483,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué elemento de seguridad pasiva se utiliza habitualmente en el control de accesos para inspeccionar bultos y mochilas?",
     "options": [
-      "Una báscula de cocina, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Una báscula de cocina",
       "Un espejo de aumento",
       "El escáner de rayos X y el arco detector de metales",
       "Un lector de códigos de barras"
@@ -1501,9 +1501,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Está facultado el personal de conserjería E1 para requisar armas u objetos peligrosos mediante el uso de la fuerza?",
     "options": [
-      "Sí, tienen la misma potestad que un agente de la autoridad, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "Solo si cuenta con cinturón policial propio, salvo autorización expresa del órgano competente",
-      "Sí, pero solo con armas blancas, salvo autorización expresa del órgano competente",
+      "Sí, tienen la misma potestad que un agente de la autoridad",
+      "Solo si cuenta con cinturón policial propio",
+      "Sí, pero solo con armas blancas",
       "No; ante la detección de un objeto peligroso o arma, debe avisar de inmediato a la Guardia Militar o Fuerzas de Seguridad"
     ],
     "correct": 3,
@@ -1520,7 +1520,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el trato debido ante una persona con discapacidad visual que acude al edificio acompañada de un perro guía?",
     "options": [
       "Permitir el libre acceso del perro guía junto a su titular en todas las dependencias de uso público del edificio",
-      "Prohibir la entrada del perro guía por razones de higiene, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Prohibir la entrada del perro guía por razones de higiene",
       "Exigir que el perro quede atado en la calle",
       "Cobrar un suplemento de acceso de animales"
     ],
@@ -1537,9 +1537,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Cómo debe identificarse el personal de contratas de mantenimiento o limpieza para acceder a las dependencias oficiales?",
     "options": [
-      "Basta con que lleven uniforme de trabajo puesto, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Basta con que lleven uniforme de trabajo puesto",
       "Mediante documento de identidad y comprobación en la lista previa de personal autorizado remitida por su empresa a la Oficina de Seguridad",
-      "Diciendo el nombre del jefe de compras, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Diciendo el nombre del jefe de compras",
       "Sin ningún control si entran en grupo"
     ],
     "correct": 1,
@@ -1555,8 +1555,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué debe hacer el conserje si al final de la jornada laboral constata en el Libro de Accesos que un visitante no ha registrado su salida?",
     "options": [
-      "Borrar el registro para que cuadre el parte, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Ignorar la incidencia y apagar las luces, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Borrar el registro para que cuadre el parte",
+      "Ignorar la incidencia y apagar las luces",
       "Comprobar el despacho o unidad visitada para verificar si ya abandonó el edificio o si permanece en el interior, e informar a la guardia de seguridad",
       "Presentar una denuncia por desaparición a los juzgados"
     ],
@@ -1573,7 +1573,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Cuál de las siguientes afirmaciones sobre el Libro de Registro de Visitas es correcta según la normativa de protección de datos (RGPD)?",
     "options": [
-      "Los datos de los visitantes pueden publicarse en el tablón de anuncios, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Los datos de los visitantes pueden publicarse en el tablón de anuncios",
       "Los datos deben venderse a empresas de publicidad",
       "Cualquier ciudadano puede consultar el DNI de los demás visitantes",
       "El libro o registro informático debe custodiarse bajo estricta confidencialidad y los datos solo se conservan durante el tiempo necesario para fines de seguridad"
@@ -1592,9 +1592,9 @@ export const QUESTION_BANK = [
     "question": "Si un repartidor acude con un paquete urgente dirigido a un despacho, ¿puede el conserje autorizarle a subir solo y recorrer libremente el acuartelamiento?",
     "options": [
       "No; por razones de seguridad, el conserje recibe el paquete en conserjería o avisa al destinatario para que baje a recogerlo al control",
-      "Sí, si el repartidor afirma tener prisa, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "Sí, siempre que le deje las llaves de su furgoneta, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "Solo si el edificio tiene menos de tres plantas, salvo autorización expresa del órgano competente"
+      "Sí, si el repartidor afirma tener prisa",
+      "Sí, siempre que le deje las llaves de su furgoneta",
+      "Solo si el edificio tiene menos de tres plantas"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1609,7 +1609,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "¿Qué debe comprobarse en las tarjetas de acceso de proximidad cuando un empleado es trasladado o causa baja definitiva?",
     "options": [
-      "Archivar la tarjeta en la conserjería sin darla de baja por si el empleado reingresa en el mismo centro de destino, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Archivar la tarjeta en la conserjería sin darla de baja por si el empleado reingresa en el mismo centro de destino",
       "Debe procederse a la retirada física de la tarjeta y a su desactivación inmediata en el sistema informático de control de accesos",
       "Entregar directamente la tarjeta al nuevo empleado sustituto manteniendo activos los mismos permisos y datos",
       "Autorizar al empleado cesante a conservar la tarjeta con privilegios reducidos a zonas comunes y aparcamiento"
@@ -1627,10 +1627,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "En caso de evacuación del edificio por alarma de incendio, ¿cuál es la misión prioritaria del personal de conserjería en el acceso principal?",
     "options": [
-      "Recoger todas las monedas de la máquina de café, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Encerrarse en el mostrador hasta que pase el peligro, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Recoger todas las monedas de la máquina de café",
+      "Encerrarse en el mostrador hasta que pase el peligro",
       "Facilitar la evacuación abriendo completamente las vías de salida, impedir el reingreso de personas y colaborar con los servicios de bomberos/emergencia",
-      "Empezar a archivar expedientes, según determine la normativa específica aplicable"
+      "Empezar a archivar expedientes"
     ],
     "correct": 2,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -1645,10 +1645,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué documento mercantil acompaña habitualmente a una entrega de mercancías o paquetería y sirve para acreditar la recepción física de los bultos?",
     "options": [
-      "La póliza de seguros del transportista",
-      "La escritura de constitución de la empresa",
-      "El certificado de empadronamiento del conductor",
-      "El albarán o nota de entrega"
+      "La factura definitiva original conformada por la Intervención General de la Administración del Estado",
+      "El contrato administrativo de suministros",
+      "La memoria económica de gastos del centro",
+      "El albarán o nota de entrega que acredita la recepción física del material suministrado"
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1663,10 +1663,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "Al recepcionar un envío con varios bultos, ¿qué comprobación primordial debe realizar el conserje antes de estampar su firma en el albarán?",
     "options": [
-      "Comprobar que el número físico de bultos coincide exactamente con el indicado en el albarán y verificar el estado externo del embalaje",
-      "Pesar cada paquete en una balanza de precisión atómica, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Abrir todos los paquetes para inspeccionar su diseño",
-      "Firmar inmediatamente sin mirar los paquetes"
+      "Contar el número de bultos y verificar que coincide exactamente con el indicado en el albarán del transportista",
+      "Abrir inmediatamente el embalaje interior de cada caja para verificar la marca comercial de los productos recibidos",
+      "Firmar el albarán sin comprobar los paquetes",
+      "Pesar cada paquete en báscula de precisión"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1681,10 +1681,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "Si un paquete presenta signos externos evidentes de rotura, humedad o aplastamiento, ¿qué debe hacer el receptor en el albarán del transportista?",
     "options": [
-      "Negarse a firmar y destruir el paquete, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "Firmar haciendo constar por escrito la reserva o salvedad: 'Bulto con desperfectos exteriores / pendiente de examen'",
-      "Firmar conforme como si estuviera intacto",
-      "Pagar el doble de la tarifa"
+      "Firmar el albarán con absoluta normalidad y gestionar la reclamación verbal con el transportista en días posteriores",
+      "Hacer constar la salvedad o reserva expresa en el albarán ('caja rota/dañada') antes de estampar la firma",
+      "Aceptar el paquete y guardarlo en silencio",
+      "Tirar la caja rota a la basura del centro"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1699,10 +1699,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué datos debe estampar el personal de conserjería en el albarán al aceptar la entrega de paquetería?",
     "options": [
-      "Su número de cuenta bancaria, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Únicamente una cruz sin nombre, salvo autorización expresa del órgano competente",
-      "Fecha, hora, nombre y apellidos legibles, número de DNI y firma, junto con el sello de recepción de la unidad",
-      "El color de su vehículo"
+      "Firma abreviada sin sello, omitiendo deliberadamente la fecha para que el suministrador complete la entrega formal",
+      "Únicamente su rúbrica abreviada ilegible",
+      "Sello oficial de la dependencia, fecha exacta, firma legible y número de identificación profesional o DNI",
+      "El precio que cuesta el transporte"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1717,10 +1717,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué se entiende por 'Valija Oficial' en el ámbito del Ministerio de Defensa y la Administración?",
     "options": [
-      "Un concurso de méritos para el personal laboral, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "El vehículo particular del Director General",
-      "Una máquina para destruir documentos clasificados",
-      "Un sistema seguro y regular de transporte y distribución de documentación y correspondencia oficial entre distintos órganos y bases"
+      "El envío postal ordinario contratado a través de empresas privadas de reparto domiciliario sin precinto ni custodia oficial de registro",
+      "Un paquete de comida para la cafetería",
+      "La correspondencia personal del conserje",
+      "El sistema seguro y regulado de transporte interno de documentos y correspondencia entre órganos y dependencias del departamento"
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1735,10 +1735,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Cómo se asegura el cierre de las sacas de valija oficial para garantizar su inviolabilidad durante el trayecto?",
     "options": [
-      "Con un precinto numerado de seguridad o candado específico verificado en la hoja de ruta",
-      "Con una cuerda anudada con lazo simple, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "Con cinta adhesiva transparente corriente",
-      "Sin ningún cierre, según determine la normativa específica aplicable"
+      "Garantizar la inviolabilidad del contenido e impedir aperturas no autorizadas durante el trayecto",
+      "Facilitar el pesaje automático del saco o saca oficial en las básculas de la empresa concesionaria de transporte",
+      "Hacer que el saco pese más para el viaje",
+      "Indicar el nombre del fabricante del saco"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1753,10 +1753,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué documento acompaña a la saca de valija oficial relacionando todos los envíos que contiene?",
     "options": [
-      "La nómina de los ordenanzas, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "La Hoja de Ruta o Manifiesto de Valija",
-      "El parte médico del conductor en el ámbito de la AGE",
-      "La factura eléctrica del cuartel en el ámbito de la AGE"
+      "Abrir el paquete con un cúter en conserjería para comprobar el remitente antes de alertar a la jefatura de unidad",
+      "No manipularlo, aislar la zona de inmediato y avisar a los servicios de seguridad competentes o al TEDAX",
+      "Llevarlo en mano al despacho del Jefe",
+      "Agitarlo para escuchar lo que lleva dentro"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1771,10 +1771,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Está permitido incluir envíos personales de los trabajadores, objetos de comercio privado o dinero en la valija oficial?",
     "options": [
-      "Sí, siempre que no superen los 500 gramos, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Sí, los viernes por la tarde",
-      "No, está terminantemente prohibido; solo admite documentación y material oficial del servicio",
-      "Solo con autorización del conserje mayor, salvo autorización expresa del órgano competente"
+      "Sustituir el precinto roto por una brida de plástico ordinaria y distribuir la correspondencia sin comunicar la anomalía",
+      "Ocultar la rotura pegando cinta aislante",
+      "Levantar acta o diligencia de la incidencia, detallar el estado del precinto y comunicarlo de inmediato al remitente",
+      "Rechazar la valija y destruirla allí mismo"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -1789,8 +1789,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "Al recepcionar la saca de valija oficial, ¿qué comprobación física debe realizarse antes de abrirla?",
     "options": [
-      "Dejarla 48 horas en un armario antes de mirarla, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "Pesarse con la saca en brazos, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Dejarla 48 horas en un armario antes de mirarla",
+      "Pesarse con la saca en brazos",
       "Cortar la saca por la mitad con tijeras",
       "Comprobar que el número de precinto coincide exactamente con el indicado en la hoja de ruta y que no presenta cortes ni signos de manipulación"
     ],
@@ -1808,7 +1808,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es la primera regla básica de actuación ante la recepción de una carta o paquete SOSPECHOSO?",
     "options": [
       "NO abrirlo, NO agitarlo, NO manipularlo y depositarlo suavemente sobre una superficie despejada",
-      "Agitarlo fuertemente para ver si suena algún mecanismo, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Agitarlo fuertemente para ver si suena algún mecanismo",
       "Sumergirlo inmediatamente en un cubo de agua fría",
       "Llevarlo en mano al despacho del Coronel para consultarle"
     ],
@@ -1825,7 +1825,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Cuál de los siguientes indicios puede hacer sospechar de la peligrosidad de un paquete postal?",
     "options": [
-      "Embalaje impecable con remitente y cargo oficial perfectamente impreso, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Embalaje impecable con remitente y cargo oficial perfectamente impreso",
       "Manchas de grasa, olores químicos extraños (almendras/gasolina), cables visibles, peso asimétrico o exceso injustificado de franqueo",
       "Un sobre DIN A4 con membrete del BOE",
       "Un envío certificado recibido a través del cartero habitual"
@@ -1861,7 +1861,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "Si un paquete sospechoso presenta desprendimiento de polvo blanco o líquido desconocido, ¿qué medida adicional debe tomarse de inmediato?",
     "options": [
-      "Soplar para retirar el polvo de la mesa, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Soplar para retirar el polvo de la mesa",
       "Probar el polvo para identificar la sustancia",
       "Barrer el polvo con una escoba",
       "Cerrar puertas y ventanas, apagar la climatización/ventilación para no propagar aerosoles y lavarse las manos con agua y jabón"
@@ -1880,7 +1880,7 @@ export const QUESTION_BANK = [
     "question": "Si se recibe un paquete dirigido a un funcionario que ya no trabaja en ese centro directivo por jubilación o traslado, ¿qué debe hacerse?",
     "options": [
       "Comprobar su nuevo destino oficial para reenviarlo, o devolverlo al remitente indicando la causa de la no entrega",
-      "Tirarlo al contenedor de la basura, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Tirarlo al contenedor de la basura",
       "Abrirlo y repartir su contenido entre los conserjes",
       "Guardarlo en un cajón indefinidamente"
     ],
@@ -1897,7 +1897,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Cómo se registra la entrega interna de paquetería al funcionario o negociado destinatario final dentro del edificio?",
     "options": [
-      "Dejándolo en el suelo del pasillo sin avisar, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Dejándolo en el suelo del pasillo sin avisar",
       "Mediante firma, fecha y hora del destinatario en el Libro Interno de Distribución de Paquetería",
       "Enviándole un mensaje telefónico sin comprobante",
       "Lanzándolo por debajo de la puerta"
@@ -1915,7 +1915,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué herramienta de transporte manual de almacén se utiliza comúnmente en conserjería para mover cajas pesadas de folios o paquetería voluminosa?",
     "options": [
-      "Un patinete eléctrico particular, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Un patinete eléctrico particular",
       "Una bicicleta estática",
       "Una carretilla de dos ruedas (diablo) o carro de plataforma",
       "Una bandeja de plástico de servir café"
@@ -1933,7 +1933,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "En la manipulación manual de cargas pesadas (paquetes o cajas de papel), ¿cuál es la técnica ergonómica correcta según las normas de PRL?",
     "options": [
-      "Doblar la espalda con las piernas totalmente rectas y tirar de la zona lumbar, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Doblar la espalda con las piernas totalmente rectas y tirar de la zona lumbar",
       "Sujetar el paquete con una sola mano por una esquina",
       "Levantar la carga girando bruscamente el tronco a la vez",
       "Flexionar las rodillas manteniendo la espalda recta, acercar la carga al cuerpo y levantarse usando la fuerza de las piernas"
@@ -1952,7 +1952,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué peso máximo aconseja la Guía Técnica del INSST no superar en la manipulación manual de cargas en condiciones normales para evitar lesiones?",
     "options": [
       "25 kilogramos (para la mayoría de la población trabajadora)",
-      "10 kilogramos, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "10 kilogramos",
       "50 kilogramos",
       "75 kilogramos"
     ],
@@ -1969,7 +1969,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "Si un transportista pretende entregar un paquete con los precintos violados y falta de contenido manifiesto, ¿qué opción reglamentaria tiene el conserje?",
     "options": [
-      "Aceptarlo sin decir nada y pagar al transportista, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Aceptarlo sin decir nada y pagar al transportista",
       "Rechazar la entrega fundamentadamente o aceptarlo únicamente bajo rigurosa diligencia de reserva en el albarán detallando los bultos faltantes",
       "Firmar el albarán en blanco",
       "Quedarse con el vehículo del transportista"
@@ -1987,8 +1987,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué debe hacerse con los albaranes de entrega firmados tras completar la recepción de los suministros de oficina?",
     "options": [
-      "Tirarlos a la trituradora de papel al instante, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Pegarlos en las paredes del pasillo, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Tirarlos a la trituradora de papel al instante",
+      "Pegarlos en las paredes del pasillo",
       "Archivarlos ordenadamente por fecha o remitirlos al negociado de Habilitación/Gestión Económica para la tramitación de la factura correspondiente",
       "Enviarlos por correo ordinario a Correos"
     ],
@@ -2005,7 +2005,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Qué significa la indicación 'Portes Debidos' en una entrega de paquetería?",
     "options": [
-      "Que el envío ya está pagado por el remitente, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Que el envío ya está pagado por el remitente",
       "Que el paquete contiene material bélico",
       "Que el transporte es gratuito por ley",
       "Que el destinatario debe abonar el importe del transporte en el momento de la entrega"
@@ -2024,9 +2024,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué debe hacer el conserje si un repartidor le exige el pago de un envío 'a portes debidos' sin contar con autorización previa ni fondos asignados?",
     "options": [
       "Rehusar la recepción o contactar de inmediato con la sección de habilitación o compras que ordenó el pedido para recabar instrucciones y fondos",
-      "Pagar el importe de su propio bolsillo personal, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "Aceptar el paquete y empujar al conductor, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Falsificar un cheque bancario, según determine la normativa específica aplicable"
+      "Pagar el importe de su propio bolsillo personal",
+      "Aceptar el paquete y empujar al conductor",
+      "Falsificar un cheque bancario"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2041,7 +2041,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "¿Cómo deben almacenarse temporalmente en conserjería las cajas de papel o bultos recibidos hasta su reparto?",
     "options": [
-      "Apiladas desordenadamente obstaculizando las salidas de emergencia, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Apiladas desordenadamente obstaculizando las salidas de emergencia",
       "En un lugar seco, seguro y ordenado, sin bloquear extintores, cuadros eléctricos ni vías de evacuación",
       "En el suelo del portal a la intemperie",
       "Sobre las sillas de los visitantes"
@@ -2059,10 +2059,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cuál es el formato base de la serie de papel normalizado DIN A según la norma UNE-EN ISO 216 / DIN 476?",
     "options": [
-      "DIN A4, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "DIN A1",
-      "DIN A0",
-      "DIN A3"
+      "El formato DIN A4, cuya superficie estándar equivale a un cuarto de metro cuadrado (0,25 m²)",
+      "El formato DIN B1 de uso en cartelería",
+      "El formato DIN A0, cuya superficie equivale exactamente a un metro cuadrado (1 m²)",
+      "El folio tradicional español prolongado"
     ],
     "correct": 2,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2077,7 +2077,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cuáles son las dimensiones exactas en milímetros del formato de papel DIN A4?",
     "options": [
-      "215 x 315 mm, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "215 x 315 mm",
       "148 x 210 mm",
       "297 x 420 mm",
       "210 x 297 mm"
@@ -2096,7 +2096,7 @@ export const QUESTION_BANK = [
     "question": "¿Cuáles son las dimensiones exactas del formato de papel DIN A3?",
     "options": [
       "297 x 420 mm",
-      "210 x 297 mm, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "210 x 297 mm",
       "420 x 594 mm",
       "148 x 210 mm"
     ],
@@ -2113,10 +2113,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cuál es la relación de equivalencia exacta entre una hoja DIN A3 y una hoja DIN A4?",
     "options": [
-      "Un DIN A3 es la mitad de un DIN A4, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "Un DIN A3 equivale exactamente al doble de un DIN A4 (dos hojas A4)",
-      "Un DIN A3 equivale a cuatro hojas DIN A4",
-      "Son exactamente iguales en dimensiones pero varía el grosor"
+      "Una hoja DIN A3 equivale exactamente a cuatro hojas DIN A4 colocadas en posición horizontal",
+      "Una hoja DIN A3 equivale a dos hojas DIN A4 (o un DIN A4 es la mitad de un DIN A3)",
+      "Una hoja DIN A4 es el doble de un DIN A3",
+      "Tienen exactamente las mismas medidas"
     ],
     "correct": 1,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2131,10 +2131,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué formato de papel se obtiene al cortar o plegar por la mitad una hoja DIN A4?",
     "options": [
-      "DIN A3, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "DIN A6",
-      "DIN A5",
-      "DIN B4"
+      "DIN A3 (297 x 420 mm) con orientación apaisada estándar",
+      "DIN A6 de bolsillo escolar",
+      "DIN A5 (148 x 210 mm)",
+      "DIN B4 de imprenta especial"
     ],
     "correct": 2,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2149,10 +2149,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cuáles son las medidas exactas del formato DIN A5?",
     "options": [
-      "105 x 148 mm, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "297 x 420 mm",
-      "210 x 297 mm",
-      "148 x 210 mm"
+      "120 gramos por metro cuadrado para papel satinado de imprenta oficial",
+      "50 gramos por metro cuadrado (papel cebolla)",
+      "150 gramos por metro cuadrado (cartulina)",
+      "80 gramos por metro cuadrado (80 g/m²)"
     ],
     "correct": 3,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2167,10 +2167,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cuál es la superficie exacta del formato DIN A0 y cuáles sus medidas en milímetros?",
     "options": [
-      "1 metro cuadrado (1 m²) y 841 x 1189 mm",
-      "0,5 m² y 594 x 841 mm, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "2 m² y 1000 x 2000 mm",
-      "1,5 m² y 900 x 1200 mm"
+      "Seguir las instrucciones en pantalla, abrir las compuertas indicadas y retirar el papel suavemente en el sentido de su marcha",
+      "Tirar con fuerza del papel atascado en sentido contrario al avance de los rodillos utilizando tijeras u objetos metálicos afilados",
+      "Golpear suavemente los rodillos con una regla",
+      "Apagar y encender repetidamente la máquina"
     ],
     "correct": 0,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2185,10 +2185,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿A cuántas hojas DIN A4 equivale en superficie un pliego DIN A0?",
     "options": [
-      "4 hojas A4, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "16 hojas DIN A4",
-      "8 hojas A4",
-      "32 hojas A4"
+      "Nivel P-1 con corte en tiras longitudinales continuas para todo tipo de expedientes administrativos",
+      "Nivel P-4 o superior (partículas reducidas para información confidencial o sensible)",
+      "Nivel P-0 con reciclaje directo",
+      "Nivel P-2 de uso doméstico básico"
     ],
     "correct": 1,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2203,10 +2203,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cuál es la proporción matemática constante entre los lados de cualquier hoja de la serie normalizada DIN A?",
     "options": [
-      "1 : 1 (formato cuadrado), con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "1 : 2 (doble exacto)",
-      "1 : √2 (aproximadamente 1 : 1,4142)",
-      "1 : 1,5"
+      "Encuadernar y grapar de forma automática los cuadernillos finales mediante termosellado térmico programable continuo",
+      "Plegar los planos a tamaño DIN A4",
+      "Alimentar automáticamente originales de múltiples páginas para copiarlos o escanearlos sin intervención manual",
+      "Plastificar los documentos a doble cara"
     ],
     "correct": 2,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
@@ -2257,7 +2257,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Cómo se denomina el dispositivo de una fotocopiadora multifunción que permite alimentar automáticamente un fajo de hojas para su escaneo o copia?",
     "options": [
-      "Bandeja de desecho, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Bandeja de desecho",
       "Alimentador automático de documentos (ADF / RADF)",
       "Tambor fotosensible",
       "Bypass de cartón"
@@ -2275,7 +2275,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué precaución elemental debe adoptarse antes de introducir documentos en el alimentador automático de la fotocopiadora para no averiar el mecanismo?",
     "options": [
-      "Humedecer las hojas con agua, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Humedecer las hojas con agua",
       "Echar pegamento en las esquinas",
       "Retirar obligatoriamente todas las grapas, clips, notas adhesivas o papel roto",
       "Doblar las hojas por la mitad"
@@ -2293,7 +2293,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "Si se produce un atasco de papel en el interior de una fotocopiadora, ¿cómo debe extraerse la hoja atascada?",
     "options": [
-      "Tirando fuertemente en sentido contrario al giro del motor con unos alicates, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Tirando fuertemente en sentido contrario al giro del motor con unos alicates",
       "Echando aceite lubricante dentro del fusor",
       "Utilizando unas tijeras afiladas para cortar el tambor de imagen",
       "Abriendo las tapas indicadas en la pantalla y tirando suavemente con ambas manos en el sentido de avance natural del papel"
@@ -2312,7 +2312,7 @@ export const QUESTION_BANK = [
     "question": "¿Por qué NO deben emplearse destornilladores, cuchillas ni objetos punzantes metálicos para desatascar papel en una fotocopiadora?",
     "options": [
       "Porque rayan y destruyen irreversiblemente el tambor fotosensible o los rodillos térmicos del fusor",
-      "Porque pueden transmitir corriente de 380V al papel, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Porque pueden transmitir corriente de 380V al papel",
       "Porque gastan el tóner de color negro",
       "Porque desconfiguran la fecha de la máquina"
     ],
@@ -2329,7 +2329,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué función realiza la unidad del 'Fusor' en una impresora láser o fotocopiadora?",
     "options": [
-      "Triturar el papel inservible, según determine la normativa específica aplicable, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Triturar el papel inservible",
       "Fijar el polvo de tóner al papel mediante la aplicación combinada de calor y presión",
       "Clasificar las hojas por colores",
       "Refrigerar el cristal de la platina"
@@ -2347,7 +2347,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué operación debe realizarse con un cartucho nuevo de tóner antes de instalarlo en la máquina?",
     "options": [
-      "Abrir el receptáculo interior del cartucho para comprobar el nivel y consistencia del polvo magnético, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Abrir el receptáculo interior del cartucho para comprobar el nivel y consistencia del polvo magnético",
       "Dejar reposar el cartucho desembalado durante veinticuatro horas a temperatura ambiente antes de su inserción",
       "Agitarlo suavemente en posición horizontal varias veces para redistribuir uniformemente el polvo de tóner y retirar la tira protectora",
       "Limpiar el tambor fotosensible con paño humedecido en alcohol isopropílico para retirar residuos de fábrica"
@@ -2365,9 +2365,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué nivel de mantenimiento sobre los equipos de reprografía corresponde habitualmente al personal E1 de Servicios Administrativos?",
     "options": [
-      "Mantenimiento correctivo avanzado y sustitución de motores y placas base, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "Rebobinado de bobinas electromagnéticas, según determine la normativa específica aplicable",
-      "Calibración óptica con osciloscopio, según determine la normativa específica aplicable",
+      "Mantenimiento correctivo avanzado y sustitución de motores y placas base",
+      "Rebobinado de bobinas electromagnéticas",
+      "Calibración óptica con osciloscopio",
       "Mantenimiento de primer nivel: reposición de papel y tóner, resolución de atascos superficiales y limpieza exterior"
     ],
     "correct": 3,
@@ -2384,7 +2384,7 @@ export const QUESTION_BANK = [
     "question": "¿Qué máquina de reprografía y encuadernación se utiliza para perforar el papel e insertar una espiral cilíndrica de alambre?",
     "options": [
       "Encuadernadora de espiral metálica (espiraladora)",
-      "Guillotina de palanca, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Guillotina de palanca",
       "Plegadora de folletos",
       "Cosedora de hilo vegetal"
     ],
@@ -2401,7 +2401,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "Para cortar de forma rectilínea un gran fajo de papel a una medida exacta, ¿qué equipo de corte se emplea en el taller de reprografía?",
     "options": [
-      "Tijeras escolares de punta redonda, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Tijeras escolares de punta redonda",
       "Cizalla o guillotina de papel con dispositivo de protección",
       "Un cúter manual sobre la mesa sin guía",
       "Una sierra circular de madera"
@@ -2419,7 +2419,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué tipo de trituradora o destructora de papel ofrece mayor nivel de seguridad conforme al RGPD y tratamiento de datos confidenciales?",
     "options": [
-      "Destructora de corte en tiras anchas, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Destructora de corte en tiras anchas",
       "Romper las hojas por la mitad con las manos",
       "Destructora de corte cruzado en partículas o micropartículas",
       "Tirar los folios enteros al contenedor azul"
@@ -2437,8 +2437,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Por dónde debe alimentarse en la fotocopiadora un soporte especial como cartulina gruesa (160 g/m²) o papel vegetal?",
     "options": [
-      "Por el alimentador automático de documentos (ADF), siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "Enrollado en el tambor, según determine la normativa específica aplicable",
+      "Por el alimentador automático de documentos (ADF)",
+      "Enrollado en el tambor",
       "Por la bandeja inferior de gran capacidad",
       "Por la bandeja manual o bypass lateral para evitar giros cerrados en los rodillos"
     ],
@@ -2456,9 +2456,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué medida de prevención de riesgos laborales debe respetarse al utilizar la destructora de documentos?",
     "options": [
       "Evitar prendas sueltas, corbatas, pañuelos o pelo desatado que puedan ser atrapados por los rodillos de corte",
-      "Llevar corbatas sueltas, bufandas, colgantes o pelo largo suelto cerca de la ranura de entrada, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Llevar corbatas sueltas, bufandas, colgantes o pelo largo suelto cerca de la ranura de entrada",
       "Introducir los dedos dentro de las cuchillas para empujar el papel",
-      "Utilizar la máquina mojada, según determine la normativa específica aplicable"
+      "Utilizar la máquina mojada"
     ],
     "correct": 0,
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
@@ -2473,10 +2473,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cuál es el plazo reglamentario de permanencia de un envío postal certificado en la oficina de Correos tras un intento infructuoso de entrega a domicilio?",
     "options": [
-      "5 días hábiles, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "15 días naturales",
-      "30 días naturales",
-      "1 mes laborable"
+      "30 días hábiles excluyendo expresamente los sábados, domingos y festivos",
+      "15 días naturales a partir del día siguiente al aviso de llegada",
+      "7 días naturales improrrogables",
+      "1 mes natural a contar desde el envío"
     ],
     "correct": 1,
     "law": "Real Decreto 1829/1999",
@@ -2491,10 +2491,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cuál es el límite de peso máximo establecido para una carta ordinaria o certificada en el servicio postal de Correos?",
     "options": [
-      "500 gramos, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "1 kilogramo",
-      "2 kilogramos",
-      "5 kilogramos"
+      "Hasta un kilogramo (1 kg) de peso bruto verificado",
+      "500 gramos para todo el territorio",
+      "Hasta 2 kilogramos (2 kg)",
+      "Hasta 5 kilogramos si no contiene libros"
     ],
     "correct": 2,
     "law": "Ley 43/2010 del Servicio Postal Universal",
@@ -2509,10 +2509,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cuál es el peso máximo admitido por Correos para la modalidad de 'Paquete Azul' para envíos nacionales?",
     "options": [
-      "5 kg, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "10 kg",
-      "50 kg",
-      "20 kg"
+      "Hasta 10 kilogramos con entrega exclusiva a domicilio particular",
+      "Hasta 50 kilogramos en palé cerrado",
+      "Sin límite de peso si abona sobretasa",
+      "Hasta 20 kilogramos (20 kg)"
     ],
     "correct": 3,
     "law": "Ley 43/2010 del Servicio Postal Universal",
@@ -2527,10 +2527,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué servicio postal permite enviar documentos de manera urgente y obtener prueba legal fehaciente tanto de la entrega como del CONTENIDO íntegro del texto enviado?",
     "options": [
-      "Burofax con certificación de contenido y acuse de recibo",
-      "Carta certificada ordinaria, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Telegrama sin copia",
-      "Carta ordinaria con sello urgente"
+      "El Burofax (con certificación de texto y acuse de recibo)",
+      "El telegrama comercial ordinario cursado a través de ventanilla postal",
+      "La carta certificada ordinaria",
+      "El paquete postal económico nacional"
     ],
     "correct": 0,
     "law": "Real Decreto 1829/1999",
@@ -2545,10 +2545,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué documento administrativo normalizado se utiliza para cursar comunicaciones entre órganos o unidades pertenecientes al MISMO departamento ministerial?",
     "options": [
-      "El Oficio",
-      "La Nota Interior",
-      "El Certificado de Actos",
-      "La Convocatoria pública"
+      "La nota interior entre dependencias de la misma unidad orgánica directiva",
+      "El oficio",
+      "El memorándum departamental",
+      "La circular informativa no vinculante"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2581,10 +2581,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Quién redacta el 'Acta' de una sesión de un órgano colegiado según el artículo 18 de la Ley 40/2015?",
     "options": [
-      "El Presidente de la mesa, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "El ordenanza de la sala",
-      "El vocal de mayor edad",
-      "El Secretario del órgano colegiado"
+      "El Presidente del órgano colegiado",
+      "El Subsecretario del departamento ministerial",
+      "El miembro o vocal de mayor antigüedad entre los asistentes",
+      "El Secretario del órgano colegiado con el visto bueno del Presidente"
     ],
     "correct": 3,
     "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
@@ -2600,9 +2600,9 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es el objeto de un 'Certificado' administrativo?",
     "options": [
       "Dar fe pública y acreditación fehaciente de actos, hechos, situaciones o acuerdos que constan en expedientes o registros oficiales",
-      "Convocar a los miembros de una comisión, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Solicitar un permiso de vacaciones",
-      "Denunciar un delito, según determine la normativa específica aplicable"
+      "Convocar a los miembros de una comisión u órgano colegiado",
+      "Solicitar formalmente un permiso ordinario de vacaciones",
+      "Notificar resoluciones administrativas sancionadoras firmes a terceros interesados"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2617,10 +2617,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cuándo debe depositarse en las oficinas de Correos la correspondencia franqueada mediante máquina franqueadora oficial?",
     "options": [
-      "Cualquier día dentro de los 6 meses siguientes",
-      "El mismo día en que se estampa la huella de franqueo (o en la fecha consignada en la misma)",
-      "Solo en días festivos, salvo autorización expresa del órgano competente",
-      "No hace falta llevarla a Correos, con arreglo a las directrices de la unidad correspondiente"
+      "Número de teléfono particular del transportista, coste de franqueo abonado y firma del destinatario al recibirlo",
+      "El coste de los sellos utilizados únicamente",
+      "Número correlativo de salida, fecha de expedición, destinatario, asunto resumido y remitente u órgano emisor",
+      "La huella dactilar del ordenanza emisor"
     ],
     "correct": 1,
     "law": "Real Decreto 1829/1999",
@@ -2635,10 +2635,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué es un 'Acuse de Recibo' o Aviso de Recibo (modelo postal oficial)?",
     "options": [
-      "Una felicitación navideña, según determine la normativa específica aplicable, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "Una factura por los sellos utilizados",
+      "Un resguardo oficial de franqueo previo que expide la oficina de correos",
+      "La factura proforma mensual emitida por la empresa de mensajería externa",
       "Un documento que se une al envío en el que el destinatario firma la recepción física, siendo devuelto al remitente como prueba legal de entrega",
-      "Un sello que se pega en el cristal de conserjería"
+      "Un precinto adhesivo de seguridad colocado sobre el cierre exterior del sobre"
     ],
     "correct": 2,
     "law": "Real Decreto 1829/1999",
@@ -2653,10 +2653,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "En un documento administrativo normalizado de la AGE, ¿dónde se sitúa comúnmente el pie de firma y antefirma?",
     "options": [
-      "En la esquina superior izquierda sobre el membrete, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "En el encabezado junto al escudo",
-      "En el reverso de la última página sin fecha",
-      "En la parte inferior del documento, con el cargo, nombre completo y rúbrica del titular del órgano"
+      "El franqueo en el centro del sobre y los datos del remitente colocados en el cuadrante inferior izquierdo",
+      "En el reverso en cualquier posición",
+      "El sello abajo a la izquierda y el destino arriba",
+      "El franqueo en la esquina superior derecha y los datos del destinatario en el cuadrante inferior derecho"
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2671,10 +2671,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cuál de las siguientes fórmulas tradicionales ha sido eliminada y desaconsejada en los documentos administrativos modernos de la AGE por el Manual de Estilo?",
     "options": [
-      "Fórmulas arcaicas de sumisión o servilismo como 'Dios guarde a V.E. muchos años' o 'Señor mío de mi más distinguida consideración'",
-      "La fecha completa en letras, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "El número de registro de salida, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "La identificación del órgano emisor"
+      "Número de registro de salida, fecha, órgano remitente, órgano o persona destinataria y referencia del asunto",
+      "El estado civil de los interesados y la relación exhaustiva de bienes patrimoniales inventariados en el expediente",
+      "La firma del conserje y la hora del desayuno",
+      "El precio que costó el papel timbrado"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2689,7 +2689,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué datos obligatorios deben constar en una 'Convocatoria' de una reunión oficial?",
     "options": [
-      "El menú del almuerzo posterior, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "El menú del almuerzo posterior",
       "Lugar, fecha, hora de celebración (en primera y segunda convocatoria) y el Orden del Día fijado",
       "El importe de las dietas en metálico",
       "El signo zodiacal de los asistentes"
@@ -2707,10 +2707,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué función tiene el Registro Electrónico General de la AGE en relación con la entrada y salida de correspondencia oficial?",
     "options": [
-      "Cobrar las cartas a los ciudadanos, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Guardar cartas privadas de los trabajadores, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Cobrar las cartas a los ciudadanos",
+      "Guardar cartas privadas de los trabajadores",
       "Dejar constancia fehaciente de la fecha, hora, remitente, destinatario y contenido de cualquier solicitud o comunicación oficial que entra o sale de la Administración",
-      "Destruir la correspondencia antigua, según determine la normativa específica aplicable"
+      "Destruir la correspondencia antigua"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2725,8 +2725,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué significa la mención 'Saluda' en las comunicaciones institucionales de protocolo?",
     "options": [
-      "Una orden vinculante de cese inmediato, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Un tipo de papel satinado, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Una orden vinculante de cese inmediato",
+      "Un tipo de papel satinado",
       "Una multa de tráfico militar",
       "Un documento protocolario breve utilizado tradicionalmente por autoridades para transmitir agradecimientos, invitaciones o tomas de posesión"
     ],
@@ -2744,8 +2744,8 @@ export const QUESTION_BANK = [
     "question": "Según la normativa postal, ¿cuál es la característica jurídica distintiva del servicio de Burofax frente a una carta certificada con acuse de recibo?",
     "options": [
       "Permite obtener de Correos la certificación de entrega y testimonio fehaciente del contenido íntegro del texto transmitido, con pleno valor probatorio judicial",
-      "Es un envío ordinario sin número de seguimiento ni prueba en juicio, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "Solo puede ser emitido por personal militar en situaciones de conflicto armado, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Es un envío ordinario sin número de seguimiento ni prueba en juicio",
+      "Solo puede ser emitido por personal militar en situaciones de conflicto armado",
       "Se entrega en el plazo máximo improrrogable de 30 días naturales"
     ],
     "correct": 0,
@@ -2780,7 +2780,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué debe hacerse con la correspondencia que llega a la conserjería calificada como 'Urgente'?",
     "options": [
-      "Dejarla hasta la semana siguiente en una bandeja, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Dejarla hasta la semana siguiente en una bandeja",
       "Abrirla para leer el motivo de la urgencia",
       "Darle trámite y distribución prioritaria inmediata a su destinatario o negociado",
       "Reenviarla a Correos para que la entreguen ellos"
@@ -2798,9 +2798,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Puede el personal de conserjería E1 abrir una carta oficial cerrada que viene dirigida nominalmente a una persona o autoridad concreta?",
     "options": [
-      "Sí, para enterarse del asunto y resolverlo ellos, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Sí, para enterarse del asunto y resolverlo ellos",
       "Sí, si no lleva sello puesto",
-      "Solo si el sobre parece interesante, salvo autorización expresa del órgano competente",
+      "Solo si el sobre parece interesante",
       "No; la correspondencia dirigida nominalmente debe entregarse cerrada e inviolada a su destinatario (art. 18.3 CE)"
     ],
     "correct": 3,
@@ -2817,8 +2817,8 @@ export const QUESTION_BANK = [
     "question": "¿Qué es una 'Memoria' en el catálogo de documentos administrativos de la AGE?",
     "options": [
       "Un documento que recoge la exposición detallada de las actividades, fines y gestión desarrollada por un órgano u organismo durante un periodo determinado",
-      "Una tarjeta de ordenador para guardar ficheros, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Un acta de defunción, según determine la normativa específica aplicable, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Una tarjeta de ordenador para guardar ficheros",
+      "Un acta de defunción",
       "Una queja formal de un opositor"
     ],
     "correct": 0,
@@ -2834,9 +2834,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué es el 'Franqueo en Destino' en los servicios de correspondencia?",
     "options": [
-      "Un envío que no lleva dirección, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "Un envío que no lleva dirección",
       "Una modalidad por la que el remitente deposita cartas con un modelo de sobre autorizado cuyo coste postal es abonado por la entidad destinataria al recibirlas",
-      "Un paquete que se envía al extranjero sin aduanas, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Un paquete que se envía al extranjero sin aduanas",
       "Una carta que viaja en globo"
     ],
     "correct": 1,
@@ -2852,7 +2852,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cómo se separan los sobres antes de llevarlos a la oficina de Correos para su depósito diario?",
     "options": [
-      "Por el color de la tinta del bolígrafo, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "Por el color de la tinta del bolígrafo",
       "Por orden alfabético del apellido del conserje",
       "Por categorías de destino: local/provincial, nacional, europea e internacional, separando ordinarias de certificadas",
       "Tirándolos todos en una saca mezclados con basura"
@@ -2870,9 +2870,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Qué validez jurídica tiene el justificante de imposición sellado por la oficina de Correos de una carta certificada con acuse de recibo?",
     "options": [
-      "Ninguna validez, según determine la normativa específica aplicable, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "Ninguna validez",
       "Caduca a las 24 horas",
-      "Solo vale para pedir un descuento, salvo autorización expresa del órgano competente",
+      "Solo vale para pedir un descuento",
       "Validez fehaciente de la fecha y hora exacta en que se depositó el envío en la oficina postal, a efectos de cómputo de plazos administrativos"
     ],
     "correct": 3,
@@ -2888,10 +2888,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Cuál es la diferencia entre un 'recado interior' y un 'recado exterior' en las dependencias de Defensa?",
     "options": [
-      "El interior se realiza dentro del mismo centro o base militar; el exterior implica desplazamientos por la vía pública hacia otras sedes u organismos",
-      "El interior lo hacen oficiales y el exterior personal laboral, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "El interior no exige documentos",
-      "El exterior se hace en avión"
+      "El recado interior se realiza dentro del mismo inmueble o recinto, y el exterior requiere salir a otras dependencias o vías públicas",
+      "El recado interior lo realiza el personal laboral auxiliar y el recado exterior es cometido exclusivo de los funcionarios de carrera",
+      "El interior se hace en coche y el exterior a pie",
+      "No existe ninguna diferencia organizativa"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2906,10 +2906,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "Durante la realización de un recado oficial fuera del centro, ¿qué conducta debe seguir el empleado respecto al itinerario?",
     "options": [
-      "Aprovechar para hacer compras personales y visitar a conocidos, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "Seguir el itinerario más directo y seguro de forma continua e ininterrumpida, sin desvíos para fines particulares",
-      "Detenerse en cafeterías a leer los expedientes que transporta",
-      "Prestar el maletín oficial a un desconocido"
+      "Depositar la documentación en consignas automáticas de estaciones para agilizar los desplazamientos durante la comisión",
+      "Custodiar diligentemente la cartera de servicio sin desatenderla ni exhibir la documentación en lugares públicos",
+      "Dejar los documentos en una mesa de cafetería",
+      "Mostrar el contenido a familiares o conocidos"
     ],
     "correct": 1,
     "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
@@ -2924,10 +2924,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué justificante debe recabarse obligatoriamente al entregar documentación oficial o expedientes en otro organismo público?",
     "options": [
-      "Una fotografía con el receptor, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Un apretón de manos informal",
-      "Una hoja de remisión o recibí firmado y sellado por duplicado con indicación de fecha y hora",
-      "La matrícula del coche del conserje receptor"
+      "Un albarán comercial sellado por la empresa privada de mensajería responsable del transporte de paquetería",
+      "Una llamada telefónica de conformidad verbal",
+      "El 'recibí' sellado o firmado por la persona o unidad receptora en la copia o relación de entrega",
+      "Una declaración jurada del propio conserje"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -2942,10 +2942,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué deber ético y legal vincula al personal de servicios administrativos respecto a los documentos que transporta durante un recado?",
     "options": [
-      "Deber de leer todo para aprender el funcionamiento, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "Publicar resúmenes en redes sociales",
-      "Comentar los datos con amigos y familiares",
-      "Deber estricto de sigilo, reserva y secreto profesional (art. 53 TREBEP), absteniéndose de abrir sobres o divulgar contenidos"
+      "Deber de analizar y comprobar personalmente el contenido jurídico de los documentos para asesorar al órgano receptor",
+      "Poder comentar los datos con otros compañeros",
+      "Publicar extractos en foros de opositores",
+      "Deber de sigilo, reserva y confidencialidad estricta sobre todo asunto o dato que conozca por razón de su trabajo"
     ],
     "correct": 3,
     "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
@@ -2960,10 +2960,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Cuáles son los dos únicos niveles legales de clasificación formal previstos en el artículo 3 de la Ley 9/1968 de Secretos Oficiales?",
     "options": [
-      "SECRETO y RESERVADO",
-      "Público y Privado",
-      "Confidencial y Difusión Libre",
-      "Militar y Policial"
+      "Secreto y Reservado",
+      "Confidencial, Difusión Limitada y Alto Secreto de Estado",
+      "Público, Privado y Oculto",
+      "Interno, Externo y Muy Reservado"
     ],
     "correct": 0,
     "law": "Ley 9/1968 sobre Secretos Oficiales",
@@ -2978,10 +2978,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Cómo debe acondicionarse un documento de materia clasificada (Secreto o Reservado) para su traslado físico según el Decreto 242/1969?",
     "options": [
-      "En una bolsa de plástico transparente para que se vea bien, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Mediante el sistema de DOBLE SOBRE: el interior sellado y marcado con el nivel; el exterior totalmente neutro, opaco y sin ninguna indicación de clasificación",
-      "Sin sobre, sujeto con una goma elástica, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "En un sobre con luces de advertencia"
+      "En sobre simple transparente con un distintivo visible en color rojo indicando de forma expresa su carácter reservado",
+      "En doble sobre opaco: el interior con la clasificación de seguridad y el exterior neutro sin marcas de reserva",
+      "Grapado al aire sin sobre alguno",
+      "En una carpeta abierta con el sello visible"
     ],
     "correct": 1,
     "law": "Decreto 242/1969",
@@ -2996,10 +2996,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué indicación debe figurar en el sobre EXTERIOR de un envío que traslada documentación clasificada como 'RESERVADO'?",
     "options": [
-      "El sello grande en rojo que ponga 'RESERVADO', salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "La palabra 'PELIGRO DOCUMENTO CLASIFICADO'",
-      "La dirección y datos del destinatario y remitente exclusivamente, SIN ninguna marca que aluda al carácter secreto o reservado",
-      "El nombre del Presidente del Gobierno"
+      "Un membrete destacado en rojo con el texto 'MATERIA CLASIFICADA - ALTO SECRETO'",
+      "El sello grande en azul de la Presidencia",
+      "Ninguna marca ni indicación que revele su contenido clasificado (sobre neutro)",
+      "El nombre del militar que autorizó el secreto"
     ],
     "correct": 2,
     "law": "Decreto 242/1969",
@@ -3014,9 +3014,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué acreditación de seguridad se exige a quien deba acceder o transportar material clasificado como Secreto o Reservado?",
     "options": [
-      "El carné del club de lectura militar, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "El recibo del IBI, previa propuesta motivada del órgano directivo correspondiente",
-      "Un certificado de buena conducta de su parroquia",
+      "La acreditación de empleado público ordinario del departamento ministerial correspondiente",
+      "Un salvoconducto temporal expedido por el jefe de negociado de registro y paquetería",
+      "Una declaración responsable firmada por el propio empleado comisionado",
       "La Habilitación Personal de Seguridad (HPS) expedida por la Autoridad Nacional de Seguridad (Oficina Nacional de Seguridad / CNI)"
     ],
     "correct": 3,
@@ -3032,10 +3032,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué debe hacer el empleado si durante un recado exterior sufre el robo, sustracción o extravío de la cartera de documentos?",
     "options": [
-      "Comunicarlo de forma inmediata por vía telefónica a su jefatura y formular denuncia detallada ante las Fuerzas y Cuerpos de Seguridad",
-      "Callarse y esperar a que nadie se dé cuenta, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Comprar otra cartera vacía para disimular, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "Darse de baja por enfermedad"
+      "Esperar al final de la jornada de trabajo para redactar un informe escrito si no se ha localizado la documentación",
+      "Ocultar el hecho para evitar una sanción",
+      "Destruir la copia del albarán para que no quede constancia",
+      "Comunicarlo inmediatamente a su superior jerárquico directo para activar las medidas de seguridad y localización"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3050,10 +3050,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué accesorio se utiliza para proteger la documentación contra la lluvia y deterioros durante recados exteriores a pie?",
     "options": [
-      "Una carpeta abierta de cartón fino, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Una carpeta de cartulina ordinaria sin cierre hermético",
       "Cartera de servicio o maletín cerrado de material impermeable",
-      "Llevar los folios en la mano al aire libre",
-      "Un periódico enrollado"
+      "Una bolsa de plástico transparente sin precinto ni cierre impermeable",
+      "Un clasificador rígido perforado sin solapas exteriores de protección"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3068,7 +3068,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "Al trasladar expedientes entre despachos dentro del centro, ¿qué práctica de seguridad documental es obligatoria?",
     "options": [
-      "Dejar los expedientes sobre mesas vacías en despachos abiertos desiertos, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
+      "Dejar los expedientes sobre mesas vacías en despachos abiertos desiertos",
       "Fotografiarlos con el móvil y tirar los originales",
       "Entregarlos directamente en mano al funcionario responsable o depositarlos en la secretaría del negociado",
       "Dejarlos en el suelo del descansillo"
@@ -3086,9 +3086,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "Si un recado oficial implica el traslado de una cantidad menor de dinero en metálico (pago de un arancel judicial o compra menor de caja fija), ¿cómo debe realizarse?",
     "options": [
-      "En la mano enseñando los billetes a los transeúntes, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Pidiéndole a un transeúnte que lo lleve",
-      "Gastándose una parte en lotería",
+      "Sujetando los billetes en la mano de forma visible durante todo el trayecto",
+      "Mediante giro postal ordinario emitido sin acuse de recibo",
+      "Delegando la entrega en cualquier tercero ajeno a la administración pública",
       "En sobre cerrado, guardado en el bolsillo interior o cartera cerrada, con trayecto directo y justificación de recibo inmediato"
     ],
     "correct": 3,
@@ -3105,9 +3105,9 @@ export const QUESTION_BANK = [
     "question": "¿Puede un conserje prestar o dejar su maletín oficial con expedientes a un amigo en la parada del autobús para que se lo cuide?",
     "options": [
       "No, bajo ninguna circunstancia; la custodia personal es intransferible y debe mantener el maletín en su poder permanente",
-      "Sí, si es una persona de confianza, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Sí, si es una persona de confianza",
       "Sí, si le invita a un café",
-      "Solo durante 10 minutos, salvo autorización expresa del órgano competente"
+      "Solo durante 10 minutos"
     ],
     "correct": 0,
     "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
@@ -3122,10 +3122,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué órgano es competente para clasificar una materia como SECRETO o RESERVADO en España?",
     "options": [
-      "Cualquier Coronel o Director General, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
+      "El Subsecretario del departamento ministerial afectado",
       "El Consejo de Ministros (o la Junta de Jefes de Estado Mayor en el ámbito de sus competencias originarias)",
-      "El conserje mayor del edificio",
-      "El Alcalde de Madrid, previa propuesta motivada del órgano directivo correspondiente"
+      "El Delegado del Gobierno en la Comunidad Autónoma correspondiente",
+      "La Junta Consultiva de Contratación Pública del Estado"
     ],
     "correct": 1,
     "law": "Ley 9/1968 sobre Secretos Oficiales",
@@ -3140,8 +3140,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "Durante la realización de un recado oficial exterior en una sede administrativa, la persona que atiende al ordenanza le solicita que firme un documento oficial que va a entregar o retirar. ¿Cuál debe ser su actuación correcta?",
     "options": [
-      "Firmar cualquier documento que le presenten para no demorar la gestión del servicio, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "Romper el documento y negarse a realizar la entrega, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "Firmar cualquier documento que le presenten para no demorar la gestión del servicio",
+      "Romper el documento y negarse a realizar la entrega",
       "Firmar exclusivamente el volante de entrega material o 'recibí' como mero portador físico, absteniéndose de firmar resoluciones o documentos que comprometan la voluntad sustantiva de la Administración",
       "Firmar con el nombre y rúbrica de su jefe de negociado"
     ],
@@ -3159,9 +3159,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "Al realizar un recado exterior en vehículo oficial, ¿quién es el responsable de custodiar la documentación transportada si el vehículo se detiene?",
     "options": [
-      "El fabricante del coche",
-      "La Policía Municipal",
-      "El seguro obligatorio de accidentes",
+      "La empresa adjudicataria del mantenimiento mecánico del parque móvil",
+      "El servicio de vigilancia perimetral del acuartelamiento o sede pública",
+      "La compañía aseguradora de la flota de vehículos oficiales del ministerio",
       "El personal comisionado que porta la documentación, no debiendo dejarla nunca visible en el interior de un vehículo estacionado desatendido"
     ],
     "correct": 3,
@@ -3178,9 +3178,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué diligencia debe extenderse si en el momento de entregar un documento en otro organismo, el receptor se niega a firmar el recibí?",
     "options": [
       "Hacer constar en la diligencia la negativa a firmar, indicando fecha, hora, identidad del funcionario receptor y comunicarlo inmediatamente al superior",
-      "Pelearse con el receptor, según determine la normativa específica aplicable, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "Romper el documento y tirarlo al suelo",
-      "Firmar el conserje con un nombre falso"
+      "Depositar el documento en el buzón sin levantar constancia ni diligencia alguna",
+      "Destruir el documento original y redactar un nuevo oficio de remisión",
+      "Firmar el propio comisionado en el casillero del receptor supliendo su rúbrica"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3195,10 +3195,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Cuál es el medio de transporte habitual y preferente para recados de corta distancia en el casco urbano?",
     "options": [
-      "El alquiler de una limusina",
+      "Vehículos de transporte pesado de mercancías peligrosas o logística pesada",
       "El transporte público colectivo o el desplazamiento a pie por rutas seguras",
-      "El taxi aéreo, previa propuesta motivada del órgano directivo correspondiente",
-      "El uso de monopatines acrobáticos"
+      "Servicios de mensajería aérea no regular de flete urgente internacional",
+      "Vehículos particulares de los administrados previa autorización verbal"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3213,7 +3213,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Qué debe comprobar el empleado al regresar a su centro tras realizar un recado exterior?",
     "options": [
-      "Que el restaurante donde comió sigue abierto, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
+      "Que el restaurante donde comió sigue abierto",
       "Apagar el teléfono móvil hasta el día siguiente",
       "Entregar inmediatamente a su jefatura o negociado de origen las copias selladas y firmadas que justifican la realización del encargo",
       "Tirar los recibos a la papelera"
@@ -3231,9 +3231,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Puede un conserje E1 alterar el orden de entrega de los recados encomendados si su orden de servicio fijaba una prioridad estricta?",
     "options": [
-      "Sí, según su apetencia o comodidad, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "Solo si se lo pide un amigo, salvo autorización expresa del órgano competente",
-      "Siempre que no llueva, según determine la normativa específica aplicable",
+      "Sí, según su apetencia o comodidad",
+      "Solo si se lo pide un amigo",
+      "Siempre que no llueva",
       "No; debe respetar rigurosamente el orden de prioridades y urgencias señalado por su jefatura de servicio"
     ],
     "correct": 3,
@@ -3250,9 +3250,9 @@ export const QUESTION_BANK = [
     "question": "¿Qué sanción legal puede conllevar la difusión indebida o filtración de materias legalmente clasificadas como Secreto Oficial?",
     "options": [
       "Responsabilidad penal por delito contra la seguridad nacional / revelación de secretos y despido disciplinario",
-      "Una simple reprimenda verbal, según determine la normativa específica aplicable, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "La pérdida de dos días de vacaciones",
-      "Una multa de 10 euros"
+      "Una falta leve sancionable exclusivamente con apercibimiento por escrito",
+      "Una suspensión cautelar de funciones no retribuida de hasta tres días hábiles",
+      "La compensación obligatoria de horas de trabajo durante el trimestre posterior"
     ],
     "correct": 0,
     "law": "Ley 9/1968 sobre Secretos Oficiales",
@@ -3267,7 +3267,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "¿Por qué está expresamente prohibido abrir o examinar los sobres cerrados de las autoridades durante la realización de recados?",
     "options": [
-      "Porque el pegamento del sobre es tóxico, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
+      "Porque el pegamento del sobre es tóxico",
       "Porque vulnera el derecho fundamental al secreto de la correspondencia y el deber de sigilo funcionarial",
       "Porque se puede manchar el papel con grasa",
       "Porque lo prohíbe el código de circulación"
@@ -3303,10 +3303,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "Según el Real Decreto 486/1997 (Anexo I), ¿cuál es la altura mínima obligatoria desde el suelo hasta el techo en locales de trabajo cerrados?",
     "options": [
-      "2 metros, según determine la normativa específica aplicable, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "1,80 metros, según determine la normativa específica aplicable",
-      "4 metros en todos los edificios",
-      "2,5 metros en locales comerciales y de servicios, y 3 metros en los locales de trabajo en general"
+      "4 metros en naves industriales y 3,5 metros en oficinas generales de planta",
+      "2 metros de altura mínima en sótanos",
+      "2,20 metros en pasillos secundarios",
+      "3 metros desde el piso al techo (2,5 metros en oficinas y despachos)"
     ],
     "correct": 3,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3322,9 +3322,9 @@ export const QUESTION_BANK = [
     "question": "¿Cuál es la superficie mínima libre que debe disponer cada trabajador en su puesto de trabajo cerrado según el RD 486/1997?",
     "options": [
       "2 metros cuadrados de superficie libre",
-      "1 metro cuadrado, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "5 metros cuadrados",
-      "10 metros cuadrados"
+      "4 metros cuadrados útiles excluida la zona de archivo documental",
+      "1 metro cuadrado por puesto operativo",
+      "6 metros cuadrados por trabajador fijo"
     ],
     "correct": 0,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3339,10 +3339,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Cuál es el volumen no ocupado mínimo por trabajador establecido por el RD 486/1997?",
     "options": [
-      "5 metros cúbicos, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "10 metros cúbicos de volumen libre",
-      "20 metros cúbicos",
-      "50 metros cúbicos"
+      "15 metros cúbicos computando armarios y estanterías",
+      "10 metros cúbicos",
+      "5 metros cúbicos por trabajador",
+      "25 metros cúbicos en salas compartidas"
     ],
     "correct": 1,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3357,10 +3357,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Cuál es la anchura mínima que deben tener los pasillos generales de trabajo en edificios públicos según el RD 486/1997?",
     "options": [
-      "0,50 metros, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
-      "2 metros obligatorios",
-      "1 metro de anchura mínima libre",
-      "3 metros"
+      "1,50 metros para pasillos principales de circulación peatonal",
+      "0,80 metros en pasillos de evacuación",
+      "1 metro de anchura",
+      "2 metros en todos los edificios públicos"
     ],
     "correct": 2,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3375,10 +3375,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "En locales cerrados donde se realizan trabajos sedentarios propios de oficinas, ¿entre qué márgenes debe oscilar la temperatura según el RD 486/1997?",
     "options": [
-      "Entre 10 ºC y 18 ºC, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Entre 0 ºC y 15 ºC",
-      "Entre 25 ºC y 35 ºC",
-      "Entre 17 ºC y 27 ºC"
+      "Estará comprendida de forma obligatoria entre 20 ºC y 24 ºC durante todo el año",
+      "Entre 12 ºC y 18 ºC en invierno",
+      "Entre 22 ºC y 30 ºC en verano",
+      "Estará comprendida entre 17 ºC y 27 ºC"
     ],
     "correct": 3,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3394,9 +3394,9 @@ export const QUESTION_BANK = [
     "question": "¿Entre qué porcentajes debe situarse la humedad relativa del aire en los lugares de trabajo con carácter general?",
     "options": [
       "Entre el 30% y el 70% (mínimo 50% si hay riesgo de electricidad estática)",
-      "Entre el 10% y el 20%, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "Siempre al 100%, según determine la normativa específica aplicable",
-      "Entre el 80% y el 90%"
+      "Entre el 40% y el 60% de forma uniforme sin considerar riesgos por electricidad",
+      "Siempre al 50% constante",
+      "Entre el 10% y el 30% en verano"
     ],
     "correct": 0,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3411,10 +3411,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Qué datos indispensables deben consignarse en un Parte Oficial de Incidencias o Averías al detectar un fallo en las instalaciones?",
     "options": [
-      "El precio estimado del edificio, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
+      "La referencia catastral completa y el valor patrimonial estimado del inmueble",
       "Fecha, hora, ubicación exacta (edificio/planta/despacho), descripción concisa de la anomalía, grado de urgencia y nombre del emisor",
-      "El horóscopo del técnico de guardia, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "La marca de pintura de las paredes"
+      "El número de colegiado del arquitecto director de la obra original del edificio",
+      "El presupuesto total plurianual aprobado para el capítulo de inversiones del centro"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3429,10 +3429,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "Si un conserje detecta un cable eléctrico pelado con chispas o un fuerte escape de gas en una planta, ¿cómo debe proceder de inmediato?",
     "options": [
-      "Esperar a redactar un informe escrito la semana que viene, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "Tocar el cable con las manos desnudas para comprobar el voltaje, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
-      "Avisar urgentemente de forma verbal/telefónica al servicio de mantenimiento o seguridad, adoptar medidas preventivas inmediatas y cortar el suministro si es accesible",
-      "Echar serrín sobre el cable"
+      "Intentar aislar el cable de forma provisional con cinta adhesiva de oficina y mantener en funcionamiento los equipos del centro",
+      "Continuar trabajando evitando pisar el enchufe",
+      "Desconectar la alimentación si es seguro, no manipular la instalación, señalizar el peligro y dar parte de avería urgente",
+      "Echar agua sobre las chispas"
     ],
     "correct": 2,
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
@@ -3447,10 +3447,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Hacia qué sentido deben abrir obligatoriamente las puertas de salida de emergencia según la normativa de seguridad contra incendios?",
     "options": [
-      "Hacia el interior de la sala, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
-      "Correderas manuales únicamente",
-      "Mediante persiana enrollable con candado",
-      "Hacia el exterior (en el sentido de la evacuación)"
+      "Hacia el interior de la sala para evitar invadir las vías públicas exteriores transitadas",
+      "Indistintamente hacia dentro o fuera",
+      "Mediante persianas correderas metálicas",
+      "Hacia el exterior (en el sentido de la evacuación) y nunca correderas ni giratorias"
     ],
     "correct": 3,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
@@ -3483,7 +3483,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Cómo deben mantenerse en todo momento las vías y salidas de evacuación de los edificios?",
     "options": [
-      "Ocupadas con cajas de folios y muebles para aprovechar el espacio, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Ocupadas con cajas de folios y muebles para aprovechar el espacio",
       "Completamente expeditas, despejadas de obstáculos y señalizadas con cartelería visible",
       "Cerradas con cadena y candado durante las horas de trabajo",
       "A oscuras sin alumbrado de emergencia"
@@ -3501,14 +3501,14 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Qué extintor portátil es el más adecuado y común para sofocar fuegos de clases A, B y C (sólidos, líquidos y gases) en oficinas?",
     "options": [
-      "Extintor de agua a chorro, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Un cubo con tierra de jardín",
+      "Extintor de agua a chorro directo sin aditivos espumógenos",
+      "Extintor de gas halón o agentes halogenados de uso restringido",
       "Extintor de polvo polivalente ABC",
-      "Un ventilador de techo"
+      "Extintor de acetato potásico exclusivo para cocinas industriales clase F"
     ],
     "correct": 2,
-    "law": "Real Decreto 513/2017",
-    "article": "Anexo I, Sección 1ª RD 513/2017",
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Art. 20 Ley 31/1995 (Medidas de emergencia)",
     "explanation": "El Reglamento de Instalaciones de Protección contra Incendios (RD 513/2017) califica el extintor de polvo químico seco polivalente ABC como el medio portátil estándar y versátil para sofocar conatos en fuegos de clases A, B y C.",
     "sourceType": "norma_verificada"
   },
@@ -3519,14 +3519,14 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Qué tipo de extintor es el más idóneo para apagar fuegos en equipos informáticos, ordenadores y cuadros eléctricos sin dejar residuos dañinos?",
     "options": [
-      "Extintor de agua pura, previa verificación formal de los requisitos documentales exigidos por la normativa de aplicación.",
-      "Extintor de arena de mar",
-      "Extintor de espuma jabonosa",
+      "Extintor hídrico de agua pulverizada con sales conductoras de electricidad",
+      "Extintor de polvo químico seco convencional que deja depósito corrosivo",
+      "Extintor de espuma física de baja expansión con aditivo sintético AFFF",
       "Extintor de nieve carbónica (Dióxido de Carbono - CO2)"
     ],
     "correct": 3,
-    "law": "Real Decreto 513/2017",
-    "article": "Anexo I, Sección 1ª RD 513/2017",
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Art. 20 Ley 31/1995 (Medidas de emergencia)",
     "explanation": "Conforme al RD 513/2017 (RIPCI), el extintor de dióxido de carbono (nieve carbónica - CO2) es el idóneo para fuegos en presencia de tensión eléctrica o equipos informáticos al sofocar sin conducir electricidad ni dejar residuos corrosivos.",
     "sourceType": "norma_verificada"
   },
@@ -3535,17 +3535,17 @@ export const QUESTION_BANK = [
     "block": "especifico",
     "topicId": 10,
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
-    "question": "¿A qué altura máxima debe colocarse el asa o boca de un extintor portátil respecto al suelo según la normativa técnica vigente (RIPCI)?",
+    "question": "En caso de activación de la alarma de evacuación por conato de incendio en un edificio administrativo, ¿qué pauta de seguridad es prioritaria para el personal auxiliar?",
     "options": [
-      "Entre 80 cm y 1,20 metros (o máximo 1,70 m según ordenanzas locales)",
-      "A más de 2 metros de altura, quedando debidamente documentada la actuación en el expediente administrativo correspondiente.",
-      "Tirado en el suelo bajo una mesa",
-      "En el falso techo"
+      "No utilizar los ascensores en ningún caso y descender por las escaleras señalizadas hacia el punto de reunión exterior",
+      "Subir a la última planta o azotea para aguardar rescate aéreo sin utilizar las vías de evacuación",
+      "Regresar a los despachos individuales para desconectar todos los equipos informáticos y recoger enseres personales",
+      "Abrir de par en par todas las puertas y ventanas del inmueble para favorecer el tiro de aire exterior"
     ],
     "correct": 0,
-    "law": "Real Decreto 513/2017",
-    "article": "Anexo I, Sección 1ª RD 513/2017",
-    "explanation": "El Anexo I, Sección 1ª del RD 513/2017 (RIPCI) dispone que la parte superior de los extintores portátiles se situará entre 80 cm y 120 cm sobre el suelo para facilitar su descuelgue rápido.",
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Art. 20 Ley 31/1995 (Medidas de emergencia)",
+    "explanation": "En situaciones de emergencia y evacuación queda terminantemente prohibido utilizar los ascensores por riesgo de corte de suministro eléctrico o atrapamiento; se deben seguir las vías de evacuación señalizadas hacia el punto de reunión exterior.",
     "sourceType": "norma_verificada"
   },
   {
@@ -3573,8 +3573,8 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Qué significan las señales redondas con fondo azul y pictograma blanco?",
     "options": [
-      "Prohibición, según determine la normativa específica aplicable, siempre que concurran razones justificadas de servicio y exista disponibilidad presupuestaria.",
-      "Advertencia de peligro, según determine la normativa específica aplicable",
+      "Prohibición",
+      "Advertencia de peligro",
       "Obligación de usar un determinado equipo o pauta de protección (ej. uso obligatorio de calzado de seguridad)",
       "Material de extinción de incendios"
     ],
@@ -3589,17 +3589,17 @@ export const QUESTION_BANK = [
     "block": "especifico",
     "topicId": 10,
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
-    "question": "¿Qué debe hacer el personal auxiliar si al revisar las instalaciones detecta que una luz de emergencia no enciende en el test?",
+    "question": "¿Qué obligación inmediata tiene el personal auxiliar o de servicios al detectar una anomalía, avería eléctrica o deterioro en una vía de evacuación?",
     "options": [
-      "Esperar a que se produzca un apagón general, salvo en los supuestos autorizados expresamente por el órgano competente del centro.",
-      "Pintar la pared de blanco",
-      "Quitar la lámpara y guardarla",
-      "Consignarlo en el parte diario de averías para la sustitución de la batería o luminaria por mantenimiento"
+      "Desmontar la instalación por iniciativa propia utilizando herramientas auxiliares de oficina",
+      "Esperar a la revisión técnica trimestral ordinaria sin alterar el funcionamiento del servicio",
+      "Proceder a clausurar por propia iniciativa el ala del edificio sin contar con la preceptiva autorización de la jefatura de unidad",
+      "Comunicarlo de inmediato a su superior jerárquico directo o al servicio encargado del mantenimiento del edificio"
     ],
     "correct": 3,
-    "law": "Real Decreto 513/2017",
-    "article": "Anexo I RD 513/2017",
-    "explanation": "Conforme al RD 513/2017, los sistemas de iluminación de emergencia deben someterse a revisiones periódicas, debiendo consignarse cualquier fallo de batería o lámpara en el parte diario de averías para su reposición inmediata.",
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Art. 29 Ley 31/1995 (Obligaciones de los trabajadores)",
+    "explanation": "Según el art. 29.2 de la Ley 31/1995, los trabajadores deben informar de inmediato a su superior jerárquico directo y a los trabajadores designados de prevención sobre cualquier situación que entrañe un riesgo para la seguridad y salud.",
     "sourceType": "norma_verificada"
   },
   {
@@ -3610,7 +3610,7 @@ export const QUESTION_BANK = [
     "question": "¿Dónde deben reunirse los ocupantes de un edificio público tras evacuarlo por una alarma de incendio?",
     "options": [
       "En el Punto de Encuentro o Reunión exterior previamente señalizado en el Plan de Autoprotección",
-      "En sus casas particulares, de conformidad con el procedimiento administrativo general, de conformidad con los criterios generales previstos en las instrucciones de régimen interior.",
+      "En sus casas particulares, de conformidad con el procedimiento administrativo general",
       "En la puerta de entrada obstaculizando el paso a los bomberos",
       "En la cafetería más lejana"
     ],
@@ -3627,10 +3627,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Quién debe asumir la investigación de un accidente laboral ocurrido a un trabajador en las instalaciones oficiales?",
     "options": [
-      "La policía local en todos los casos, previo informe preceptivo de la jefatura de unidad y constancia en el libro de registro.",
+      "La junta de contratación de bienes y servicios del departamento ministerial",
       "El Servicio de Prevención de Riesgos Laborales correspondiente con el concurso de los delegados de prevención",
-      "El conserje más cercano, previa propuesta motivada del órgano directivo correspondiente",
-      "Los compañeros de la misma mesa"
+      "El responsable del servicio de reprografía y paquetería de la sede administrativa",
+      "Los miembros de la mesa electoral sindical del centro directivo"
     ],
     "correct": 1,
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
@@ -3645,7 +3645,7 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "¿Qué derecho asiste a un trabajador según el artículo 21 de la Ley 31/1995 ante una situación de riesgo grave e inminente para su vida o salud?",
     "options": [
-      "Ninguno, está obligado a trabajar bajo cualquier condición, debiendo mediar en todo caso resolución motivada del titular del órgano directivo.",
+      "Ninguno, está obligado a trabajar bajo cualquier condición",
       "Derecho a percibir una prima doble ese día",
       "Derecho a interrumpir su actividad y, si fuera necesario, a abandonar de inmediato el lugar de trabajo",
       "Derecho a quemar las instalaciones"
@@ -3663,9 +3663,9 @@ export const QUESTION_BANK = [
     "topic": "Tema 10: Averías, Incidencias y Prevención de Riesgos",
     "question": "En trabajos frente a pantallas de visualización de datos (PVD), ¿a qué distancia aproximada debe colocarse la pantalla respecto a los ojos del usuario?",
     "options": [
-      "A 10 centímetros, según determine la normativa específica aplicable, con arreglo a los protocolos generales de actuación y coordinación en dependencias públicas.",
-      "Apoyada en las rodillas, según determine la normativa específica aplicable",
-      "A más de 2 metros de distancia",
+      "A menos de 25 centímetros de los ojos para facilitar la lectura de caracteres pequeños",
+      "Situada por encima del nivel de la línea horizontal de visión a una distancia de 1,5 metros",
+      "A una distancia fija de 90 a 100 centímetros con independencia del tamaño de la pantalla",
       "A una distancia mínima de entre 40 y 50 centímetros (longitud aproximada del brazo)"
     ],
     "correct": 3,
@@ -3776,10 +3776,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "En el control de acceso peatonal a una dependencia oficial del Ministerio de Defensa, una vez verificada la identidad del visitante y autorizada su entrada por la unidad de destino, la tarjeta acreditativa de visita:",
     "options": [
-      "Deberá portarse en lugar visible durante toda la estancia y devolverse en el control al abandonar el edificio.",
-      "Será custodiada por el funcionario que recibe la visita, quien la sellará y entregará al interesado como justificante de asistencia al finalizar la reunión.",
-      "Se canjeará obligatoriamente dejando en depósito el Documento Nacional de Identidad original en el mostrador de recepción.",
-      "Habilita el tránsito libre por todas las zonas del acuartelamiento."
+      "Deberá portarse en lugar visible durante toda la estancia y devolverse en el control al abandonar el edificio",
+      "Será custodiada por el funcionario que recibe la visita, quien la sellará y entregará al interesado como justificante de asistencia al finalizar la reunión",
+      "Se canjeará obligatoriamente dejando en depósito el Documento Nacional de Identidad original en el mostrador de recepción",
+      "Habilita el tránsito libre por todas las zonas del acuartelamiento"
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3795,10 +3795,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
     "question": "Cuando un ciudadano presenta documentos en soporte papel en una Oficina de Asistencia en Materia de Registros (OAMR) integrada en el sistema GEISER/SIR, el personal encargado procederá a su digitalización:",
     "options": [
-      "Quedando los documentos originales en depósito en el archivo de la oficina durante un plazo mínimo de cinco años naturales antes de su expurgo.",
-      "Devolviendo los originales al interesado, salvo que la norma determine su custodia o resulte obligatoria la presentación de objetos o documentos en un soporte específico.",
-      "Remitiendo el papel físico por valija urgente al órgano destinatario junto con la copia electrónica auténtica firmada mediante código seguro de verificación.",
-      "Previa tasa administrativa de compulsa por cada página escaneada."
+      "Quedando los documentos originales en depósito en el archivo de la oficina durante un plazo mínimo de cinco años naturales antes de su expurgo",
+      "Devolviendo los originales al interesado, salvo que la norma determine su custodia o resulte obligatoria la presentación de objetos o documentos en un soporte específico",
+      "Remitiendo el papel físico por valija urgente al órgano destinatario junto con la copia electrónica auténtica firmada mediante código seguro de verificación",
+      "Previa tasa administrativa de compulsa por cada página escaneada"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3814,10 +3814,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
     "question": "De acuerdo con el Real Decreto 1708/2011 por el que se establece el Sistema Español de Archivos, ¿cuál es el plazo general de permanencia de los documentos en los Archivos de Oficina o de Gestión antes de su transferencia al Archivo Central?",
     "options": [
-      "Permanecerán diez años desde la fecha de incoación del procedimiento administrativo, con independencia de que el trámite haya finalizado o siga abierto.",
-      "Un máximo de quince años, coincidiendo con el traslado de la documentación al Archivo General de la Administración situado en Alcalá de Henares.",
-      "Cinco años desde que concluyó su tramitación, salvo excepciones razonadas en que los procedimientos o el uso frecuente aconsejen un plazo distinto.",
-      "Un año natural improrrogable desde la fecha del asiento registral."
+      "Permanecerán diez años desde la fecha de incoación del procedimiento administrativo, con independencia de que el trámite haya finalizado o siga abierto",
+      "Un máximo de quince años, coincidiendo con el traslado de la documentación al Archivo General de la Administración situado en Alcalá de Henares",
+      "Cinco años desde que concluyó su tramitación, salvo excepciones razonadas en que los procedimientos o el uso frecuente aconsejen un plazo distinto",
+      "Un año natural improrrogable desde la fecha del asiento registral"
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3833,10 +3833,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "En las tareas auxiliares de recepción y apertura de la correspondencia oficial que llega a una unidad administrativa, si se recibe un sobre cerrado con la mención expresa «Personal», «Confidencial» o «Reservado» dirigido nominalmente a un cargo:",
     "options": [
-      "Se abrirá únicamente por el jefe de la unidad de registro para estampar el sello de entrada en el margen superior derecho de la primera página y escanear su contenido.",
-      "Se rechazará su recepción en la oficina de registro, devolviéndolo al empleado de Correos por no tratarse de un documento administrativo ordinario.",
-      "Se procederá a su apertura inmediata para verificar que no contiene objetos peligrosos.",
-      "Se entregará cerrado directamente a su destinatario o persona autorizada, anotando su recepción externa sin abrir el sobre en ningún caso."
+      "Se abrirá únicamente por el jefe de la unidad de registro para estampar el sello de entrada en el margen superior derecho de la primera página y escanear su contenido",
+      "Se rechazará su recepción en la oficina de registro, devolviéndolo al empleado de Correos por no tratarse de un documento administrativo ordinario",
+      "Se procederá a su apertura inmediata para verificar que no contiene objetos peligrosos",
+      "Se entregará cerrado directamente a su destinatario o persona autorizada, anotando su recepción externa sin abrir el sobre en ningún caso"
     ],
     "correct": 3,
     "law": "Constitución Española de 1978",
@@ -3852,10 +3852,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "En relación con el uso y mantenimiento de máquinas destructoras de documentos en oficinas de Defensa, ¿qué diferencia técnica existe entre las destructoras de corte en tiras (corte recto) y las de corte cruzado (partículas o confeti)?",
     "options": [
-      "Las de corte cruzado ofrecen un mayor nivel de seguridad confidencial y reducen el volumen del residuo en la papelera, aunque admiten menor número de hojas simultáneas por pasada.",
-      "Las de corte en tiras ofrecen el nivel más alto de seguridad (P-7) exigido para documentos clasificados como Secreto por el Centro Criptológico Nacional.",
-      "Las de corte cruzado no requieren lubricación de cuchillas ni sufren atascos por grapas o clips metálicos.",
-      "Las de corte en tiras cortan el papel transversal y longitudinalmente en fragmentos milimétricos."
+      "Las de corte cruzado ofrecen un mayor nivel de seguridad confidencial y reducen el volumen del residuo en la papelera, aunque admiten menor número de hojas simultáneas por pasada",
+      "Las de corte en tiras ofrecen el nivel más alto de seguridad (P-7) exigido para documentos clasificados como Secreto por el Centro Criptológico Nacional",
+      "Las de corte cruzado no requieren lubricación de cuchillas ni sufren atascos por grapas o clips metálicos",
+      "Las de corte en tiras cortan el papel transversal y longitudinalmente en fragmentos milimétricos"
     ],
     "correct": 0,
     "law": "Norma DIN 66399 (Niveles de Destrucción de Soportes de Información)",
@@ -3871,10 +3871,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "De conformidad con el Real Decreto 951/2005 por el que se establece el marco general para la mejora de la calidad en la Administración General del Estado, una vez recibida una queja o sugerencia en la unidad responsable, ¿en qué plazo deberá informarse al ciudadano de las actuaciones realizadas y qué efectos tiene respecto a los recursos administrativos?",
     "options": [
-      "En el plazo de diez días naturales, interrumpiendo automáticamente los plazos para interponer el recurso de alzada o reposición que corresponda.",
-      "En el plazo de veinte días hábiles, sin que las quejas tengan en ningún caso la calificación de recurso administrativo ni su presentación interrumpa los plazos establecidos en la normativa vigente.",
-      "En el plazo máximo de treinta días hábiles, teniendo efectos estimatorios por silencio administrativo si la Administración no contesta en dicho término.",
-      "En el plazo de quince días hábiles, surtiendo los mismos efectos jurídicos que una reclamación previa."
+      "En el plazo de diez días naturales, interrumpiendo automáticamente los plazos para interponer el recurso de alzada o reposición que corresponda",
+      "En el plazo de veinte días hábiles, sin que las quejas tengan en ningún caso la calificación de recurso administrativo ni su presentación interrumpa los plazos establecidos en la normativa vigente",
+      "En el plazo máximo de treinta días hábiles, teniendo efectos estimatorios por silencio administrativo si la Administración no contesta en dicho término",
+      "En el plazo de quince días hábiles, surtiendo los mismos efectos jurídicos que una reclamación previa"
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
@@ -3890,10 +3890,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "En el ámbito de protección de la documentación oficial y materias clasificadas en el Ministerio de Defensa, ¿cuáles son las categorías o grados de clasificación ordenados de MAYOR a MENOR nivel de protección y restricción?",
     "options": [
-      "Alto Secreto, Secreto, Confidencial y Uso Oficial Interno.",
-      "Secreto, Confidencial, Reservado y Difusión Limitada, siendo esta última la única que requiere autorización expresa del Consejo de Ministros para su cancelación.",
-      "Secreto, Reservado, Confidencial y Difusión Limitada.",
-      "Reservado, Secreto, Restringido y Ordinario."
+      "Alto Secreto, Secreto, Confidencial y Uso Oficial Interno",
+      "Secreto, Confidencial, Reservado y Difusión Limitada, siendo esta última la única que requiere autorización expresa del Consejo de Ministros para su cancelación",
+      "Secreto, Reservado, Confidencial y Difusión Limitada",
+      "Reservado, Secreto, Restringido y Ordinario"
     ],
     "correct": 2,
     "law": "Ley 9/1968 sobre Secretos Oficiales",
@@ -3909,10 +3909,10 @@ export const QUESTION_BANK = [
     "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
     "question": "¿Qué sistema de encuadernación de oficina permite un giro completo de las hojas de 360 grados y utiliza un peine metálico de doble anillo que se cierra por presión mediante una máquina cerradora, impidiendo añadir o quitar hojas fácilmente sin deformar el alambre?",
     "options": [
-      "La encuadernación mediante canutillo de plástico, que emplea perforaciones rectangulares y permite abrir las anillas manualmente con un peine abridor cuantas veces sea necesario.",
-      "La encuadernación térmica o fresada por calor.",
-      "La encuadernación por barra deslizante de presión sin perforación previa del papel.",
-      "La encuadernación tipo Wire-O (doble espiral metálica), muy utilizada en manuales e informes definitivos por su alta resistencia y acabado alineado."
+      "La encuadernación mediante canutillo de plástico, que emplea perforaciones rectangulares y permite abrir las anillas manualmente con un peine abridor cuantas veces sea necesario",
+      "La encuadernación térmica o fresada por calor",
+      "La encuadernación por barra deslizante de presión sin perforación previa del papel",
+      "La encuadernación tipo Wire-O (doble espiral metálica), muy utilizada en manuales e informes definitivos por su alta resistencia y acabado alineado"
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",

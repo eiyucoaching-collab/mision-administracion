@@ -13,20 +13,21 @@ El contenido se somete a una estricta política de rigor normativo: **no se inve
 | Bloque / Componente | Estado de Verificación | Documentación y Fuentes |
 | :--- | :--- | :--- |
 | **Temas 1 a 4 (Bloque Común)** | **Auditado contra copias del BOE** | Citas literales, encabezados y URLs del BOE consolidado recogidos en [`docs/auditoria_contenido.md`](docs/auditoria_contenido.md). Copias HTML guardadas en [`docs/fuentes/boe/`](docs/fuentes/boe/). Sujeto a comprobación independiente. |
-| **Temas 5 a 10 (Bloque Específico)** | ⏸️ **Pausado preventivamente** | En espera de la aportación de las bases completas oficiales en [`docs/fuentes/`](docs/fuentes/) (**contenido por confirmar con las bases completas**). Las preguntas con fuentes no consolidadas permanecen con `verified: false` y excluidas del simulacro oficial. |
-| **Modelo de Examen (Estructura)** | ⚠️ *Modelo provisional* | El modelo actual (60 preguntas ordinarias + 6 de reserva, 60 minutos, penalización de -1/3 por fallo y corte en 30 puntos) es un **supuesto provisional del simulador** (**contenido por confirmar con las bases completas**). No se presupone ni afirma que los ejercicios, baremos o anexos sean iguales entre el Turno Libre (40 plazas, oposición) y la Promoción Interna (24 plazas, concurso-oposición), cuyas pruebas y fases pueden diferir. |
+| **Temas 5 a 10 (Bloque Específico)** | **Activo y Saneado** | Temario específico para E1 Servicios Administrativos contrastado con la convocatoria oficial (Resolución 430/38310/2026, BOE-A-2026-14677): control de accesos, paquetería y valija, reprografía/formatos DIN, correspondencia oficial, recados y prevención de riesgos laborales en oficinas (Ley 31/1995). |
+| **Modelo de Examen (Estructura)** | **Estructura Convocatoria 2026** | Ejercicio único de **60 preguntas ordinarias + 6 de reserva** (90 minutos, penalización oficial de −1/3 por fallo y corte mínimo aprobatorio de 30 puntos sobre 60). Ponderación: **33,3% Bloque Común** (20 preguntas, Temas 1 a 4) y **66,7% Bloque Específico** (40 preguntas, Temas 5 a 10). **Objetivo de entrenamiento recomendado: &ge; 65%**. Examen oficial: **19 de diciembre de 2026** (Sede Murcia). |
 
 ---
 
 ## ⚡ Características Principales
 
-1. **Simulador de Examen Táctico (Modelo Provisional)**:
-   - Formato modelado sobre supuestos provisionales AGE (60 ord + 6 reservas, 60 min, corte 30, penalización -1/3), con **contenido por confirmar con las bases completas** (diferenciando turno libre y promoción interna).
-   - Modo formato 2025: simulacro estructurado con aviso de provisionalidad, sin atribuirse condición de examen real oficial al carecer de plantilla definitiva.
-   - Barajado algorítmico Fisher-Yates sin sesgo posicional (distribución uniforme ~25% por opción).
-   - Sustitución de preguntas anuladas por reservas del simulacro (R1–R6) y recálculo automático si las anulaciones exceden el cupo de reservas.
-   - Temporizador dinámico proporcional por modalidad (oficial, bloques, temas monográficos).
-   - Separación estricta de métricas: las notas y porcentajes del simulacro oficial no se mezclan con pruebas parciales ni desvirtúan el promedio.
+1. **Simulador de Examen Táctico de Alto Rendimiento**:
+   - Formato oficial Convocatoria 2026: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, penalización táctica (−0,33 / −0,25) y corte oficial en 30 puntos netos (con objetivo recomendado de entrenamiento al 65%).
+   - Cálculo en tiempo real de **Valor Esperado (EV)** según nivel de confianza (🟢 Segura, 🟡 Duda 50/50, 🔴 Riesgo) y descarte táctico.
+   - Bóveda de Fallos con algoritmo de repetición espaciada **Leitner SRS** (4 cajas: 1, 3, 7 y 14 días; requiere 3 aciertos seguros consecutivos para dominar).
+   - Entrenador de Literalidad (**Cloze Deletion**) con extractos del BOE y manuales operativos.
+   - Barajado algorítmico Fisher-Yates sin sesgo posicional (distribución equilibrada de opciones A, B, C, D).
+   - Sustitución de preguntas anuladas por reservas del simulacro (R1–R6).
+   - Separación estricta de métricas: las notas y porcentajes del simulacro oficial no se mezclan con pruebas parciales.
 
 2. **Arquitectura Offline-First Real**:
    - **Cero dependencias de CDN en runtime**: Tailwind CSS v4 compilado de forma local (`assets/css/app.min.css`).
@@ -63,8 +64,8 @@ El contenido se somete a una estricta política de rigor normativo: **no se inve
 │   ├── styles/
 │   │   └── app.css             # Fuente CSS con directivas Tailwind v4 y estilos tácticos
 │   └── data/                   # Banco de datos auditado
-│       ├── syllabus.js         # Estructura del temario (común y específico)
-│       ├── questions.js        # Banco de 204 preguntas con trazabilidad normativa
+│       ├── syllabus.js         # Estructura del temario (común y específico T1-T10)
+│       ├── questions.js        # Banco de 217 preguntas con trazabilidad normativa y sin sesgos
 │       ├── cifras_y_trampas.js # Cifras sagradas y trampas oficiales contrastadas
 │       ├── flashcards.js       # Tarjetas de memoria activa
 │       ├── podcasts.js         # Pistas de audio-repaso
@@ -119,6 +120,8 @@ npm run build:css
 
 El flujo de integración continua (`.github/workflows/ci.yml`) verifica en cada cambio:
 1. **Distribución balanceada de letras**: Ninguna opción (A, B, C, D) puede superar el 35% en el banco.
-2. **Control de longitud de distractores**: La opción más larga y la más corta deben situarse en la banda del 15% al 35% para impedir sesgos cognitivos.
-3. **Simulación ciega de 2.000 exámenes**: Un opositor que marque siempre la misma letra obtiene ~25% de aciertos y una tasa de aprobados del 0,00%.
-4. **Respaldo normativo**: Ninguna pregunta puede carecer de `sourceType` válido, y todas las preguntas sin verificación oficial quedan excluidas de los simulacros oficiales.
+2. **Control de longitud de distractores**: La opción más larga y la más corta deben situarse en la banda del 15% al 48% (respetando la literalidad natural del BOE sin relleno artificial).
+3. **Detector de muletillas sintéticas (Anti-Goodhart)**: Prohibición estricta de n-gramas repetidos (>3 opciones incorrectas y 0 en correctas) para garantizar distractores auténticos.
+4. **Simulación ciega de 2.000 exámenes**: Un opositor que marque siempre la misma letra obtiene ~25% de aciertos y una tasa de aprobados del 0,00%.
+5. **Respaldo normativo**: Ninguna pregunta puede carecer de `sourceType` válido, y todas las preguntas sin verificación oficial quedan excluidas de los simulacros oficiales.
+6. **Seguridad Frontend (Anti-XSS)**: Sanitización estricta de entradas y renderizado dinámico seguro para proteger tokens PAT y credenciales almacenadas localmente.

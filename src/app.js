@@ -32,7 +32,21 @@ import {
 } from './storage/migration.js';
 import { DailyMissionsManager } from './modules/missions_engine.js';
 
+export function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 class OpoDefensaApp {
+  escapeHtml(str) {
+    return escapeHtml(str);
+  }
+
   constructor() {
     this.syllabus = SYLLABUS;
     this.cifras = CIFRAS_SAGRADAS;
@@ -597,7 +611,7 @@ class OpoDefensaApp {
     // 5. Fin de Semana: Enfoque Específico
     if (day === 0 || day === 6) {
       return {
-        badge: '🏆 FIN DE SEMANA: BLOQUE ESPECÍFICO (70%)',
+        badge: '🏆 FIN DE SEMANA: BLOQUE ESPECÍFICO (66,7%)',
         badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
         title: 'Dominio de Temas Específicos (T5 al T10)',
         description: 'Refuerzo prioritario en accesos, valija, DIN 476, correos, secretos oficiales y PRL.',
@@ -917,7 +931,7 @@ class OpoDefensaApp {
             </h1>
 
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Sistema de alto rendimiento para asegurar tu plaza el <strong>19 de diciembre de 2026 a las 10:00</strong>. Entrenamiento estricto con Valor Esperado (EV), Bóveda Leitner SRS y ponderación <strong>30% Común / 70% Específico</strong>.
+              Sistema de alto rendimiento para asegurar tu plaza el <strong>19 de diciembre de 2026 a las 10:00</strong>. Entrenamiento estricto con Valor Esperado (EV), Bóveda Leitner SRS y ponderación <strong>33,3% Común (20 preg.) / 66,7% Específico (40 preg.)</strong>.
             </p>
 
             <!-- CONTADOR REGRESIVO DUAL AL EXAMEN OFICIAL -->
@@ -997,13 +1011,13 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- KPIS CON PONDERACIÓN OFICIAL (30% COMÚN VS 70% ESPECÍFICO) -->
+        <!-- KPIS CON PONDERACIÓN OFICIAL (33,3% COMÚN VS 66,7% ESPECÍFICO) -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-bold text-white flex items-center gap-2">
-              <span>⚖️</span> Ponderación de Examen: Común (30%) vs Específica (70%)
+              <span>⚖️</span> Ponderación de Examen: Común (33,3%) vs Específica (66,7%)
             </h3>
-            <span class="text-xs text-slate-400">Objetivo de corte: &ge; 65% en Específica</span>
+            <span class="text-xs text-slate-400">Objetivo de entrenamiento recomendado: &ge; 65% en Específica (Corte oficial: 30/60 pts)</span>
           </div>
 
           <!-- ALERTA DE DESCOMPENSACIÓN SI ESPECÍFICA < 65% -->
@@ -1012,10 +1026,10 @@ class OpoDefensaApp {
               <span class="text-2xl shrink-0">⚠️</span>
               <div class="space-y-1">
                 <div class="font-extrabold text-sm text-white">
-                  ALERTA DE DESCOMPENSACIÓN CRÍTICA EN TEMAS ESPECÍFICOS
+                  ALERTA DE DESCOMPENSACIÓN EN TEMAS ESPECÍFICOS
                 </div>
                 <div class="text-xs text-rose-200/90 leading-relaxed">
-                  La <strong>Parte Específica representa el 70% del ejercicio</strong> (40 preguntas ordinarias de 60). Tu precisión histórica actual en este bloque es del <strong>${blockAcc.espPct}%</strong>, por debajo del umbral mínimo del 65% requerido para no quedar fuera por nota de corte en Murcia. Prioriza el entrenamiento en los Temas 5 al 10.
+                  La <strong>Parte Específica representa el 66,7% del ejercicio</strong> (40 preguntas ordinarias de 60). Tu precisión histórica actual en este bloque es del <strong>${blockAcc.espPct}%</strong>, por debajo del objetivo de entrenamiento recomendado del 65% (el corte mínimo oficial de la oposición es de 30 puntos sobre 60). Prioriza el entrenamiento en los Temas 5 al 10.
                 </div>
                 <div class="pt-1">
                   <button onclick="window.app.startNewExam('especifico')" class="px-3 py-1 bg-rose-500 hover:bg-rose-400 text-slate-950 font-black text-xs rounded-lg shadow transition-all">
@@ -1030,8 +1044,8 @@ class OpoDefensaApp {
             <!-- PARTE COMÚN -->
             <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
               <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Parte Común (30%)</span>
-                <span>Temas 1 a 4</span>
+                <span>Parte Común (33,3%)</span>
+                <span>Temas 1 a 4 (20 preg.)</span>
               </div>
               <div class="text-2xl sm:text-3xl font-black ${blockAcc.comunPct !== null && blockAcc.comunPct >= 70 ? 'text-emerald-400' : blockAcc.comunPct !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
                 ${blockAcc.comunPct !== null ? `${blockAcc.comunPct}%` : '—'}
@@ -1044,8 +1058,8 @@ class OpoDefensaApp {
             <!-- PARTE ESPECÍFICA -->
             <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
               <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Parte Específica (70%)</span>
-                <span>Temas 5 a 10</span>
+                <span>Parte Específica (66,7%)</span>
+                <span>Temas 5 a 10 (40 preg.)</span>
               </div>
               <div class="text-2xl sm:text-3xl font-black ${blockAcc.espPct !== null && blockAcc.espPct >= 65 ? 'text-emerald-400' : blockAcc.espPct !== null ? 'text-rose-400' : 'text-slate-500'} mt-1">
                 ${blockAcc.espPct !== null ? `${blockAcc.espPct}%` : '—'}
@@ -1114,7 +1128,7 @@ class OpoDefensaApp {
                   <div class="space-y-1">
                     <div class="flex items-center justify-between gap-1">
                       <span class="text-[10px] font-black uppercase px-1.5 py-0.5 rounded ${isCommon ? 'bg-indigo-500/20 text-indigo-300' : 'bg-emerald-500/20 text-emerald-300'}">
-                        ${isCommon ? 'Común (30%)' : 'Espec. (70%)'}
+                        ${isCommon ? 'Común (33,3%)' : 'Espec. (66,7%)'}
                       </span>
                       <span class="text-base">${t.icon || '📄'}</span>
                     </div>
@@ -2253,7 +2267,7 @@ class OpoDefensaApp {
           <!-- BLOQUE COMÚN -->
           <button onclick="window.app.startNewExam('comun')" class="p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">⚖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (30%)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (33,3%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad). 20 min. Corte: 10 pts.
             </p>
@@ -2262,7 +2276,7 @@ class OpoDefensaApp {
           <!-- BLOQUE ESPECÍFICO -->
           <button onclick="window.app.startNewExam('especifico')" class="p-6 bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🛡️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (70%)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (66,7%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL). 40 min. Corte: 20 pts.
             </p>
@@ -2425,7 +2439,7 @@ class OpoDefensaApp {
           <div class="flex items-start justify-between gap-4">
             <div class="flex flex-wrap items-center gap-2">
               <span class="text-[11px] font-extrabold uppercase px-2 py-0.5 rounded bg-slate-800 text-sky-400">
-                ${q.topic}
+                ${this.escapeHtml(q.topic)}
               </span>
               ${this.getSourceBadge(q.sourceType, q.isRealExam2025)}
               <span class="text-[11px] text-slate-500 font-mono">ID #${q.id}</span>
@@ -2437,7 +2451,7 @@ class OpoDefensaApp {
           </div>
 
           <div class="text-base sm:text-xl font-bold text-white leading-relaxed">
-            ${q.question}
+            ${this.escapeHtml(q.question)}
           </div>
 
           <!-- INDICADOR TÁCTICO DE DESCARTE (-0,33) -->
@@ -2516,7 +2530,7 @@ class OpoDefensaApp {
                       ${letter}
                     </span>
                     <span class="text-sm sm:text-base leading-relaxed pt-0.5 ${isCrossed ? 'line-through decoration-rose-500 decoration-2' : ''}">
-                      ${opt}
+                      ${this.escapeHtml(opt)}
                     </span>
                   </button>
 
@@ -3049,7 +3063,7 @@ class OpoDefensaApp {
                       <span class="w-auto px-2 h-6 rounded-md flex items-center justify-center text-xs font-black ${item.isCorrect ? 'bg-emerald-500 text-slate-950' : item.isBlank ? 'bg-slate-800 text-slate-400' : 'bg-rose-500 text-slate-950'}">
                         ${item.num}
                       </span>
-                      <span class="text-xs font-bold text-slate-400">${q.topic}</span>
+                      <span class="text-xs font-bold text-slate-400">${this.escapeHtml(q.topic)}</span>
                       ${this.getSourceBadge(q.sourceType, q.isRealExam2025)}
                     </div>
 
@@ -3059,7 +3073,7 @@ class OpoDefensaApp {
                   </div>
 
                   <p class="text-sm sm:text-base font-bold text-white leading-relaxed">
-                    ${q.question}
+                    ${this.escapeHtml(q.question)}
                   </p>
 
                   <!-- OPCIONES -->
@@ -3078,7 +3092,7 @@ class OpoDefensaApp {
                       return `
                         <div class="p-3 rounded-xl border flex items-center gap-3 ${badgeClass}">
                           <span class="font-black">${['A', 'B', 'C', 'D'][oIdx]}</span>
-                          <span>${opt}</span>
+                          <span>${this.escapeHtml(opt)}</span>
                           ${isCorrectAnswer ? '<span class="ml-auto text-xs text-emerald-400 font-bold">✓ Correcta</span>' : ''}
                           ${isUserChoice && !isCorrectAnswer ? '<span class="ml-auto text-xs text-rose-400 font-bold">✗ Tu opción</span>' : ''}
                         </div>
@@ -3089,9 +3103,9 @@ class OpoDefensaApp {
                   <!-- JUSTIFICACIÓN LEGAL LITERAL -->
                   <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs sm:text-sm text-slate-300 space-y-1.5">
                     <div class="text-[11px] font-black uppercase text-sky-400 flex items-center gap-1.5">
-                      <span>⚖️</span> ${q.law} &bull; ${q.article}
+                      <span>⚖️</span> ${this.escapeHtml(q.law)} ${q.article ? `&bull; ${this.escapeHtml(q.article)}` : ''}
                     </div>
-                    <p class="leading-relaxed text-slate-300">${this.applyMnemonicHighlights(q.explanation)}</p>
+                    <p class="leading-relaxed text-slate-300">${this.applyMnemonicHighlights(this.escapeHtml(q.explanation))}</p>
                   </div>
                 </div>
               `;
@@ -3386,7 +3400,7 @@ class OpoDefensaApp {
                 </div>
 
                 <div class="text-xs sm:text-sm font-bold text-white leading-relaxed">
-                  ${q.question}
+                  ${this.escapeHtml(q.question)}
                 </div>
 
                 <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-800/60 text-xs">
@@ -5464,11 +5478,11 @@ class OpoDefensaApp {
             ${mainQuestions.map((q, idx) => `
               <div class="avoid-break border-b border-gray-200 pb-3 space-y-1.5">
                 <div class="font-bold text-sm">
-                  ${idx + 1}. ${q.question}
+                  ${idx + 1}. ${this.escapeHtml(q.question)}
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 pl-4 pt-1">
                   ${q.options.map((opt, oIdx) => `
-                    <div><strong>${['A', 'B', 'C', 'D'][oIdx]})</strong> ${opt}</div>
+                    <div><strong>${['A', 'B', 'C', 'D'][oIdx]})</strong> ${this.escapeHtml(opt)}</div>
                   `).join('')}
                 </div>
               </div>
@@ -5487,11 +5501,11 @@ class OpoDefensaApp {
             ${reserveQuestions.map((q, rIdx) => `
               <div class="avoid-break border-b border-gray-200 pb-3 space-y-1.5">
                 <div class="font-bold text-sm">
-                  R${rIdx + 1}. ${q.question}
+                  R${rIdx + 1}. ${this.escapeHtml(q.question)}
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 pl-4 pt-1">
                   ${q.options.map((opt, oIdx) => `
-                    <div><strong>${['A', 'B', 'C', 'D'][oIdx]})</strong> ${opt}</div>
+                    <div><strong>${['A', 'B', 'C', 'D'][oIdx]})</strong> ${this.escapeHtml(opt)}</div>
                   `).join('')}
                 </div>
               </div>
@@ -5524,8 +5538,8 @@ class OpoDefensaApp {
                   <tr class="avoid-break">
                     <td class="font-bold">${label}</td>
                     <td class="font-bold text-center">[${['A', 'B', 'C', 'D'][q.correct]}]</td>
-                    <td>${q.law} ${q.article ? `&bull; ${q.article}` : ''}</td>
-                    <td>${q.explanation}</td>
+                    <td>${this.escapeHtml(q.law)} ${q.article ? `&bull; ${this.escapeHtml(q.article)}` : ''}</td>
+                    <td>${this.escapeHtml(q.explanation)}</td>
                   </tr>
                 `;
               }).join('')}
