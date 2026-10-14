@@ -7,6 +7,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { QUESTION_BANK } from '../src/data/questions.js';
+import { CIFRAS_SAGRADAS, TRAMPAS_EXAMEN } from '../src/data/cifras_y_trampas.js';
+import { FLASHCARDS } from '../src/data/flashcards.js';
+import { PODCAST_TRACKS } from '../src/data/podcasts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -76,7 +79,40 @@ const LAW_TO_BOE_FILE = {
   'Ley 3/2015': ['BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html']
 };
 
+function resolveBoeFiles(lawStr) {
+  if (!lawStr || typeof lawStr !== 'string') return [];
+  const trimmed = lawStr.trim();
+  if (LAW_TO_BOE_FILE[trimmed]) return LAW_TO_BOE_FILE[trimmed];
+  const files = new Set();
+  for (const [key, val] of Object.entries(LAW_TO_BOE_FILE)) {
+    if (trimmed.includes(key) || key.includes(trimmed)) {
+      val.forEach(f => files.add(f));
+    }
+  }
+  return [...files];
+}
+
 const errors = [];
+
+function validateVerifiedItem(prefix, lawStr, isVerified, topicId) {
+  if (!isVerified) return;
+  if (topicId && topicId >= 5) {
+    errors.push(`${prefix}: Temas 5-10 no pueden marcarse como verificados ('verified: true' o 'norma_verificada') hasta auditar las bases completas con anexos.`);
+    return;
+  }
+  const boeFiles = resolveBoeFiles(lawStr);
+  if (!boeFiles || boeFiles.length === 0) {
+    errors.push(`${prefix}: Un elemento con 'verified: true' o 'norma_verificada' debe citar una norma que exista en docs/fuentes/boe/. Norma citada: '${lawStr}'.`);
+    return;
+  }
+  for (const f of boeFiles) {
+    const fullPath = path.join(boeDir, f);
+    if (!fs.existsSync(fullPath)) {
+      errors.push(`${prefix}: Copia local del BOE no encontrada en disco: docs/fuentes/boe/${f}`);
+    }
+  }
+}
+
 const seenIds = new Set();
 const letterDist = { 0: 0, 1: 0, 2: 0, 3: 0 };
 let longestCorrectCount = 0;
@@ -142,22 +178,7 @@ QUESTION_BANK.forEach((q, idx) => {
 
   // 5b. Respaldo documental local obligatorio para 'norma_verificada' o 'verified: true'
   const isVerified = q.sourceType === 'norma_verificada' || q.verified === true;
-  if (isVerified) {
-    if (q.topicId >= 5) {
-      errors.push(`${prefix}: Temas 5-10 no pueden marcarse como 'norma_verificada' hasta auditar las bases completas con anexos.`);
-    }
-    const boeFiles = LAW_TO_BOE_FILE[q.law];
-    if (!boeFiles || boeFiles.length === 0) {
-      errors.push(`${prefix}: 'norma_verificada' requiere citar una norma con copia oficial local en docs/fuentes/boe/. Norma citada: '${q.law}'.`);
-    } else {
-      for (const f of boeFiles) {
-        const fullPath = path.join(boeDir, f);
-        if (!fs.existsSync(fullPath)) {
-          errors.push(`${prefix}: Copia local del BOE no encontrada en disco: docs/fuentes/boe/${f}`);
-        }
-      }
-    }
-  }
+  validateVerifiedItem(prefix, q.law, isVerified, q.topicId);
 
 
   // 6. Integridad normativa estricta: Art. 32.1 y Art. 8.1 IV CUAGE
@@ -188,6 +209,31 @@ QUESTION_BANK.forEach((q, idx) => {
       errors.push(`${prefix}: La respuesta correcta para titulación de acceso de E1 no puede ser 'sin titulación' (exige Graduado en ESO o FP Básico según Art. 8.1.e IV CUAGE).`);
     }
   }
+});
+
+// Validación estricta de respaldo documental para colecciones didácticas auxiliares si declaran verified: true o norma_verificada
+CIFRAS_SAGRADAS.forEach((c, idx) => {
+  const prefix = `[Cifra ID ${c.id ?? idx}]`;
+  const isVerified = c.verified === true || c.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, c.detalle || c.concepto || c.tema, isVerified, c.topicId);
+});
+
+TRAMPAS_EXAMEN.forEach((t, idx) => {
+  const prefix = `[Trampa ID ${t.id ?? idx}]`;
+  const isVerified = t.verified === true || t.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, t.realidad || t.trampa || t.titulo, isVerified, t.topicId);
+});
+
+FLASHCARDS.forEach((f, idx) => {
+  const prefix = `[Flashcard ID ${f.id ?? idx}]`;
+  const isVerified = f.verified === true || f.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, f.reference || f.back, isVerified, f.topicId);
+});
+
+PODCAST_TRACKS.forEach((p, idx) => {
+  const prefix = `[Podcast ID ${p.id ?? idx}]`;
+  const isVerified = p.verified === true || p.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, p.summary || p.title, isVerified, p.topicId);
 });
 
 // Validación cruzada de archivos de contenido y todas las guías contra la asociación errónea E1/E2 con 15 días / sin titulación

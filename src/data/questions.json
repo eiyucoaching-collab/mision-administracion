@@ -1076,7 +1076,7 @@
     ],
     "correct": 3,
     "law": "Ley 39/2006 de Dependencia",
-    "article": "Art. 26.2 Ley 39/2006",
+    "article": "Art. 26.1.b Ley 39/2006",
     "explanation": "El Grado II (dependencia severa) se define por requerir ayuda dos o tres veces al día, sin exigir el apoyo continuo de un cuidador permanente.",
     "sourceType": "norma_verificada"
   },
@@ -1202,7 +1202,7 @@
     ],
     "correct": 2,
     "law": "Ley 39/2006 de Dependencia",
-    "article": "Art. 26.3 Ley 39/2006",
+    "article": "Art. 26.1.c Ley 39/2006",
     "explanation": "El Grado III o Gran Dependencia se caracteriza por la pérdida total de autonomía y la necesidad continuada de apoyo de otra persona.",
     "sourceType": "norma_verificada"
   },

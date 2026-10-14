@@ -11,8 +11,8 @@ export const FLASHCARDS = [
     "id": 2,
     "category": "Plazos Constitucionales",
     "front": "¿Durante cuántos años ejerce su mandato el Defensor del Pueblo?",
-    "back": "5 AÑOS. Es reelegible por una sola vez y lo eligen las Cortes por mayoría de 3/5 (art. 54 CE y LO 3/1981).",
-    "reference": "Art. 54 CE"
+    "back": "5 AÑOS. Lo eligen las Cortes por mayoría de 3/5 del Congreso y ratificación por 3/5 del Senado (art. 54 CE y art. 2 LO 3/1981).",
+    "reference": "Art. 54 CE y Art. 2 LO 3/1981"
   },
   {
     "id": 3,
