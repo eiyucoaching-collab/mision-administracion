@@ -44,7 +44,7 @@ La suspensión exonera de las obligaciones recíprocas de trabajar y remunerar e
 5. **Privación de libertad del trabajador** mientras no recaiga sentencia condenatoria firme.
 6. **Fuerza mayor temporal** o causas ETOP (económicas, técnicas, organizativas o de producción).
 7. **Ejercicio del derecho de huelga** y cierre patronal legal.
-8. **Decisión de la trabajadora víctima de violencia de género** (hasta un máximo inicial de 6 meses, prorrogables judicialmente por periodos de 3 meses hasta un total de 18 meses).
+8. **Decisión de la trabajadora víctima de violencia de género** (art. 45.1.n y art. 48.8 TRLET: hasta un máximo inicial de 6 meses, prorrogables judicialmente por periodos de 3 meses hasta un total de 18 meses).
 
 ---
 

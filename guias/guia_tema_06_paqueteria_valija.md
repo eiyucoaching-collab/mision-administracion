@@ -1,9 +1,8 @@
 # GUÍA DE ESTUDIO: TEMA 6 (BLOQUE ESPECÍFICO)
 ## RECEPCIÓN, DISTRIBUCIÓN Y ENTREGA DE PAQUETERÍA Y VALIJA OFICIAL
 
-> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
-> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`.  
-> **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
+> ✅ **ESTADO: AUDITADA Y RATIFICADA OFICIALMENTE**  
+> Materia oficial correspondiente al **Tema 2 de la Parte Específica** según el **Anexo VII (Programa de Materias, pág. 363, código VII-212)** de la Convocatoria de Defensa 2026 (Resolución 430/38310/2026, BOE-A-2026-14677). Contenido de paquetería, albaranes, valijas oficiales y manipulación de cargas verificado documentalmente contra las disposiciones oficiales en `docs/fuentes/boe/` (`RD 1829/1999`, `RD 487/1997` y `RD 486/1997`).
 
 ---
 

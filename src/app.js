@@ -14,6 +14,7 @@ import { FLASHCARDS } from './data/flashcards.js';
 import { QUESTION_BANK } from './data/questions.js';
 import { PODCAST_TRACKS } from './data/podcasts.js';
 import { ESQUEMAS } from './data/esquemas.js';
+import { CLOZE_BANK } from './data/cloze_data.js';
 import {
   shuffleArray,
   shuffleQuestionOptions,
@@ -21,13 +22,15 @@ import {
   calculateExamScore,
   getTimeLimitForMode,
   calculateDashboardMetrics,
-  initExamSessionState
+  initExamSessionState,
+  normalizeQuestion
 } from './exam/engine.js';
 import {
   STORAGE_KEYS,
   CURRENT_STORAGE_VERSION,
   migrateStorage
 } from './storage/migration.js';
+import { DailyMissionsManager } from './modules/missions_engine.js';
 
 class OpoDefensaApp {
   constructor() {
@@ -38,7 +41,22 @@ class OpoDefensaApp {
     this.questionBank = QUESTION_BANK;
     this.podcasts = PODCAST_TRACKS;
     this.esquemas = ESQUEMAS;
+    this.clozeBank = CLOZE_BANK;
     this.selectedEsquemaId = this.esquemas[0]?.id || 'age';
+
+    // Estado del Entrenador de Literalidad (Cloze Deletion)
+    this.clozeState = {
+      selectedTopicId: 'all',
+      revealed: new Set(),
+      showAll: false
+    };
+
+    // Estado de Bóveda de Fallos (Leitner SRS 4 Cajas)
+    this.srsVault = {};
+    this.customQuestions = [];
+    this.gistConfig = { token: '', gistId: '', lastSync: null };
+    this.settings = { penaltyRate: 0.3333333333333333 };
+    this.allQuestions = [...this.questionBank];
 
     // Estado del Reproductor de Audio y Podcast (Dual Engine: HTML5 Audio + Web Speech)
     this.podcastState = {
@@ -105,6 +123,28 @@ class OpoDefensaApp {
     // Almacenamiento Local (Offline-First)
     this.loadPersistence();
 
+    // Motor de Misiones Diarias, Persistencia Reactiva y Notificaciones PWA
+    this.missionsManager = new DailyMissionsManager((state) => {
+      if (this.gistConfig && this.gistConfig.token) {
+        this.syncToGist().catch(() => {});
+      }
+    });
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('opo:missions-updated', () => {
+        if (this.activeTab === 'dashboard') {
+          const card = document.getElementById('daily-missions-card');
+          if (card) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = this.renderDailyMissionCard();
+            if (tempDiv.firstElementChild) {
+              card.replaceWith(tempDiv.firstElementChild);
+            }
+          }
+        }
+      });
+    }
+
     // Inicializar la baraja de flashcards
     this.initFlashcardSession();
 
@@ -126,6 +166,11 @@ class OpoDefensaApp {
       this.planChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLAN_CHECKLIST)) || {};
       this.highlighterEnabled = localStorage.getItem(STORAGE_KEYS.HIGHLIGHTER) !== 'false';
       this.cifrasBestScore = JSON.parse(localStorage.getItem(STORAGE_KEYS.CIFRAS_DRILL)) || { bestScore: 0, bestStreak: 0 };
+      this.srsVault = JSON.parse(localStorage.getItem(STORAGE_KEYS.SRS_VAULT)) || {};
+      this.customQuestions = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOM_QUESTIONS)) || [];
+      this.gistConfig = JSON.parse(localStorage.getItem(STORAGE_KEYS.GIST_CONFIG)) || { token: '', gistId: '', lastSync: null };
+      this.settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)) || { penaltyRate: 0.3333333333333333 };
+      this.allQuestions = [...this.questionBank, ...this.customQuestions];
     } catch (e) {
       console.warn('Error cargando LocalStorage:', e);
       this.examHistory = [];
@@ -134,6 +179,11 @@ class OpoDefensaApp {
       this.planChecklist = {};
       this.highlighterEnabled = true;
       this.cifrasBestScore = { bestScore: 0, bestStreak: 0 };
+      this.srsVault = {};
+      this.customQuestions = [];
+      this.gistConfig = { token: '', gistId: '', lastSync: null };
+      this.settings = { penaltyRate: 0.3333333333333333 };
+      this.allQuestions = [...this.questionBank];
     }
   }
 
@@ -143,6 +193,7 @@ class OpoDefensaApp {
     try {
       localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(this.examHistory));
       localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(Array.from(this.failedQuestions)));
+      localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(this.srsVault));
     } catch (e) {
       console.warn('Error guardando en LocalStorage:', e);
     }
@@ -175,7 +226,11 @@ class OpoDefensaApp {
       cardRatings: this.cardRatings,
       planChecklist: this.planChecklist,
       highlighterEnabled: this.highlighterEnabled,
-      cifrasBestScore: this.cifrasBestScore
+      cifrasBestScore: this.cifrasBestScore,
+      srsVault: this.srsVault,
+      customQuestions: this.customQuestions,
+      gistConfig: { ...this.gistConfig, token: this.gistConfig.token ? '***' : '' },
+      settings: this.settings
     };
 
     const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
@@ -187,6 +242,10 @@ class OpoDefensaApp {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+
+    if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:backup-synced'));
+    }
   }
 
   // IMPORTAR PROGRESO DESDE FICHERO JSON
@@ -217,6 +276,15 @@ class OpoDefensaApp {
           if (data.cifrasBestScore) {
             localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
           }
+          if (data.srsVault) {
+            localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(data.srsVault));
+          }
+          if (data.customQuestions) {
+            localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(data.customQuestions));
+          }
+          if (data.settings) {
+            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+          }
           if (data.storageVersion) {
             localStorage.setItem(STORAGE_KEYS.VERSION, String(data.storageVersion));
           } else {
@@ -229,7 +297,7 @@ class OpoDefensaApp {
         }
 
         this.initFlashcardSession();
-        alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas, cuaderno de fallos y récord de cifras.');
+        alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas, Bóveda SRS, cuaderno de fallos y configuración.');
         this.setTab(this.activeTab);
       } catch (err) {
         alert('Error al leer el archivo JSON. Asegúrate de seleccionar un archivo de copia de seguridad válido.');
@@ -324,7 +392,11 @@ class OpoDefensaApp {
 
   handleHashChange() {
     const hash = window.location.hash.replace('#', '');
-    const validTabs = ['dashboard', 'estudio', 'esquemas', 'podcast', 'simulador', 'flashcards', 'analiticas'];
+    const validTabs = [
+      'dashboard', 'estudio', 'temario', 'esquemas', 'podcast', 'podcasts',
+      'simulador', 'tests', 'errores', 'falladas', 'literalidad', 'importador',
+      'flashcards', 'analiticas', 'cifras', 'plan'
+    ];
     if (validTabs.includes(hash)) {
       this.setTab(hash, false);
     }
@@ -337,15 +409,22 @@ class OpoDefensaApp {
     }
 
     // Limpiar temporizador del Drill si se cambia de pestaña
-    if (this.cifrasDrillState && this.cifrasDrillState.timerInterval && tabName !== 'estudio') {
+    if (this.cifrasDrillState && this.cifrasDrillState.timerInterval && tabName !== 'estudio' && tabName !== 'cifras') {
       clearInterval(this.cifrasDrillState.timerInterval);
       this.cifrasDrillState.timerInterval = null;
       this.cifrasDrillState.status = 'idle';
     }
 
+    // Mapeo canónico para resaltado de navegación activa
+    let navTarget = tabName;
+    if (tabName === 'tests') navTarget = 'simulador';
+    if (tabName === 'falladas') navTarget = 'errores';
+    if (tabName === 'temario') navTarget = 'estudio';
+    if (tabName === 'podcasts') navTarget = 'podcast';
+
     document.querySelectorAll('[data-tab-target]').forEach(btn => {
       const target = btn.getAttribute('data-tab-target');
-      if (target === tabName) {
+      if (target === navTarget || target === tabName) {
         btn.classList.add('nav-active');
       } else {
         btn.classList.remove('nav-active');
@@ -359,17 +438,38 @@ class OpoDefensaApp {
       case 'dashboard':
         mainContainer.innerHTML = this.renderDashboard();
         break;
+      case 'simulador':
+      case 'tests':
+        mainContainer.innerHTML = this.renderSimulator();
+        break;
+      case 'errores':
+      case 'falladas':
+        mainContainer.innerHTML = this.renderErrores();
+        break;
+      case 'literalidad':
+        mainContainer.innerHTML = this.renderLiteralidad();
+        break;
+      case 'importador':
+        mainContainer.innerHTML = this.renderImportador();
+        break;
       case 'estudio':
+      case 'temario':
+        mainContainer.innerHTML = this.renderStudyCenter();
+        break;
+      case 'cifras':
+        this.studySubTab = 'cifras';
+        mainContainer.innerHTML = this.renderStudyCenter();
+        break;
+      case 'plan':
+        this.studySubTab = 'plan';
         mainContainer.innerHTML = this.renderStudyCenter();
         break;
       case 'esquemas':
         mainContainer.innerHTML = this.renderEsquemasView();
         break;
       case 'podcast':
+      case 'podcasts':
         mainContainer.innerHTML = this.renderPodcastView();
-        break;
-      case 'simulador':
-        mainContainer.innerHTML = this.renderSimulator();
         break;
       case 'flashcards':
         mainContainer.innerHTML = this.renderFlashcards();
@@ -398,14 +498,407 @@ class OpoDefensaApp {
   // =========================================================================
   // MÓDULO 1: DASHBOARD / INICIO
   // =========================================================================
+  // MÉTODOS AUXILIARES DEL DASHBOARD TÁCTICO
+  calculateTopicStats() {
+    const stats = {};
+    for (let i = 1; i <= 10; i++) {
+      stats[i] = { answered: 0, correct: 0 };
+    }
+    (this.examHistory || []).forEach(h => {
+      if (Array.isArray(h.reviewList)) {
+        h.reviewList.forEach(rev => {
+          const tId = rev.question?.topicId || rev.question?.temaId;
+          if (tId && stats[tId]) {
+            stats[tId].answered++;
+            if (rev.isCorrect) stats[tId].correct++;
+          }
+        });
+      }
+    });
+    return stats;
+  }
+
+  calculateBlockAccuracies() {
+    const stats = this.calculateTopicStats();
+    let comunAns = 0, comunCorr = 0;
+    let espAns = 0, espCorr = 0;
+    for (let i = 1; i <= 4; i++) {
+      comunAns += stats[i].answered;
+      comunCorr += stats[i].correct;
+    }
+    for (let i = 5; i <= 10; i++) {
+      espAns += stats[i].answered;
+      espCorr += stats[i].correct;
+    }
+    const comunPct = comunAns > 0 ? Math.round((comunCorr / comunAns) * 100) : null;
+    const espPct = espAns > 0 ? Math.round((espCorr / espAns) * 100) : null;
+    return { comunAns, comunCorr, comunPct, espAns, espCorr, espPct };
+  }
+
+  getCurrentScheduleBlock() {
+    const now = new Date();
+    const day = now.getDay(); // 0 Dom, 1 Lun, 2 Mar, 3 Mié, 4 Jue, 5 Vie, 6 Sáb
+    const hours = now.getHours();
+    const mins = now.getMinutes();
+    const timeVal = hours + mins / 60;
+
+    // 1. Bloqueo Autoescuela: Martes o Jueves 10:15–11:00
+    if ((day === 2 || day === 4) && timeVal >= 10.25 && timeVal <= 11.0) {
+      return {
+        badge: '🚗 BLOQUEO AUTOESCUELA (Prácticas Conducir)',
+        badgeClass: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+        title: 'Prácticas de Conducir (10:15 – 11:00)',
+        description: 'Bloqueo operativo activo. Desconecta o realiza audio-repaso pasivo con el Podcast.',
+        actionText: '🎧 Escuchar Podcast Táctico',
+        actionCall: "window.app.setTab('podcast')",
+        nextAction: '11:00 &bull; Vuelta al estudio: Sesión de Bóveda SRS'
+      };
+    }
+
+    // 2. Miércoles Intensivo
+    if (day === 3 && timeVal >= 8.5 && timeVal <= 14.5) {
+      return {
+        badge: '⚡ MIÉRCOLES INTENSIVO',
+        badgeClass: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+        title: 'Simulacro Oficial Completo (60 + 6 Reserva)',
+        description: 'El miércoles es tu día de calibración semanal bajo condiciones reales de examen (60 min).',
+        actionText: '🎯 Iniciar Simulacro Oficial',
+        actionCall: "window.app.startNewExam('oficial')",
+        nextAction: 'Tarde &bull; Análisis exhaustivo del solucionario y Bóveda SRS'
+      };
+    }
+
+    // 3. Lunes de Consolidación
+    if (day === 1 && timeVal >= 8.5 && timeVal <= 14.5) {
+      return {
+        badge: '🧘 LUNES DE CONSOLIDACIÓN',
+        badgeClass: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+        title: 'Fijación de Literalidad y Bóveda SRS',
+        description: 'Día para afianzar plazos y cifras con el Entrenador de Literalidad y vaciar errores acumulados.',
+        actionText: '👁️ Entrenar Literalidad',
+        actionCall: "window.app.setTab('literalidad')",
+        nextAction: '12:00 &bull; Sesión de Limpieza SRS'
+      };
+    }
+
+    // 4. Turno Laboral de Tarde (Lunes a Viernes 16:00 a 21:00)
+    if (day >= 1 && day <= 5 && hours >= 16 && hours < 21) {
+      return {
+        badge: '🏢 TURNO LABORAL',
+        badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+        title: 'Jornada Laboral & Micro-Repaso Móvil',
+        description: 'En tiempos muertos o pausas de 5 minutos: repasa Flashcards o haz un Drill de Cifras Sagradas.',
+        actionText: '🗂️ Abrir Flashcards Rápidas',
+        actionCall: "window.app.setTab('flashcards')",
+        nextAction: '21:30 &bull; Revisión nocturna de Bóveda SRS'
+      };
+    }
+
+    // 5. Fin de Semana: Enfoque Específico
+    if (day === 0 || day === 6) {
+      return {
+        badge: '🏆 FIN DE SEMANA: BLOQUE ESPECÍFICO (70%)',
+        badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+        title: 'Dominio de Temas Específicos (T5 al T10)',
+        description: 'Refuerzo prioritario en accesos, valija, DIN 476, correos, secretos oficiales y PRL.',
+        actionText: '🛡️ Test Bloque Específico (40q)',
+        actionCall: "window.app.startNewExam('especifico')",
+        nextAction: 'Tarde &bull; Sprint 45\' Contrarreloj'
+      };
+    }
+
+    // 6. Mañanas de Estudio Habitual (08:30 a 14:00)
+    if (timeVal >= 8.5 && timeVal < 14) {
+      return {
+        badge: '🎯 BLOQUE MATINAL DE ALTO RENDIMIENTO',
+        badgeClass: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+        title: 'Sprint Táctico y Metacognición',
+        description: 'Batería de tests cronometrada asignando tu nivel de confianza para calcular el Valor Esperado.',
+        actionText: '⚡ Iniciar Sprint 45\'',
+        actionCall: "window.app.startNewExam('sprint45')",
+        nextAction: '13:00 &bull; Bóveda Leitner SRS'
+      };
+    }
+
+    // 7. Consolidación Nocturna y Descanso
+    return {
+      badge: '🌙 CONSOLIDACIÓN NOCTURNA',
+      badgeClass: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+      title: 'Fijación de Memoria y Descanso',
+      description: '10 minutos de lectura mnemotécnica en el Entrenador de Literalidad antes de dormir.',
+      actionText: '👁️ Repaso Literalidad',
+      actionCall: "window.app.setTab('literalidad')",
+      nextAction: '08:30 &bull; Bloque de estudio matinal'
+    };
+  }
+
+  // =========================================================================
+  // MÓDULO: MISIONES DIARIAS Y PERSISTENCIA REACTIVA
+  // =========================================================================
+  toggleMissionTask(taskId) {
+    if (this.missionsManager) {
+      this.missionsManager.toggleTaskManual(taskId);
+      if (this.activeTab === 'dashboard') {
+        const card = document.getElementById('daily-missions-card');
+        if (card) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = this.renderDailyMissionCard();
+          if (tempDiv.firstElementChild) {
+            card.replaceWith(tempDiv.firstElementChild);
+          }
+        }
+      }
+    }
+  }
+
+  async requestStudyAlerts() {
+    if (this.missionsManager) {
+      const granted = await this.missionsManager.requestNotificationPermission();
+      if (this.activeTab === 'dashboard') {
+        const card = document.getElementById('daily-missions-card');
+        if (card) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = this.renderDailyMissionCard();
+          if (tempDiv.firstElementChild) {
+            card.replaceWith(tempDiv.firstElementChild);
+          }
+        }
+      }
+      return granted;
+    }
+    return false;
+  }
+
+  renderDailyMissionCard() {
+    if (!this.missionsManager) return '';
+    const mission = this.missionsManager.getTodayMission();
+    const state = this.missionsManager.state;
+    if (!mission) return '';
+
+    const tareas = mission.tareas || [];
+    const totalTasks = tareas.length;
+    const completedTasks = tareas.filter(t => t.actual >= t.meta).length;
+    const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    const isAllDone = totalTasks > 0 && completedTasks >= totalTasks;
+
+    const notifBtn = state.notificationsEnabled
+      ? `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold">
+           <span>🔔</span> Alertas Activas
+         </span>`
+      : `<button type="button" onclick="window.app.requestStudyAlerts()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-bold transition-all cursor-pointer">
+           <span>🔔</span> Activar Alertas de Estudio
+         </button>`;
+
+    return `
+      <div id="daily-missions-card" class="bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950/40 border border-sky-500/30 rounded-3xl p-6 sm:p-7 shadow-xl space-y-5">
+        <!-- CABECERA DE MISIÓN DIARIA -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase tracking-wider text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/30">
+                🎯 Misión Diaria en Curso
+              </span>
+              <span class="text-xs text-slate-400 font-mono flex items-center gap-1">
+                <span>⏰</span> ${mission.ventana}
+              </span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              ${mission.titulo}
+            </h3>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <!-- CONTADOR DE RACHA -->
+            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-black" title="Días consecutivos cumpliendo misiones">
+              <span>🔥</span>
+              <span>${state.streak} ${state.streak === 1 ? 'día' : 'días'} de racha</span>
+            </div>
+            <!-- CONTADOR DE XP -->
+            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-black" title="Puntos de experiencia táctica acumulados">
+              <span>⚡</span>
+              <span>${state.totalXp} XP</span>
+            </div>
+            <!-- BOTÓN ALERTAS -->
+            ${notifBtn}
+          </div>
+        </div>
+
+        <!-- BARRA DE PROGRESO DE MISIÓN -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-300 font-bold">
+              Progreso del objetivo (${completedTasks} de ${totalTasks} tareas)
+            </span>
+            <span class="font-mono font-black ${isAllDone ? 'text-emerald-400' : 'text-sky-400'}">
+              ${progressPct}%
+            </span>
+          </div>
+          <div class="w-full bg-slate-950/80 rounded-full h-3 border border-slate-800 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-400 transition-all duration-500 rounded-full" style="width: ${progressPct}%"></div>
+          </div>
+          ${isAllDone ? `
+            <div class="text-xs text-emerald-400 font-bold flex items-center gap-1.5 animate-fadeIn">
+              <span>🏆</span> ¡Misión diaria completada! Bonus de +100 XP acreditado. Mantén la racha mañana.
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- LISTA DE TAREAS INTERACTIVAS -->
+        <div class="space-y-2.5">
+          ${tareas.map(tarea => {
+            const isDone = tarea.actual >= tarea.meta;
+            let actionBtn = '';
+            if (tarea.tipo === 'admin') {
+              actionBtn = `
+                <a href="https://ips.redsara.es" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl shadow transition-all shrink-0 flex items-center gap-1">
+                  <span>Portal IPS</span>
+                  <span>&rarr;</span>
+                </a>
+              `;
+            } else if (tarea.tipo === 'cloze') {
+              actionBtn = `
+                <button type="button" onclick="window.app.setTab('literalidad')" class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Entrenar &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'simulacro') {
+              actionBtn = `
+                <button type="button" onclick="window.app.startNewExam('oficial')" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs rounded-xl shadow transition-all shrink-0">
+                  Simulacro &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'sprint') {
+              actionBtn = `
+                <button type="button" onclick="window.app.startNewExam('sprint45')" class="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Sprint 45' &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'trampas') {
+              actionBtn = `
+                <button type="button" onclick="window.app.startNewExam('trampas')" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Trampas &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'srs') {
+              actionBtn = `
+                <button type="button" onclick="window.app.setTab('errores')" class="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Bóveda SRS &rarr;
+                </button>
+              `;
+            } else if (tarea.tipo === 'backup') {
+              actionBtn = `
+                <button type="button" onclick="window.app.exportProgress()" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs rounded-xl transition-all shrink-0">
+                  Backup JSON &rarr;
+                </button>
+              `;
+            }
+
+            return `
+              <div class="flex items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl border transition-all ${
+                isDone
+                  ? 'bg-emerald-950/20 border-emerald-500/30 text-slate-300'
+                  : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 text-white'
+              }">
+                <div class="flex items-center gap-3 min-w-0">
+                  <!-- BOTÓN CHECKBOX MANUAL -->
+                  <button type="button" onclick="window.app.toggleMissionTask('${tarea.id}')" class="w-6 h-6 rounded-lg flex items-center justify-center border transition-all shrink-0 cursor-pointer ${
+                    isDone
+                      ? 'bg-emerald-500 border-emerald-400 text-slate-950 font-black text-xs'
+                      : 'border-slate-600 hover:border-sky-400 bg-slate-900 text-transparent'
+                  }" title="Marcar/desmarcar manualmente">
+                    ✓
+                  </button>
+                  <div class="min-w-0 space-y-0.5">
+                    <p class="text-xs sm:text-sm font-semibold truncate sm:whitespace-normal ${isDone ? 'line-through text-slate-400' : ''}">
+                      ${tarea.desc}
+                    </p>
+                    <div class="text-[11px] font-mono ${isDone ? 'text-emerald-400' : 'text-slate-400'}">
+                      Progreso: ${tarea.actual} / ${tarea.meta}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  ${actionBtn}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // MÓDULO 1: DASHBOARD / INICIO
+  // =========================================================================
   renderDashboard() {
     const metrics = calculateDashboardMetrics(this.examHistory);
     const mediaPuntosOficial = metrics.oficialCount > 0 ? metrics.mediaOficial : null;
     const pctOficialAprobado = metrics.pctOficialAprobado;
 
+    // Cálculo del Countdown Dual
+    const now = new Date();
+    const examDate = new Date('2026-12-19T10:00:00+01:00');
+    const ipsDate = new Date('2026-10-19T23:59:59+02:00');
+
+    const diffExamMs = Math.max(0, examDate.getTime() - now.getTime());
+    const examDays = Math.floor(diffExamMs / (1000 * 60 * 60 * 24));
+    const examHours = Math.floor((diffExamMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const examMins = Math.floor((diffExamMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    const diffIpsMs = Math.max(0, ipsDate.getTime() - now.getTime());
+    const ipsDays = Math.floor(diffIpsMs / (1000 * 60 * 60 * 24));
+    const ipsHours = Math.floor((diffIpsMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    const schedule = this.getCurrentScheduleBlock();
+    const blockAcc = this.calculateBlockAccuracies();
+    const topicStats = this.calculateTopicStats();
+
+    // Bóveda SRS: pendientes hoy
+    const srsPendingCount = this.getPendingSRSItems ? this.getPendingSRSItems().length : 0;
+    const srsTotalCount = Object.keys(this.srsVault || {}).length;
+
     return `
       <div class="space-y-8 animate-fadeIn">
-        <!-- HERO CARD DE CONVOCATORIA -->
+        <!-- BANNER DE ALERTA ADMINISTRATIVA IPS MURCIA (HASTA 19/10/2026) -->
+        ${diffIpsMs > 0 ? `
+          <div class="bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/60 border border-amber-500/50 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+              <span class="text-2xl shrink-0 animate-bounce">🚨</span>
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-black uppercase tracking-wider text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">
+                    Trámite Administrativo Crítico
+                  </span>
+                  <span class="text-xs text-amber-300/80 font-mono font-bold">
+                    Quedan ${ipsDays}d ${ipsHours}h
+                  </span>
+                </div>
+                <h4 class="text-sm sm:text-base font-bold text-white">
+                  Verificación de Cambio de Sede a Murcia en IPS
+                </h4>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Plazo perentorio hasta el <strong>19 de octubre de 2026 a las 23:59:59</strong> para comprobar que tu solicitud figura con sede de examen en Murcia.
+                </p>
+              </div>
+            </div>
+            <a href="https://ips.redsara.es" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl shadow transition-all shrink-0 flex items-center gap-1.5 self-end sm:self-auto">
+              <span>Portal IPS</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        ` : `
+          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs text-slate-400">
+            <span class="flex items-center gap-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Sede de Examen asignada: <strong>Murcia</strong> &bull; Turno Libre (40 plazas)</span>
+            </span>
+            <span class="font-mono text-slate-500">19/12/2026</span>
+          </div>
+        `}
+
+        <!-- HERO CARD DE CONVOCATORIA CON COUNTDOWN DUAL -->
         <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-sky-950 border border-slate-700/60 rounded-3xl p-6 sm:p-10 shadow-2xl">
           <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl select-none pointer-events-none">⚔️</div>
           <div class="max-w-3xl space-y-4">
@@ -414,8 +907,8 @@ class OpoDefensaApp {
                 <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
                 Subsecretaría de Defensa &bull; Grupo E1 Servicios Administrativos
               </span>
-              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                🏛️ Estructura Convocatoria Oficial
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                📍 Sede Murcia Confirmada
               </span>
             </div>
 
@@ -424,110 +917,229 @@ class OpoDefensaApp {
             </h1>
 
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Preparación técnica para Personal Laboral Fijo (IV CUAGE). Formato modelado sobre supuestos estándar AGE: <strong>60 preguntas ordinarias + 6 de reserva (60 min)</strong>, penalización (-1/3) y ponderación <strong>33% Común / 67% Específico</strong> (supuestos provisionales del simulador a ratificar por el Anexo V oficial).
+              Sistema de alto rendimiento para asegurar tu plaza el <strong>19 de diciembre de 2026 a las 10:00</strong>. Entrenamiento estricto con Valor Esperado (EV), Bóveda Leitner SRS y ponderación <strong>30% Común / 70% Específico</strong>.
             </p>
+
+            <!-- CONTADOR REGRESIVO DUAL AL EXAMEN OFICIAL -->
+            <div class="pt-2">
+              <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <span>⏱️</span> Cuenta Regresiva para el Examen Oficial (Murcia):
+              </div>
+              <div class="grid grid-cols-3 sm:grid-cols-4 gap-2.5 max-w-lg">
+                <div class="bg-slate-950/80 border border-sky-500/30 rounded-2xl p-3 text-center">
+                  <div class="text-2xl sm:text-3xl font-black text-white font-mono">${examDays}</div>
+                  <div class="text-[10px] uppercase font-bold text-slate-400 mt-0.5">Días</div>
+                </div>
+                <div class="bg-slate-950/80 border border-sky-500/30 rounded-2xl p-3 text-center">
+                  <div class="text-2xl sm:text-3xl font-black text-white font-mono">${examHours}</div>
+                  <div class="text-[10px] uppercase font-bold text-slate-400 mt-0.5">Horas</div>
+                </div>
+                <div class="bg-slate-950/80 border border-sky-500/30 rounded-2xl p-3 text-center">
+                  <div class="text-2xl sm:text-3xl font-black text-white font-mono">${examMins}</div>
+                  <div class="text-[10px] uppercase font-bold text-slate-400 mt-0.5">Minutos</div>
+                </div>
+                <div class="bg-slate-950/80 border border-emerald-500/30 rounded-2xl p-3 text-center col-span-3 sm:col-span-1">
+                  <div class="text-base sm:text-lg font-black text-emerald-400 font-mono">10:00</div>
+                  <div class="text-[10px] uppercase font-bold text-slate-400 mt-0.5">Murcia</div>
+                </div>
+              </div>
+            </div>
 
             <div class="pt-4 flex flex-wrap gap-3">
               <button onclick="window.app.startNewExam('oficial')" class="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-extrabold rounded-xl shadow-lg shadow-sky-500/25 transition-all flex items-center gap-2 text-sm sm:text-base">
                 <span>🎯</span> Simulacro Oficial (60 + 6 Reserva)
               </button>
-              <button onclick="window.app.setTab('estudio')" class="px-6 py-3.5 bg-slate-800/90 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-600 transition-all text-sm sm:text-base flex items-center gap-2">
-                <span>📖</span> Temario 10 Temas Íntegros
+              <button onclick="window.app.setTab('errores')" class="px-5 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-bold rounded-xl border border-rose-500/40 transition-all text-sm flex items-center gap-2">
+                <span>🗄️</span> Bóveda SRS (${srsPendingCount} pendientes)
               </button>
-              <button onclick="window.app.setStudySubTab('plan')" class="px-5 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-bold rounded-xl border border-emerald-500/30 transition-all text-sm flex items-center gap-2">
-                <span>📅</span> Plan 33% / 67% (14 Días)
+              <button onclick="window.app.setTab('literalidad')" class="px-5 py-3.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 font-bold rounded-xl border border-indigo-500/40 transition-all text-sm flex items-center gap-2">
+                <span>👁️</span> Literalidad Cloze
               </button>
             </div>
           </div>
         </div>
 
-        <!-- 4 INDICADORES CARDINALES (MÉTRICAS AISLADAS POR MODALIDAD) -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Regla de Examen</div>
-            <div class="text-2xl sm:text-3xl font-black text-white mt-1">33% / 67%</div>
-            <div class="text-xs text-sky-400 mt-1 font-medium">20 Comunes / 40 Específicas</div>
-          </div>
+        <!-- TARJETA INTERACTIVA DE MISIÓN DIARIA EN CURSO -->
+        ${this.renderDailyMissionCard()}
 
-          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Banco de Test</div>
-            <div class="text-2xl sm:text-3xl font-black text-white mt-1">204 Preguntas</div>
-            <div class="text-xs text-emerald-400 mt-1 font-medium">Equilibrado y con Cita Legal</div>
-          </div>
-
-          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Media Neta Oficial / 60</div>
-            <div class="text-2xl sm:text-3xl font-black ${mediaPuntosOficial !== null && Number(mediaPuntosOficial) >= 30 ? 'text-emerald-400' : mediaPuntosOficial !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
-              ${mediaPuntosOficial !== null ? `${mediaPuntosOficial} <span class="text-sm font-normal text-slate-400">/ 60</span>` : '—'}
-            </div>
-            <div class="text-xs text-slate-400 mt-1">
-              ${metrics.oficialCount > 0 ? `${metrics.oficialCount} simulacro(s) oficial(es)` : 'Sin simulacros de 60q'}
-            </div>
-          </div>
-
-          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-            <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">% Simulacros Aprobados</div>
-            <div class="text-2xl sm:text-3xl font-black ${pctOficialAprobado !== null && pctOficialAprobado >= 50 ? 'text-emerald-400' : pctOficialAprobado !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
-              ${pctOficialAprobado !== null ? `${pctOficialAprobado}%` : '—'}
-            </div>
-            <div class="text-xs text-slate-400 mt-1">
-              ${pctOficialAprobado !== null ? `${metrics.aprobadosOficialCount} de ${metrics.oficialCount} oficiales superados` : 'Sin simulacros oficiales de 60q'}
-            </div>
-          </div>
-        </div>
-
-        <!-- SECCIÓN: LA REGLA METODOLÓGICA DEL 33% / 67% -->
-        <div class="bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 space-y-4">
+        <!-- WIDGET DINÁMICO: QUÉ TOCA AHORA (PLANIFICADOR SEMANAL) -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/50 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <span class="text-xs font-extrabold uppercase px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
-                Estrategia Metodológica Oficial
-              </span>
-              <h2 class="text-xl sm:text-2xl font-black text-white mt-2">
-                Dónde se Gana Realmente la Plaza en Defensa
-              </h2>
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl">🧭</span>
+              <div>
+                <span class="text-[11px] font-black uppercase tracking-wider text-slate-400">Planificador Táctico Inteligente</span>
+                <h3 class="text-lg font-bold text-white">¿Qué toca hacer ahora mismo?</h3>
+              </div>
             </div>
-            <button onclick="window.app.setStudySubTab('plan')" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-slate-950 font-extrabold text-xs rounded-xl shadow transition-all self-start sm:self-auto">
-              Ver Calendario 14 Días &rarr;
+            <span class="text-xs px-3 py-1 rounded-full font-extrabold uppercase border ${schedule.badgeClass} self-start sm:self-auto">
+              ${schedule.badge}
+            </span>
+          </div>
+
+          <div class="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span>▶️</span> ${schedule.title}
+              </h4>
+              <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                ${schedule.description}
+              </p>
+              <div class="text-[11px] text-slate-400 pt-1 flex items-center gap-2 font-mono">
+                <span class="text-sky-400 font-bold">A continuación:</span>
+                <span>${schedule.nextAction}</span>
+              </div>
+            </div>
+
+            <button onclick="${schedule.actionCall}" class="px-5 py-3 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-black text-xs sm:text-sm rounded-xl shadow transition-all shrink-0 flex items-center justify-center gap-2">
+              <span>⚡</span> ${schedule.actionText}
             </button>
           </div>
+        </div>
 
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-            Aprenderse la Constitución o el Gobierno es necesario pero no suficiente. El <strong>66,7% de tu nota final (40 preguntas de 60)</strong> depende exclusivamente de los 6 temas específicos de conserjería, paquetería, reprografía, burofax y seguridad militar. Aplica siempre esta proporción en tus sesiones de estudio:
-          </p>
+        <!-- KPIS CON PONDERACIÓN OFICIAL (30% COMÚN VS 70% ESPECÍFICO) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>⚖️</span> Ponderación de Examen: Común (30%) vs Específica (70%)
+            </h3>
+            <span class="text-xs text-slate-400">Objetivo de corte: &ge; 65% en Específica</span>
+          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-            <div class="bg-slate-950/80 border border-indigo-500/30 rounded-2xl p-5 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-indigo-400 uppercase">1/3 del Tiempo &bull; 33,3% del Examen</span>
-                <span class="text-xs font-mono font-bold text-white">20 Preguntas</span>
+          <!-- ALERTA DE DESCOMPENSACIÓN SI ESPECÍFICA < 65% -->
+          ${blockAcc.espPct !== null && blockAcc.espPct < 65 ? `
+            <div class="p-4 bg-rose-500/10 border-2 border-rose-500/40 rounded-2xl flex items-start gap-3 text-rose-200 animate-fadeIn">
+              <span class="text-2xl shrink-0">⚠️</span>
+              <div class="space-y-1">
+                <div class="font-extrabold text-sm text-white">
+                  ALERTA DE DESCOMPENSACIÓN CRÍTICA EN TEMAS ESPECÍFICOS
+                </div>
+                <div class="text-xs text-rose-200/90 leading-relaxed">
+                  La <strong>Parte Específica representa el 70% del ejercicio</strong> (40 preguntas ordinarias de 60). Tu precisión histórica actual en este bloque es del <strong>${blockAcc.espPct}%</strong>, por debajo del umbral mínimo del 65% requerido para no quedar fuera por nota de corte en Murcia. Prioriza el entrenamiento en los Temas 5 al 10.
+                </div>
+                <div class="pt-1">
+                  <button onclick="window.app.startNewExam('especifico')" class="px-3 py-1 bg-rose-500 hover:bg-rose-400 text-slate-950 font-black text-xs rounded-lg shadow transition-all">
+                    Entrenar Bloque Específico Ahora &rarr;
+                  </button>
+                </div>
               </div>
-              <h3 class="text-base font-bold text-white">Bloque Común (Temas 1 al 4)</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Constitución Española (1978 y reforma art. 49 de 2024), Gobierno y AGE (Ley 50/1997 y Ley 40/2015), Personal Laboral (CUAGE y ET) y Políticas de Igualdad.
-              </p>
+            </div>
+          ` : ''}
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- PARTE COMÚN -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Parte Común (30%)</span>
+                <span>Temas 1 a 4</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black ${blockAcc.comunPct !== null && blockAcc.comunPct >= 70 ? 'text-emerald-400' : blockAcc.comunPct !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
+                ${blockAcc.comunPct !== null ? `${blockAcc.comunPct}%` : '—'}
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+                ${blockAcc.comunAns > 0 ? `${blockAcc.comunCorr} de ${blockAcc.comunAns} aciertos` : 'Sin preguntas contestadas'}
+              </div>
             </div>
 
-            <div class="bg-slate-950/80 border border-emerald-500/30 rounded-2xl p-5 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-emerald-400 uppercase">2/3 del Tiempo &bull; 66,7% del Examen</span>
-                <span class="text-xs font-mono font-bold text-emerald-400 font-black">40 Preguntas (Clave)</span>
+            <!-- PARTE ESPECÍFICA -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Parte Específica (70%)</span>
+                <span>Temas 5 a 10</span>
               </div>
-              <h3 class="text-base font-bold text-white">Bloque Específico (Temas 5 al 10)</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Control de Accesos militar, Paquetería y Valija, Reprografía y Serie DIN 476, Envíos Postales y Burofax, Recados y Secretos Oficiales, y Averías/PRL (RD 486/1997).
-              </p>
+              <div class="text-2xl sm:text-3xl font-black ${blockAcc.espPct !== null && blockAcc.espPct >= 65 ? 'text-emerald-400' : blockAcc.espPct !== null ? 'text-rose-400' : 'text-slate-500'} mt-1">
+                ${blockAcc.espPct !== null ? `${blockAcc.espPct}%` : '—'}
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+                ${blockAcc.espAns > 0 ? `${blockAcc.espCorr} de ${blockAcc.espAns} aciertos` : 'Sin preguntas contestadas'}
+              </div>
+            </div>
+
+            <!-- BÓVEDA SRS -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm cursor-pointer hover:border-slate-700 transition-colors" onclick="window.app.setTab('errores')">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Bóveda Leitner SRS</span>
+                <span class="text-rose-400 font-bold">${srsPendingCount} hoy</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black text-white mt-1">
+                ${srsTotalCount} <span class="text-xs font-normal text-slate-400">en bóveda</span>
+              </div>
+              <div class="text-xs text-sky-400 mt-1 font-bold">
+                ${srsPendingCount > 0 ? `⚡ Repasar ${srsPendingCount} pendientes &rarr;` : '✓ Al día para hoy'}
+              </div>
+            </div>
+
+            <!-- SIMULACROS OFICIALES SUPERADOS -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Simulacros / 60</span>
+                <span>Corte: 30 netos</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black ${mediaPuntosOficial !== null && Number(mediaPuntosOficial) >= 30 ? 'text-emerald-400' : mediaPuntosOficial !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
+                ${mediaPuntosOficial !== null ? `${mediaPuntosOficial}` : '—'}
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+                ${metrics.oficialCount > 0 ? `${metrics.aprobadosOficialCount} de ${metrics.oficialCount} superados` : 'Sin simulacros oficiales'}
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- ACCESOS RÁPIDOS A LOS MODOS DE TEST -->
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-              <span>🎯</span> Modos de Entrenamiento Táctico
-            </h2>
-            <span class="text-xs text-slate-400 font-medium">Selecciona una modalidad</span>
+        <!-- MAPA DE CALOR INTERACTIVO POR TEMAS (1 AL 10) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🗺️</span> Mapa de Calor y Dominio por Temas (T1 al T10)
+            </h3>
+            <span class="text-xs text-slate-400">Pulsa cualquier tema para lanzar su test</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            ${this.syllabus.map(t => {
+              const st = topicStats[t.id] || { answered: 0, correct: 0 };
+              const pct = st.answered > 0 ? Math.round((st.correct / st.answered) * 100) : null;
+              const isCommon = t.id <= 4;
+              const colorClass = pct === null 
+                ? 'border-slate-800 bg-slate-950/60 text-slate-500' 
+                : pct >= 75 
+                  ? 'border-emerald-500/40 bg-emerald-950/20 text-emerald-400'
+                  : pct >= 50 
+                    ? 'border-amber-500/40 bg-amber-950/20 text-amber-400'
+                    : 'border-rose-500/40 bg-rose-950/20 text-rose-400';
+
+              const badgeText = pct === null ? 'Sin datos' : `${pct}% (${st.correct}/${st.answered})`;
+
+              return `
+                <div onclick="window.app.startTopicQuiz(${t.id})" class="cursor-pointer border rounded-2xl p-4 transition-all hover:scale-[1.02] hover:shadow-lg flex flex-col justify-between gap-3 ${colorClass}">
+                  <div class="space-y-1">
+                    <div class="flex items-center justify-between gap-1">
+                      <span class="text-[10px] font-black uppercase px-1.5 py-0.5 rounded ${isCommon ? 'bg-indigo-500/20 text-indigo-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                        ${isCommon ? 'Común (30%)' : 'Espec. (70%)'}
+                      </span>
+                      <span class="text-base">${t.icon || '📄'}</span>
+                    </div>
+                    <div class="text-xs font-bold text-white leading-snug line-clamp-2">
+                      ${t.shortTitle || t.title}
+                    </div>
+                  </div>
+
+                  <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono">
+                    <span class="font-bold">${badgeText}</span>
+                    <span class="text-xs">&rarr;</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- 4 ACCESOS RÁPIDOS A MODOS TÁCTICOS -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🎯</span> Baterías de Test con Valor Esperado (EV)
+            </h3>
+            <span class="text-xs text-slate-400">Modalidades optimizadas</span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -536,64 +1148,64 @@ class OpoDefensaApp {
               <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
                 🎖️
               </div>
-              <h3 class="text-lg font-bold text-white mb-1">Simulacro Real Defensa</h3>
+              <h3 class="text-base font-bold text-white mb-1">Simulacro Oficial Defensa</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                60 ordinarias + 6 de reserva (60 min). Simulación de penalización (-0,33) y gestión de anulaciones históricas.
+                60 ord. + 6 reservas (60 min). 20 comunes + 40 específicas. Calificación con EV y selector de penalización.
               </p>
-              <span class="text-xs font-bold text-sky-400 flex items-center gap-1">Entrenar Ahora &rarr;</span>
+              <span class="text-xs font-bold text-sky-400 flex items-center gap-1">Lanzar Examen &rarr;</span>
             </div>
 
-            <!-- MODO 2: BLOQUE COMÚN -->
-            <div onclick="window.app.startNewExam('comun')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
+            <!-- MODO 2: SPRINT 45' -->
+            <div onclick="window.app.startNewExam('sprint45')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
               <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-indigo-500 group-hover:text-slate-950 transition-colors">
-                ⚖️
+                ⚡
               </div>
-              <h3 class="text-lg font-bold text-white mb-1">Bloque Común (33%)</h3>
+              <h3 class="text-base font-bold text-white mb-1">Sprint 45' Táctico</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral e Igualdad).
+                45 preguntas (15 comunes + 30 específicas, 45 min). Entrenamiento intensivo de ritmo para no consumir tiempo.
               </p>
-              <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">Iniciar Común &rarr;</span>
+              <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">Iniciar Sprint &rarr;</span>
             </div>
 
-            <!-- MODO 3: BLOQUE ESPECÍFICO -->
-            <div onclick="window.app.startNewExam('especifico')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
-              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
-                🛡️
+            <!-- MODO 3: CAZA-TRAMPAS -->
+            <div onclick="window.app.startNewExam('trampas')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-amber-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                🪤
               </div>
-              <h3 class="text-lg font-bold text-white mb-1">Bloque Específico (67%)</h3>
+              <h3 class="text-base font-bold text-white mb-1">Caza-Trampas (20q)</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y PRL).
+                20 preguntas con trampas clásicas ("15 días", E0 vs E1/E2, dobles sobres, órganos directivos, PRL).
               </p>
-              <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">Iniciar Específico &rarr;</span>
+              <span class="text-xs font-bold text-amber-400 flex items-center gap-1">Cazar Trampas &rarr;</span>
             </div>
 
-            <!-- MODO 4: CUADERNO DE FALLADAS -->
-            <div onclick="window.app.startNewExam('falladas')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-rose-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
+            <!-- MODO 4: LIMPIEZA SRS -->
+            <div onclick="window.app.startSRSSession()" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-rose-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
               <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-rose-500 group-hover:text-slate-950 transition-colors">
-                📓
+                🗄️
               </div>
-              <div class="flex items-center justify-between">
-                <h3 class="text-lg font-bold text-white mb-1">Cuaderno de Falladas</h3>
-                <span class="px-2 py-0.5 rounded-full text-xs font-bold ${this.failedQuestions.size > 0 ? 'bg-rose-500/20 text-rose-400' : 'bg-slate-800 text-slate-500'}">
-                  ${this.failedQuestions.size}
+              <div class="flex items-center justify-between mb-1">
+                <h3 class="text-base font-bold text-white">Limpieza Bóveda SRS</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold ${srsPendingCount > 0 ? 'bg-rose-500/20 text-rose-300' : 'bg-slate-800 text-slate-400'}">
+                  ${srsPendingCount} hoy
                 </span>
               </div>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                Reentrena tus errores acumulados en LocalStorage hasta vaciar el cuaderno a 0.
+                Repasa solo los fallos y dudas bloqueados que tocan hoy hasta completar los 3 aciertos seguros en días distintos.
               </p>
-              <span class="text-xs font-bold text-rose-400 flex items-center gap-1">Repasar Errores &rarr;</span>
+              <span class="text-xs font-bold text-rose-400 flex items-center gap-1">Limpiar Bóveda &rarr;</span>
             </div>
           </div>
         </div>
 
-        <!-- PANEL DE COPIA DE SEGURIDAD (EXPORTAR / IMPORTAR PROGRESO) -->
+        <!-- PANEL DE COPIA DE SEGURIDAD OFFLINE -->
         <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div class="space-y-1 text-center sm:text-left">
             <h3 class="text-base font-bold text-white flex items-center justify-center sm:justify-start gap-2">
-              <span>💾</span> Copia de Seguridad Offline de tu Progreso
+              <span>💾</span> Copia de Seguridad Offline &bull; 1 Clic
             </h3>
             <p class="text-xs text-slate-400 max-w-xl">
-              Descarga tus estadísticas y tu cuaderno de errores en un archivo JSON para no perder nada si limpias la memoria de tu móvil o cambias de dispositivo.
+              Exporta tu historial, tu Bóveda SRS y tus preguntas personalizadas en un archivo JSON seguro o sincronízalo sin servidores mediante GitHub Gist.
             </p>
           </div>
 
@@ -605,6 +1217,9 @@ class OpoDefensaApp {
               <span>📤</span> Restaurar Copia
               <input type="file" accept=".json" onchange="window.app.importProgress(event)" class="hidden">
             </label>
+            <button onclick="window.app.setTab('importador')" class="px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all">
+              <span>⚡ Gist API &rarr;</span>
+            </button>
           </div>
         </div>
       </div>
@@ -1495,8 +2110,19 @@ class OpoDefensaApp {
     return this.renderSimulatorLauncher();
   }
 
+  setPenaltyRate(rate) {
+    if (!this.settings) this.settings = {};
+    this.settings.penaltyRate = Number(rate);
+    try {
+      localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(this.settings));
+    } catch (e) {}
+    this.renderSimulatorUpdate();
+  }
+
   renderSimulatorLauncher() {
     const isExcluding = this.excludeUnverified !== false; // por defecto activo
+    const pendingSRS = this.getPendingSRSItems ? this.getPendingSRSItems() : [];
+    const currentPenalty = (this.settings && this.settings.penaltyRate !== undefined) ? this.settings.penaltyRate : 0.3333333333333333;
 
     return `
       <div class="max-w-4xl mx-auto space-y-6 animate-fadeIn">
@@ -1508,7 +2134,7 @@ class OpoDefensaApp {
             Simulador de Examen E1 (Ministerio de Defensa)
           </h1>
           <p class="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto">
-            Resolución 430/38310/2026 (BOE-A-2026-14677): <strong>40 plazas libre + 24 promoción interna</strong>. Turno libre por sistema de oposición.
+            Resolución 430/38310/2026 (BOE-A-2026-14677): <strong>40 plazas libre + 24 promoción interna</strong>. Turno libre por sistema de oposición. Examen oficial: <strong>19/12/2026 (Sede Murcia)</strong>.
           </p>
         </div>
 
@@ -1535,13 +2161,32 @@ class OpoDefensaApp {
             </div>
             <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
               <div class="text-slate-400">Fórmula de Puntuación</div>
-              <div class="text-base font-bold text-amber-400 mt-1">Aciertos − (Errores &times; 1/3)</div>
+              <div class="text-base font-bold text-amber-400 mt-1">Aciertos − (Errores &times; ${currentPenalty > 0.3 ? '1/3' : '1/4'})</div>
               <div class="text-slate-500 text-[11px] mt-0.5">Blancas 0. Corte: 50% de la prueba</div>
             </div>
           </div>
 
+          <!-- SELECTOR DE PENALIZACIÓN TÁCTICA -->
+          <div class="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/70">
+            <div class="flex items-center gap-2.5 text-xs text-slate-300">
+              <span class="text-amber-400">⚖️</span>
+              <div>
+                <span class="font-bold text-white">Régimen de Penalización:</span>
+                <span class="text-slate-400 block sm:inline sm:ml-1">Fórmula táctica de descuento por fallo en examen.</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="window.app.setPenaltyRate(0.3333333333333333)" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${currentPenalty > 0.3 ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}">
+                −0,33 (1/3 Oficial AGE)
+              </button>
+              <button onclick="window.app.setPenaltyRate(0.25)" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${currentPenalty <= 0.26 ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}">
+                −0,25 (1/4 Alternativa)
+              </button>
+            </div>
+          </div>
+
           <!-- FILTRO DE INTEGRIDAD NORMATIVA -->
-          <div class="pt-2 flex items-center justify-between bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/70">
+          <div class="flex items-center justify-between bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/70">
             <div class="flex items-center gap-2.5 text-xs text-slate-300">
               <span class="text-emerald-400">🛡️</span>
               <div>
@@ -1556,52 +2201,81 @@ class OpoDefensaApp {
         </div>
 
         <!-- SELECTOR DE MODALIDAD DE EXAMEN -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- 1. SIMULACRO OFICIAL -->
+          <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group sm:col-span-2">
             <div class="text-3xl mb-3">🎖️</div>
             <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Tipo Examen (60 + 6 Res)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Modelado sobre supuestos AGE: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, 60 min, penalización -1/3 y corte 30 pts (supuestos provisionales a confirmar con el Anexo V oficial).
+              Modelado sobre supuestos AGE: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, 60 min, penalización activa y corte 30 pts (supuestos provisionales a confirmar con el Anexo V oficial).
             </p>
             <div class="mt-3 p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-300/90 leading-tight">
               ⚠️ Banco específico en fase de ampliación (46 con norma identificada para 44 plazas). Mínima rotación entre intentos hasta incorporar Anexos VI y VII.
             </div>
           </button>
 
-          <button onclick="window.app.startNewExam('real2025')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
-            <div class="text-3xl mb-3">🏛️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Simulacro formato 2025 (provisional)</h3>
+          <!-- 2. SPRINT 45' -->
+          <button onclick="window.app.startNewExam('sprint45')" class="p-6 bg-gradient-to-br from-purple-950/70 to-slate-900 border border-purple-500/40 hover:border-purple-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="text-3xl mb-3">⚡</div>
+            <h3 class="text-lg font-bold text-white group-hover:text-purple-300">Sprint 45' (45 Preguntas)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Estructura estimada de 60 ord. + 6 reservas (60 min). Pendiente de contrastar con plantilla oficial de 2025. Corte provisional: 30 pts netos.
+              Sesión contrarreloj de 45 preguntas equilibradas en 45 minutos. Ideal para entrenar ritmo y toma de decisiones tácticas bajo presión.
             </p>
-            <div class="mt-2 text-[11px] text-amber-300/80">
-              ⚠️ Sin plantilla oficial aportada; no constituye examen real verificado.
+            <div class="mt-2 text-[11px] text-purple-300/80">
+              Corte: 22.5 pts netos.
             </div>
           </button>
 
+          <!-- 3. CAZA-TRAMPAS -->
+          <button onclick="window.app.startNewExam('trampas')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="text-3xl mb-3">🎯</div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Caza-Trampas (20 Preguntas)</h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Batería selectiva con distractores clásicos del tribunal (E0 vs E1/E2, plazos, 17–27ºC, doble sobre, inviolabilidad). 20 min.
+            </p>
+            <div class="mt-2 text-[11px] text-amber-300/80">
+              Corte: 10 pts netos.
+            </div>
+          </button>
+
+          <!-- 4. LIMPIEZA SRS -->
+          <button onclick="window.app.startSRSSession()" class="p-6 bg-gradient-to-br from-rose-950/70 to-slate-900 border border-rose-500/40 hover:border-rose-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="text-3xl mb-3">🔁</div>
+            <h3 class="text-lg font-bold text-white group-hover:text-rose-300">Limpieza Bóveda SRS</h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Preguntas pendientes de repetición espaciada en las 4 cajas Leitner. 3 aciertos seguros seguidos para dominar.
+            </p>
+            <div class="mt-2 text-[11px] font-bold ${pendingSRS.length > 0 ? 'text-rose-400' : 'text-slate-400'}">
+              ${pendingSRS.length > 0 ? `🔥 ${pendingSRS.length} preguntas listas para hoy` : '✓ Bóveda al día (repasar cajas)'}
+            </div>
+          </button>
+
+          <!-- BLOQUE COMÚN -->
           <button onclick="window.app.startNewExam('comun')" class="p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">⚖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (33%)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (30%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad). 20 min. Corte: 10 pts.
             </p>
           </button>
 
+          <!-- BLOQUE ESPECÍFICO -->
           <button onclick="window.app.startNewExam('especifico')" class="p-6 bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🛡️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (67%)</h3>
+            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (70%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL). 40 min. Corte: 20 pts.
             </p>
           </button>
 
-          <button onclick="window.app.startNewExam('falladas')" class="p-6 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group sm:col-span-2 lg:col-span-1">
+          <!-- CUADERNO DE FALLADAS -->
+          <button onclick="window.app.startNewExam('falladas')" class="p-6 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">📓</div>
             <h3 class="text-lg font-bold text-white group-hover:text-rose-300">
               Preguntas Falladas (${this.failedQuestions.size})
             </h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Reentrena las preguntas de tu cuaderno de errores con penalización de -1/3 hasta dominarlas a 0 fallos.
+              Reentrena las preguntas de tu cuaderno de errores clásico hasta dominarlas a 0 fallos.
             </p>
           </button>
         </div>
@@ -1611,8 +2285,16 @@ class OpoDefensaApp {
 
   startNewExam(mode) {
     const isExcluding = this.excludeUnverified !== false;
-    const session = initExamSessionState(this.questionBank, mode, {
+    const pendingSRS = this.getPendingSRSItems ? this.getPendingSRSItems() : [];
+    const srsSet = new Set(
+      pendingSRS.length > 0
+        ? pendingSRS.map(it => it.qId)
+        : Object.values(this.srsVault || {}).filter(it => !it.graduated).map(it => it.qId)
+    );
+
+    const session = initExamSessionState(this.allQuestions || this.questionBank, mode, {
       failedQuestionsSet: this.failedQuestions,
+      srsQuestionIds: srsSet,
       allowUnverified: !isExcluding
     });
 
@@ -1777,6 +2459,31 @@ class OpoDefensaApp {
                 </div>
               `;
             })()}
+          </div>
+
+          <!-- BARRA DE CONFIANZA TÁCTICA (METACOGNICIÓN Y VALOR ESPERADO) -->
+          <div class="p-3 bg-slate-950/80 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2 text-xs text-slate-300">
+              <span class="text-sm">🎯</span>
+              <span class="font-bold text-white">Nivel de Confianza:</span>
+              <span class="text-slate-400 text-[11px] hidden sm:inline">Calibra tu convicción antes de responder para evaluar tu EV.</span>
+            </div>
+            <div class="flex items-center gap-1.5 w-full sm:w-auto">
+              ${(() => {
+                const currentConf = (this.examState.confidenceLevels && this.examState.confidenceLevels[q.id]) || 'segura';
+                return `
+                  <button type="button" onclick="window.app.setConfidence(${q.id}, 'segura')" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${currentConf === 'segura' ? 'bg-emerald-500/25 border-emerald-500 text-emerald-300 shadow-sm shadow-emerald-500/20' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'}">
+                    🟢 Segura
+                  </button>
+                  <button type="button" onclick="window.app.setConfidence(${q.id}, 'duda')" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${currentConf === 'duda' ? 'bg-amber-500/25 border-amber-500 text-amber-300 shadow-sm shadow-amber-500/20' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'}">
+                    🟡 Duda 50/50
+                  </button>
+                  <button type="button" onclick="window.app.setConfidence(${q.id}, 'riesgo')" class="flex-1 sm:flex-initial px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${currentConf === 'riesgo' ? 'bg-rose-500/25 border-rose-500 text-rose-300 shadow-sm shadow-rose-500/20' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'}">
+                    🔴 Riesgo
+                  </button>
+                `;
+              })()}
+            </div>
           </div>
 
           <!-- OPCIONES A, B, C, D (GRANDES TÁCTILES CON DESCARTE TÁCTICO) -->
@@ -1956,6 +2663,20 @@ class OpoDefensaApp {
 
   selectAnswer(qId, optIdx) {
     this.examState.userAnswers[qId] = optIdx;
+    if (!this.examState.confidenceLevels) {
+      this.examState.confidenceLevels = {};
+    }
+    if (!this.examState.confidenceLevels[qId]) {
+      this.examState.confidenceLevels[qId] = 'segura';
+    }
+    this.renderSimulatorUpdate();
+  }
+
+  setConfidence(qId, level) {
+    if (!this.examState.confidenceLevels) {
+      this.examState.confidenceLevels = {};
+    }
+    this.examState.confidenceLevels[qId] = level;
     this.renderSimulatorUpdate();
   }
 
@@ -2118,17 +2839,31 @@ class OpoDefensaApp {
     this.calculateResults();
     this.examState.status = 'finished';
     this.saveHistory(this.examState.results);
+
+    if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:test-finished', {
+        detail: {
+          mode: this.examState.mode,
+          questionsCount: this.examState.questions ? this.examState.questions.length : 0,
+          netScore: this.examState.results ? this.examState.results.netScore : 0
+        }
+      }));
+    }
+
     this.setTab('simulador');
   }
 
   // CÁLCULO DE RESULTADOS CON MOTOR IMPARCIAL Y RIGUROSO
   calculateResults() {
+    const penaltyRate = (this.settings && this.settings.penaltyRate !== undefined) ? this.settings.penaltyRate : 0.3333333333333333;
     const results = calculateExamScore({
       mode: this.examState.mode,
       questions: this.examState.questions,
       userAnswers: this.examState.userAnswers,
       timeRemaining: this.examState.timeRemaining,
-      initialTime: this.examState.initialTime || 3600
+      initialTime: this.examState.initialTime || 3600,
+      confidenceLevels: this.examState.confidenceLevels || {},
+      penaltyRate: penaltyRate
     });
 
     // Actualizar cuaderno de falladas
@@ -2137,6 +2872,16 @@ class OpoDefensaApp {
     try {
       localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(Array.from(this.failedQuestions)));
     } catch (e) {}
+
+    // Bóveda Leitner SRS: captura automática de fallos, dudas y respuestas
+    if (results.reviewList) {
+      results.reviewList.forEach(item => {
+        const conf = (this.examState.confidenceLevels && this.examState.confidenceLevels[item.id]) || 'segura';
+        if (this.captureQuestionForSRS) {
+          this.captureQuestionForSRS(item.id, conf, item.isCorrect, item.isBlank);
+        }
+      });
+    }
 
     this.examState.results = results;
   }
@@ -2187,7 +2932,7 @@ class OpoDefensaApp {
               <div class="text-xl font-black text-emerald-400 mt-1">${res.correct}</div>
             </div>
             <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
-              <div class="text-[11px] font-bold text-slate-400">Fallos (-0,33)</div>
+              <div class="text-[11px] font-bold text-slate-400">Fallos (${res.penaltyRate > 0.3 ? '-0,33' : '-0,25'})</div>
               <div class="text-xl font-black text-rose-400 mt-1">${res.wrong}</div>
             </div>
             <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
@@ -2200,9 +2945,72 @@ class OpoDefensaApp {
             </div>
           </div>
 
+          <!-- TARJETA DE AUDITORÍA METACOGNITIVA & RENTABILIDAD DEL RIESGO (EV) -->
+          ${res.confidenceBreakdown ? `
+            <div class="bg-slate-950/90 border border-indigo-500/30 rounded-2xl p-5 text-left space-y-3 mt-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">🧠</span>
+                  <span class="font-bold text-white text-sm">Auditoría Metacognitiva & Rentabilidad del Riesgo (EV)</span>
+                </div>
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-lg ${res.totalRiskNet >= 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'}">
+                  Balance en Dudas/Riesgo: ${res.totalRiskNet >= 0 ? '+' : ''}${res.totalRiskNet.toFixed(2)} pts
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+                <div class="bg-slate-900/90 p-3 rounded-xl border border-emerald-500/20">
+                  <div class="flex items-center justify-between text-emerald-400 font-bold mb-1">
+                    <span>🟢 Segura (100%)</span>
+                    <span>${res.confidenceBreakdown.segura.count} resp.</span>
+                  </div>
+                  <div class="text-slate-300 text-[11px] space-y-0.5">
+                    <div>Aciertos: <strong>${res.confidenceBreakdown.segura.correct}</strong> | Fallos: <strong>${res.confidenceBreakdown.segura.wrong}</strong></div>
+                    <div>Precisión: <strong>${res.confidenceBreakdown.segura.pct !== null ? res.confidenceBreakdown.segura.pct + '%' : 'N/A'}</strong></div>
+                    <div>Impacto neto: <strong class="${res.confidenceBreakdown.segura.net >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${res.confidenceBreakdown.segura.net >= 0 ? '+' : ''}${res.confidenceBreakdown.segura.net.toFixed(2)} pts</strong></div>
+                  </div>
+                </div>
+
+                <div class="bg-slate-900/90 p-3 rounded-xl border border-amber-500/20">
+                  <div class="flex items-center justify-between text-amber-400 font-bold mb-1">
+                    <span>🟡 Duda 50/50</span>
+                    <span>${res.confidenceBreakdown.duda.count} resp.</span>
+                  </div>
+                  <div class="text-slate-300 text-[11px] space-y-0.5">
+                    <div>Aciertos: <strong>${res.confidenceBreakdown.duda.correct}</strong> | Fallos: <strong>${res.confidenceBreakdown.duda.wrong}</strong></div>
+                    <div>Precisión: <strong>${res.confidenceBreakdown.duda.pct !== null ? res.confidenceBreakdown.duda.pct + '%' : 'N/A'}</strong></div>
+                    <div>Impacto neto: <strong class="${res.confidenceBreakdown.duda.net >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${res.confidenceBreakdown.duda.net >= 0 ? '+' : ''}${res.confidenceBreakdown.duda.net.toFixed(2)} pts</strong></div>
+                  </div>
+                </div>
+
+                <div class="bg-slate-900/90 p-3 rounded-xl border border-rose-500/20">
+                  <div class="flex items-center justify-between text-rose-400 font-bold mb-1">
+                    <span>🔴 Riesgo</span>
+                    <span>${res.confidenceBreakdown.riesgo.count} resp.</span>
+                  </div>
+                  <div class="text-slate-300 text-[11px] space-y-0.5">
+                    <div>Aciertos: <strong>${res.confidenceBreakdown.riesgo.correct}</strong> | Fallos: <strong>${res.confidenceBreakdown.riesgo.wrong}</strong></div>
+                    <div>Precisión: <strong>${res.confidenceBreakdown.riesgo.pct !== null ? res.confidenceBreakdown.riesgo.pct + '%' : 'N/A'}</strong></div>
+                    <div>Impacto neto: <strong class="${res.confidenceBreakdown.riesgo.net >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${res.confidenceBreakdown.riesgo.net >= 0 ? '+' : ''}${res.confidenceBreakdown.riesgo.net.toFixed(2)} pts</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              ${res.tacticalAdvice ? `
+                <div class="p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-xs text-indigo-200 flex items-start gap-2">
+                  <span class="text-base shrink-0">🎯</span>
+                  <div><strong>Dictamen Táctico:</strong> ${res.tacticalAdvice}</div>
+                </div>
+              ` : ''}
+            </div>
+          ` : ''}
+
           <div class="pt-2 flex flex-wrap justify-center gap-3">
             <button onclick="window.app.startNewExam('${res.mode}')" class="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold rounded-xl shadow transition-all text-xs sm:text-sm">
               🔄 Repetir Simulacro
+            </button>
+            <button onclick="window.app.startSRSSession()" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow transition-all text-xs sm:text-sm">
+              🔁 Limpieza Bóveda SRS
             </button>
             <button onclick="window.app.startNewExam('falladas')" class="px-6 py-3 bg-rose-500 hover:bg-rose-400 text-slate-950 font-extrabold rounded-xl shadow transition-all text-xs sm:text-sm">
               📓 Entrenar Falladas (${this.failedQuestions.size})
@@ -2297,6 +3105,845 @@ class OpoDefensaApp {
   setReviewFilter(filter) {
     this.examState.filterReview = filter;
     this.setTab('simulador');
+  }
+
+  // =========================================================================
+  // =========================================================================
+  // MÓDULO: BÓVEDA DE FALLOS (SISTEMA LEITNER SRS 4 CAJAS)
+  // =========================================================================
+  captureQuestionForSRS(qId, confidence = 'segura', isCorrect = false, isBlank = false) {
+    if (!this.srsVault) this.srsVault = {};
+    const now = new Date();
+    const existing = this.srsVault[qId] || {
+      qId,
+      box: 1,
+      streak: 0,
+      consecutiveSafeHits: 0,
+      lastReviewed: null,
+      nextReview: now.toISOString(),
+      history: [],
+      graduated: false
+    };
+
+    // Intervalos Leitner: Caja 1 (1 día), Caja 2 (3 días), Caja 3 (7 días), Caja 4 (14 días)
+    const intervals = { 1: 1 * 86400000, 2: 3 * 86400000, 3: 7 * 86400000, 4: 14 * 86400000 };
+
+    if (!isCorrect && !isBlank) {
+      // Fallo: regresa a Caja 1, reinicia racha
+      existing.box = 1;
+      existing.streak = 0;
+      existing.consecutiveSafeHits = 0;
+      existing.graduated = false;
+      existing.nextReview = new Date(now.getTime() + intervals[1]).toISOString();
+    } else if (isBlank) {
+      // En blanco: se sitúa en Caja 1 para repasar en 1 día
+      existing.box = 1;
+      existing.streak = 0;
+      existing.consecutiveSafeHits = 0;
+      existing.graduated = false;
+      existing.nextReview = new Date(now.getTime() + intervals[1]).toISOString();
+    } else if (isCorrect) {
+      // Acierto
+      if (confidence === 'segura') {
+        existing.consecutiveSafeHits = (existing.consecutiveSafeHits || 0) + 1;
+        existing.streak = (existing.streak || 0) + 1;
+        // 3 aciertos seguros consecutivos en días distintos permiten dominar/graduar o subir de caja
+        if (existing.consecutiveSafeHits >= 3 && existing.box === 4) {
+          existing.graduated = true;
+        } else if (existing.box < 4) {
+          existing.box++;
+        }
+      } else {
+        // Acierto con duda 50/50 o riesgo: no cuenta como seguro, no avanza de caja
+        existing.consecutiveSafeHits = 0;
+      }
+      const curBox = existing.box || 1;
+      existing.nextReview = new Date(now.getTime() + (intervals[curBox] || intervals[1])).toISOString();
+    }
+
+    existing.lastReviewed = now.toISOString();
+    existing.history.push({
+      date: now.toISOString(),
+      confidence,
+      isCorrect,
+      isBlank,
+      box: existing.box
+    });
+    if (existing.history.length > 20) existing.history.shift();
+
+    this.srsVault[qId] = existing;
+    try {
+      localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(this.srsVault));
+    } catch (e) {}
+  }
+
+  getPendingSRSItems() {
+    const now = new Date();
+    return Object.values(this.srsVault || {}).filter(item => {
+      if (item.graduated) return false;
+      if (!item.nextReview) return true;
+      return new Date(item.nextReview) <= now;
+    });
+  }
+
+  startSRSSession() {
+    const pending = this.getPendingSRSItems();
+    if (pending.length === 0) {
+      const ungraduated = Object.values(this.srsVault || {}).filter(item => !item.graduated);
+      if (ungraduated.length === 0) {
+        alert('¡Enhorabuena! No tienes preguntas en la Bóveda de Fallos. Cuando falles o dudes en los simulacros, se incorporarán automáticamente.');
+        return;
+      }
+    }
+    this.startNewExam('srs');
+  }
+
+  removeSRSItem(qId) {
+    if (this.srsVault && this.srsVault[qId]) {
+      delete this.srsVault[qId];
+      try {
+        localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(this.srsVault));
+      } catch (e) {}
+      this.setTab(this.activeTab);
+    }
+  }
+
+  graduateSRSItem(qId) {
+    if (this.srsVault && this.srsVault[qId]) {
+      this.srsVault[qId].graduated = true;
+      this.srsVault[qId].box = 4;
+      this.srsVault[qId].consecutiveSafeHits = 3;
+      try {
+        localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(this.srsVault));
+      } catch (e) {}
+      this.setTab(this.activeTab);
+    }
+  }
+
+  setSRSBoxFilter(filter) {
+    this.srsBoxFilter = filter;
+    this.setTab('errores');
+  }
+
+  renderErrores() {
+    const allSRS = Object.values(this.srsVault || {});
+    const pendingItems = this.getPendingSRSItems();
+    const activeFilter = this.srsBoxFilter || 'all';
+
+    const boxCounts = {
+      1: allSRS.filter(it => !it.graduated && it.box === 1).length,
+      2: allSRS.filter(it => !it.graduated && it.box === 2).length,
+      3: allSRS.filter(it => !it.graduated && it.box === 3).length,
+      4: allSRS.filter(it => !it.graduated && it.box === 4).length,
+      graduated: allSRS.filter(it => it.graduated).length
+    };
+
+    let filteredList = allSRS;
+    if (activeFilter === 'pending') {
+      filteredList = pendingItems;
+    } else if (activeFilter === 'box1') {
+      filteredList = allSRS.filter(it => !it.graduated && it.box === 1);
+    } else if (activeFilter === 'box2') {
+      filteredList = allSRS.filter(it => !it.graduated && it.box === 2);
+    } else if (activeFilter === 'box3') {
+      filteredList = allSRS.filter(it => !it.graduated && it.box === 3);
+    } else if (activeFilter === 'box4') {
+      filteredList = allSRS.filter(it => !it.graduated && it.box === 4);
+    } else if (activeFilter === 'graduated') {
+      filteredList = allSRS.filter(it => it.graduated);
+    }
+
+    return `
+      <div class="max-w-4xl mx-auto space-y-6 animate-fadeIn pb-16">
+        <!-- CABECERA -->
+        <div class="text-center space-y-2 mb-6">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30 mb-1">
+            🔒 Retención Blindada &bull; Algoritmo Leitner SRS
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-black text-white">
+            Bóveda de Fallos & Repetición Espaciada
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
+            Captura automática de fallos, dudas y blancas. Exige <strong>3 aciertos consecutivos con [🟢 Segura]</strong> en días distintos para dar una pregunta por dominada antes del 19/12/2026.
+          </p>
+        </div>
+
+        <!-- 4 CAJAS LEITNER + DOMINADAS -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <button onclick="window.app.setSRSBoxFilter('box1')" class="p-3.5 rounded-2xl border text-left transition-all ${activeFilter === 'box1' ? 'bg-rose-500/20 border-rose-400 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
+            <div class="text-xs text-rose-400 font-bold">Caja 1 (24h)</div>
+            <div class="text-2xl font-black mt-1">${boxCounts[1]}</div>
+            <div class="text-[10px] text-slate-500">Repaso diario</div>
+          </button>
+
+          <button onclick="window.app.setSRSBoxFilter('box2')" class="p-3.5 rounded-2xl border text-left transition-all ${activeFilter === 'box2' ? 'bg-amber-500/20 border-amber-400 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
+            <div class="text-xs text-amber-400 font-bold">Caja 2 (3 días)</div>
+            <div class="text-2xl font-black mt-1">${boxCounts[2]}</div>
+            <div class="text-[10px] text-slate-500">Consolidación</div>
+          </button>
+
+          <button onclick="window.app.setSRSBoxFilter('box3')" class="p-3.5 rounded-2xl border text-left transition-all ${activeFilter === 'box3' ? 'bg-sky-500/20 border-sky-400 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
+            <div class="text-xs text-sky-400 font-bold">Caja 3 (7 días)</div>
+            <div class="text-2xl font-black mt-1">${boxCounts[3]}</div>
+            <div class="text-[10px] text-slate-500">Medio plazo</div>
+          </button>
+
+          <button onclick="window.app.setSRSBoxFilter('box4')" class="p-3.5 rounded-2xl border text-left transition-all ${activeFilter === 'box4' ? 'bg-purple-500/20 border-purple-400 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
+            <div class="text-xs text-purple-400 font-bold">Caja 4 (14 días)</div>
+            <div class="text-2xl font-black mt-1">${boxCounts[4]}</div>
+            <div class="text-[10px] text-slate-500">Blindaje final</div>
+          </button>
+
+          <button onclick="window.app.setSRSBoxFilter('graduated')" class="p-3.5 rounded-2xl border text-left transition-all col-span-2 sm:col-span-1 ${activeFilter === 'graduated' ? 'bg-emerald-500/20 border-emerald-400 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
+            <div class="text-xs text-emerald-400 font-bold">🎓 Dominadas</div>
+            <div class="text-2xl font-black mt-1">${boxCounts.graduated}</div>
+            <div class="text-[10px] text-slate-500">Graduadas</div>
+          </button>
+        </div>
+
+        <!-- BANNER DE ACCIÓN RÁPIDA -->
+        <div class="p-5 rounded-3xl border bg-gradient-to-r from-rose-950/60 via-slate-900 to-slate-900 border-rose-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="space-y-1 text-center sm:text-left">
+            <div class="flex items-center justify-center sm:justify-start gap-2 text-rose-300 font-bold text-sm">
+              <span>🔥</span>
+              <span>${pendingItems.length > 0 ? `${pendingItems.length} preguntas listas para repaso hoy` : '¡Bóveda al día! No tienes preguntas vencidas hoy'}</span>
+            </div>
+            <p class="text-xs text-slate-400">
+              ${pendingItems.length > 0 ? 'Repásalas ahora para afianzar el intervalo antes de que se desvanezca en la curva de retención.' : 'Puedes entrenar la Caja 1 o hacer una sesión de mantenimiento preventivo.'}
+            </p>
+          </div>
+          <button onclick="window.app.startSRSSession()" class="px-5 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow transition-all active:scale-95 shrink-0">
+            🚀 Iniciar Sesión de Limpieza SRS
+          </button>
+        </div>
+
+        <!-- FILTROS DE VISTA -->
+        <div class="flex items-center justify-between gap-2 border-b border-slate-800 pb-2">
+          <div class="flex flex-wrap items-center gap-1.5 text-xs font-bold">
+            <button onclick="window.app.setSRSBoxFilter('all')" class="px-3 py-1 rounded-lg ${activeFilter === 'all' ? 'bg-slate-700 text-white' : 'bg-slate-900 text-slate-400 border border-slate-800'}">
+              Todas (${allSRS.length})
+            </button>
+            <button onclick="window.app.setSRSBoxFilter('pending')" class="px-3 py-1 rounded-lg ${activeFilter === 'pending' ? 'bg-rose-500 text-slate-950' : 'bg-slate-900 text-slate-400 border border-slate-800'}">
+              Pendientes Hoy (${pendingItems.length})
+            </button>
+            <button onclick="window.app.setSRSBoxFilter('box1')" class="px-3 py-1 rounded-lg ${activeFilter === 'box1' ? 'bg-rose-500/30 text-rose-300 border border-rose-500/40' : 'bg-slate-900 text-slate-400 border border-slate-800'}">
+              Caja 1 (${boxCounts[1]})
+            </button>
+            <button onclick="window.app.setSRSBoxFilter('graduated')" class="px-3 py-1 rounded-lg ${activeFilter === 'graduated' ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' : 'bg-slate-900 text-slate-400 border border-slate-800'}">
+              Dominadas (${boxCounts.graduated})
+            </button>
+          </div>
+
+          <span class="text-xs text-slate-500 hidden sm:inline font-mono">Total Bóveda: ${allSRS.length}</span>
+        </div>
+
+        <!-- LISTA DE PREGUNTAS EN BÓVEDA -->
+        <div class="space-y-3">
+          ${filteredList.length === 0 ? `
+            <div class="text-center py-12 bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400 space-y-2">
+              <div class="text-3xl">🛡️</div>
+              <p class="text-sm font-bold text-white">No hay preguntas en esta vista de la Bóveda</p>
+              <p class="text-xs text-slate-500">Realiza simulacros o activa filtros diferentes.</p>
+            </div>
+          ` : filteredList.map(item => {
+            const q = (this.allQuestions || []).find(q => String(q.id) === String(item.qId)) || {
+              id: item.qId,
+              topic: 'Pregunta',
+              question: `Pregunta identificada #${item.qId}`
+            };
+            const isDue = !item.graduated && (!item.nextReview || new Date(item.nextReview) <= new Date());
+            const nextDateStr = item.nextReview ? new Date(item.nextReview).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : 'Inmediato';
+
+            return `
+              <div class="bg-slate-900 border ${item.graduated ? 'border-emerald-500/30' : isDue ? 'border-rose-500/40' : 'border-slate-800'} rounded-2xl p-4 sm:p-5 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold ${
+                      item.graduated
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                        : item.box === 1
+                          ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                          : item.box === 2
+                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                            : item.box === 3
+                              ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30'
+                              : 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                    }">
+                      ${item.graduated ? '🎓 Dominada' : `📦 Caja ${item.box}`}
+                    </span>
+                    <span class="text-xs text-slate-400 font-bold">${q.topic || 'General'}</span>
+                    <span class="text-[11px] font-mono text-slate-500">#${q.id}</span>
+                  </div>
+
+                  <div class="flex items-center gap-2 text-xs">
+                    <span class="px-2 py-0.5 rounded-md bg-slate-950 border border-slate-800 text-slate-300">
+                      Racha Seguras: <strong>${item.consecutiveSafeHits || 0}/3</strong>
+                    </span>
+                    <span class="text-[11px] ${isDue ? 'text-rose-400 font-bold' : 'text-slate-500'}">
+                      ${item.graduated ? 'Completada' : `Próximo: ${nextDateStr}`}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="text-xs sm:text-sm font-bold text-white leading-relaxed">
+                  ${q.question}
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-800/60 text-xs">
+                  ${!item.graduated ? `
+                    <button onclick="window.app.graduateSRSItem('${item.qId}')" class="px-3 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold transition-all">
+                      ✓ Marcar Dominada
+                    </button>
+                  ` : ''}
+                  <button onclick="window.app.removeSRSItem('${item.qId}')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700 font-bold transition-all">
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // =========================================================================
+  // MÓDULO: ENTRENADOR DE LITERALIDAD (CLOZE DELETION)
+  // =========================================================================
+  toggleClozeBlank(clozeId, wordIdx) {
+    if (!this.clozeState) {
+      this.clozeState = { revealed: {}, topicFilter: 'all' };
+    }
+    if (!this.clozeState.revealed[clozeId]) {
+      this.clozeState.revealed[clozeId] = {};
+    }
+    this.clozeState.revealed[clozeId][wordIdx] = !this.clozeState.revealed[clozeId][wordIdx];
+    if (this.clozeState.revealed[clozeId][wordIdx] && typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:cloze-completed', { detail: { count: 1, clozeId } }));
+    }
+    this.setTab('literalidad');
+  }
+
+  toggleAllCloze(show = true) {
+    if (!this.clozeState) {
+      this.clozeState = { revealed: {}, topicFilter: 'all' };
+    }
+    const bank = this.clozeBank || [];
+    bank.forEach(item => {
+      if (!this.clozeState.revealed[item.id]) {
+        this.clozeState.revealed[item.id] = {};
+      }
+      const matches = item.text.match(/\{\{([^}]+)\}\}/g) || [];
+      matches.forEach((_, idx) => {
+        this.clozeState.revealed[item.id][idx] = show;
+      });
+    });
+    if (show && typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('opo:cloze-completed', { detail: { count: bank.length } }));
+    }
+    this.setTab('literalidad');
+  }
+
+  setClozeTopicFilter(topic) {
+    if (!this.clozeState) {
+      this.clozeState = { revealed: {}, topicFilter: 'all' };
+    }
+    this.clozeState.topicFilter = topic;
+    this.setTab('literalidad');
+  }
+
+  renderLiteralidad() {
+    const bank = this.clozeBank || [];
+    const activeFilter = (this.clozeState && this.clozeState.topicFilter) || 'all';
+
+    const filteredBank = activeFilter === 'all'
+      ? bank
+      : bank.filter(c => String(c.topicId) === String(activeFilter));
+
+    return `
+      <div class="max-w-4xl mx-auto space-y-6 animate-fadeIn pb-16">
+        <!-- CABECERA -->
+        <div class="text-center space-y-2 mb-6">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-sky-500/10 text-sky-400 border border-sky-500/30 mb-1">
+            👁️ Memoria Fotográfica &bull; Cloze Deletion
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-black text-white">
+            Entrenador de Literalidad Normativa
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
+            Aprende las palabras exactas que el Tribunal suele modificar en las preguntas trampa (plazos, mayorías, dimensiones DIN, <em>podrá</em> vs <em>deberá</em>). Pulsa en cada hueco para desvelar.
+          </p>
+        </div>
+
+        <!-- CONTROLES Y FILTROS -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-1.5 text-xs font-bold">
+            <button onclick="window.app.setClozeTopicFilter('all')" class="px-3 py-1.5 rounded-xl transition-all ${activeFilter === 'all' ? 'bg-sky-500 text-slate-950 font-black' : 'bg-slate-950 text-slate-400 border border-slate-800'}">
+              Todos (${bank.length})
+            </button>
+            ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(tid => `
+              <button onclick="window.app.setClozeTopicFilter('${tid}')" class="px-2.5 py-1.5 rounded-xl transition-all ${String(activeFilter) === String(tid) ? 'bg-sky-500 text-slate-950 font-black' : 'bg-slate-950 text-slate-400 border border-slate-800'}">
+                T${tid}
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="window.app.toggleAllCloze(true)" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-all">
+              👁️ Revelar Todos
+            </button>
+            <button onclick="window.app.toggleAllCloze(false)" class="px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 font-bold text-xs border border-slate-800 transition-all">
+              🙈 Ocultar Todos
+            </button>
+          </div>
+        </div>
+
+        <!-- TARJETAS DE EXTRACTOS CLOZE -->
+        <div class="space-y-4">
+          ${filteredBank.map(item => {
+            let blankIndex = 0;
+            // Parsear texto para transformar {{palabra}} en botones interactivos
+            const renderedHtml = item.text.replace(/\{\{([^}]+)\}\}/g, (match, word) => {
+              const currentIdx = blankIndex++;
+              const isRevealed = this.clozeState && this.clozeState.revealed && this.clozeState.revealed[item.id] && this.clozeState.revealed[item.id][currentIdx];
+
+              if (isRevealed) {
+                return `
+                  <button type="button" onclick="window.app.toggleClozeBlank('${item.id}', ${currentIdx})" class="inline-flex items-center px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-mono font-bold text-xs hover:bg-emerald-500/30 transition-all cursor-pointer">
+                    ${word}
+                  </button>
+                `;
+              }
+              return `
+                <button type="button" onclick="window.app.toggleClozeBlank('${item.id}', ${currentIdx})" class="inline-flex items-center px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-400/40 hover:bg-sky-500/30 font-mono font-bold text-xs transition-all cursor-pointer">
+                  [ 👁️ Revelar ]
+                </button>
+              `;
+            });
+
+            return `
+              <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-4 shadow-lg">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-black uppercase px-2.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                      ${item.topicName}
+                    </span>
+                    <span class="text-xs font-bold text-slate-300">
+                      ⚖️ ${item.norma}
+                    </span>
+                  </div>
+                  <span class="text-[11px] font-bold text-amber-400/90 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                    ${item.preguntaGuia}
+                  </span>
+                </div>
+
+                <div class="text-sm sm:text-base text-slate-200 leading-relaxed pt-1">
+                  ${renderedHtml}
+                </div>
+
+                ${item.explanation ? `
+                  <div class="p-3 bg-slate-950 rounded-xl border border-slate-800/80 text-xs text-slate-400 flex items-start gap-2">
+                    <span class="text-amber-400 text-sm">💡</span>
+                    <div><strong>Matiz Oficial:</strong> ${item.explanation}</div>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // =========================================================================
+  // MÓDULO: INYECTOR JSON & SINCRONIZACIÓN CLOUD-FREE
+  // =========================================================================
+  injectCustomQuestions() {
+    const textarea = document.getElementById('json-injector-input');
+    if (!textarea || !textarea.value.trim()) {
+      alert('Por favor, pega el contenido JSON en el área de texto.');
+      return;
+    }
+    try {
+      const parsed = JSON.parse(textarea.value.trim());
+      const rawList = Array.isArray(parsed) ? parsed : [parsed];
+      if (rawList.length === 0) {
+        alert('El JSON proporcionado está vacío.');
+        return;
+      }
+
+      const makeHash = (str) => {
+        return (str || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 80);
+      };
+
+      const existingHashes = new Set(this.allQuestions.map(q => makeHash(q.question || q.pregunta)));
+      let addedCount = 0;
+      let dupCount = 0;
+
+      rawList.forEach((rawQ, i) => {
+        const questionText = rawQ.question || rawQ.pregunta;
+        const optionsList = rawQ.options || rawQ.opciones;
+        const correctVal = rawQ.correct !== undefined ? rawQ.correct : rawQ.correcta;
+
+        if (!questionText || !Array.isArray(optionsList) || optionsList.length < 2 || correctVal === undefined) {
+          return;
+        }
+
+        const h = makeHash(questionText);
+        if (existingHashes.has(h)) {
+          dupCount++;
+          return;
+        }
+
+        const newQ = {
+          id: rawQ.id || `custom-${Date.now()}-${i}`,
+          topic: rawQ.topic || rawQ.tema || 'Pregunta Personalizada',
+          topicId: Number(rawQ.topicId || rawQ.temaId || 1),
+          block: (rawQ.topicId || 1) <= 4 ? 'comun' : 'especifico',
+          question: questionText,
+          options: optionsList,
+          correct: Number(correctVal),
+          explanation: rawQ.explanation || rawQ.explicacion || 'Sin justificación legal aportada.',
+          sourceType: rawQ.sourceType || 'custom',
+          lawArticle: rawQ.lawArticle || rawQ.articulo || null,
+          lawReference: rawQ.lawReference || rawQ.norma || null
+        };
+
+        this.customQuestions.push(newQ);
+        existingHashes.add(h);
+        addedCount++;
+      });
+
+      try {
+        localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(this.customQuestions));
+      } catch (e) {}
+
+      this.allQuestions = [...this.questionBank, ...this.customQuestions];
+      textarea.value = '';
+      alert(`¡Inyección masiva completada!\n• ${addedCount} preguntas añadidas con éxito.\n• ${dupCount} preguntas duplicadas o ignoradas.`);
+      this.setTab('importador');
+    } catch (err) {
+      alert(`Error al analizar el JSON: ${err.message}. Asegúrate de que tenga sintaxis JSON válida.`);
+    }
+  }
+
+  clearCustomQuestions() {
+    if (this.customQuestions.length === 0) {
+      alert('No hay preguntas personalizadas registradas.');
+      return;
+    }
+    if (confirm(`¿Estás seguro de que deseas eliminar las ${this.customQuestions.length} preguntas personalizadas inyectadas? Esta acción no se puede deshacer.`)) {
+      this.customQuestions = [];
+      try {
+        localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify([]));
+      } catch (e) {}
+      this.allQuestions = [...this.questionBank];
+      alert('Se han vaciado todas las preguntas personalizadas.');
+      this.setTab('importador');
+    }
+  }
+
+  saveGistConfig(token, gistId) {
+    this.gistConfig = {
+      token: (token || '').trim(),
+      gistId: (gistId || '').trim(),
+      lastSync: this.gistConfig?.lastSync || null
+    };
+    try {
+      localStorage.setItem(STORAGE_KEYS.GIST_CONFIG, JSON.stringify(this.gistConfig));
+    } catch (e) {}
+    alert('Configuración de GitHub Gist guardada correctamente.');
+    this.setTab('importador');
+  }
+
+  async syncToGist() {
+    if (!this.gistConfig || !this.gistConfig.token) {
+      alert('Debes configurar un Personal Access Token (PAT) de GitHub con permiso "gist" para sincronizar.');
+      return;
+    }
+    const token = this.gistConfig.token;
+    const backupData = {
+      app: 'Misión Administración - Opo-Defensa E1',
+      version: '2.1.0',
+      storageVersion: CURRENT_STORAGE_VERSION,
+      exportDate: new Date().toISOString(),
+      examHistory: this.examHistory,
+      failedQuestionIds: Array.from(this.failedQuestions),
+      cardRatings: this.cardRatings,
+      planChecklist: this.planChecklist,
+      highlighterEnabled: this.highlighterEnabled,
+      cifrasBestScore: this.cifrasBestScore,
+      srsVault: this.srsVault,
+      customQuestions: this.customQuestions,
+      settings: this.settings
+    };
+
+    const payload = {
+      description: 'Misión Administración Opo-Defensa E1 - Backup de Progreso',
+      public: false,
+      files: {
+        'mision_administracion_progreso.json': {
+          content: JSON.stringify(backupData, null, 2)
+        }
+      }
+    };
+
+    const isUpdate = Boolean(this.gistConfig.gistId);
+    const url = isUpdate
+      ? `https://api.github.com/gists/${this.gistConfig.gistId}`
+      : 'https://api.github.com/gists';
+    const method = isUpdate ? 'PATCH' : 'POST';
+
+    try {
+      const resp = await fetch(url, {
+        method,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!resp.ok) {
+        throw new Error(`GitHub API Error: ${resp.status} ${resp.statusText}`);
+      }
+
+      const resJson = await resp.json();
+      this.gistConfig.gistId = resJson.id;
+      this.gistConfig.lastSync = new Date().toISOString();
+      try {
+        localStorage.setItem(STORAGE_KEYS.GIST_CONFIG, JSON.stringify(this.gistConfig));
+      } catch (e) {}
+
+      if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('opo:backup-synced'));
+      }
+
+      alert(`¡Sincronización en la nube completada con éxito!\nGist ID: ${resJson.id}\nFecha: ${new Date(this.gistConfig.lastSync).toLocaleString()}`);
+      this.setTab('importador');
+    } catch (err) {
+      alert(`Error al sincronizar con GitHub Gist: ${err.message}`);
+    }
+  }
+
+  async syncFromGist() {
+    if (!this.gistConfig || !this.gistConfig.gistId) {
+      alert('Debes indicar un Gist ID válido para descargar.');
+      return;
+    }
+    const token = this.gistConfig.token;
+    const gistId = this.gistConfig.gistId;
+
+    try {
+      const headers = { 'Accept': 'application/vnd.github+json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const resp = await fetch(`https://api.github.com/gists/${gistId}`, { headers });
+      if (!resp.ok) {
+        throw new Error(`GitHub API Error: ${resp.status} ${resp.statusText}`);
+      }
+
+      const resJson = await resp.json();
+      const fileObj = resJson.files && resJson.files['mision_administracion_progreso.json'];
+      if (!fileObj || !fileObj.content) {
+        throw new Error('No se encontró el archivo mision_administracion_progreso.json en este Gist.');
+      }
+
+      const data = JSON.parse(fileObj.content);
+      if (data.examHistory) localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(data.examHistory));
+      if (data.failedQuestionIds) localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(data.failedQuestionIds));
+      if (data.cardRatings) localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(data.cardRatings));
+      if (data.planChecklist) localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
+      if (data.cifrasBestScore) localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
+      if (data.srsVault) localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(data.srsVault));
+      if (data.customQuestions) localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(data.customQuestions));
+      if (data.settings) localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+
+      migrateStorage(localStorage);
+      this.loadPersistence();
+      this.gistConfig.lastSync = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEYS.GIST_CONFIG, JSON.stringify(this.gistConfig));
+
+      alert('¡Progreso descargado y restaurado con éxito desde GitHub Gist!');
+      this.setTab('importador');
+    } catch (err) {
+      alert(`Error al descargar desde GitHub Gist: ${err.message}`);
+    }
+  }
+
+  renderImportador() {
+    const customCount = this.customQuestions.length;
+    const gistId = this.gistConfig?.gistId || '';
+    const hasToken = Boolean(this.gistConfig?.token);
+    const lastSyncStr = this.gistConfig?.lastSync
+      ? new Date(this.gistConfig.lastSync).toLocaleString('es-ES')
+      : 'Nunca sincronizado';
+
+    return `
+      <div class="max-w-4xl mx-auto space-y-8 animate-fadeIn pb-16">
+        <!-- CABECERA -->
+        <div class="text-center space-y-2 mb-6">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 mb-1">
+            ⚡ Autonomía Total &bull; Cloud-Free & GitHub Gist
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-black text-white">
+            Inyector JSON & Sincronización Multi-Dispositivo
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
+            Importa baterías masivas de preguntas sin depender de un servidor externo. Sincroniza métricas y Bóveda SRS entre el móvil y el ordenador con GitHub Gist API o archivos JSON locales.
+          </p>
+        </div>
+
+        <!-- SECCIÓN 1: INYECTOR MASIVO DE PREGUNTAS JSON -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>📥</span> Inyector Masivo de Preguntas JSON
+            </h2>
+            <span class="text-xs px-2.5 py-1 rounded-lg font-mono font-bold ${customCount > 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-400'}">
+              ${customCount} preguntas inyectadas activas
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-400">
+            Pega una matriz de objetos JSON con preguntas. El motor valida automáticamente el esquema y descarta duplicados mediante hash de enunciado:
+          </p>
+
+          <textarea
+            id="json-injector-input"
+            rows="6"
+            placeholder='[
+  {
+    "question": "¿Cuál es el valor superior del art. 1.1 CE?",
+    "options": ["Pluralismo político", "Pluralismo sindical", "Seguridad", "Jerarquía"],
+    "correct": 0,
+    "explanation": "El art. 1.1 cita libertad, justicia, igualdad y pluralismo político.",
+    "topic": "Tema 1: Constitución",
+    "topicId": 1
+  }
+]'
+            class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500 placeholder-slate-600 transition-colors"
+          ></textarea>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <button
+              onclick="window.app.injectCustomQuestions()"
+              class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold rounded-xl text-xs sm:text-sm shadow transition-all active:scale-95">
+              📥 Inyectar al Banco de Preguntas
+            </button>
+            ${customCount > 0 ? `
+              <button
+                onclick="window.app.clearCustomQuestions()"
+                class="px-4 py-2 bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700 font-bold rounded-xl text-xs transition-all">
+                🧹 Vaciar Personalizadas (${customCount})
+              </button>
+            ` : ''}
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: COPIA DE SEGURIDAD LOCAL (1 CLIC) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>💾</span> Copia de Seguridad Local (JSON 1 Clic)
+          </h2>
+          <p class="text-xs text-slate-400">
+            Exporta o restaura en 1 clic tu historial completo, cuaderno de falladas, baraja Leitner, Bóveda SRS y preguntas personalizadas en un único archivo JSON:
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <button
+              onclick="window.app.exportProgress()"
+              class="p-4 bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 rounded-2xl text-left transition-all flex items-center gap-3">
+              <span class="text-2xl">⬇️</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm">Descargar Copia JSON</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Genera fichero .json con todo tu avance</div>
+              </div>
+            </button>
+
+            <label class="p-4 bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 rounded-2xl text-left transition-all flex items-center gap-3 cursor-pointer">
+              <span class="text-2xl">📂</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm">Restaurar Copia JSON</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Carga archivo y migra datos sin pérdida</div>
+              </div>
+              <input
+                type="file"
+                accept=".json"
+                class="hidden"
+                onchange="if (this.files[0]) window.app.importProgress(this.files[0])"
+              />
+            </label>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: SINCRONIZACIÓN PRIVADA EN GITHUB GIST -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>☁️</span> Sincronización Privada (GitHub Gist API)
+            </h2>
+            <span class="text-[11px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
+              Última sinc: ${lastSyncStr}
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Permite estudiar en el móvil en tiempos muertos y continuar en el ordenador sin perder métricas ni depender de un servidor externo de pago. Utiliza un <a href="https://github.com/settings/tokens" target="_blank" class="text-sky-400 underline font-bold">Personal Access Token (PAT)</a> de GitHub con permiso <code>gist</code>.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">
+                GitHub Token (PAT con scope "gist")
+              </label>
+              <input
+                id="gist-token-input"
+                type="password"
+                placeholder="${hasToken ? '••••••••••••••••••••' : 'ghp_xxxxxxxxxxxx'}"
+                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500 font-mono"
+              />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">
+                Gist ID (opcional: dejar vacío para crear nuevo)
+              </label>
+              <input
+                id="gist-id-input"
+                type="text"
+                value="${gistId}"
+                placeholder="Id de tu Gist privado"
+                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-500 font-mono"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <button
+              onclick="window.app.saveGistConfig(document.getElementById('gist-token-input').value, document.getElementById('gist-id-input').value)"
+              class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition-all">
+              💾 Guardar Credenciales
+            </button>
+
+            <div class="flex items-center gap-2">
+              <button
+                onclick="window.app.syncToGist()"
+                class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs shadow transition-all active:scale-95">
+                ☁️ Subir a Gist
+              </button>
+              <button
+                onclick="window.app.syncFromGist()"
+                class="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold rounded-xl text-xs shadow transition-all active:scale-95">
+                ⬇️ Descargar de Gist
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   // =========================================================================

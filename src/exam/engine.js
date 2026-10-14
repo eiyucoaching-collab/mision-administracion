@@ -50,24 +50,54 @@ export function shuffleQuestionOptions(question, rng = Math.random) {
  */
 export function getTimeLimitForMode(mode, questionCount = 60) {
   if (mode === 'oficial' || mode === 'real2025') return 3600; // 60 minutos oficiales
+  if (mode === 'sprint45') return 2700; // 45 preguntas = 45 minutos
+  if (mode === 'trampas') return 1200;  // 20 preguntas trampa = 20 minutos
   if (mode === 'comun') return 1200;   // 20 preguntas = 20 minutos
   if (mode === 'especifico') return 2400; // 40 preguntas = 40 minutos
+  if (mode === 'srs') return Math.max(600, questionCount * 60);
   
   // Modos por tema o personalizados: 60 segundos por pregunta (mínimo 10 min)
   return Math.max(600, questionCount * 60);
 }
 
 /**
+ * Normaliza una pregunta para soportar esquemas duales transparentemente
+ */
+export function normalizeQuestion(q) {
+  if (!q || typeof q !== 'object') return q;
+  const topicId = q.topicId ?? q.temaId ?? 1;
+  const block = q.block || q.bloque || (topicId <= 4 ? 'comun' : 'especifico');
+  return {
+    ...q,
+    id: q.id,
+    block,
+    topicId,
+    topic: q.topic || q.temaNombre || `Tema ${topicId}`,
+    question: q.question || q.pregunta || '',
+    options: q.options || q.opciones || [],
+    correct: q.correct ?? q.correcta ?? 0,
+    law: q.law || q.referenciaLegal || '',
+    article: q.article || '',
+    explanation: q.explanation || q.explicacion || '',
+    sourceType: q.sourceType || 'original_propia',
+    isTrap: Boolean(q.isTrap || q.esTrampa)
+  };
+}
+
+/**
  * Crea el pool de preguntas para una sesión de examen con opciones barajadas
  */
 export function createExamPool(questionBank, mode, options = {}) {
-  const { failedQuestionsSet = new Set(), allowUnverified = false, rng = Math.random } = options;
+  const { failedQuestionsSet = new Set(), srsQuestionIds = new Set(), allowUnverified = false, rng = Math.random } = options;
+
+  // Normalizar esquema de todas las preguntas
+  const normalizedBank = (questionBank || []).map(normalizeQuestion);
 
   // En simulacro oficial/real nunca entran preguntas sin verificar bajo ninguna circunstancia
   const effectiveAllow = (mode === 'oficial' || mode === 'real2025') ? false : allowUnverified;
   const validBank = effectiveAllow 
-    ? questionBank 
-    : questionBank.filter(q => q.sourceType !== 'sin_verificar');
+    ? normalizedBank 
+    : normalizedBank.filter(q => q.sourceType !== 'sin_verificar');
 
   let selectedQuestions = [];
 
@@ -82,6 +112,32 @@ export function createExamPool(questionBank, mode, options = {}) {
     const comunRes = comunPool.slice(20, 22);
     const espRes = espPool.slice(40, 44);
     selectedQuestions = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
+  } else if (mode === 'sprint45') {
+    // 45 preguntas tácticas: 15 comunes + 30 específicas (45 minutos)
+    const comunPool = shuffleArray(validBank.filter(q => q.block === 'comun'), rng);
+    const espPool = shuffleArray(validBank.filter(q => q.block === 'especifico'), rng);
+    selectedQuestions = [...comunPool.slice(0, 15), ...espPool.slice(0, 30)];
+  } else if (mode === 'trampas') {
+    // Preguntas trampa: marcadas expresamente o con distractores clásicos del tribunal
+    const trapKeywords = ['15 días', 'período de prueba', 'periodo de prueba', 'E0', 'E1', 'E2', 'subdirector general', 'inviolable', 'doble sobre', '17 ºc', '841', '1189', '40%', '60%', 'amparo'];
+    const trapPool = validBank.filter(q => {
+      if (q.isTrap) return true;
+      const text = `${q.question} ${q.explanation}`.toLowerCase();
+      return trapKeywords.some(kw => text.includes(kw.toLowerCase()));
+    });
+    const fallbackPool = trapPool.length >= 20 ? trapPool : validBank;
+    selectedQuestions = shuffleArray(fallbackPool, rng).slice(0, 20);
+  } else if (mode === 'srs') {
+    // Preguntas pendientes de revisión según la Bóveda Leitner SRS
+    const targetSet = srsQuestionIds instanceof Set ? srsQuestionIds : new Set(srsQuestionIds || []);
+    if (targetSet.size === 0) {
+      return {
+        questions: [],
+        error: 'No tienes preguntas pendientes de revisión en tu Bóveda de Fallos (SRS) para hoy.'
+      };
+    }
+    const srsPool = validBank.filter(q => targetSet.has(q.id));
+    selectedQuestions = shuffleArray(srsPool, rng);
   } else if (mode === 'real2025') {
     // Simulacro priorizando preguntas identificadas de convocatoria
     const realComun = validBank.filter(q => q.block === 'comun' && (q.sourceType === 'real_exam' || q.isRealExam2025));
@@ -147,7 +203,15 @@ export function createExamPool(questionBank, mode, options = {}) {
  * Calcula los resultados objetivos de un simulacro
  */
 export function calculateExamScore(sessionState) {
-  const { mode, questions, userAnswers = {}, timeRemaining = 0, initialTime = 3600 } = sessionState;
+  const {
+    mode,
+    questions,
+    userAnswers = {},
+    confidenceLevels = {},
+    penaltyRate = (1 / 3),
+    timeRemaining = 0,
+    initialTime = 3600
+  } = sessionState;
 
   let questionsToGrade = [];
 
@@ -182,6 +246,11 @@ export function calculateExamScore(sessionState) {
     questionsToGrade = questions.map((q, idx) => ({ q, num: idx + 1, isAnnulled: false }));
   }
 
+  // Tasa de penalización configurable (por defecto 1/3 ~ 0.33, o 0.25)
+  const effectivePenalty = typeof penaltyRate === 'number' && !isNaN(penaltyRate)
+    ? Math.abs(penaltyRate)
+    : (1 / 3);
+
   let correct = 0;
   let wrong = 0;
   let blank = 0;
@@ -189,19 +258,32 @@ export function calculateExamScore(sessionState) {
   const newlyFailedIds = [];
   const newlySucceededIds = [];
 
+  // Metacognición: desglose por nivel de confianza
+  const confidenceBreakdown = {
+    segura: { count: 0, correct: 0, wrong: 0, blank: 0, net: 0 },
+    duda: { count: 0, correct: 0, wrong: 0, blank: 0, net: 0, theoreticalEV: +(0.5 - 0.5 * effectivePenalty).toFixed(3), empiricalYield: 0 },
+    riesgo: { count: 0, correct: 0, wrong: 0, blank: 0, net: 0, theoreticalEV: +(0.25 - 0.75 * effectivePenalty).toFixed(3), empiricalYield: 0 }
+  };
+
   questionsToGrade.forEach(item => {
     const q = item.q;
     const userAns = userAnswers[q.id];
     const isBlank = userAns === undefined || userAns === null;
     const isCorrect = !isBlank && userAns === q.correct;
+    const conf = confidenceLevels[q.id] || (isBlank ? 'riesgo' : 'segura');
+    const bucket = confidenceBreakdown[conf] || confidenceBreakdown.segura;
 
+    bucket.count++;
     if (isBlank) {
       blank++;
+      bucket.blank++;
     } else if (isCorrect) {
       correct++;
+      bucket.correct++;
       newlySucceededIds.push(q.id);
     } else {
       wrong++;
+      bucket.wrong++;
       newlyFailedIds.push(q.id);
     }
 
@@ -211,19 +293,46 @@ export function calculateExamScore(sessionState) {
       userAns: userAns,
       isCorrect: isCorrect,
       isBlank: isBlank,
+      confidence: conf,
       isAnnulled: item.isAnnulled
     });
   });
 
+  // Calcular rendimiento neto empírico por nivel de confianza
+  ['segura', 'duda', 'riesgo'].forEach(cat => {
+    const b = confidenceBreakdown[cat];
+    b.net = +(b.correct - (b.wrong * effectivePenalty)).toFixed(2);
+    b.empiricalYield = b.net;
+  });
+
   const totalGraded = questionsToGrade.length;
-  // Penalización de 1/3 (supuesto del simulador pendiente de Anexo V)
-  const penalty = wrong * (1 / 3);
+  const penalty = +(wrong * effectivePenalty).toFixed(4);
   const rawNetScore = +(correct - penalty).toFixed(2);
-  // Supuesto provisional del simulador: suelo en 0 (pendiente de confirmación por Anexo V)
   const netScore = Math.max(0, rawNetScore);
-  // Supuesto provisional del simulador: nota de corte en el 50%
   const cutoffScore = +(totalGraded * 0.5).toFixed(2);
   const passed = netScore >= cutoffScore;
+
+  // Rentabilidad del Riesgo: puntos netos generados en dudas y riesgos frente a dejar en blanco (0)
+  const doubtNet = confidenceBreakdown.duda.net;
+  const riskNet = confidenceBreakdown.riesgo.net;
+  const totalRiskNet = +(doubtNet + riskNet).toFixed(2);
+
+  let tacticalAdvice = '';
+  if (confidenceBreakdown.duda.count > 0) {
+    if (doubtNet > 0) {
+      tacticalAdvice = `Rentabilidad en Dudas 50/50: +${doubtNet.toFixed(2)} puntos netos. Tu precisión al descartar entre 2 opciones es estadísticamente rentable. El 19/12 debes arriesgar en estas dudas.`;
+    } else {
+      tacticalAdvice = `En tus dudas 50/50 has cedido ${Math.abs(doubtNet).toFixed(2)} puntos. Si no logras descartar con total seguridad 2 distractores, la decisión táctica correcta es dejar en blanco.`;
+    }
+  } else if (confidenceBreakdown.riesgo.count > 0) {
+    if (riskNet < 0) {
+      tacticalAdvice = `Has perdido ${Math.abs(riskNet).toFixed(2)} puntos en respuestas al azar: el valor esperado del azar puro con 4 opciones es negativo. En el examen oficial, déjalas en blanco.`;
+    } else {
+      tacticalAdvice = `Has ganado ${riskNet.toFixed(2)} puntos en azar por fortuna, pero recuerda que estadísticamente el azar puro a 4 opciones tiene EV <= 0.`;
+    }
+  } else {
+    tacticalAdvice = `Todas tus respuestas fueron con confianza Segura (100%). Mantén la concentración para blindar el corte.`;
+  }
 
   const timeSpentSecs = Math.max(0, initialTime - timeRemaining);
 
@@ -242,10 +351,14 @@ export function calculateExamScore(sessionState) {
     rawNetScore,
     cutoffScore,
     passed,
+    penaltyRate: effectivePenalty,
     timeSpentSecs,
     reviewList,
     newlyFailedIds,
-    newlySucceededIds
+    newlySucceededIds,
+    confidenceBreakdown,
+    totalRiskNet,
+    tacticalAdvice
   };
 }
 
@@ -273,6 +386,7 @@ export function initExamSessionState(questionBank, mode, options = {}) {
     currentIndex: 0,
     userAnswers: {},
     crossedOptions: {},
+    confidenceLevels: {}, // { [qId]: 'segura' | 'duda' | 'riesgo' }
     flagged: new Set(),
     initialTime: timeLimit,
     timeRemaining: timeLimit,

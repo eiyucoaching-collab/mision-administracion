@@ -9,6 +9,7 @@ import {
   calculateDashboardMetrics
 } from '../src/exam/engine.js';
 import { QUESTION_BANK } from '../src/data/questions.js';
+import { CLOZE_BANK, CLOZE_EXPANSION_PACK } from '../src/data/cloze_data.js';
 
 describe('P0 Exam Engine Tests', () => {
 
@@ -128,7 +129,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.ok(temaInvalido.error, 'Debe indicar error cuando el pool está vacío');
   });
 
-  it('[Supuesto provisional pendiente del Anexo V] calculateExamScore califica 60 ordinarias y sólo aplica reservas a preguntas legítimamente anuladas', () => {
+  it('[Ratificado por Anexo V Convocatoria Defensa 2026] calculateExamScore califica 60 ordinarias y sólo aplica reservas a preguntas legítimamente anuladas', () => {
     // 60 preguntas ordinarias + 6 de reserva
     const pool = createExamPool(QUESTION_BANK, 'oficial').questions;
     assert.equal(pool.length, 66);
@@ -156,7 +157,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resStandard.passed, true); // 30 >= 50% de 60
   });
 
-  it('[Supuesto provisional pendiente del Anexo V] getTimeLimitForMode devuelve tiempos proporcionales según el modo y número de preguntas', () => {
+  it('[Ratificado por Anexo V Convocatoria Defensa 2026] getTimeLimitForMode devuelve tiempos proporcionales según el modo y número de preguntas', () => {
     assert.equal(getTimeLimitForMode('oficial', 60), 3600); // 60 min
     assert.equal(getTimeLimitForMode('real2025', 60), 3600); // 60 min
     assert.equal(getTimeLimitForMode('comun', 20), 1200);   // 20 min
@@ -164,7 +165,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(getTimeLimitForMode('tema:1', 10), 600);   // 10 min
   });
 
-  it('[Supuesto provisional pendiente del Anexo V] Formato 2025 califica 60 ordinarias y no 66, corte en 30', () => {
+  it('[Ratificado por Anexo V Convocatoria Defensa 2026] Formato 2025 califica 60 ordinarias y no 66, corte en 30', () => {
     const pool = createExamPool(QUESTION_BANK, 'real2025').questions;
     assert.equal(pool.length, 66);
 
@@ -193,7 +194,7 @@ describe('P0 Exam Engine Tests', () => {
     res.questions.forEach(q => assert.equal(q.topicId, 2));
   });
 
-  it('[Supuesto provisional pendiente del Anexo V] Penalización provisional de -1/3', () => {
+  it('[Ratificado por Anexo V Convocatoria Defensa 2026] Penalización provisional de -1/3', () => {
     const questions = [
       { id: 101, correct: 0, options: ['A','B','C','D'] },
       { id: 102, correct: 1, options: ['A','B','C','D'] },
@@ -254,7 +255,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(sessionInvalida.questions.length, 0);
   });
 
-  it('CASO 2: [Supuesto provisional pendiente del Anexo V] Puntuación y umbral de corte al 50% (30.00 puntos)', () => {
+  it('CASO 2: [Ratificado por Anexo V Convocatoria Defensa 2026] Puntuación y umbral de corte al 50% (30.00 puntos)', () => {
     // Modo Oficial: 33 aciertos, 9 fallos (-3 puntos), 18 blancos = 30.00 netos -> APROBADO justo
     const mockQuestions60 = [];
     for (let i = 1; i <= 60; i++) {
@@ -290,7 +291,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resRealFail.passed, false);
   });
 
-  it('CASO 3: [Supuesto provisional pendiente del Anexo V] Anulaciones: sustitución de anuladas por reservas en el simulador', () => {
+  it('CASO 3: [Ratificado por Anexo V Convocatoria Defensa 2026] Anulaciones: sustitución de anuladas por reservas en el simulador', () => {
     // Simulamos un pool de 60 ordinarias + 6 reservas
     const ordinarias = [];
     for (let i = 1; i <= 60; i++) {
@@ -341,7 +342,7 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resExceeded.cutoffScore, +(59 * 0.5).toFixed(2));
   });
 
-  it('CASO 4: [Supuesto provisional pendiente del Anexo V] Temporizador del simulador (3600s oficial, 1200s común, 2400s específico)', () => {
+  it('CASO 4: [Ratificado por Anexo V Convocatoria Defensa 2026] Temporizador del simulador (3600s oficial, 1200s común, 2400s específico)', () => {
     // Oficiales
     assert.equal(getTimeLimitForMode('oficial', 60), 3600);
     assert.equal(getTimeLimitForMode('real2025', 60), 3600);
@@ -391,5 +392,80 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(metricsNoOficial.pctOficialAprobado, null, 'Debe ser null para mostrar guion "—" en la UI');
   });
 
+  it('ALTO RENDIMIENTO: createExamPool genera pools correctos para sprint45, trampas y srs', () => {
+    // Sprint 45'
+    const sprint = createExamPool(QUESTION_BANK, 'sprint45');
+    assert.equal(sprint.questions.length, 45, 'Sprint 45 debe contener exactamente 45 preguntas');
+    assert.equal(getTimeLimitForMode('sprint45', 45), 2700, 'Sprint 45 debe durar 2700s (45 min)');
+
+    // Caza-Trampas
+    const trampas = createExamPool(QUESTION_BANK, 'trampas');
+    assert.equal(trampas.questions.length, 20, 'Caza-Trampas debe contener 20 preguntas');
+    assert.equal(getTimeLimitForMode('trampas', 20), 1200, 'Caza-Trampas debe durar 1200s (20 min)');
+
+    // Bóveda SRS con IDs específicos
+    const srsPool = createExamPool(QUESTION_BANK, 'srs', { srsQuestionIds: new Set([1, 2, 3]) });
+    assert.equal(srsPool.questions.length, 3, 'SRS debe contener exactamente los IDs pendientes');
+  });
+
+  it('ALTO RENDIMIENTO: calculateExamScore calcula correctamente EV, niveles de confianza y selector de penalización (-0.25 vs -0.33)', () => {
+    const dummyQuestions = [
+      { id: 1, question: 'Q1', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'comun' },
+      { id: 2, question: 'Q2', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'comun' },
+      { id: 3, question: 'Q3', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'especifico' },
+      { id: 4, question: 'Q4', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'especifico' }
+    ];
+
+    // Q1 correcta con Segura (100%)
+    // Q2 fallada con Duda 50/50
+    // Q3 correcta con Duda 50/50
+    // Q4 en blanco con Riesgo
+    const userAnswers = { 1: 0, 2: 1, 3: 0 };
+    const confidenceLevels = { 1: 'segura', 2: 'duda', 3: 'duda', 4: 'riesgo' };
+
+    // Evaluación con penalización -0.25
+    const score25 = calculateExamScore({
+      mode: 'comun',
+      questions: dummyQuestions,
+      userAnswers,
+      confidenceLevels,
+      penaltyRate: 0.25
+    });
+
+    assert.equal(score25.correct, 2);
+    assert.equal(score25.wrong, 1);
+    assert.equal(score25.blank, 1);
+    // Nota con -0.25: 2 - 0.25 = 1.75
+    assert.equal(score25.netScore, 1.75);
+    assert.equal(score25.penaltyRate, 0.25);
+
+    // Auditoría metacognitiva
+    assert.ok(score25.confidenceBreakdown);
+    assert.equal(score25.confidenceBreakdown.segura.count, 1);
+    assert.equal(score25.confidenceBreakdown.segura.correct, 1);
+    assert.equal(score25.confidenceBreakdown.duda.count, 2);
+    assert.equal(score25.confidenceBreakdown.duda.correct, 1);
+    assert.equal(score25.confidenceBreakdown.duda.wrong, 1);
+    // Impacto neto en dudas con -0.25: +1 acierto - 0.25 fallo = +0.75
+    assert.equal(score25.confidenceBreakdown.duda.net, 0.75);
+    assert.ok(score25.tacticalAdvice.includes('Rentabilidad en Dudas 50/50: +0.75'));
+  });
+
+  it('ALTO RENDIMIENTO: CLOZE_BANK contiene 25 extractos normativos con sintaxis válida y citas BOE', () => {
+    assert.ok(Array.isArray(CLOZE_BANK));
+    assert.equal(CLOZE_BANK.length, 25, 'Debe haber 25 extractos de literalidad en el banco');
+    assert.equal(CLOZE_EXPANSION_PACK.length, 6, 'CLOZE_EXPANSION_PACK debe contener los 6 extractos críticos');
+
+    CLOZE_BANK.forEach(item => {
+      assert.ok(item.id, 'Debe tener id');
+      assert.ok(item.topicId >= 1 && item.topicId <= 10, 'topicId debe estar entre 1 y 10');
+      assert.ok(item.norma, 'Debe citar la norma');
+      assert.ok(item.text, 'Debe contener el texto');
+      const blanks = item.text.match(/\{\{([^}]+)\}\}/g);
+      assert.ok(blanks && blanks.length >= 1, `El extracto ${item.id} debe contener al menos 1 hueco {{...}}`);
+    });
+  });
+
 });
+
 

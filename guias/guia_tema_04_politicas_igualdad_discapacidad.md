@@ -34,7 +34,7 @@
 * **Derechos Laborales de las Víctimas (Art. 21):**
   - Reducción o reordenación del tiempo de trabajo.
   - Movilidad geográfica preferente y traslado de centro de trabajo.
-  - Suspensión del contrato con reserva de puesto de trabajo (hasta 18 meses).
+  - Suspensión del contrato con reserva de puesto de trabajo (hasta 18 meses: art. 21.1 LO 1/2004 en relación directa con el **art. 48.8 TRLET** —precepto consolidado tras el RDL 6/2019 que reubicó la materia suprimiendo el antiguo apartado 10—: duración inicial de hasta 6 meses prorrogable judicialmente en períodos de 3 meses hasta un máximo de 18 meses).
   - Justificación de ausencias o faltas de puntualidad motivadas por la situación de violencia.
 
 ---

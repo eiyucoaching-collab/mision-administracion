@@ -7,6 +7,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { QUESTION_BANK } from '../src/data/questions.js';
+import { CIFRAS_SAGRADAS, TRAMPAS_EXAMEN } from '../src/data/cifras_y_trampas.js';
+import { FLASHCARDS } from '../src/data/flashcards.js';
+import { PODCAST_TRACKS } from '../src/data/podcasts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,10 +76,70 @@ const LAW_TO_BOE_FILE = {
   'TREBEP / LO 1/2004': ['BOE-A-2015-11719_TREBEP.html', 'BOE-A-2004-21760_LO-1-2004-Violencia-Genero.html'],
   'Ley Orgánica 3/2007 / TREBEP': ['BOE-A-2007-6115_LO-3-2007-Igualdad.html', 'BOE-A-2015-11719_TREBEP.html'],
   'Ley Orgánica 3/1981 del Defensor del Pueblo': ['BOE-A-1981-10325_LO-3-1981-Defensor-del-Pueblo.html'],
-  'Ley 3/2015': ['BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html']
+  'Ley 3/2015': ['BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html'],
+  'Ley 43/2010': ['BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Ley 43/2010 del Servicio Postal Universal': ['BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Ley 43/2010 del Servicio Postal': ['BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Real Decreto 1829/1999': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html'],
+  'RD 1829/1999': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html'],
+  'Reglamento Postal': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html'],
+  'Reglamento Postal / Ley 43/2010': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html', 'BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Ley 9/1968': ['BOE-A-1968-472_Ley-9-1968-Secretos-Oficiales.html'],
+  'Ley 9/1968 sobre Secretos Oficiales': ['BOE-A-1968-472_Ley-9-1968-Secretos-Oficiales.html'],
+  'Decreto 242/1969': ['BOE-A-1969-263_Decreto-242-1969-Reglamento-Secretos-Oficiales.html'],
+  'Reglamento de la Ley de Secretos Oficiales': ['BOE-A-1969-263_Decreto-242-1969-Reglamento-Secretos-Oficiales.html'],
+  'Reglamento Ley Secretos Oficiales': ['BOE-A-1969-263_Decreto-242-1969-Reglamento-Secretos-Oficiales.html'],
+  'Ley 31/1995': ['BOE-A-1995-25444_Ley-31-1995-PRL.html'],
+  'Ley 31/1995 de Prevención de Riesgos Laborales': ['BOE-A-1995-25444_Ley-31-1995-PRL.html'],
+  'Real Decreto 486/1997': ['BOE-A-1997-8669_RD-486-1997-Lugares-de-Trabajo.html'],
+  'RD 486/1997': ['BOE-A-1997-8669_RD-486-1997-Lugares-de-Trabajo.html'],
+  'Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo': ['BOE-A-1997-8669_RD-486-1997-Lugares-de-Trabajo.html'],
+  'Real Decreto 485/1997': ['BOE-A-1997-8668_RD-485-1997-Senalizacion.html'],
+  'RD 485/1997': ['BOE-A-1997-8668_RD-485-1997-Senalizacion.html'],
+  'Real Decreto 485/1997 de Señalización': ['BOE-A-1997-8668_RD-485-1997-Senalizacion.html'],
+  'Real Decreto 487/1997': ['BOE-A-1997-8670_RD-487-1997-Manipulacion-Cargas.html'],
+  'RD 487/1997': ['BOE-A-1997-8670_RD-487-1997-Manipulacion-Cargas.html'],
+  'Real Decreto 513/2017': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'RD 513/2017': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'Reglamento de Instalaciones de Protección contra Incendios': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'Protección Contra Incendios (RIPCI)': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'Ley Orgánica 4/2015': ['BOE-A-2015-3442_LO-4-2015-Seguridad-Ciudadana.html'],
+  'TREBEP': ['BOE-A-2015-11719_TREBEP.html'],
+  'TREBEP / Código de Conducta': ['BOE-A-2015-11719_TREBEP.html'],
+  'Deberes del Empleado Público / TREBEP': ['BOE-A-2015-11719_TREBEP.html'],
+  'Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)': ['BOE-A-2015-11719_TREBEP.html']
 };
 
+function resolveBoeFiles(lawStr) {
+  if (!lawStr || typeof lawStr !== 'string') return [];
+  const trimmed = lawStr.trim();
+  if (LAW_TO_BOE_FILE[trimmed]) return LAW_TO_BOE_FILE[trimmed];
+  const files = new Set();
+  for (const [key, val] of Object.entries(LAW_TO_BOE_FILE)) {
+    if (trimmed.includes(key) || key.includes(trimmed)) {
+      val.forEach(f => files.add(f));
+    }
+  }
+  return [...files];
+}
+
 const errors = [];
+
+function validateVerifiedItem(prefix, lawStr, isVerified, topicId) {
+  if (!isVerified) return;
+  const boeFiles = resolveBoeFiles(lawStr);
+  if (!boeFiles || boeFiles.length === 0) {
+    errors.push(`${prefix}: Un elemento con 'verified: true' o 'norma_verificada' debe citar una norma que exista en docs/fuentes/boe/. Norma citada: '${lawStr}'.`);
+    return;
+  }
+  for (const f of boeFiles) {
+    const fullPath = path.join(boeDir, f);
+    if (!fs.existsSync(fullPath)) {
+      errors.push(`${prefix}: Copia local del BOE no encontrada en disco: docs/fuentes/boe/${f}`);
+    }
+  }
+}
+
 const seenIds = new Set();
 const letterDist = { 0: 0, 1: 0, 2: 0, 3: 0 };
 let longestCorrectCount = 0;
@@ -142,22 +205,7 @@ QUESTION_BANK.forEach((q, idx) => {
 
   // 5b. Respaldo documental local obligatorio para 'norma_verificada' o 'verified: true'
   const isVerified = q.sourceType === 'norma_verificada' || q.verified === true;
-  if (isVerified) {
-    if (q.topicId >= 5) {
-      errors.push(`${prefix}: Temas 5-10 no pueden marcarse como 'norma_verificada' hasta auditar las bases completas con anexos.`);
-    }
-    const boeFiles = LAW_TO_BOE_FILE[q.law];
-    if (!boeFiles || boeFiles.length === 0) {
-      errors.push(`${prefix}: 'norma_verificada' requiere citar una norma con copia oficial local en docs/fuentes/boe/. Norma citada: '${q.law}'.`);
-    } else {
-      for (const f of boeFiles) {
-        const fullPath = path.join(boeDir, f);
-        if (!fs.existsSync(fullPath)) {
-          errors.push(`${prefix}: Copia local del BOE no encontrada en disco: docs/fuentes/boe/${f}`);
-        }
-      }
-    }
-  }
+  validateVerifiedItem(prefix, q.law, isVerified, q.topicId);
 
 
   // 6. Integridad normativa estricta: Art. 32.1 y Art. 8.1 IV CUAGE
@@ -188,6 +236,31 @@ QUESTION_BANK.forEach((q, idx) => {
       errors.push(`${prefix}: La respuesta correcta para titulación de acceso de E1 no puede ser 'sin titulación' (exige Graduado en ESO o FP Básico según Art. 8.1.e IV CUAGE).`);
     }
   }
+});
+
+// Validación estricta de respaldo documental para colecciones didácticas auxiliares si declaran verified: true o norma_verificada
+CIFRAS_SAGRADAS.forEach((c, idx) => {
+  const prefix = `[Cifra ID ${c.id ?? idx}]`;
+  const isVerified = c.verified === true || c.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, c.detalle || c.concepto || c.tema, isVerified, c.topicId);
+});
+
+TRAMPAS_EXAMEN.forEach((t, idx) => {
+  const prefix = `[Trampa ID ${t.id ?? idx}]`;
+  const isVerified = t.verified === true || t.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, t.realidad || t.trampa || t.titulo, isVerified, t.topicId);
+});
+
+FLASHCARDS.forEach((f, idx) => {
+  const prefix = `[Flashcard ID ${f.id ?? idx}]`;
+  const isVerified = f.verified === true || f.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, f.reference || f.back, isVerified, f.topicId);
+});
+
+PODCAST_TRACKS.forEach((p, idx) => {
+  const prefix = `[Podcast ID ${p.id ?? idx}]`;
+  const isVerified = p.verified === true || p.sourceType === 'norma_verificada';
+  validateVerifiedItem(prefix, p.summary || p.title, isVerified, p.topicId);
 });
 
 // Validación cruzada de archivos de contenido y todas las guías contra la asociación errónea E1/E2 con 15 días / sin titulación

@@ -14,6 +14,14 @@ export const STORAGE_KEYS = {
   PLAN_CHECKLIST: 'opo_e1_plan_checklist',
   HIGHLIGHTER: 'opo_e1_highlighter',
   CIFRAS_DRILL: 'opo_e1_cifras_drill',
+  // Bóveda de Fallos (Leitner SRS 4 Cajas)
+  SRS_VAULT: 'opo_e1_srs_vault',
+  // Inyector JSON de preguntas personalizadas
+  CUSTOM_QUESTIONS: 'opo_e1_custom_questions',
+  // Sincronización Cloud-Free Gist API
+  GIST_CONFIG: 'opo_e1_gist_config',
+  // Preferencias y configuración de penalización
+  SETTINGS: 'opo_e1_settings',
   // Claves de copia de seguridad del estado original previo a migración v2
   HISTORY_V1_BACKUP: 'opo_e1_history_v1_backup',
   FAILED_QIDS_V1_BACKUP: 'opo_e1_failed_qids_v1_backup',
