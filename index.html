@@ -42,25 +42,31 @@
       </div>
     </div>
 
-    <!-- NAVEGACIÓN PRINCIPAL EN DESKTOP (7 MÓDULOS COMPLETOS) -->
+    <!-- NAVEGACIÓN PRINCIPAL EN DESKTOP (MÓDULOS DE ALTO RENDIMIENTO) -->
     <nav class="hidden xl:flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-slate-800 text-xs font-bold">
       <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
         <span>🏛️</span> Inicio
       </button>
+      <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🎯</span> Test &bull; EV
+      </button>
+      <button data-tab-target="errores" onclick="window.app.setTab('errores')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🗄️</span> Bóveda SRS
+      </button>
+      <button data-tab-target="literalidad" onclick="window.app.setTab('literalidad')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>👁️</span> Literalidad
+      </button>
+      <button data-tab-target="importador" onclick="window.app.setTab('importador')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>⚡</span> Inyector / Gist
+      </button>
       <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
         <span>📖</span> Manual 10
       </button>
-      <button data-tab-target="esquemas" onclick="window.app.setTab('esquemas')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
-        <span>🗺️</span> Esquemas
+      <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+        <span>🗂️</span> Tarjetas
       </button>
       <button data-tab-target="podcast" onclick="window.app.setTab('podcast')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
         <span>🎧</span> Podcast
-      </button>
-      <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
-        <span>🎯</span> Test
-      </button>
-      <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
-        <span>🗂️</span> Tarjetas
       </button>
       <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="px-3 py-2 rounded-xl text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
         <span>📊</span> Progreso
@@ -104,34 +110,42 @@
   <div id="print-modal-container" class="no-print hidden"></div>
 
   <!-- BARRA DE NAVEGACIÓN INFERIOR FIJA PARA MÓVILES (MOBILE BOTTOM BAR) -->
-  <nav class="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-1 py-1.5 flex items-center justify-around no-print overflow-x-auto">
-    <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
-      <span class="text-lg leading-none">🏛️</span>
+  <nav class="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-1 py-1.5 flex items-center justify-around no-print overflow-x-auto gap-1">
+    <button data-tab-target="dashboard" onclick="window.app.setTab('dashboard')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">🏛️</span>
       <span>Inicio</span>
     </button>
-    <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
-      <span class="text-lg leading-none">📖</span>
-      <span>Temario</span>
-    </button>
-    <button data-tab-target="esquemas" onclick="window.app.setTab('esquemas')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
-      <span class="text-lg leading-none">🗺️</span>
-      <span>Mapas</span>
-    </button>
-    <button data-tab-target="podcast" onclick="window.app.setTab('podcast')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
-      <span class="text-lg leading-none">🎧</span>
-      <span>Audio</span>
-    </button>
-    <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all relative">
-      <span class="text-lg leading-none">🎯</span>
+    <button data-tab-target="simulador" onclick="window.app.setTab('simulador')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all relative shrink-0">
+      <span class="text-base leading-none">🎯</span>
       <span>Test</span>
       <span class="absolute top-0.5 right-1 w-1.5 h-1.5 rounded-full bg-sky-400"></span>
     </button>
-    <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
-      <span class="text-lg leading-none">🗂️</span>
+    <button data-tab-target="errores" onclick="window.app.setTab('errores')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">🗄️</span>
+      <span>Bóveda</span>
+    </button>
+    <button data-tab-target="literalidad" onclick="window.app.setTab('literalidad')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">👁️</span>
+      <span>Literal</span>
+    </button>
+    <button data-tab-target="importador" onclick="window.app.setTab('importador')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">⚡</span>
+      <span>Inyector</span>
+    </button>
+    <button data-tab-target="estudio" onclick="window.app.setTab('estudio')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">📖</span>
+      <span>Temario</span>
+    </button>
+    <button data-tab-target="flashcards" onclick="window.app.setTab('flashcards')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">🗂️</span>
       <span>Tarjetas</span>
     </button>
-    <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all">
-      <span class="text-lg leading-none">📊</span>
+    <button data-tab-target="podcast" onclick="window.app.setTab('podcast')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">🎧</span>
+      <span>Audio</span>
+    </button>
+    <button data-tab-target="analiticas" onclick="window.app.setTab('analiticas')" class="flex flex-col items-center gap-0.5 text-[10px] font-bold text-slate-400 hover:text-white px-1.5 py-1 rounded-xl transition-all shrink-0">
+      <span class="text-base leading-none">📊</span>
       <span>Progreso</span>
     </button>
   </nav>

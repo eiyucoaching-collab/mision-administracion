@@ -16,6 +16,7 @@ const STATIC_ASSETS = [
   './src/data/flashcards.js',
   './src/data/podcasts.js',
   './src/data/esquemas.js',
+  './src/data/cloze_data.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png'
 ];

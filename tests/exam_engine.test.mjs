@@ -9,6 +9,7 @@ import {
   calculateDashboardMetrics
 } from '../src/exam/engine.js';
 import { QUESTION_BANK } from '../src/data/questions.js';
+import { CLOZE_BANK } from '../src/data/cloze_data.js';
 
 describe('P0 Exam Engine Tests', () => {
 
@@ -391,5 +392,79 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(metricsNoOficial.pctOficialAprobado, null, 'Debe ser null para mostrar guion "—" en la UI');
   });
 
+  it('ALTO RENDIMIENTO: createExamPool genera pools correctos para sprint45, trampas y srs', () => {
+    // Sprint 45'
+    const sprint = createExamPool(QUESTION_BANK, 'sprint45');
+    assert.equal(sprint.questions.length, 45, 'Sprint 45 debe contener exactamente 45 preguntas');
+    assert.equal(getTimeLimitForMode('sprint45', 45), 2700, 'Sprint 45 debe durar 2700s (45 min)');
+
+    // Caza-Trampas
+    const trampas = createExamPool(QUESTION_BANK, 'trampas');
+    assert.equal(trampas.questions.length, 20, 'Caza-Trampas debe contener 20 preguntas');
+    assert.equal(getTimeLimitForMode('trampas', 20), 1200, 'Caza-Trampas debe durar 1200s (20 min)');
+
+    // Bóveda SRS con IDs específicos
+    const srsPool = createExamPool(QUESTION_BANK, 'srs', { srsQuestionIds: new Set([1, 2, 3]) });
+    assert.equal(srsPool.questions.length, 3, 'SRS debe contener exactamente los IDs pendientes');
+  });
+
+  it('ALTO RENDIMIENTO: calculateExamScore calcula correctamente EV, niveles de confianza y selector de penalización (-0.25 vs -0.33)', () => {
+    const dummyQuestions = [
+      { id: 1, question: 'Q1', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'comun' },
+      { id: 2, question: 'Q2', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'comun' },
+      { id: 3, question: 'Q3', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'especifico' },
+      { id: 4, question: 'Q4', options: ['A', 'B', 'C', 'D'], correct: 0, block: 'especifico' }
+    ];
+
+    // Q1 correcta con Segura (100%)
+    // Q2 fallada con Duda 50/50
+    // Q3 correcta con Duda 50/50
+    // Q4 en blanco con Riesgo
+    const userAnswers = { 1: 0, 2: 1, 3: 0 };
+    const confidenceLevels = { 1: 'segura', 2: 'duda', 3: 'duda', 4: 'riesgo' };
+
+    // Evaluación con penalización -0.25
+    const score25 = calculateExamScore({
+      mode: 'comun',
+      questions: dummyQuestions,
+      userAnswers,
+      confidenceLevels,
+      penaltyRate: 0.25
+    });
+
+    assert.equal(score25.correct, 2);
+    assert.equal(score25.wrong, 1);
+    assert.equal(score25.blank, 1);
+    // Nota con -0.25: 2 - 0.25 = 1.75
+    assert.equal(score25.netScore, 1.75);
+    assert.equal(score25.penaltyRate, 0.25);
+
+    // Auditoría metacognitiva
+    assert.ok(score25.confidenceBreakdown);
+    assert.equal(score25.confidenceBreakdown.segura.count, 1);
+    assert.equal(score25.confidenceBreakdown.segura.correct, 1);
+    assert.equal(score25.confidenceBreakdown.duda.count, 2);
+    assert.equal(score25.confidenceBreakdown.duda.correct, 1);
+    assert.equal(score25.confidenceBreakdown.duda.wrong, 1);
+    // Impacto neto en dudas con -0.25: +1 acierto - 0.25 fallo = +0.75
+    assert.equal(score25.confidenceBreakdown.duda.net, 0.75);
+    assert.ok(score25.tacticalAdvice.includes('Rentabilidad en Dudas 50/50: +0.75'));
+  });
+
+  it('ALTO RENDIMIENTO: CLOZE_BANK contiene 19 extractos normativos con sintaxis válida y citas BOE', () => {
+    assert.ok(Array.isArray(CLOZE_BANK));
+    assert.equal(CLOZE_BANK.length, 19, 'Debe haber 19 extractos de literalidad en el banco');
+
+    CLOZE_BANK.forEach(item => {
+      assert.ok(item.id, 'Debe tener id');
+      assert.ok(item.topicId >= 1 && item.topicId <= 10, 'topicId debe estar entre 1 y 10');
+      assert.ok(item.norma, 'Debe citar la norma');
+      assert.ok(item.text, 'Debe contener el texto');
+      const blanks = item.text.match(/\{\{([^}]+)\}\}/g);
+      assert.ok(blanks && blanks.length >= 1, `El extracto ${item.id} debe contener al menos 1 hueco {{...}}`);
+    });
+  });
+
 });
+
 
