@@ -25,10 +25,9 @@ El periodo de prueba tiene carácter formal, debe pactarse por escrito y se ajus
 ┌────────────────────────────────────────────────────────────────────────┐
 │               PERIODOS DE PRUEBA OFICIALES EN EL CUAGE                 │
 └────────────────────────────────────────────────────────────────────────┘
-  • GRUPO PROFESIONAL M3: Tres meses (personal titulado de Grado/Máster).
-  • GRUPO PROFESIONAL M2 y M1: Dos meses (Grados medios y FP Superior).
-  • GRUPO PROFESIONAL E2 y E1 (Con titulación requerida): UN MES (1 mes).
-  • PERSONAL LABORAL SIN TITULACIÓN EXIGIDA: 15 DÍAS LABORABLES.
+  • GRUPOS PROFESIONALES M3 y M2: Tres meses (art. 32.1 IV CUAGE).
+  • GRUPOS PROFESIONALES M1, E2 y E1: UN MES (1 mes) (art. 32.1 IV CUAGE).
+  • GRUPO PROFESIONAL E0 (Sin titulación prevista en el sistema educativo): 15 DÍAS LABORABLES (arts. 8.1.f y 32.1 IV CUAGE).
   
   *(Durante el periodo de prueba, ambas partes pueden rescindir el contrato 
     sin alegar causa, sin preaviso y sin derecho a indemnización).*
@@ -81,8 +80,8 @@ El despido disciplinario se basa en un incumplimiento contractual grave y culpab
 ---
 
 ### 6. RESUMEN DE CIFRAS Y CONCEPTOS RECURRENTES
-* **Periodo de prueba E1 con titulación:** 1 mes.
-* **Periodo de prueba E1 sin titulación exigida:** 15 días laborables.
+* **Periodo de prueba Grupos E1, E2 y M1:** 1 mes (art. 32.1 IV CUAGE).
+* **Periodo de prueba Grupo E0 (personal sin titulación):** 15 días laborables (arts. 8.1.f y 32.1 IV CUAGE).
 * **Copia básica:** Entrega a representantes sindicales en 10 días.
 * **Forma del contrato AGE:** Siempre obligatoria por escrito.
 * **Despido en la AGE:** Requiere expediente disciplinario previo con audiencia.
