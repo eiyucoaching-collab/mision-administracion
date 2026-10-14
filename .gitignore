@@ -1,7 +1,12 @@
+# Dependencias
+node_modules/
+
 # Archivos pesados y binarios locales
 voicevox/
+legacy/voicevox/
 *.zip
 *.exe
 godot_export/
+legacy/godot_export/
 .godot/
 *.import

@@ -64,15 +64,15 @@ La Ley 40/2015 clasifica con rigor quirúrgico los órganos centrales en dos niv
      • SÍ son Altos Cargos: Ministros, Secretarios de Estado, Subsecretarios, 
        Secretarios Generales, SGT y Directores Generales.
      • ¡TRAMPA DE EXAMEN!: Los SUBDIRECTORES GENERALES NO TIENEN LA CONDICIÓN 
-       DE ALTO CARGO (son funcionarios de carrera del Subgrupo A1 nombrados 
-       por libre designación).
+       DE ALTO CARGO (Art. 55.6 Ley 40/2015 en remisión a la Ley 3/2015). 
+       Son funcionarios de carrera del Subgrupo A1 nombrados por libre designación.
 ```
 
-#### Análisis de la Pregunta 61 / Reserva R1 del Examen Oficial 2025:
-> **Pregunta 61 del Tribunal de Defensa (2025):**  
+#### Caso Práctico de Referencia: Nombramiento de Subsecretarios (Art. 63.2 Ley 40/2015)
+> **Pregunta de Referencia:**  
 > *"Según el artículo 63.2 de la Ley 40/2015 de Régimen Jurídico del Sector Público, ¿cómo son nombrados y separados los Subsecretarios de los Ministerios?"*  
 > 
-> **Respuesta Oficial del Tribunal:**  
+> **Régimen Jurídico Aplicable:**  
 > Los Subsecretarios son nombrados y separados por **REAL DECRETO DEL CONSEJO DE MINISTROS, a propuesta del titular del Ministerio**, atendiendo a criterios de competencia profesional y experiencia, debiendo ostentar la condición de funcionario de carrera del Estado, de las Comunidades Autónomas o de las Entidades Locales perteneciente al **Subgrupo A1**.
 
 ---

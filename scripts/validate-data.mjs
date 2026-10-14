@@ -48,6 +48,34 @@ const ALLOWED_SOURCE_TYPES = new Set([
   'sin_verificar'
 ]);
 
+const boeDir = path.resolve(__dirname, '../docs/fuentes/boe');
+const LAW_TO_BOE_FILE = {
+  'Constitución Española de 1978': ['BOE-A-1978-31229_Constitucion-Espanola.html'],
+  'Ley 50/1997 / CE': ['BOE-A-1997-25336_Ley-50-1997-Gobierno.html', 'BOE-A-1978-31229_Constitucion-Espanola.html'],
+  'Ley 50/1997 del Gobierno': ['BOE-A-1997-25336_Ley-50-1997-Gobierno.html'],
+  'Ley 40/2015': ['BOE-A-2015-10566_Ley-40-2015-LRJSP.html'],
+  'Ley 40/2015 de Régimen JurJD del Sector Público': ['BOE-A-2015-10566_Ley-40-2015-LRJSP.html'],
+  'Ley 40/2015 de Régimen Jurídico del Sector Público': ['BOE-A-2015-10566_Ley-40-2015-LRJSP.html'],
+  'Estatuto de los Trabajadores': ['BOE-A-2015-11430_Estatuto-Trabajadores.html'],
+  'Texto Refundido del Estatuto de los Trabajadores (TRLET / RD Leg 2/2015)': ['BOE-A-2015-11430_Estatuto-Trabajadores.html'],
+  'IV Convenio Único para el personal laboral de la AGE (IV CUAGE)': ['BOE-A-2019-7414_IV-CUAGE.html'],
+  'TREBEP / IV CUAGE': ['BOE-A-2015-11719_TREBEP.html', 'BOE-A-2019-7414_IV-CUAGE.html'],
+  'Convocatoria E1 Defensa': ['BOE-A-2026-14677_Convocatoria-Defensa-E1.html'],
+  'Ley Reguladora Jurisdicción Social': ['BOE-A-2011-15936_Ley-36-2011-LRJS.html'],
+  'Ley Orgánica 3/2007': ['BOE-A-2007-6115_LO-3-2007-Igualdad.html'],
+  'Ley Orgánica 3/2007 para la igualdad efectiva de mujeres y hombres': ['BOE-A-2007-6115_LO-3-2007-Igualdad.html'],
+  'Ley Orgánica 1/2004': ['BOE-A-2004-21760_LO-1-2004-Violencia-Genero.html'],
+  'Ley Orgánica 1/2004 de Medidas de Protección Integral contra la Violencia de Género': ['BOE-A-2004-21760_LO-1-2004-Violencia-Genero.html'],
+  'RDL 1/2013 TRLGDPD': ['BOE-A-2013-12632_RDL-1-2013-Discapacidad-TRLGDPD.html'],
+  'Ley 39/2006 de Dependencia': ['BOE-A-2006-21990_Ley-39-2006-Autonomia-Dependencia.html'],
+  'Ley 15/2022': ['BOE-A-2022-11589_Ley-15-2022-Igualdad-Trato.html'],
+  'Ley 4/2023 LGTBI y Trans': ['BOE-A-2023-5366_Ley-4-2023-Trans-LGTBI.html'],
+  'TREBEP / LO 1/2004': ['BOE-A-2015-11719_TREBEP.html', 'BOE-A-2004-21760_LO-1-2004-Violencia-Genero.html'],
+  'Ley Orgánica 3/2007 / TREBEP': ['BOE-A-2007-6115_LO-3-2007-Igualdad.html', 'BOE-A-2015-11719_TREBEP.html'],
+  'Ley Orgánica 3/1981 del Defensor del Pueblo': ['BOE-A-1981-10325_LO-3-1981-Defensor-del-Pueblo.html'],
+  'Ley 3/2015': ['BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html']
+};
+
 const errors = [];
 const seenIds = new Set();
 const letterDist = { 0: 0, 1: 0, 2: 0, 3: 0 };
@@ -112,6 +140,26 @@ QUESTION_BANK.forEach((q, idx) => {
     errors.push(`${prefix}: 'sourceType' no válido o ausente ('${q.sourceType}'). Permitidos: ${[...ALLOWED_SOURCE_TYPES].join(', ')}.`);
   }
 
+  // 5b. Respaldo documental local obligatorio para 'norma_verificada' o 'verified: true'
+  const isVerified = q.sourceType === 'norma_verificada' || q.verified === true;
+  if (isVerified) {
+    if (q.topicId >= 5) {
+      errors.push(`${prefix}: Temas 5-10 no pueden marcarse como 'norma_verificada' hasta auditar las bases completas con anexos.`);
+    }
+    const boeFiles = LAW_TO_BOE_FILE[q.law];
+    if (!boeFiles || boeFiles.length === 0) {
+      errors.push(`${prefix}: 'norma_verificada' requiere citar una norma con copia oficial local en docs/fuentes/boe/. Norma citada: '${q.law}'.`);
+    } else {
+      for (const f of boeFiles) {
+        const fullPath = path.join(boeDir, f);
+        if (!fs.existsSync(fullPath)) {
+          errors.push(`${prefix}: Copia local del BOE no encontrada en disco: docs/fuentes/boe/${f}`);
+        }
+      }
+    }
+  }
+
+
   // 6. Integridad normativa estricta: Art. 32.1 y Art. 8.1 IV CUAGE
   // E1 y E2 exigen titulación y tienen 1 MES de período de prueba.
   // 15 días laborables es exclusivo del Grupo E0 (personal sin titulación).
@@ -142,13 +190,18 @@ QUESTION_BANK.forEach((q, idx) => {
   }
 });
 
-// Validación cruzada de archivos de contenido contra la asociación errónea E1/E2 con 15 días / sin titulación
+// Validación cruzada de archivos de contenido y todas las guías contra la asociación errónea E1/E2 con 15 días / sin titulación
+const guiasDir = path.resolve(__dirname, '../guias');
+const allGuiaFiles = fs.existsSync(guiasDir)
+  ? fs.readdirSync(guiasDir).filter(f => f.endsWith('.md')).sort().map(f => `../guias/${f}`)
+  : [];
+
 const contentFilesToAudit = [
   '../src/data/cifras_y_trampas.js',
   '../src/data/syllabus.js',
   '../src/data/flashcards.js',
   '../src/data/podcasts.js',
-  '../guias/guia_tema_03_personal_laboral_cuage.md'
+  ...allGuiaFiles
 ];
 
 contentFilesToAudit.forEach(relPath => {

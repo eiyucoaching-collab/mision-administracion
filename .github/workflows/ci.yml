@@ -15,5 +15,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Install Playwright Chromium with System Dependencies
+        run: npx playwright install --with-deps chromium
       - name: Run Integrity Validation and Tests
         run: npm test

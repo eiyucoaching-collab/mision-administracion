@@ -248,3 +248,92 @@ export function calculateExamScore(sessionState) {
     newlySucceededIds
   };
 }
+
+/**
+ * Inicializa el estado puro de una sesión de examen (sin DOM ni intervalos)
+ */
+export function initExamSessionState(questionBank, mode, options = {}) {
+  const poolResult = createExamPool(questionBank, mode, options);
+  if (poolResult.error || !poolResult.questions || poolResult.questions.length === 0) {
+    return {
+      error: poolResult.error || 'No se han podido cargar preguntas para esta modalidad.',
+      questions: [],
+      mode,
+      status: 'idle'
+    };
+  }
+
+  const timeLimit = getTimeLimitForMode(mode, poolResult.questions.length);
+
+  return {
+    error: null,
+    mode,
+    status: 'running',
+    questions: poolResult.questions,
+    currentIndex: 0,
+    userAnswers: {},
+    crossedOptions: {},
+    flagged: new Set(),
+    initialTime: timeLimit,
+    timeRemaining: timeLimit,
+    filterReview: 'all',
+    results: null
+  };
+}
+
+/**
+ * Calcula las métricas del panel y analíticas aislando estrictamente
+ * los simulacros oficiales de 60 preguntas frente a tests parciales o por tema.
+ */
+export function calculateDashboardMetrics(history = []) {
+  if (!Array.isArray(history) || history.length === 0) {
+    return {
+      totalExams: 0,
+      oficialCount: 0,
+      mediaOficial: '0.00',
+      pctOficialAprobado: null,
+      aprobadosOficialCount: 0,
+      parcialCount: 0,
+      mediaParcialPct: '0.0'
+    };
+  }
+
+  // Modos oficiales: 60 preguntas ordinarias
+  const oficialSims = history.filter(h => h && (h.mode === 'oficial' || h.mode === 'real2025'));
+  // Modos parciales: tests por tema ('tema:N', 'Tema N'), comunes (20q), específicos (40q), falladas
+  const parcialSims = history.filter(h => h && h.mode !== 'oficial' && h.mode !== 'real2025');
+
+  const oficialCount = oficialSims.length;
+  let mediaOficial = '0.00';
+  let pctOficialAprobado = null;
+  let aprobadosOficialCount = 0;
+
+  if (oficialCount > 0) {
+    const sumOficialNet = oficialSims.reduce((acc, h) => acc + (typeof h.netScore === 'number' ? h.netScore : 0), 0);
+    mediaOficial = (sumOficialNet / oficialCount).toFixed(2);
+    aprobadosOficialCount = oficialSims.filter(h => h.passed === true).length;
+    pctOficialAprobado = Math.round((aprobadosOficialCount / oficialCount) * 100);
+  }
+
+  const parcialCount = parcialSims.length;
+  let mediaParcialPct = '0.0';
+  if (parcialCount > 0) {
+    const sumPct = parcialSims.reduce((acc, h) => {
+      const total = h.totalGraded || h.total || 20;
+      const score = typeof h.netScore === 'number' ? h.netScore : 0;
+      return acc + (total > 0 ? (score / total) * 100 : 0);
+    }, 0);
+    mediaParcialPct = (sumPct / parcialCount).toFixed(1);
+  }
+
+  return {
+    totalExams: history.length,
+    oficialCount,
+    mediaOficial,
+    pctOficialAprobado,
+    aprobadosOficialCount,
+    parcialCount,
+    mediaParcialPct
+  };
+}
+

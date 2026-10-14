@@ -1,15 +1,14 @@
 // Service Worker - Misión Administración (Opo-Defensa E1)
-const CACHE_NAME = 'opo-defensa-e1-v3';
+const CACHE_NAME = 'opo-defensa-e1-v4';
 
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './manual_temario.html',
-  './entrenador_eficaz.html',
-  './comprension.html',
-  './fichas_cifras_sagradas.html',
   './manifest.json',
+  './assets/css/app.min.css',
   './src/app.js',
+  './src/exam/engine.js',
+  './src/storage/migration.js',
   './src/data/syllabus.js',
   './src/data/questions.js',
   './src/data/questions.json',

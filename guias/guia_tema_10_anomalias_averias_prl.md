@@ -1,5 +1,9 @@
-# GUÍA OFICIAL DE ESTUDIO TÉCNICO: TEMA 10 (ESPECÍFICO 6)
+# GUÍA DE ESTUDIO: TEMA 10 (BLOQUE ESPECÍFICO)
 ## INFORMACIÓN DE ANOMALÍAS, PARTES DE AVERÍA Y PREVENCIÓN BÁSICA (RD 486/1997)
+
+> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
+> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`.  
+> **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
 
 ---
 
