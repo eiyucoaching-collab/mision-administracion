@@ -3768,5 +3768,157 @@
     "explanation": "El recurso de amparo protege el art. 14 (igualdad), la Sección 1.ª del Capítulo II (arts. 15 a 29) y, como única excepción fuera de dicha sección, la objeción de conciencia del artículo 30.2.",
     "sourceType": "norma_verificada",
     "isTrap": true
+  },
+  {
+    "id": 210,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "En el control de acceso peatonal a una dependencia oficial del Ministerio de Defensa, una vez verificada la identidad del visitante y autorizada su entrada por la unidad de destino, la tarjeta acreditativa de visita:",
+    "options": [
+      "Deberá portarse en lugar visible durante toda la estancia y devolverse en el control al abandonar el edificio.",
+      "Será custodiada por el funcionario que recibe la visita, quien la sellará y entregará al interesado como justificante de asistencia al finalizar la reunión.",
+      "Se canjeará obligatoriamente dejando en depósito el Documento Nacional de Identidad original en el mostrador de recepción.",
+      "Habilita el tránsito libre por todas las zonas del acuartelamiento."
+    ],
+    "correct": 0,
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Control de Accesos y Seguridad Física en Edificios de la AGE / MINISDEF",
+    "explanation": "La tarjeta de visitante es personal e intransferible, debe llevarse visible en todo momento y entregarse a la salida. Trampa clásica: no se debe retener físicamente el DNI original del ciudadano (vulneración del derecho a la tenencia del documento y normativa de protección de datos), sino anotar sus datos en el registro de control.",
+    "sourceType": "original_propia",
+    "isTrap": true
+  },
+  {
+    "id": 211,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "Cuando un ciudadano presenta documentos en soporte papel en una Oficina de Asistencia en Materia de Registros (OAMR) integrada en el sistema GEISER/SIR, el personal encargado procederá a su digitalización:",
+    "options": [
+      "Quedando los documentos originales en depósito en el archivo de la oficina durante un plazo mínimo de cinco años naturales antes de su expurgo.",
+      "Devolviendo los originales al interesado, salvo que la norma determine su custodia o resulte obligatoria la presentación de objetos o documentos en un soporte específico.",
+      "Remitiendo el papel físico por valija urgente al órgano destinatario junto con la copia electrónica auténtica firmada mediante código seguro de verificación.",
+      "Previa tasa administrativa de compulsa por cada página escaneada."
+    ],
+    "correct": 1,
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Art. 16.5 Ley 39/2015 (LPACAP)",
+    "explanation": "El art. 16.5 de la Ley 39/2015 establece que los documentos presentados de manera presencial deberán ser digitalizados por la oficina de asistencia para su incorporación al expediente electrónico, devolviéndose los originales al interesado en el acto, salvo las dos excepciones legales tasadas.",
+    "sourceType": "original_propia",
+    "isTrap": true
+  },
+  {
+    "id": 212,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Recepción, Distribución y Entrega de Paquetería",
+    "question": "De acuerdo con el Real Decreto 1708/2011 por el que se establece el Sistema Español de Archivos, ¿cuál es el plazo general de permanencia de los documentos en los Archivos de Oficina o de Gestión antes de su transferencia al Archivo Central?",
+    "options": [
+      "Permanecerán diez años desde la fecha de incoación del procedimiento administrativo, con independencia de que el trámite haya finalizado o siga abierto.",
+      "Un máximo de quince años, coincidiendo con el traslado de la documentación al Archivo General de la Administración situado en Alcalá de Henares.",
+      "Cinco años desde que concluyó su tramitación, salvo excepciones razonadas en que los procedimientos o el uso frecuente aconsejen un plazo distinto.",
+      "Un año natural improrrogable desde la fecha del asiento registral."
+    ],
+    "correct": 2,
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Art. 9 Real Decreto 1708/2011, de 18 de noviembre",
+    "explanation": "Regla de edades del archivo (RD 1708/2011): Archivo de Oficina/Gestión (hasta 5 años tras finalizar tramitación) -> Archivo Central (hasta 15 años) -> Archivo Intermedio (hasta 30 años) -> Archivo Histórico (conservación permanente).",
+    "sourceType": "original_propia",
+    "isTrap": true
+  },
+  {
+    "id": 213,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
+    "question": "En las tareas auxiliares de recepción y apertura de la correspondencia oficial que llega a una unidad administrativa, si se recibe un sobre cerrado con la mención expresa «Personal», «Confidencial» o «Reservado» dirigido nominalmente a un cargo:",
+    "options": [
+      "Se abrirá únicamente por el jefe de la unidad de registro para estampar el sello de entrada en el margen superior derecho de la primera página y escanear su contenido.",
+      "Se rechazará su recepción en la oficina de registro, devolviéndolo al empleado de Correos por no tratarse de un documento administrativo ordinario.",
+      "Se procederá a su apertura inmediata para verificar que no contiene objetos peligrosos.",
+      "Se entregará cerrado directamente a su destinatario o persona autorizada, anotando su recepción externa sin abrir el sobre en ningún caso."
+    ],
+    "correct": 3,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 18.3 CE / Protocolo de Gestión de Correspondencia Oficial",
+    "explanation": "La correspondencia nominal con indicación de confidencialidad, reservado o personal jamás debe ser abierta por el personal auxiliar de correo/registro; se registra externamente su recepción (si procede) y se entrega cerrada en mano al destinatario en garantía del secreto de las comunicaciones (art. 18.3 CE).",
+    "sourceType": "norma_verificada",
+    "isTrap": false
+  },
+  {
+    "id": 214,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
+    "question": "En relación con el uso y mantenimiento de máquinas destructoras de documentos en oficinas de Defensa, ¿qué diferencia técnica existe entre las destructoras de corte en tiras (corte recto) y las de corte cruzado (partículas o confeti)?",
+    "options": [
+      "Las de corte cruzado ofrecen un mayor nivel de seguridad confidencial y reducen el volumen del residuo en la papelera, aunque admiten menor número de hojas simultáneas por pasada.",
+      "Las de corte en tiras ofrecen el nivel más alto de seguridad (P-7) exigido para documentos clasificados como Secreto por el Centro Criptológico Nacional.",
+      "Las de corte cruzado no requieren lubricación de cuchillas ni sufren atascos por grapas o clips metálicos.",
+      "Las de corte en tiras cortan el papel transversal y longitudinalmente en fragmentos milimétricos."
+    ],
+    "correct": 0,
+    "law": "Norma DIN 66399 (Niveles de Destrucción de Soportes de Información)",
+    "article": "Norma DIN 66399 / ISO/IEC 21964",
+    "explanation": "El corte en tiras (niveles P-1 y P-2) es más rápido pero menos seguro y ocupa mucho volumen de papelera. El corte en partículas o cruzado (P-3 a P-7) corta longitudinal y transversalmente, garantizando mayor confidencialidad y compactación del residuo.",
+    "sourceType": "original_propia",
+    "isTrap": true
+  },
+  {
+    "id": 215,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "De conformidad con el Real Decreto 951/2005 por el que se establece el marco general para la mejora de la calidad en la Administración General del Estado, una vez recibida una queja o sugerencia en la unidad responsable, ¿en qué plazo deberá informarse al ciudadano de las actuaciones realizadas y qué efectos tiene respecto a los recursos administrativos?",
+    "options": [
+      "En el plazo de diez días naturales, interrumpiendo automáticamente los plazos para interponer el recurso de alzada o reposición que corresponda.",
+      "En el plazo de veinte días hábiles, sin que las quejas tengan en ningún caso la calificación de recurso administrativo ni su presentación interrumpa los plazos establecidos en la normativa vigente.",
+      "En el plazo máximo de treinta días hábiles, teniendo efectos estimatorios por silencio administrativo si la Administración no contesta en dicho término.",
+      "En el plazo de quince días hábiles, surtiendo los mismos efectos jurídicos que una reclamación previa."
+    ],
+    "correct": 1,
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Arts. 16.1 y 19 del Real Decreto 951/2005, de 29 de julio",
+    "explanation": "Doble pregunta clásica de examen: 1) El plazo de contestación de quejas y sugerencias es de 20 días hábiles (art. 16.1). 2) Las quejas NO tienen naturaleza de recurso administrativo y su interposición NO paraliza ni interrumpe los plazos del procedimiento (art. 19).",
+    "sourceType": "original_propia",
+    "isTrap": true
+  },
+  {
+    "id": 216,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "En el ámbito de protección de la documentación oficial y materias clasificadas en el Ministerio de Defensa, ¿cuáles son las categorías o grados de clasificación ordenados de MAYOR a MENOR nivel de protección y restricción?",
+    "options": [
+      "Alto Secreto, Secreto, Confidencial y Uso Oficial Interno.",
+      "Secreto, Confidencial, Reservado y Difusión Limitada, siendo esta última la única que requiere autorización expresa del Consejo de Ministros para su cancelación.",
+      "Secreto, Reservado, Confidencial y Difusión Limitada.",
+      "Reservado, Secreto, Restringido y Ordinario."
+    ],
+    "correct": 2,
+    "law": "Ley 9/1968 sobre Secretos Oficiales",
+    "article": "Art. 3 Ley 9/1968 / Normativa de Seguridad FAS",
+    "explanation": "La trampa habitual consiste en invertir 'Reservado' y 'Confidencial'. En España y OTAN (NATO Cosmic Top Secret / Secret / Confidential / Restricted), el orden estricto de mayor a menor grado de protección es: 1.º Secreto, 2.º Reservado, 3.º Confidencial y 4.º Difusión Limitada.",
+    "sourceType": "norma_verificada",
+    "isTrap": true
+  },
+  {
+    "id": 217,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Manejo de Máquinas Reproductoras y Reprografía",
+    "question": "¿Qué sistema de encuadernación de oficina permite un giro completo de las hojas de 360 grados y utiliza un peine metálico de doble anillo que se cierra por presión mediante una máquina cerradora, impidiendo añadir o quitar hojas fácilmente sin deformar el alambre?",
+    "options": [
+      "La encuadernación mediante canutillo de plástico, que emplea perforaciones rectangulares y permite abrir las anillas manualmente con un peine abridor cuantas veces sea necesario.",
+      "La encuadernación térmica o fresada por calor.",
+      "La encuadernación por barra deslizante de presión sin perforación previa del papel.",
+      "La encuadernación tipo Wire-O (doble espiral metálica), muy utilizada en manuales e informes definitivos por su alta resistencia y acabado alineado."
+    ],
+    "correct": 3,
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual Técnico de Operaciones Auxiliares de Reprografía y Encuadernación",
+    "explanation": "Diferencia clave de examen: El canutillo plástico permite añadir/quitar hojas sin destruir el lomo pero no gira 360º; la espiral simple gira 360º pero las hojas se desnivelan ligeramente; el sistema Wire-O (doble anillo metálico) gira 360º manteniendo las hojas perfectamente alineadas, pero una vez prensado es permanente.",
+    "sourceType": "original_propia",
+    "isTrap": true
   }
 ]
