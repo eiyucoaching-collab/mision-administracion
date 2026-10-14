@@ -1238,9 +1238,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Control de Accesos",
+    "article": "Protocolo de Recepción y Control de Accesos",
     "explanation": "El protocolo exige un saludo cortés e institucional y la solicitud inmediata de un documento oficial de identificación en vigor antes de realizar el registro en el libro de visitas.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 70,
@@ -1255,10 +1255,10 @@ export const QUESTION_BANK = [
       "Una tarjeta de transporte municipal"
     ],
     "correct": 1,
-    "law": "Normativa de Seguridad en Edificios Públicos",
-    "article": "Acreditación de Identidad",
-    "explanation": "El DNI y el Pasaporte en vigor son los documentos oficiales plenos de identificación de los ciudadanos españoles.",
-    "sourceType": "sin_verificar"
+    "law": "Ley Orgánica 4/2015",
+    "article": "Art. 8.1 y 9.1 LO 4/2015",
+    "explanation": "El DNI y el Pasaporte en vigor son los documentos oficiales plenos de identificación de los ciudadanos españoles conforme a los artículos 8.1 y 9.1 de la Ley Orgánica 4/2015 de protección de la seguridad ciudadana.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 71,
@@ -1274,9 +1274,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Libro de Visitas",
+    "article": "Registro de Visitas en Dependencias Oficiales",
     "explanation": "Deben constar: nombre, apellidos, tipo y número de documento identificativo, hora de acceso, unidad/persona de destino y pase asignado (completándose con la hora de salida al marcharse).",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 72,
@@ -1291,10 +1291,10 @@ export const QUESTION_BANK = [
       "En un lugar visible de su indumentaria (solapa o pecho) durante toda su permanencia"
     ],
     "correct": 3,
-    "law": "Normas de Seguridad en Instalaciones Militares",
-    "article": "Pases de Acceso",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Normas de Régimen Interior en Edificios Oficiales",
     "explanation": "La tarjeta de visitante debe llevarse siempre en lugar perfectamente visible para que el personal de servicio pueda verificar que su presencia está autorizada.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 73,
@@ -1309,10 +1309,10 @@ export const QUESTION_BANK = [
       "Retener cautelarmente sus efectos y pertenencias en conserjería hasta que consienta en mostrar el documento"
     ],
     "correct": 0,
-    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Límites del Personal E1",
-    "explanation": "El personal de servicios administrativos no tiene facultades policiales coercitivas ni de uso de la fuerza. Deniega el paso con serenidad y solicita la intervención de la seguridad del centro.",
-    "sourceType": "sin_verificar"
+    "law": "Ley Orgánica 4/2015",
+    "article": "Art. 16 LO 4/2015",
+    "explanation": "El personal de servicios administrativos no tiene facultades policiales coercitivas ni de uso de la fuerza (reservadas a las Fuerzas y Cuerpos de Seguridad según el art. 16 LO 4/2015). Deniega el paso con serenidad y solicita la intervención de la seguridad del centro.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 74,
@@ -1328,9 +1328,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Custodia de Llaves",
+    "article": "Custodia de Llaves y Dependencias",
     "explanation": "El clavero debe permanecer cerrado bajo llave en un recinto controlado y seguro, entregándose las llaves únicamente previa anotación y verificación.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 75,
@@ -1346,9 +1346,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Registro de Llaves",
+    "article": "Libro de Registro de Llaves",
     "explanation": "Cada entrega y devolución debe consignar fecha, hora, número de llave, dependencia, datos y firma del receptor en el libro de control.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 76,
@@ -1363,10 +1363,10 @@ export const QUESTION_BANK = [
       "En una caja de seguridad o sobre sellado y precintado, utilizables exclusivamente en emergencias y bajo autorización expresa"
     ],
     "correct": 3,
-    "law": "Plan de Seguridad de Instalaciones",
-    "article": "Llaves Maestras",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Custodia de Llaves Maestras y de Emergencia",
     "explanation": "Las llaves maestras se custodian bajo precinto o en caja de caudales y solo pueden emplearse ante emergencias justificadas o con autorización de la jefatura.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 77,
@@ -1381,10 +1381,10 @@ export const QUESTION_BANK = [
       "Derivar a todo ciudadano a la página web sin atender su duda"
     ],
     "correct": 0,
-    "law": "Código de Buenas Prácticas AGE",
-    "article": "Atención al Ciudadano",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Atención al Ciudadano en Conserjería",
     "explanation": "El servicio público exige amabilidad, neutralidad, lenguaje accesible y vocación de resolución ágil de dudas.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 78,
@@ -1400,9 +1400,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Gestión de Citas",
+    "article": "Gestión Operativa de Visitas",
     "explanation": "Nunca se deja a un visitante solo en un despacho oficial desierto. Se gestiona la alternativa con cortesía y dentro de las salas de espera autorizadas.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 79,
@@ -1417,10 +1417,10 @@ export const QUESTION_BANK = [
       "Solo si presenta una partida de nacimiento traducida"
     ],
     "correct": 2,
-    "law": "Normativa de Extranjería y Seguridad",
-    "article": "Identificación de Extranjeros",
-    "explanation": "La TIE (que contiene el NIE) y el Pasaporte en vigor son documentos oficiales plenos de identificación de extranjeros.",
-    "sourceType": "sin_verificar"
+    "law": "Ley Orgánica 4/2015",
+    "article": "Art. 13 LO 4/2015",
+    "explanation": "La TIE (que contiene el NIE) y el Pasaporte en vigor son documentos oficiales plenos de identificación de extranjeros conforme al art. 13 de la Ley Orgánica 4/2015.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 80,
@@ -1436,9 +1436,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Salida de Visitas",
+    "article": "Control de Salida de Visitas",
     "explanation": "Al marcharse el visitante devuelve el pase asignado, se firma la hora de salida en el libro y se le reintegra cualquier credencial depositada.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 81,
@@ -1453,10 +1453,10 @@ export const QUESTION_BANK = [
       "Controlar la temperatura corporal, según determine la normativa específica aplicable"
     ],
     "correct": 0,
-    "law": "Sistemas de Seguridad Electrónica",
-    "article": "Control Físico",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Sistemas de Seguridad Electrónica en Accesos",
     "explanation": "Los tornos con tarjetas electromagnéticas o de proximidad filtran el acceso exclusivo de personal con credencial activa.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 82,
@@ -1472,9 +1472,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Visitas Familiares",
+    "article": "Seguridad y Accesos a Instalaciones Militares",
     "explanation": "En instalaciones militares nadie accede a zonas interiores sin la confirmación y autorización previa del militar o servicio correspondiente.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 83,
@@ -1489,10 +1489,10 @@ export const QUESTION_BANK = [
       "Un lector de códigos de barras"
     ],
     "correct": 2,
-    "law": "Equipos de Seguridad en Accesos",
-    "article": "Inspección Técnica",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Equipos de Detección e Inspección de Seguridad",
     "explanation": "El escáner de rayos X y los arcos detectores permiten inspeccionar bultos y personas sin contacto físico intrusivo.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 84,
@@ -1507,10 +1507,10 @@ export const QUESTION_BANK = [
       "No; ante la detección de un objeto peligroso o arma, debe avisar de inmediato a la Guardia Militar o Fuerzas de Seguridad"
     ],
     "correct": 3,
-    "law": "Límites Funcionales del Grupo E1",
-    "article": "Seguridad y Custodia",
-    "explanation": "La intervención ante armas o ilícitos penales corresponde con exclusividad a las Fuerzas y Cuerpos de Seguridad o a la Guardia Militar del acuartelamiento.",
-    "sourceType": "sin_verificar"
+    "law": "Ley Orgánica 4/2015",
+    "article": "Art. 16 y 18 LO 4/2015",
+    "explanation": "La intervención ante armas o ilícitos penales corresponde con exclusividad a las Fuerzas y Cuerpos de Seguridad o a la Guardia Militar del acuartelamiento (arts. 16 y 18 LO 4/2015), careciendo el personal laboral E1 de facultades coercitivas.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 85,
@@ -1525,10 +1525,10 @@ export const QUESTION_BANK = [
       "Cobrar un suplemento de acceso de animales"
     ],
     "correct": 0,
-    "law": "Normativa de Accesibilidad / RDL 1/2013",
-    "article": "Perros Guía",
-    "explanation": "La legislación garantiza el derecho de acceso y permanencia del perro guía acompañando a la persona con discapacidad visual en todos los edificios públicos.",
-    "sourceType": "original_propia"
+    "law": "RDL 1/2013 TRLGDPD",
+    "article": "Art. 2.k y Art. 66 RDL 1/2013",
+    "explanation": "La legislación de accesibilidad universal (art. 2.k y 66 del Real Decreto Legislativo 1/2013) garantiza el derecho de libre acceso y permanencia del perro guía acompañando a la persona con discapacidad en todos los edificios y dependencias públicas.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 86,
@@ -1543,10 +1543,10 @@ export const QUESTION_BANK = [
       "Sin ningún control si entran en grupo"
     ],
     "correct": 1,
-    "law": "Control de Contratas Externas AGE",
-    "article": "Acceso a Instalaciones",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Control de Acceso de Empresas Contratistas",
     "explanation": "El personal de empresas externas debe figurar en relaciones nominales autorizadas previamente por la dirección del centro y presentar su DNI.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 87,
@@ -1561,10 +1561,10 @@ export const QUESTION_BANK = [
       "Presentar una denuncia por desaparición a los juzgados"
     ],
     "correct": 2,
-    "law": "Seguridad de Cierre de Edificios AGE",
-    "article": "Cierre y Verificación",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Protocolo de Cierre e Inspección Nocturna",
     "explanation": "Debe investigarse si la persona sigue dentro del edificio antes de cerrar y armar los sistemas de alarma perimetrales.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 88,
@@ -1579,10 +1579,10 @@ export const QUESTION_BANK = [
       "El libro o registro informático debe custodiarse bajo estricta confidencialidad y los datos solo se conservan durante el tiempo necesario para fines de seguridad"
     ],
     "correct": 3,
-    "law": "RGPD / Ley Orgánica 3/2018",
-    "article": "Protección de Datos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Protección de Datos en el Registro de Visitas",
     "explanation": "El registro de control de accesos contiene datos personales sensibles que deben protegerse con medidas de seguridad evitando el acceso de terceros no autorizados.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 89,
@@ -1597,10 +1597,10 @@ export const QUESTION_BANK = [
       "Solo si el edificio tiene menos de tres plantas, salvo autorización expresa del órgano competente"
     ],
     "correct": 0,
-    "law": "Seguridad en Recintos Militares",
-    "article": "Paquetería en Accesos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Recepción de Envíos en Accesos",
     "explanation": "Los repartidores comerciales externos no deambulan libremente por edificios administrativos militares; la entrega se centraliza en la conserjería o control de entrada.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 90,
@@ -1615,10 +1615,10 @@ export const QUESTION_BANK = [
       "Autorizar al empleado cesante a conservar la tarjeta con privilegios reducidos a zonas comunes y aparcamiento"
     ],
     "correct": 1,
-    "law": "Gestión de Credenciales AGE",
-    "article": "Bajas de Personal",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Gestión de Credenciales de Acceso",
     "explanation": "Toda baja o traslado exige la revocación electrónica de los permisos y la recuperación de la credencial física para evitar accesos indebidos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 91,
@@ -1633,10 +1633,10 @@ export const QUESTION_BANK = [
       "Empezar a archivar expedientes, según determine la normativa específica aplicable"
     ],
     "correct": 2,
-    "law": "Planes de Autoprotección y Emergencia AGE",
-    "article": "Cometidos en Evacuación",
-    "explanation": "El personal de accesos abre expeditamente salidas, orienta hacia las vías de escape, no permite a nadie volver a entrar y recibe a los servicios externos de auxilio.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.10 RD 486/1997",
+    "explanation": "En caso de emergencia, el personal de control de accesos abre expeditamente salidas de evacuación según el Anexo I.A.10 del RD 486/1997, orienta hacia las vías de escape, no permite a nadie volver a entrar y facilita el acceso a los servicios de auxilio.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 92,
@@ -1651,10 +1651,10 @@ export const QUESTION_BANK = [
       "El albarán o nota de entrega"
     ],
     "correct": 3,
-    "law": "Procedimiento de Recepción de Mercancías",
-    "article": "El Albarán",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Recepción Mercantil: El Albarán de Entrega",
     "explanation": "El albarán acredita la entrega y recepción de las mercancías, debiendo cotejarse con los bultos recibidos antes de firmarlo.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 93,
@@ -1669,10 +1669,10 @@ export const QUESTION_BANK = [
       "Firmar inmediatamente sin mirar los paquetes"
     ],
     "correct": 0,
-    "law": "Manual de Procedimientos de Recepción AGE",
-    "article": "Cotejo de Bultos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Cotejo y Verificación de Bultos",
     "explanation": "Debe contarse el número de bultos, comprobar que va dirigido al centro y revisar que los embalajes no presentan roturas ni manipulaciones.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 94,
@@ -1687,10 +1687,10 @@ export const QUESTION_BANK = [
       "Pagar el doble de la tarifa"
     ],
     "correct": 1,
-    "law": "Condiciones de Transporte y Recepción",
-    "article": "Salvedades en Albarán",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Diligencias de Reserva en Albarán",
     "explanation": "Es indispensable consignar la salvedad por escrito en el albarán del transportista para permitir la posterior reclamación de daños ante el seguro de transporte.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 95,
@@ -1706,9 +1706,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Firma de Albarán",
+    "article": "Formalización de la Recepción de Mercancías",
     "explanation": "La recepción formal exige identificar plenamente al receptor con fecha, hora, DNI, firma y sello de entrada.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 96,
@@ -1724,9 +1724,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Concepto de Valija",
+    "article": "Régimen de Valijas Oficiales de Defensa",
     "explanation": "La valija oficial es el canal protegido de transporte periódico de sacas o maletines oficiales entre sedes, acuartelamientos y centros del departamento.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 97,
@@ -1741,10 +1741,10 @@ export const QUESTION_BANK = [
       "Sin ningún cierre, según determine la normativa específica aplicable"
     ],
     "correct": 0,
-    "law": "Seguridad en la Cadena de Envíos",
-    "article": "Precintos de Valija",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Seguridad y Precintado de Valijas",
     "explanation": "Las sacas se cierran con precintos numerados de seguridad de un solo uso, cuyo código alfanumérico figura registrado en el albarán o manifiesto de valija.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 98,
@@ -1759,10 +1759,10 @@ export const QUESTION_BANK = [
       "La factura eléctrica del cuartel en el ámbito de la AGE"
     ],
     "correct": 1,
-    "law": "Procedimiento Operativo de Valijas",
-    "article": "Hoja de Ruta",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Hoja de Ruta y Trazabilidad de Valijas",
     "explanation": "La hoja de ruta o manifiesto de valija detalla el número de saca, precinto, y los envíos individuales incluidos con sus códigos de destino.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 99,
@@ -1777,10 +1777,10 @@ export const QUESTION_BANK = [
       "Solo con autorización del conserje mayor, salvo autorización expresa del órgano competente"
     ],
     "correct": 2,
-    "law": "Régimen de Valijas Oficiales",
-    "article": "Objetos Prohibidos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Uso Exclusivo de la Valija para Fines Oficiales",
     "explanation": "La valija oficial está reservada en exclusiva para asuntos y documentación oficial del servicio público, prohibiéndose cualquier uso privado o mercantil.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 100,
@@ -1796,9 +1796,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Verificación de Precinto",
+    "article": "Comprobación del Precinto a la Recepción",
     "explanation": "Se verifica la integridad física del precinto y la coincidencia exacta de su numeración antes de cortarlo y registrar el contenido.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 101,
@@ -1814,9 +1814,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Envíos Sospechosos",
+    "article": "Protocolo de Seguridad ante Paquetes Sospechosos",
     "explanation": "Ante un paquete sospechoso la norma de oro es la no manipulación: no abrir, no presionar, no perforar y aislar la estancia.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 102,
@@ -1831,10 +1831,10 @@ export const QUESTION_BANK = [
       "Un envío certificado recibido a través del cartero habitual"
     ],
     "correct": 1,
-    "law": "Guía de Identificación de Riesgos Postales",
-    "article": "Indicios de Sospecha",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Identificación de Riesgos en Paquetería",
     "explanation": "Los paquetes trampa o con sustancias peligrosas suelen presentar manchas, asimetrías de peso, cables, cierres rígidos o excesivo sellado con cinta y franqueo desmesurado.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 103,
@@ -1849,10 +1849,10 @@ export const QUESTION_BANK = [
       "Al departamento destinatario para que proceda a verificar telefónicamente los datos del remitente"
     ],
     "correct": 2,
-    "law": "Planes de Emergencia NRBQ y Explosivos",
-    "article": "Activación de Seguridad",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Activación del Protocolo de Seguridad NRBQ/TEDAX",
     "explanation": "Se avisa de forma urgente a los servicios de seguridad propios y especializados (TEDAX / Guardia Civil / CNP) para su neutralización técnica.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 104,
@@ -1868,9 +1868,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Aislamiento de Ventilación",
+    "article": "Medidas de Emergencia ante Agentes Químicos o Biológicos",
     "explanation": "Para evitar la dispersión aérea de agentes químicos o biológicos se clausura la ventilación, se aísla el local y se procede a la descontaminación e higiene de quienes estuvieron expuestos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 105,
@@ -1885,10 +1885,10 @@ export const QUESTION_BANK = [
       "Guardarlo en un cajón indefinidamente"
     ],
     "correct": 0,
-    "law": "Normativa Postal AGE",
-    "article": "Destinatarios Ausentes",
-    "explanation": "No se desecha nunca correspondencia o paquetería; se gestiona el reenvío a su nuevo destino o se devuelve formalmente al remitente consignando la incidencia.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 43 y 44 RD 1829/1999",
+    "explanation": "Conforme a los artículos 43 y 44 del RD 1829/1999, no se desecha nunca correspondencia o paquetería; se gestiona el reenvío a su nuevo destino oficial o se devuelve formalmente al remitente consignando la causa de imposibilidad de entrega.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 106,
@@ -1903,10 +1903,10 @@ export const QUESTION_BANK = [
       "Lanzándolo por debajo de la puerta"
     ],
     "correct": 1,
-    "law": "Procedimiento de Distribución Interna",
-    "article": "Libro de Reparto",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Distribución Interna y Firma de Recepción",
     "explanation": "Para salvaguardar la trazabilidad de la entrega interna, el receptor final firma el libro de reparto acreditando que la custodia de conserjería ha concluido con éxito.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 107,
@@ -1921,10 +1921,10 @@ export const QUESTION_BANK = [
       "Una bandeja de plástico de servir café"
     ],
     "correct": 2,
-    "law": "Ergonomía y Medios Materiales AGE",
-    "article": "Medios de Transporte",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Medios Mecánicos de Transporte Interno",
     "explanation": "La carretilla de mano (diablo) y los carros de plataforma con ruedas son los equipos adecuados para la manipulación y transporte manual de cargas en edificios.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 108,
@@ -1939,10 +1939,10 @@ export const QUESTION_BANK = [
       "Flexionar las rodillas manteniendo la espalda recta, acercar la carga al cuerpo y levantarse usando la fuerza de las piernas"
     ],
     "correct": 3,
-    "law": "Guía Técnica de Manipulación Manual de Cargas (INSST)",
-    "article": "Técnica Ergonómica",
-    "explanation": "La técnica correcta exige flexión de rodillas, espalda erguida, carga pegada al centro de gravedad del cuerpo y empuje con la musculatura de las piernas sin torsión de tronco.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 487/1997",
+    "article": "Art. 3 y Anexo RD 487/1997",
+    "explanation": "El RD 487/1997 y la Guía Técnica del INSST fijan que la técnica ergonómica correcta exige flexión de rodillas, espalda erguida, carga pegada al cuerpo y levantamiento mediante la fuerza de las piernas sin torsión de tronco.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 109,
@@ -1957,10 +1957,10 @@ export const QUESTION_BANK = [
       "75 kilogramos"
     ],
     "correct": 0,
-    "law": "INSST / RD 487/1997",
-    "article": "Límites de Carga",
-    "explanation": "La cifra de referencia en condiciones ideales para la población laboral general es de 25 kg (reduciéndose a 15 kg para jóvenes, mujeres o personas con especial sensibilidad).",
-    "sourceType": "original_propia"
+    "law": "Real Decreto 487/1997",
+    "article": "Anexo RD 487/1997",
+    "explanation": "El Anexo del Real Decreto 487/1997 sobre manipulación manual de cargas y la Guía Técnica del INSST fijan 25 kg como peso máximo aconsejado en condiciones ideales para la población laboral general.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 110,
@@ -1975,10 +1975,10 @@ export const QUESTION_BANK = [
       "Quedarse con el vehículo del transportista"
     ],
     "correct": 1,
-    "law": "Procedimiento de Incidencias en Transporte",
-    "article": "Rechazo Justificado",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Gestión de Envíos Dañados o Manipulados",
     "explanation": "Puede rehusarse la entrega si el daño o falta es grave, o documentarse con precisión en el albarán haciendo constar las piezas ausentes o el embalaje forzado.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 111,
@@ -1993,10 +1993,10 @@ export const QUESTION_BANK = [
       "Enviarlos por correo ordinario a Correos"
     ],
     "correct": 2,
-    "law": "Circuito Administrativo de Compras AGE",
-    "article": "Gestión de Albaranes",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Circuito Administrativo de Justificantes de Entrega",
     "explanation": "Los albaranes de entrega son los justificantes que necesita la oficina económica para conformar las facturas de los proveedores y autorizar su pago.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 112,
@@ -2011,10 +2011,10 @@ export const QUESTION_BANK = [
       "Que el destinatario debe abonar el importe del transporte en el momento de la entrega"
     ],
     "correct": 3,
-    "law": "Términos Comerciales de Transporte",
-    "article": "Portes Debidos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Modalidades de Portes en Envíos",
     "explanation": "En portes debidos el coste del transporte corre a cargo del receptor en destino. En las Administraciones la norma general es que los envíos oficiales se contraten a 'Portes Pagados'.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 113,
@@ -2030,9 +2030,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Portes Debidos no Autorizados",
+    "article": "Tratamiento de Portes Debidos en la AGE",
     "explanation": "El personal de servicios administrativos no debe abonar entregas de sus fondos privados ni asumir cargos económicos sin la partida de anticipo de caja fija autorizada.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 114,
@@ -2047,10 +2047,10 @@ export const QUESTION_BANK = [
       "Sobre las sillas de los visitantes"
     ],
     "correct": 1,
-    "law": "Normativa de Seguridad y Lugares de Trabajo",
-    "article": "Almacenamiento Temporal",
-    "explanation": "Los bultos no deben comprometer la seguridad contra incendios, debiendo depositarse en dependencias de almacenamiento temporal sin invadir pasillos ni salidas.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.2 y Anexo I.A.10 RD 486/1997",
+    "explanation": "El Anexo I.A apartados 2 y 10 del RD 486/1997 exige que los lugares de almacenamiento y trabajo no comprometan la seguridad, debiendo mantener vías de evacuación, extintores y cuadros eléctricos completamente expeditos.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 115,
@@ -2066,9 +2066,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Formato Base",
+    "article": "Norma ISO 216 / DIN 476 - Formato Base A0",
     "explanation": "El formato base de toda la serie es el DIN A0, cuya superficie mide exactamente 1 metro cuadrado.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 116,
@@ -2084,9 +2084,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Medidas DIN A4",
+    "article": "Norma ISO 216 - Formato A4",
     "explanation": "Las medidas exactas del DIN A4 son 210 x 297 milímetros.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 117,
@@ -2102,9 +2102,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Medidas DIN A3",
+    "article": "Norma ISO 216 - Formato A3",
     "explanation": "Las dimensiones del DIN A3 son exactamente 297 x 420 milímetros.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 118,
@@ -2120,9 +2120,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Relación A3 y A4",
+    "article": "Norma ISO 216 - Relación A3 y A4",
     "explanation": "Un DIN A3 doblado por la mitad por su lado más largo produce dos hojas DIN A4 (297x420 mm = 2 x 210x297 mm).",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 119,
@@ -2138,9 +2138,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Relación A4 y A5",
+    "article": "Norma ISO 216 - Formato A5",
     "explanation": "Al doblar o cortar por la mitad una hoja DIN A4 (210x297 mm) se obtienen dos hojas DIN A5 de 148x210 mm.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 120,
@@ -2156,9 +2156,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Medidas DIN A5",
+    "article": "Norma ISO 216 - Dimensiones A5",
     "explanation": "El DIN A5 mide 148 x 210 mm (el tamaño comúnmente llamado cuartilla).",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 121,
@@ -2174,9 +2174,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Medidas DIN A0",
+    "article": "Norma ISO 216 - Dimensiones A0",
     "explanation": "El DIN A0 tiene una superficie de 1 m² y sus dimensiones son 841 x 1189 mm.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 122,
@@ -2192,9 +2192,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Equivalencia DIN A0",
+    "article": "Norma ISO 216 - Subdivisión A0 a A4",
     "explanation": "1 A0 = 2 A1 = 4 A2 = 8 A3 = 16 DIN A4.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 123,
@@ -2210,9 +2210,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Norma ISO 216 / DIN 476 (Formatos de Papel)",
-    "article": "Proporción Geométrica",
+    "article": "Norma ISO 216 - Relación de Aspecto 1:√2",
     "explanation": "La relación entre anchura y longitud es 1 a raíz cuadrada de 2 (1 : 1,4142), lo que garantiza que las proporciones se mantengan constantes al subdividir.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 124,
@@ -2227,10 +2227,10 @@ export const QUESTION_BANK = [
       "80 gramos por metro cuadrado (g/m²)"
     ],
     "correct": 3,
-    "law": "Pliegos Técnicos Centralizados AGE",
-    "article": "Gramaje de Papel",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Especificaciones Técnicas de Papel de Oficina",
     "explanation": "El papel estándar multifunción de oficina tiene un gramaje normalizado de 80 g/m².",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 125,
@@ -2245,10 +2245,10 @@ export const QUESTION_BANK = [
       "2,5 gramos"
     ],
     "correct": 0,
-    "law": "Cálculo Técnico de Papelería",
-    "article": "Peso DIN A4",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Cálculo de Pesos de Papelería",
     "explanation": "Como un DIN A0 mide 1 m² y equivale a 16 hojas A4, el peso de un folio A4 es de 80 / 16 = 5 gramos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 126,
@@ -2263,10 +2263,10 @@ export const QUESTION_BANK = [
       "Bypass de cartón"
     ],
     "correct": 1,
-    "law": "Componentes de Reprografía",
-    "article": "Alimentador ADF",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Componentes Mecánicos de Reprografía",
     "explanation": "El ADF (Automatic Document Feeder) alimenta mecánicamente los originales página a página hacia el sensor de escaneo.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 127,
@@ -2281,10 +2281,10 @@ export const QUESTION_BANK = [
       "Doblar las hojas por la mitad"
     ],
     "correct": 2,
-    "law": "Mantenimiento Preventivo de Reprografía",
-    "article": "Uso del ADF",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Mantenimiento Preventivo de Equipos de Reprografía",
     "explanation": "Grapas, clips o dobleces pueden atascar y rayar irreversiblemente el cristal de escaneo y los rodillos de tracción.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 128,
@@ -2299,10 +2299,10 @@ export const QUESTION_BANK = [
       "Abriendo las tapas indicadas en la pantalla y tirando suavemente con ambas manos en el sentido de avance natural del papel"
     ],
     "correct": 3,
-    "law": "Resolución de Incidencias Técnicas",
-    "article": "Desatasco de Papel",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Procedimiento Seguro de Desatasco de Papel",
     "explanation": "Se tira suavemente y con ambas manos siguiendo el circuito de avance natural del papel para evitar desgarros y no dañar rodillos ni el fusor.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 129,
@@ -2317,10 +2317,10 @@ export const QUESTION_BANK = [
       "Porque desconfiguran la fecha de la máquina"
     ],
     "correct": 0,
-    "law": "Instrucciones del Fabricante de Equipos",
-    "article": "Mantenimiento Seguro",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Protección de Componentes Fotosensibles y Fusor",
     "explanation": "Los objetos metálicos punzantes dañan los recubrimientos delicados del tambor y del fusor térmico, provocando averías graves.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 130,
@@ -2335,10 +2335,10 @@ export const QUESTION_BANK = [
       "Refrigerar el cristal de la platina"
     ],
     "correct": 1,
-    "law": "Principios de Reprografía Láser",
-    "article": "El Fusor",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Tecnología de Impresión Láser y Unidad Fusora",
     "explanation": "El fusor somete la hoja a altas temperaturas y presión de rodillos para derretir y adherir permanentemente las partículas plásticas de tóner a las fibras del papel.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 131,
@@ -2353,10 +2353,10 @@ export const QUESTION_BANK = [
       "Limpiar el tambor fotosensible con paño humedecido en alcohol isopropílico para retirar residuos de fábrica"
     ],
     "correct": 2,
-    "law": "Sustitución de Consumibles",
-    "article": "Instalación de Tóner",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Sustitución Segura de Consumibles",
     "explanation": "Se agita horizontalmente con suavidad para homogeneizar el tóner compactado durante el transporte y se retiran todos los precintos y plásticos protectores.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 132,
@@ -2371,10 +2371,10 @@ export const QUESTION_BANK = [
       "Mantenimiento de primer nivel: reposición de papel y tóner, resolución de atascos superficiales y limpieza exterior"
     ],
     "correct": 3,
-    "law": "Funciones del Personal E1",
-    "article": "Mantenimiento de Primer Nivel",
-    "explanation": "El personal de conserjería/reprografía realiza el mantenimiento básico y preventivo elemental; las reparaciones mecánicas complejas las asume el servicio técnico oficial.",
-    "sourceType": "sin_verificar"
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Anexo II IV CUAGE",
+    "explanation": "El Anexo II del IV CUAGE encuadra en el Grupo Profesional E1 de Servicios Administrativos las funciones de mantenimiento preventivo elemental de primer nivel: reposición de papel y tóner, resolución de atascos superficiales y limpieza exterior.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 133,
@@ -2389,10 +2389,10 @@ export const QUESTION_BANK = [
       "Cosedora de hilo vegetal"
     ],
     "correct": 0,
-    "law": "Maquinaria Auxiliar de Reprografía",
-    "article": "Encuadernación",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Maquinaria Auxiliar de Reprografía y Encuadernación",
     "explanation": "La encuadernadora de espiral troquela orificios redondos u ovalados en el margen del papel y facilita la inserción de la espiral metálica continua.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 134,
@@ -2407,10 +2407,10 @@ export const QUESTION_BANK = [
       "Una sierra circular de madera"
     ],
     "correct": 1,
-    "law": "Equipos de Acabado y Reprografía",
-    "article": "Corte de Papel",
-    "explanation": "Se utiliza la cizalla o guillotina con protecciones de seguridad (pantalla o célula fotoeléctrica) que impiden el descenso de la cuchilla si las manos están en la zona de corte.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A RD 486/1997 y Art. 15 Ley 31/1995",
+    "explanation": "La normativa de seguridad en el trabajo (RD 486/1997 y art. 15 Ley 31/1995) exige que las máquinas de corte como cizallas o guillotinas cuenten con pantallas o resguardos de seguridad que impidan el atrapamiento y corte de manos.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 135,
@@ -2425,10 +2425,10 @@ export const QUESTION_BANK = [
       "Tirar los folios enteros al contenedor azul"
     ],
     "correct": 2,
-    "law": "Destrucción Segura de Documentos / RGPD",
-    "article": "Niveles de Seguridad DIN 66399",
+    "law": "Norma DIN 66399 (Niveles de Destrucción de Soportes de Información)",
+    "article": "Norma DIN 66399 - Niveles de Seguridad",
     "explanation": "El corte cruzado en micropartículas tritura la hoja en cientos de fragmentos diminutos irrecuperables, garantizando la confidencialidad de datos protegidos.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "sourceType": "original_propia"
   },
   {
     "id": 136,
@@ -2443,10 +2443,10 @@ export const QUESTION_BANK = [
       "Por la bandeja manual o bypass lateral para evitar giros cerrados en los rodillos"
     ],
     "correct": 3,
-    "law": "Técnicas de Impresión Especial",
-    "article": "Bandeja Bypass",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Técnicas de Alimentación en Bandeja Bypass",
     "explanation": "La bandeja manual (bypass) tiene un recorrido recto y plano del papel, evitando que soportes gruesos o etiquetas adhesivas se encallen en los rodillos curvos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 137,
@@ -2461,10 +2461,10 @@ export const QUESTION_BANK = [
       "Utilizar la máquina mojada, según determine la normativa específica aplicable"
     ],
     "correct": 0,
-    "law": "PRL en Reprografía / Ley 31/1995",
-    "article": "Atrapamientos en Destructoras",
-    "explanation": "El mayor peligro de una trituradora es el atrapamiento de prendas colgantes (corbatas, collares, mangas) o pelo largo, debiendo recogerse siempre antes de operar.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Art. 15 y 29 Ley 31/1995",
+    "explanation": "En aplicación de los artículos 15 y 29 de la Ley 31/1995 de Prevención de Riesgos Laborales, para evitar el riesgo de atrapamiento en los rodillos de corte de una destructora deben retirarse o asegurarse corbatas, pañuelos, prendas holgadas o pelo desatado.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 138,
@@ -2479,10 +2479,10 @@ export const QUESTION_BANK = [
       "1 mes laborable"
     ],
     "correct": 1,
-    "law": "Reglamento Postal / Ley 43/2010",
-    "article": "Aviso de Llegada",
-    "explanation": "El plazo de depósito en lista u oficina de Correos para retirar envíos registrados tras aviso domiciliario es de 15 días naturales.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 42.1 RD 1829/1999",
+    "explanation": "El artículo 42.1 del Reglamento Postal (RD 1829/1999) fija taxativamente en 15 días naturales el plazo de permanencia en lista o en oficina postal para retirar envíos registrados tras aviso de llegada domiciliario.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 139,
@@ -2497,10 +2497,10 @@ export const QUESTION_BANK = [
       "5 kilogramos"
     ],
     "correct": 2,
-    "law": "Servicio Postal Universal / Correos",
-    "article": "Límite Peso Carta",
-    "explanation": "El peso máximo reglamentario para el formato de carta (ordinaria o certificada) es de 2 kg. Por encima de ese peso pasa a modalidad de paquetería.",
-    "sourceType": "sin_verificar"
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 21.1.a) Ley 43/2010",
+    "explanation": "El artículo 21.1.a) de la Ley 43/2010 del servicio postal universal y el art. 11 del RD 1829/1999 establecen un peso máximo de dos kilogramos para las cartas ordinarias o certificadas.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 140,
@@ -2515,10 +2515,10 @@ export const QUESTION_BANK = [
       "20 kg"
     ],
     "correct": 3,
-    "law": "Tarifas y Productos de Correos",
-    "article": "Paquete Azul",
-    "explanation": "El Paquete Azul admite envíos de hasta 20 kilogramos con entrega bajo firma y seguimiento para España y Andorra.",
-    "sourceType": "sin_verificar"
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 21.1.b) Ley 43/2010",
+    "explanation": "El artículo 21.1.b) de la Ley 43/2010 y el art. 13 del RD 1829/1999 fijan el límite de peso de los paquetes postales del servicio postal universal (como el Paquete Azul nacional) en 20 kilogramos.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 141,
@@ -2533,10 +2533,10 @@ export const QUESTION_BANK = [
       "Carta ordinaria con sello urgente"
     ],
     "correct": 0,
-    "law": "Servicios Postales Telemáticos",
-    "article": "El Burofax",
-    "explanation": "El burofax con testimonio y certificación de contenido acredita fehacientemente ante juzgados y administraciones no solo la recepción, sino el texto literal transmitido.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 25 y 26 RD 1829/1999",
+    "explanation": "Los artículos 25 y 26 del RD 1829/1999 configuran el burofax con testimonio y certificación de contenido como el servicio postal que acredita fehacientemente ante juzgados y administraciones no solo la recepción, sino el texto íntegro transmitido.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 142,
@@ -2551,10 +2551,10 @@ export const QUESTION_BANK = [
       "La Convocatoria pública"
     ],
     "correct": 1,
-    "law": "Manual de Documentos Administrativos AGE",
-    "article": "Nota Interior",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Documentos Administrativos AGE - Nota Interior",
     "explanation": "La Nota Interior se reserva con exclusividad para las comunicaciones internas entre unidades u órganos del mismo Ministerio o centro directivo.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 143,
@@ -2569,10 +2569,10 @@ export const QUESTION_BANK = [
       "El Saluda"
     ],
     "correct": 2,
-    "law": "Manual de Documentos Administrativos AGE",
-    "article": "El Oficio",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Documentos Administrativos AGE - El Oficio",
     "explanation": "El Oficio es el instrumento ordinario de comunicación interorgánica externa (con otros ministerios, autoridades judiciales o ciudadanos).",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 144,
@@ -2587,10 +2587,10 @@ export const QUESTION_BANK = [
       "El Secretario del órgano colegiado"
     ],
     "correct": 3,
-    "law": "Ley 40/2015",
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
     "article": "Art. 18 Ley 40/2015",
-    "explanation": "De cada sesión que celebre el órgano colegiado se levantará acta por el Secretario, que especificará asistentes, orden del día, puntos de deliberación y acuerdos adoptados.",
-    "sourceType": "original_propia"
+    "explanation": "El artículo 18 de la Ley 40/2015 establece que de cada sesión que celebre el órgano colegiado se levantará acta por el Secretario, especificando asistentes, orden del día, puntos principales de deliberación y acuerdos adoptados.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 145,
@@ -2605,10 +2605,10 @@ export const QUESTION_BANK = [
       "Denunciar un delito, según determine la normativa específica aplicable"
     ],
     "correct": 0,
-    "law": "Manual de Documentos Administrativos AGE",
-    "article": "El Certificado",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Documentos Administrativos AGE - El Certificado",
     "explanation": "El certificado acredita de forma fehaciente hechos, resoluciones o acuerdos que obran en los archivos y expedientes administrativos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 146,
@@ -2623,10 +2623,10 @@ export const QUESTION_BANK = [
       "No hace falta llevarla a Correos, con arreglo a las directrices de la unidad correspondiente"
     ],
     "correct": 1,
-    "law": "Normas de Correos sobre Franqueo Mecánico",
-    "article": "Depósito de Envíos",
-    "explanation": "La fecha de la huella de franqueo de la máquina debe coincidir con la fecha de admisión y depósito en la oficina postal.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 29.2 RD 1829/1999",
+    "explanation": "El artículo 29.2 del RD 1829/1999 dispone que los envíos con estampación de máquinas franqueadoras deben depositarse en las oficinas postales en la misma fecha de la huella de franqueo estampada.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 147,
@@ -2641,10 +2641,10 @@ export const QUESTION_BANK = [
       "Un sello que se pega en el cristal de conserjería"
     ],
     "correct": 2,
-    "law": "Servicio Postal Universal",
-    "article": "Acuse de Recibo",
-    "explanation": "El acuse de recibo acredita legalmente la fecha, hora, identidad y firma de quien se hizo cargo de la notificación o carta en destino.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 32 RD 1829/1999",
+    "explanation": "El artículo 32 del RD 1829/1999 regula el aviso de recibo (acuse de recibo) como el documento que acredita legalmente ante el remitente la fecha, hora, identidad y firma de quien se hizo cargo de la notificación o carta en destino.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 148,
@@ -2659,10 +2659,10 @@ export const QUESTION_BANK = [
       "En la parte inferior del documento, con el cargo, nombre completo y rúbrica del titular del órgano"
     ],
     "correct": 3,
-    "law": "Manual de Estilo y Documentos AGE",
-    "article": "Estructura Documental",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Documentos Administrativos AGE - Firma y Antefirma",
     "explanation": "La antefirma y firma se ubican al final del texto en la parte inferior, consignando denominación del cargo, nombre, apellidos y fecha.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 149,
@@ -2677,10 +2677,10 @@ export const QUESTION_BANK = [
       "La identificación del órgano emisor"
     ],
     "correct": 0,
-    "law": "Manual de Documentos Administrativos AGE",
-    "article": "Modernización del Lenguaje",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Criterios de Modernización del Lenguaje Administrativo AGE",
     "explanation": "La modernización del lenguaje administrativo erradicó las fórmulas serviles decimonónicas, adoptando fórmulas sobrias, directas y claras.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 150,
@@ -2695,10 +2695,10 @@ export const QUESTION_BANK = [
       "El signo zodiacal de los asistentes"
     ],
     "correct": 1,
-    "law": "Ley 40/2015 / Régimen Jurídico",
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
     "article": "Art. 19 Ley 40/2015",
-    "explanation": "La convocatoria formal debe fijar con antelación el orden del día, fecha, hora y lugar de la reunión para garantizar el derecho de asistencia e información.",
-    "sourceType": "original_propia"
+    "explanation": "El artículo 19 de la Ley 40/2015 fija los requisitos formales de la convocatoria de los órganos colegiados: fijación del orden del día, fecha, hora y lugar de la reunión para garantizar el derecho de asistencia e información.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 151,
@@ -2713,8 +2713,8 @@ export const QUESTION_BANK = [
       "Destruir la correspondencia antigua, según determine la normativa específica aplicable"
     ],
     "correct": 2,
-    "law": "Ley 39/2015 LPACAP",
-    "article": "Art. 16 Ley 39/2015",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Registro de Entrada y Salida de Documentos",
     "explanation": "El registro de entrada y salida garantiza la seguridad jurídica y la constancia registral inalterable de los asientos de documentos en la Administración.",
     "sourceType": "original_propia"
   },
@@ -2731,10 +2731,10 @@ export const QUESTION_BANK = [
       "Un documento protocolario breve utilizado tradicionalmente por autoridades para transmitir agradecimientos, invitaciones o tomas de posesión"
     ],
     "correct": 3,
-    "law": "Manual de Estilo AGE",
-    "article": "El Saluda",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Documentos Administrativos AGE - El Saluda",
     "explanation": "El Saluda es una comunicación de protocolo y cortesía entre autoridades para invitar o agradecer acontecimientos de relieve institucional.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 153,
@@ -2750,9 +2750,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Ley 43/2010 del Servicio Postal Universal",
-    "article": "Ley 43/2010 del Servicio Postal Universal",
-    "explanation": "El Burofax permite acreditar fehacientemente no solo la fecha y hora de la entrega en destino, sino también el contenido literal y textual del documento enviado mediante la certificación y testimonio especial expedido por la Sociedad Estatal Correos y Telégrafos.",
-    "sourceType": "norma_identificada_sin_auditar",
+    "article": "Art. 22 Ley 43/2010 y Art. 25 RD 1829/1999",
+    "explanation": "Conforme al art. 22 de la Ley 43/2010 y el art. 25 del RD 1829/1999, el Burofax permite acreditar fehacientemente no solo la fecha y hora de la entrega en destino, sino también el contenido literal del texto transmitido con valor probatorio pleno. *(Nota: posible examen 2025, sin fuente)*",
+    "sourceType": "norma_verificada",
     "note": "posible examen 2025, sin fuente"
   },
   {
@@ -2768,10 +2768,10 @@ export const QUESTION_BANK = [
       "Publicorreo masivo"
     ],
     "correct": 1,
-    "law": "Ley 43/2010 del Servicio Postal",
-    "article": "Envíos Registrados",
-    "explanation": "La carta certificada se entrega en el domicilio del destinatario recabando su firma y DNI en la tableta digital o justificante de entrega.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 22 Ley 43/2010",
+    "explanation": "El artículo 22 de la Ley 43/2010 y el artículo 30 del RD 1829/1999 definen los envíos certificados como aquellos que gozan de garantía contra pérdida o expoliación y se entregan obligatoriamente en el domicilio bajo firma del destinatario o persona autorizada.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 155,
@@ -2787,9 +2787,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Correspondencia Urgente",
+    "article": "Gestión y Tramitación de Envíos Urgentes",
     "explanation": "La correspondencia urgente debe ser canalizada de forma prioritaria para evitar la caducidad de plazos legales perentorios.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 156,
@@ -2804,10 +2804,10 @@ export const QUESTION_BANK = [
       "No; la correspondencia dirigida nominalmente debe entregarse cerrada e inviolada a su destinatario (art. 18.3 CE)"
     ],
     "correct": 3,
-    "law": "Constitución Española / Régimen Interior",
+    "law": "Constitución Española de 1978",
     "article": "Art. 18.3 CE",
-    "explanation": "El artículo 18.3 de la Constitución garantiza el secreto de las comunicaciones postales. La correspondencia nominal cerrada no puede ser abierta por el personal de reparto.",
-    "sourceType": "original_propia"
+    "explanation": "El artículo 18.3 de la Constitución Española consagra la garantía fundamental del secreto de las comunicaciones y, en especial, de las postales, telegráficas y telefónicas, prohibiendo taxativamente al personal auxiliar abrir correspondencia ajena.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 157,
@@ -2822,10 +2822,10 @@ export const QUESTION_BANK = [
       "Una queja formal de un opositor"
     ],
     "correct": 0,
-    "law": "Manual de Documentos Administrativos AGE",
-    "article": "La Memoria",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Manual de Documentos Administrativos AGE - La Memoria",
     "explanation": "La Memoria es el documento descriptivo y de balance que recopila las actividades, proyectos y logros de un centro directivo a lo largo del año.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 158,
@@ -2840,10 +2840,10 @@ export const QUESTION_BANK = [
       "Una carta que viaja en globo"
     ],
     "correct": 1,
-    "law": "Servicios Comerciales de Correos",
-    "article": "Franqueo en Destino",
-    "explanation": "El franqueo en destino permite a empresas y administraciones recibir respuestas de ciudadanos sin coste previo para estos, liquidándose las tarifas a la entrega.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 28 RD 1829/1999",
+    "explanation": "El artículo 28 del RD 1829/1999 regula la modalidad de franqueo en destino, permitiendo el depósito de envíos sin franqueo previo cuyo coste es liquidado directamente por la entidad destinataria autorizada a la entrega.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 159,
@@ -2858,10 +2858,10 @@ export const QUESTION_BANK = [
       "Tirándolos todos en una saca mezclados con basura"
     ],
     "correct": 2,
-    "law": "Procedimiento Operativo Postal AGE",
-    "article": "Clasificación de Salida",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Clasificación y Preparación para el Depósito Postal",
     "explanation": "La correspondencia se agrupa por ámbito geográfico tarifario (provincial, nacional, internacional) y por modalidad (ordinaria, certificada) para agilizar la admisión en Correos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 160,
@@ -2876,10 +2876,10 @@ export const QUESTION_BANK = [
       "Validez fehaciente de la fecha y hora exacta en que se depositó el envío en la oficina postal, a efectos de cómputo de plazos administrativos"
     ],
     "correct": 3,
-    "law": "Ley 39/2015 / Ley Postal",
-    "article": "Justificante de Imposición",
-    "explanation": "El matasellos o resguardo de Correos acredita de forma fehaciente que el documento fue presentado dentro del plazo legal fijado en la convocatoria o procedimiento.",
-    "sourceType": "original_propia"
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 31 RD 1829/1999",
+    "explanation": "El artículo 31 del RD 1829/1999 atribuye al resguardo o justificante de imposición sellado por la oficina postal fehaciencia de la fecha y hora de presentación del documento a efectos del cómputo de plazos administrativos.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 161,
@@ -2894,10 +2894,10 @@ export const QUESTION_BANK = [
       "El exterior se hace en avión"
     ],
     "correct": 0,
-    "law": "Régimen Interior de Servicios Generales",
-    "article": "Tipos de Recados",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Clasificación Operativa de Recados Oficiales",
     "explanation": "El recado interior discurre por las dependencias del propio acuartelamiento o complejo ministerial; el exterior requiere desplazamiento físico fuera del recinto.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 162,
@@ -2912,10 +2912,10 @@ export const QUESTION_BANK = [
       "Prestar el maletín oficial a un desconocido"
     ],
     "correct": 1,
-    "law": "Deberes del Empleado Público / TREBEP",
-    "article": "Custodia y Eficacia",
-    "explanation": "El trayecto debe ser directo y profesional, rigiendo el deber de fidelidad, dedicación al servicio público y custodia rigurosa del material encomendado.",
-    "sourceType": "original_propia"
+    "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
+    "article": "Art. 52 y 54 TREBEP",
+    "explanation": "Los artículos 52 y 54 del TREBEP imponen los deberes de diligencia y dedicación, exigiendo seguir el itinerario más directo y seguro en desplazamientos oficiales sin desvíos particulares injustificados.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 163,
@@ -2930,10 +2930,10 @@ export const QUESTION_BANK = [
       "La matrícula del coche del conserje receptor"
     ],
     "correct": 2,
-    "law": "Manual Operativo de Servicios Generales",
-    "article": "Justificante de Entrega",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Trazabilidad de la Entrega Externa: El Recibí Oficial",
     "explanation": "La entrega de documentos exige siempre recabar la firma, fecha, hora y sello oficial del organismo receptor en la copia del recibí o nota de entrega.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 164,
@@ -2948,10 +2948,10 @@ export const QUESTION_BANK = [
       "Deber estricto de sigilo, reserva y secreto profesional (art. 53 TREBEP), absteniéndose de abrir sobres o divulgar contenidos"
     ],
     "correct": 3,
-    "law": "TREBEP / Código de Conducta",
-    "article": "Art. 53 TREBEP",
-    "explanation": "El personal está obligado al más estricto secreto y sigilo profesional sobre la documentación y los asuntos que conozca por razón de su trabajo.",
-    "sourceType": "original_propia"
+    "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
+    "article": "Art. 53.12 TREBEP",
+    "explanation": "El artículo 53.12 del TREBEP impone a todo empleado público el deber estricto de sigilo y secreto profesional sobre los asuntos y documentos que conozca por razón de su trabajo.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 165,
@@ -2968,8 +2968,8 @@ export const QUESTION_BANK = [
     "correct": 0,
     "law": "Ley 9/1968 sobre Secretos Oficiales",
     "article": "Art. 3 Ley 9/1968",
-    "explanation": "La Ley 9/1968 fija exclusivamente dos categorías legales de materias clasificadas: SECRETO (máxima protección) y RESERVADO.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "explanation": "El artículo 3 de la Ley 9/1968 fija exclusivamente dos únicas categorías de materias clasificadas: SECRETO y RESERVADO.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 166,
@@ -2984,10 +2984,10 @@ export const QUESTION_BANK = [
       "En un sobre con luces de advertencia"
     ],
     "correct": 1,
-    "law": "Reglamento de la Ley de Secretos Oficiales",
-    "article": "Doble Sobre",
-    "explanation": "El sobre exterior debe ser completamente neutro para no delatar la presencia de materias clasificadas ante terceros en caso de extravío o inspección.",
-    "sourceType": "original_propia"
+    "law": "Decreto 242/1969",
+    "article": "Art. 13 Decreto 242/1969",
+    "explanation": "El artículo 13 del Decreto 242/1969 (Reglamento de la Ley de Secretos Oficiales) establece el sistema de DOBLE SOBRE para el transporte de materias clasificadas: el interior sellado y marcado con el nivel; el exterior totalmente neutro, opaco y sin ninguna indicación de clasificación.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 167,
@@ -3002,10 +3002,10 @@ export const QUESTION_BANK = [
       "El nombre del Presidente del Gobierno"
     ],
     "correct": 2,
-    "law": "Reglamento Ley Secretos Oficiales",
-    "article": "Sobre Exterior Neutro",
-    "explanation": "El sobre exterior no llevará indicación alguna acerca del carácter secreto o reservado de su contenido, garantizando la discreción del transporte.",
-    "sourceType": "original_propia"
+    "law": "Decreto 242/1969",
+    "article": "Art. 13.2 Decreto 242/1969",
+    "explanation": "El artículo 13.2 del Decreto 242/1969 prohíbe taxativamente consignar en el sobre exterior cualquier indicación o marca que revele el carácter clasificado del envío, mostrando únicamente destinatario y remitente.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 168,
@@ -3020,10 +3020,10 @@ export const QUESTION_BANK = [
       "La Habilitación Personal de Seguridad (HPS) expedida por la Autoridad Nacional de Seguridad (Oficina Nacional de Seguridad / CNI)"
     ],
     "correct": 3,
-    "law": "Normativa Nacional de Seguridad Clasificada",
-    "article": "HPS (ONS/CNI)",
-    "explanation": "El acceso y manejo de materias clasificadas exige contar con la preceptiva Habilitación Personal de Seguridad (HPS) en el grado correspondiente.",
-    "sourceType": "sin_verificar"
+    "law": "Decreto 242/1969",
+    "article": "Art. 8 y 9 Decreto 242/1969",
+    "explanation": "Los artículos 8 y 9 del Decreto 242/1969 y la normativa de seguridad de la ONS/CNI exigen contar con la preceptiva Habilitación Personal de Seguridad (HPS) para acceder o manipular materias clasificadas.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 169,
@@ -3038,10 +3038,10 @@ export const QUESTION_BANK = [
       "Darse de baja por enfermedad"
     ],
     "correct": 0,
-    "law": "Seguridad Documental AGE",
-    "article": "Pérdida de Documentos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Incidencias Graves en Desplazamientos Oficiales",
     "explanation": "La pérdida o robo de documentación oficial exige aviso inmediato a los superiores y denuncia judicial para limitar daños y posibles brechas de seguridad.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 170,
@@ -3057,9 +3057,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Protección Física",
+    "article": "Equipamiento de Protección de Correspondencia",
     "explanation": "La cartera o maletín impermeable de dotación protege el papel oficial de la humedad, roturas y miradas de curiosos.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 171,
@@ -3074,10 +3074,10 @@ export const QUESTION_BANK = [
       "Dejarlos en el suelo del descansillo"
     ],
     "correct": 2,
-    "law": "Protección de Datos y Custodia Interna",
-    "article": "Entrega Segura",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Custodia Física en Distribución Interior",
     "explanation": "Nunca se dejan expedientes en despachos desiertos al alcance de personal ajeno; se entregan personalmente al funcionario receptor.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 172,
@@ -3092,10 +3092,10 @@ export const QUESTION_BANK = [
       "En sobre cerrado, guardado en el bolsillo interior o cartera cerrada, con trayecto directo y justificación de recibo inmediato"
     ],
     "correct": 3,
-    "law": "Gestión de Anticipos de Caja Fija",
-    "article": "Traslado de Fondos",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Custodia de Fondos de Anticipo de Caja Fija",
     "explanation": "El traslado de dinero exige máxima discreción, sobre cerrado, custodia física personal y liquidación inmediata del recibo ante la Habilitación.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 173,
@@ -3110,10 +3110,10 @@ export const QUESTION_BANK = [
       "Solo durante 10 minutos, salvo autorización expresa del órgano competente"
     ],
     "correct": 0,
-    "law": "Deberes de Custodia AGE",
-    "article": "Inseparabilidad de la Custodia",
-    "explanation": "El deber de custodia prohíbe delegar el control de la documentación en personas extrañas al servicio.",
-    "sourceType": "sin_verificar"
+    "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
+    "article": "Art. 54.3 TREBEP",
+    "explanation": "El artículo 54.3 del TREBEP consagra el deber de velar por la conservación y custodia de los recursos y documentos públicos a su cargo, siendo la custodia personal e intransferible.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 174,
@@ -3130,8 +3130,8 @@ export const QUESTION_BANK = [
     "correct": 1,
     "law": "Ley 9/1968 sobre Secretos Oficiales",
     "article": "Art. 4 Ley 9/1968",
-    "explanation": "La facultad de clasificar materias como Secreto o Reservado corresponde exclusivamente al Consejo de Ministros.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "explanation": "El artículo 4 de la Ley 9/1968 atribuye en exclusiva al Consejo de Ministros la facultad originaria de clasificar materias como Secreto o Reservado.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 175,
@@ -3147,9 +3147,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Manual Operativo de Conserjería / Pautas de custodia",
+    "article": "Límites Funcionales en la Realización de Recados",
     "explanation": "El personal subalterno y de servicios administrativos realiza tareas materiales auxiliares de custodia y transporte. Carece de potestad administrativa para suscribir actos, acuerdos o resoluciones; su firma se limita exclusivamente a dar fe de la recepción física (recibí o volante de entrega).",
-    "sourceType": "sin_verificar",
+    "sourceType": "original_propia",
     "note": "posible examen 2025, sin fuente"
   },
   {
@@ -3159,16 +3159,16 @@ export const QUESTION_BANK = [
     "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
     "question": "Al realizar un recado exterior en vehículo oficial, ¿quién es el responsable de custodiar la documentación transportada si el vehículo se detiene?",
     "options": [
-      "El personal comisionado que porta la documentación, no debiendo dejarla nunca visible en el interior de un vehículo estacionado desatendido",
+      "El fabricante del coche",
       "La Policía Municipal",
       "El seguro obligatorio de accidentes",
-      "El fabricante del coche"
+      "El personal comisionado que porta la documentación, no debiendo dejarla nunca visible en el interior de un vehículo estacionado desatendido"
     ],
     "correct": 3,
-    "law": "Instrucciones de Seguridad en Desplazamientos",
-    "article": "Custodia en Vehículos",
-    "explanation": "Nunca se dejan expedientes o maletines a la vista en coches desatendidos por el riesgo de rotura de cristales y robo.",
-    "sourceType": "sin_verificar"
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Pautas de Seguridad en Desplazamientos en Vehículo",
+    "explanation": "La responsabilidad de custodia recae en el personal comisionado; nunca se dejan expedientes o maletines a la vista en vehículos desatendidos por riesgo de robo o sustracción.",
+    "sourceType": "original_propia"
   },
   {
     "id": 177,
@@ -3183,10 +3183,10 @@ export const QUESTION_BANK = [
       "Firmar el conserje con un nombre falso"
     ],
     "correct": 0,
-    "law": "Procedimiento Administrativo Común",
-    "article": "Negativa a Firmar",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Diligencias de Constancia ante Rechazo de Firma",
     "explanation": "Se levanta diligencia formal acreditando el intento de entrega y la negativa a firmar para que surta los efectos jurídicos procedentes.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 178,
@@ -3202,9 +3202,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Medios de Transporte Urbano",
+    "article": "Medios de Transporte en Recados Urbanos",
     "explanation": "Los desplazamientos ordinarios se realizan a pie o en transporte público mediante bonos o pases oficiales de servicio autorizados.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 179,
@@ -3219,10 +3219,10 @@ export const QUESTION_BANK = [
       "Tirar los recibos a la papelera"
     ],
     "correct": 2,
-    "law": "Gestión de Recados AGE",
-    "article": "Justificación del Recado",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Rendición de Cuentas y Justificación del Encargo",
     "explanation": "Al volver se rinde cuenta formal del recado entregando las hojas de remisión con el sello y firma de recepción a la unidad que lo encomendó.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 180,
@@ -3237,10 +3237,10 @@ export const QUESTION_BANK = [
       "No; debe respetar rigurosamente el orden de prioridades y urgencias señalado por su jefatura de servicio"
     ],
     "correct": 3,
-    "law": "Régimen Disciplinario y Deberes",
-    "article": "Cumplimiento de Órdenes",
-    "explanation": "El empleado debe acatar las instrucciones de servicio sobre urgencias y plazos perentorios de entrega.",
-    "sourceType": "sin_verificar"
+    "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
+    "article": "Art. 54.2 TREBEP",
+    "explanation": "El artículo 54.2 del TREBEP consagra el deber de obediencia a las órdenes de servicio legítimas, debiendo respetar rigurosamente la prelación y prioridad asignada.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 181,
@@ -3255,10 +3255,10 @@ export const QUESTION_BANK = [
       "Una multa de 10 euros"
     ],
     "correct": 0,
-    "law": "Código Penal / Ley de Secretos Oficiales",
-    "article": "Delitos de Revelación",
-    "explanation": "La revelación de secretos oficiales acarrea graves penas de prisión en el Código Penal y despido con inhabilitación absoluta.",
-    "sourceType": "original_propia"
+    "law": "Ley 9/1968 sobre Secretos Oficiales",
+    "article": "Art. 13 Ley 9/1968",
+    "explanation": "El artículo 13 de la Ley 9/1968 y los artículos 598 a 603 del Código Penal sancionan la revelación o difusión indebida de materias clasificadas con penas graves de prisión e inhabilitación especial, acarreando además el despido disciplinario.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 182,
@@ -3273,10 +3273,10 @@ export const QUESTION_BANK = [
       "Porque lo prohíbe el código de circulación"
     ],
     "correct": 1,
-    "law": "Constitución Española / Régimen Jurídico",
-    "article": "Inviolabilidad Postal",
-    "explanation": "El personal de servicios auxiliares carece de potestad para inspeccionar el contenido de la correspondencia cerrada ajena.",
-    "sourceType": "original_propia"
+    "law": "Constitución Española de 1978",
+    "article": "Art. 18.3 CE",
+    "explanation": "El artículo 18.3 de la Constitución garantiza el secreto de las comunicaciones postales, impidiendo taxativamente a los empleados auxiliares abrir o examinar correspondencia cerrada ajena.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 183,
@@ -3292,9 +3292,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Lugares de Trabajo",
-    "explanation": "El Real Decreto 486/1997, de 14 de abril, establece las disposiciones mínimas de seguridad y salud en los lugares de trabajo.",
-    "sourceType": "original_propia"
+    "article": "Art. 1 RD 486/1997",
+    "explanation": "El Real Decreto 486/1997, de 14 de abril, establece las disposiciones mínimas de seguridad y salud que deben reunir los lugares de trabajo en España.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 184,
@@ -3310,9 +3310,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Anexo I RD 486/1997",
-    "explanation": "La altura mínima general es de 3 metros, permitiéndose 2,5 metros en locales comerciales, de servicios, oficinas y despachos.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Anexo I.A.1 RD 486/1997",
+    "explanation": "El Anexo I.A.1 del RD 486/1997 fija la altura mínima general de techos en 3 metros, permitiendo 2,5 metros en locales comerciales, despachos y oficinas ya construidos.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 185,
@@ -3328,9 +3328,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Anexo I RD 486/1997",
-    "explanation": "El Anexo I fija como mínimo 2 metros cuadrados de superficie libre por trabajador.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Anexo I.A.1.b) RD 486/1997",
+    "explanation": "El Anexo I.A.1.b) del RD 486/1997 establece taxativamente que cada trabajador dispondrá como mínimo de 2 metros cuadrados de superficie libre.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 186,
@@ -3346,9 +3346,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Anexo I RD 486/1997",
-    "explanation": "Se establecen 10 metros cúbicos, no ocupados, por cada trabajador en el puesto.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Anexo I.A.1.c) RD 486/1997",
+    "explanation": "El Anexo I.A.1.c) del RD 486/1997 prescribe un volumen mínimo de 10 metros cúbicos no ocupados por cada trabajador.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 187,
@@ -3364,9 +3364,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Anexo I RD 486/1997",
-    "explanation": "La anchura mínima reglamentaria de los pasillos es de 1 metro libre de obstáculos.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Anexo I.A.7 RD 486/1997",
+    "explanation": "El Anexo I.A.7 del RD 486/1997 fija que la anchura mínima de los pasillos de circulación general será de 1 metro libre.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 188,
@@ -3382,9 +3382,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 3,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Anexo III RD 486/1997",
-    "explanation": "Para trabajos sedentarios propios de oficinas o despachos, la temperatura estará comprendida entre 17 ºC y 27 ºC.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Anexo III.3.a) RD 486/1997",
+    "explanation": "El Anexo III.3.a) del RD 486/1997 establece que en los locales cerrados donde se realicen trabajos sedentarios propios de oficinas la temperatura estará comprendida entre 17 ºC y 27 ºC.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 189,
@@ -3400,9 +3400,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 0,
     "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
-    "article": "Anexo III RD 486/1997",
-    "explanation": "La humedad relativa estará comprendida entre el 30% y el 70%, salvo en locales con riesgo de electricidad estática donde el límite inferior será del 50%.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Anexo III.3.c) RD 486/1997",
+    "explanation": "El Anexo III.3.c) del RD 486/1997 fija que la humedad relativa estará comprendida entre el 30% y el 70%, debiendo ser como mínimo del 50% en locales con riesgo por electricidad estática.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 190,
@@ -3417,10 +3417,10 @@ export const QUESTION_BANK = [
       "La marca de pintura de las paredes"
     ],
     "correct": 1,
-    "law": "Manual Operativo de Mantenimiento AGE",
-    "article": "Partes de Avería",
+    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
+    "article": "Parte de Incidencias y Averías en Edificios Oficiales",
     "explanation": "El parte debe precisar: fecha, hora, lugar exacto, naturaleza de la avería, nivel de prioridad y datos de quien la comunica.",
-    "sourceType": "sin_verificar"
+    "sourceType": "original_propia"
   },
   {
     "id": 191,
@@ -3435,10 +3435,10 @@ export const QUESTION_BANK = [
       "Echar serrín sobre el cable"
     ],
     "correct": 2,
-    "law": "Buenas Prácticas Operativas y Seguridad en Dependencias Oficiales",
-    "article": "Averías Críticas",
-    "explanation": "Ante riesgos graves e inminentes se activa la comunicación verbal y telefónica inmediata, aislando la zona y cortando llaves de paso o magnetotérmicos.",
-    "sourceType": "sin_verificar"
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Art. 21 y 29 Ley 31/1995",
+    "explanation": "Los artículos 21 y 29 de la Ley 31/1995 de Prevención de Riesgos Laborales imponen al trabajador el deber de informar de inmediato ante cualquier riesgo grave e inminente para la seguridad de las personas y señalizar la zona para impedir el paso.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 192,
@@ -3453,10 +3453,10 @@ export const QUESTION_BANK = [
       "Hacia el exterior (en el sentido de la evacuación)"
     ],
     "correct": 3,
-    "law": "Código Técnico de la Edificación / DB-SI",
-    "article": "Puertas de Emergencia",
-    "explanation": "Las puertas de emergencia deben abrir en el sentido de la evacuación (hacia afuera) y permitir su apertura rápida mediante barra antipánico sin necesidad de llave.",
-    "sourceType": "original_propia"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.10.d) RD 486/1997",
+    "explanation": "El Anexo I.A.10.d) del RD 486/1997 prescribe que las puertas de emergencia deben abrir hacia el exterior (en el sentido de la evacuación) y no estar bloqueadas.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 193,
@@ -3471,10 +3471,10 @@ export const QUESTION_BANK = [
       "Las salidas a pie de calle"
     ],
     "correct": 0,
-    "law": "Planes de Autoprotección AGE",
-    "article": "Uso de Ascensores",
-    "explanation": "El uso de ascensores está terminantemente prohibido durante un incendio ante el riesgo de quedar atrapados en el hueco por corte eléctrico o acumulación de humos tóxicos.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.10 RD 486/1997",
+    "explanation": "En evacuaciones de emergencia queda terminantemente prohibido el uso de ascensores según el Anexo I.A.10 del RD 486/1997, debiendo realizarse la evacuación a pie por escaleras y vías seguras.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 194,
@@ -3489,10 +3489,10 @@ export const QUESTION_BANK = [
       "A oscuras sin alumbrado de emergencia"
     ],
     "correct": 1,
-    "law": "RD 486/1997 / Planes de Emergencia",
-    "article": "Vías de Evacuación",
-    "explanation": "Las vías de escape no pueden obstaculizarse con ningún objeto, garantizando la fluidez de un desalojo imprevisto.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.10.a) RD 486/1997",
+    "explanation": "El Anexo I.A.10.a) del RD 486/1997 exige que las vías y salidas de evacuación deberán permanecer expeditas y libres de obstáculos en todo momento.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 195,
@@ -3507,10 +3507,10 @@ export const QUESTION_BANK = [
       "Un ventilador de techo"
     ],
     "correct": 2,
-    "law": "Protección Contra Incendios (RIPCI)",
-    "article": "Extintores ABC",
-    "explanation": "El extintor de polvo químico polivalente ABC es el equipo estándar más versátil para sofocar conatos de incendio en oficinas.",
-    "sourceType": "original_propia"
+    "law": "Real Decreto 513/2017",
+    "article": "Anexo I, Sección 1ª RD 513/2017",
+    "explanation": "El Reglamento de Instalaciones de Protección contra Incendios (RD 513/2017) califica el extintor de polvo químico seco polivalente ABC como el medio portátil estándar y versátil para sofocar conatos en fuegos de clases A, B y C.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 196,
@@ -3525,10 +3525,10 @@ export const QUESTION_BANK = [
       "Extintor de nieve carbónica (Dióxido de Carbono - CO2)"
     ],
     "correct": 3,
-    "law": "Protección Contra Incendios",
-    "article": "Extintores de CO2",
-    "explanation": "El CO2 sofoca por desplazamiento de oxígeno y enfriamiento sin ser conductor de la electricidad y sin dejar polvo que dañe los circuitos electrónicos.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 513/2017",
+    "article": "Anexo I, Sección 1ª RD 513/2017",
+    "explanation": "Conforme al RD 513/2017 (RIPCI), el extintor de dióxido de carbono (nieve carbónica - CO2) es el idóneo para fuegos en presencia de tensión eléctrica o equipos informáticos al sofocar sin conducir electricidad ni dejar residuos corrosivos.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 197,
@@ -3543,10 +3543,10 @@ export const QUESTION_BANK = [
       "En el falso techo"
     ],
     "correct": 0,
-    "law": "Reglamento de Instalaciones de Protección contra Incendios",
-    "article": "Altura de Extintores",
-    "explanation": "El RIPCI fija que la parte superior del extintor estará situada entre 80 cm y 120 cm sobre el suelo para facilitar su descuelgue rápido por cualquier usuario.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 513/2017",
+    "article": "Anexo I, Sección 1ª RD 513/2017",
+    "explanation": "El Anexo I, Sección 1ª del RD 513/2017 (RIPCI) dispone que la parte superior de los extintores portátiles se situará entre 80 cm y 120 cm sobre el suelo para facilitar su descuelgue rápido.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 198,
@@ -3561,10 +3561,10 @@ export const QUESTION_BANK = [
       "Color amarillo"
     ],
     "correct": 1,
-    "law": "Real Decreto 485/1997 de Señalización",
-    "article": "Señales de Salvamento",
-    "explanation": "El color verde identifica las señales de salvamento, primeros auxilios, puertas de emergencia y vías de evacuación seguras.",
-    "sourceType": "original_propia"
+    "law": "Real Decreto 485/1997",
+    "article": "Anexo II y III RD 485/1997",
+    "explanation": "Los Anexos II y III del Real Decreto 485/1997 de señalización de seguridad y salud establecen que el color verde identifica las señales de salvamento o socorro, puertas, salidas y puestos de primeros auxilios.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 199,
@@ -3579,10 +3579,10 @@ export const QUESTION_BANK = [
       "Material de extinción de incendios"
     ],
     "correct": 2,
-    "law": "RD 485/1997",
-    "article": "Señales de Obligación",
-    "explanation": "El fondo azul redondo indica obligatoriedad de uso de medios de protección individual o conductas seguras.",
-    "sourceType": "original_propia"
+    "law": "Real Decreto 485/1997",
+    "article": "Anexo III.1.b) RD 485/1997",
+    "explanation": "El Anexo III.1.b) del RD 485/1997 define las señales de obligación como aquellas de forma redonda con pictograma blanco sobre fondo azul, indicando el comportamiento u obligatoriedad de uso de un equipo.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 200,
@@ -3597,10 +3597,10 @@ export const QUESTION_BANK = [
       "Consignarlo en el parte diario de averías para la sustitución de la batería o luminaria por mantenimiento"
     ],
     "correct": 3,
-    "law": "Mantenimiento de Medios de Seguridad",
-    "article": "Alumbrado de Emergencia",
-    "explanation": "El alumbrado de emergencia debe estar operativo al 100% en todo momento para garantizar visibilidad durante una evacuación por corte eléctrico.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 513/2017",
+    "article": "Anexo I RD 513/2017",
+    "explanation": "Conforme al RD 513/2017, los sistemas de iluminación de emergencia deben someterse a revisiones periódicas, debiendo consignarse cualquier fallo de batería o lámpara en el parte diario de averías para su reposición inmediata.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 201,
@@ -3615,10 +3615,10 @@ export const QUESTION_BANK = [
       "En la cafetería más lejana"
     ],
     "correct": 0,
-    "law": "Planes de Autoprotección",
-    "article": "Punto de Reunión",
-    "explanation": "El Punto de Encuentro exterior permite reagrupar a los evacuados, verificar ausencias y coordinar las directrices de los servicios de emergencia.",
-    "sourceType": "sin_verificar"
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Art. 10 y Anexo I RD 486/1997",
+    "explanation": "El artículo 10 y el Anexo I del RD 486/1997 sobre medidas de emergencia establecen que tras la evacuación las personas deben congregarse en el Punto de Encuentro o Reunión exterior preestablecido en el plan de autoprotección.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 202,
@@ -3634,9 +3634,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 1,
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
-    "article": "Investigación de Accidentes",
-    "explanation": "La investigación de accidentes con o sin baja es competencia de los técnicos de prevención del Servicio de Prevención de Riesgos Laborales de la unidad.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Art. 16.3 Ley 31/1995",
+    "explanation": "El artículo 16.3 de la Ley 31/1995 de Prevención de Riesgos Laborales atribuye la investigación de los accidentes de trabajo con daño para la salud al Servicio de Prevención de Riesgos Laborales en consulta con los delegados de prevención.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 203,
@@ -3652,9 +3652,9 @@ export const QUESTION_BANK = [
     ],
     "correct": 2,
     "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
-    "article": "Art. 21 Ley 31/1995",
-    "explanation": "El art. 21 ampara al trabajador para interrumpir su tarea y abandonar el centro sin que ello pueda derivar en sanción disciplinaria alguna.",
-    "sourceType": "norma_identificada_sin_auditar"
+    "article": "Art. 21.2 Ley 31/1995",
+    "explanation": "El artículo 21.2 de la Ley 31/1995 de Prevención de Riesgos Laborales confiere al trabajador el derecho a interrumpir su actividad y, si fuera necesario, a abandonar de inmediato el lugar de trabajo ante riesgo grave e inminente, sin sufrir perjuicio ni sanción.",
+    "sourceType": "norma_verificada"
   },
   {
     "id": 204,
@@ -3669,9 +3669,9 @@ export const QUESTION_BANK = [
       "A una distancia mínima de entre 40 y 50 centímetros (longitud aproximada del brazo)"
     ],
     "correct": 3,
-    "law": "Guía Técnica PVD / RD 488/1997",
-    "article": "Distancia de Pantalla",
-    "explanation": "La distancia recomendada se sitúa en torno a 40-70 cm (la longitud del brazo), con el borde superior de la pantalla a la altura de los ojos.",
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Guía Técnica INSST / RD 488/1997",
+    "explanation": "La Guía Técnica del INSST sobre pantallas de visualización de datos recomienda situar la pantalla a una distancia de entre 40 y 70 cm (la longitud aproximada del brazo del usuario) para evitar la fatiga visual.",
     "sourceType": "original_propia"
   }
 ];

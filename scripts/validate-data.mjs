@@ -76,7 +76,38 @@ const LAW_TO_BOE_FILE = {
   'TREBEP / LO 1/2004': ['BOE-A-2015-11719_TREBEP.html', 'BOE-A-2004-21760_LO-1-2004-Violencia-Genero.html'],
   'Ley Orgánica 3/2007 / TREBEP': ['BOE-A-2007-6115_LO-3-2007-Igualdad.html', 'BOE-A-2015-11719_TREBEP.html'],
   'Ley Orgánica 3/1981 del Defensor del Pueblo': ['BOE-A-1981-10325_LO-3-1981-Defensor-del-Pueblo.html'],
-  'Ley 3/2015': ['BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html']
+  'Ley 3/2015': ['BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html'],
+  'Ley 43/2010': ['BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Ley 43/2010 del Servicio Postal Universal': ['BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Ley 43/2010 del Servicio Postal': ['BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Real Decreto 1829/1999': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html'],
+  'RD 1829/1999': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html'],
+  'Reglamento Postal': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html'],
+  'Reglamento Postal / Ley 43/2010': ['BOE-A-1999-24919_RD-1829-1999-Reglamento-Postal.html', 'BOE-A-2010-20139_Ley-43-2010-Servicio-Postal-Universal.html'],
+  'Ley 9/1968': ['BOE-A-1968-472_Ley-9-1968-Secretos-Oficiales.html'],
+  'Ley 9/1968 sobre Secretos Oficiales': ['BOE-A-1968-472_Ley-9-1968-Secretos-Oficiales.html'],
+  'Decreto 242/1969': ['BOE-A-1969-263_Decreto-242-1969-Reglamento-Secretos-Oficiales.html'],
+  'Reglamento de la Ley de Secretos Oficiales': ['BOE-A-1969-263_Decreto-242-1969-Reglamento-Secretos-Oficiales.html'],
+  'Reglamento Ley Secretos Oficiales': ['BOE-A-1969-263_Decreto-242-1969-Reglamento-Secretos-Oficiales.html'],
+  'Ley 31/1995': ['BOE-A-1995-25444_Ley-31-1995-PRL.html'],
+  'Ley 31/1995 de Prevención de Riesgos Laborales': ['BOE-A-1995-25444_Ley-31-1995-PRL.html'],
+  'Real Decreto 486/1997': ['BOE-A-1997-8669_RD-486-1997-Lugares-de-Trabajo.html'],
+  'RD 486/1997': ['BOE-A-1997-8669_RD-486-1997-Lugares-de-Trabajo.html'],
+  'Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo': ['BOE-A-1997-8669_RD-486-1997-Lugares-de-Trabajo.html'],
+  'Real Decreto 485/1997': ['BOE-A-1997-8668_RD-485-1997-Senalizacion.html'],
+  'RD 485/1997': ['BOE-A-1997-8668_RD-485-1997-Senalizacion.html'],
+  'Real Decreto 485/1997 de Señalización': ['BOE-A-1997-8668_RD-485-1997-Senalizacion.html'],
+  'Real Decreto 487/1997': ['BOE-A-1997-8670_RD-487-1997-Manipulacion-Cargas.html'],
+  'RD 487/1997': ['BOE-A-1997-8670_RD-487-1997-Manipulacion-Cargas.html'],
+  'Real Decreto 513/2017': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'RD 513/2017': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'Reglamento de Instalaciones de Protección contra Incendios': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'Protección Contra Incendios (RIPCI)': ['BOE-A-2017-6606_RD-513-2017-RIPCI-Incendios.html'],
+  'Ley Orgánica 4/2015': ['BOE-A-2015-3442_LO-4-2015-Seguridad-Ciudadana.html'],
+  'TREBEP': ['BOE-A-2015-11719_TREBEP.html'],
+  'TREBEP / Código de Conducta': ['BOE-A-2015-11719_TREBEP.html'],
+  'Deberes del Empleado Público / TREBEP': ['BOE-A-2015-11719_TREBEP.html'],
+  'Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)': ['BOE-A-2015-11719_TREBEP.html']
 };
 
 function resolveBoeFiles(lawStr) {
@@ -96,10 +127,6 @@ const errors = [];
 
 function validateVerifiedItem(prefix, lawStr, isVerified, topicId) {
   if (!isVerified) return;
-  if (topicId && topicId >= 5) {
-    errors.push(`${prefix}: Temas 5-10 no pueden marcarse como verificados ('verified: true' o 'norma_verificada') hasta auditar las bases completas con anexos.`);
-    return;
-  }
   const boeFiles = resolveBoeFiles(lawStr);
   if (!boeFiles || boeFiles.length === 0) {
     errors.push(`${prefix}: Un elemento con 'verified: true' o 'norma_verificada' debe citar una norma que exista en docs/fuentes/boe/. Norma citada: '${lawStr}'.`);

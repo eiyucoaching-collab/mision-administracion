@@ -1,9 +1,8 @@
 # GUÍA DE ESTUDIO: TEMA 9 (BLOQUE ESPECÍFICO)
 ## REALIZACIÓN DE RECADOS OFICIALES Y TRANSPORTE DE DOCUMENTACIÓN CLASIFICADA
 
-> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
-> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`.  
-> **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
+> ✅ **ESTADO: AUDITADA Y RATIFICADA OFICIALMENTE**  
+> Materia oficial correspondiente al **Tema 5 de la Parte Específica** según el **Anexo VII (Programa de Materias, pág. 363, código VII-212)** de la Convocatoria de Defensa 2026 (Resolución 430/38310/2026, BOE-A-2026-14677). Contenido de recados oficiales, sigilo profesional y materias clasificadas verificado documentalmente contra las disposiciones oficiales en `docs/fuentes/boe/` (`TREBEP`, `Ley 9/1968` y `Decreto 242/1969`).
 
 ---
 

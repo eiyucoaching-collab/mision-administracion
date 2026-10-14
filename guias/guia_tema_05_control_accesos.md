@@ -1,9 +1,8 @@
 # GUÍA DE ESTUDIO: TEMA 5 (BLOQUE ESPECÍFICO)
 ## CONTROL DE ACCESOS Y ATENCIÓN A VISITANTES EN EL MINISTERIO DE DEFENSA
 
-> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
-> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`.  
-> **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
+> ✅ **ESTADO: AUDITADA Y RATIFICADA OFICIALMENTE**  
+> Materia oficial correspondiente al **Tema 1 de la Parte Específica** según el **Anexo VII (Programa de Materias, pág. 363, código VII-212)** de la Convocatoria de Defensa 2026 (Resolución 430/38310/2026, BOE-A-2026-14677). Contenido procedimental, de seguridad física y normativo verificado documentalmente contra las disposiciones oficiales custodiadas en `docs/fuentes/boe/` (`LO 4/2015`, `RDL 1/2013`, `RD 486/1997` y `IV CUAGE`).
 
 ---
 
