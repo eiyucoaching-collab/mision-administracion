@@ -1,0 +1,828 @@
+[
+  {
+    "part": 1,
+    "indexInPart": 0,
+    "questionNumber": 1,
+    "pregunta": "¿Cuál es el tamaño de papel más comúnmente utilizado para fotocopiar documentos?",
+    "opciones": [
+      "297 x 210 mm.",
+      "260 x 148 mm.",
+      "420 x 297 mm.",
+      "299 x 210 mm."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 1,
+    "questionNumber": 2,
+    "pregunta": "La reforma de la Constitución española introducida en 2024, actualiza en lenguaje y contenido el artículo 49 dedicado a los derechos y a la protección de las personas con discapacidad eliminando la expresión:",
+    "opciones": [
+      "Discapacitados.",
+      "Disminuidos.",
+      "Minusválidos.",
+      "Personas con diversidad funcional."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 2,
+    "questionNumber": 3,
+    "pregunta": "¿Cuál es la prioridad en la distribución interna de correspondencia confidencial?",
+    "opciones": [
+      "Entregarla personalmente al destinatario registrado.",
+      "Dejarla en un buzón interno con acceso restringido.",
+      "Solicitar la firma del destinatario en el momento de la entrega.",
+      "Guardarla en un depósito de correspondencia hasta que el destinatario la reclame."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 3,
+    "questionNumber": 4,
+    "pregunta": "En la recepción de paquetería, ¿cuál es la acción correcta al recibir un paquete con daños visibles en el embalaje?",
+    "opciones": [
+      "Aceptarlo y registrar la incidencia en el sistema interno.",
+      "Rechazar el paquete y notificar al remitente.",
+      "Abrirlo en presencia del mensajero y verificar su contenido.",
+      "Notificar al destinatario y proceder según sus instrucciones antes de aceptarlo."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 4,
+    "questionNumber": 5,
+    "pregunta": "En el manejo de una máquina fotocopiadora multifuncional, ¿qué acción debe evitarse si el equipo muestra un error de impresión recurrente?",
+    "opciones": [
+      "Reiniciar la máquina antes de intentar de nuevo.",
+      "Limpiar los rodillos de papel siguiendo el manual.",
+      "Usar papel de diferente gramaje al recomendado.",
+      "Informar al servicio técnico y suspender su uso temporalmente."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 5,
+    "questionNumber": 6,
+    "pregunta": "De acuerdo a la Ley 50/1997, de 27 de noviembre, del Gobierno la secretaria del Consejo de Ministros corresponde:",
+    "opciones": [
+      "Al Presidente del Gobierno.",
+      "Al Vicepresidente del Gobierno.",
+      "Al Ministro de la Presidencia.",
+      "Al Ministro de Justicia."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 6,
+    "questionNumber": 7,
+    "pregunta": "Son órganos directivos en la organización central de la Administración General del Estado:",
+    "opciones": [
+      "Los Ministros.",
+      "Los Secretarios de Estado.",
+      "Los Delegados de Gobierno.",
+      "Los Subsecretarios."
+    ],
+    "correcta": 3,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 7,
+    "questionNumber": 8,
+    "pregunta": "¿Qué detalle no es necesario incluir al reportar una anomalía en el centro de trabajo?",
+    "opciones": [
+      "Fecha y hora del incidente.",
+      "Posibles responsables del incidente.",
+      "Descripción de los daños observados.",
+      "Personas presentes en el momento del incidente."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 8,
+    "questionNumber": 9,
+    "pregunta": "De acuerdo con el artículo 31 del Real Decreto Legislativo 5/2015, de 30 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto Básico del Empleado Público, se entiende por negociación colectiva:",
+    "opciones": [
+      "El derecho a participar, a través de las organizaciones sindicales, en los órganos de control y seguimiento de las entidades u organismos que legalmente se determine.",
+      "El derecho a la interposición de recursos en vía administrativa y jurisdiccional contra las resoluciones de los órganos de la administración.",
+      "La facultad de elegir representantes y constituir órganos unitarios a través de los cuales se instrumente la interlocución entre las Administraciones Públicas y sus empleados.",
+      "El derecho a negociar la determinación de condiciones de trabajo de los empleados de la Administración Pública."
+    ],
+    "correcta": 3,
+    "anulada": false
+  },
+  {
+    "part": 1,
+    "indexInPart": 9,
+    "questionNumber": 10,
+    "pregunta": "En caso de detectar un incendio en un área común del centro de trabajo, ¿cuál es la primera acción que debe realizar un empleado?",
+    "opciones": [
+      "Intentar extinguir el fuego con un extintor cercano.",
+      "Notificar al responsable de emergencias del centro.",
+      "Activar la alarma de incendios para iniciar la evacuación.",
+      "Asegurarse de que las vías de evacuación están despejadas."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 0,
+    "questionNumber": 11,
+    "pregunta": "De acuerdo al artículo 53 de la Constitución española podrán ser objeto de recurso de amparo ante el Tribunal Constitucional:",
+    "opciones": [
+      "Las libertades y derechos reconocidos en el artículo 14, la Sección segunda del Capítulo segundo del Título primero de la CE y la protección a la familia y a la infancia reconocida en el artículo 39.",
+      "Los derechos y deberes de los ciudadanos de la Sección segunda del Capítulo segundo del Título primero de la CE.",
+      "Las libertades y derechos reconocidos en el artículo 14, la Sección primera del Capítulo segundo del Título primero de la CE y la objeción de conciencia reconocida en el artículo 30.",
+      "Los principios reconocidos en el Capítulo Tercero del Título I."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 1,
+    "questionNumber": 12,
+    "pregunta": "Según la Constitución española no es un principio de actuación de las Administraciones Públicas:",
+    "opciones": [
+      "Eficacia y jerarquía.",
+      "Centralización.",
+      "Desconcentración.",
+      "Coordinación."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 2,
+    "questionNumber": 13,
+    "pregunta": "De los siguientes, señale cual no es un derecho individual de los empleados públicos ejercido de forma colectiva:",
+    "opciones": [
+      "El derecho a la libre asociación profesional.",
+      "El derecho a la libertad sindical.",
+      "El derecho al planteamiento de conflictos colectivos de trabajo.",
+      "El derecho a la negociación colectiva y a la participación en la determinación de las condiciones de trabajo."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 3,
+    "questionNumber": 14,
+    "pregunta": "La Constitución establece que el Defensor del Pueblo podrá supervisar la actividad de la Administración dando cuenta:",
+    "opciones": [
+      "Al Presidente del Gobierno.",
+      "Al Consejo de Ministros.",
+      "A las Cortes Generales.",
+      "Al Tribunal Constitucional."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 4,
+    "questionNumber": 15,
+    "pregunta": "¿Qué tipo de tóner utilizan las fotocopiadoras láser para realizar copias?",
+    "opciones": [
+      "Tóner en polvo y líquido.",
+      "Depositan tinta líquida sobre el papel.",
+      "Tóner de cartucho y tinta.",
+      "Utilizan tóner seco que se fusiona con la página mediante un rodillo a alta temperatura."
+    ],
+    "correcta": 3,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 5,
+    "questionNumber": 16,
+    "pregunta": "En un edificio administrativo, un empleado detecta que una alarma de incendio está activa, pero no hay señales evidentes de fuego o humo. ¿Cuál es el procedimiento más seguro en esta situación?",
+    "opciones": [
+      "Ignorar la alarma y continuar trabajando hasta que se confirme el incidente.",
+      "Activar el protocolo de evacuación inmediatamente, aunque sea una falsa alarma.",
+      "Verificar visualmente las áreas cercanas antes de iniciar el protocolo de evacuación.",
+      "Notificar al responsable de seguridad y esperar confirmación antes de actuar."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 6,
+    "questionNumber": 17,
+    "pregunta": "La responsabilidad criminal del Presidente y de los demás miembros del Gobierno será exigible, en su caso, ante:",
+    "opciones": [
+      "La Audiencia Nacional.",
+      "El Tribunal Superior de Justicia.",
+      "La Sala de lo Penal del Tribunal Supremo.",
+      "El Tribunal Constitucional."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 7,
+    "questionNumber": 18,
+    "pregunta": "¿Cuál es la diferencia principal entre los tamaños de papel A3 y A4?",
+    "opciones": [
+      "A4 es 1,5 veces más grande que el A3.",
+      "A3 es la mitad que el tamaño A4.",
+      "A3 tiene el doble de tamaño que A4.",
+      "A4 es 1,5 veces más pequeño que el A3."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 8,
+    "questionNumber": 19,
+    "pregunta": "Un empleado realiza un recado oficial y se le solicita firmar un documento en nombre del centro. ¿Qué debe hacer?",
+    "opciones": [
+      "Firmar únicamente si cuenta con autorización escrita previa.",
+      "Negarse a firmar y notificar inmediatamente al responsable directo.",
+      "Firmar con su nombre y cargo, registrando el acto en el parte de trabajo.",
+      "Solicitar al emisor del documento una copia para llevarla al centro antes de firmar."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 2,
+    "indexInPart": 9,
+    "questionNumber": 20,
+    "pregunta": "De las siguientes alternativas, señala cuál es la diferencia principal entre el empaquetado y el embalaje en la gestión administrativa de documentos y productos, y cómo contribuyen a la protección de los envíos:",
+    "opciones": [
+      "El empaquetado es el proceso de asegurar productos en grandes cajas para protegerlos en su transporte, mientras que el embalaje consiste en envolver individualmente cada documento administrativo.",
+      "El empaquetado se refiere a la disposición individual de productos en cajas, mientras que el embalaje implica el uso de materiales para agrupar y proteger múltiples productos durante el transporte.",
+      "Tanto el empaquetado como el embalaje consisten en colocar documentos en sobres o cajas; la diferencia es que el embalaje requiere sellado adicional para evitar aperturas.",
+      "El empaquetado y el embalaje son términos intercambiables en administración y ambos se usan exclusivamente para asegurar documentos en sobres individuales."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 0,
+    "questionNumber": 21,
+    "pregunta": "En relación con el franqueo en la correspondencia postal, ¿cuál de las siguientes afirmaciones describe correctamente el proceso para el envío masivo de cartas por una administración pública a través de un sistema de franqueo pagado?",
+    "opciones": [
+      "Las cartas con franqueo pagado se envían a través del sistema de mensajería electrónica de la administración, lo cual evita el uso de sellos y el registro físico de los envíos.",
+      "Para el franqueo pagado, los clientes frecuentes llevan sus cartas al Centro de Admisión Masiva, donde se franquean con sellos individuales antes de ser enviadas.",
+      "Los envíos de franqueo pagado incluyen una etiqueta de \"franqueo pagado\" en el sobre y requieren ser clasificados por tipo y destino en Centros de Admisión Masiva.",
+      "Las cartas con franqueo pagado solo pueden ser enviadas mediante correo electrónico, ya que el franqueo se adjunta digitalmente al mensaje."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 1,
+    "questionNumber": 22,
+    "pregunta": "Señale la respuesta correcta respecto del personal laboral de las administraciones públicas:",
+    "opciones": [
+      "Es personal laboral el que en virtud de nombramiento formalizado por escrito, en cualquiera de las modalidades de contratación de personal previstas en la legislación laboral, presta servicios retribuidos por las Administraciones Públicas.",
+      "Es personal laboral el que en virtud de contrato de trabajo formalizado por escrito, en cualquiera de las modalidades de contratación de personal previstas en la legislación laboral, presta servicios retribuidos por las Administraciones Públicas.",
+      "Es personal laboral el que en virtud de contrato de trabajo formalizado por escrito presta servicios retribuidos por las Administraciones Públicas únicamente con carácter permanente.",
+      "Es personal laboral el que en virtud de nombramiento formalizado por escrito presta servicios retribuidos por las Administraciones Públicas únicamente con carácter permanente."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 2,
+    "questionNumber": 23,
+    "pregunta": "¿Qué acción debe realizarse al recibir documentación confidencial que llega abierta?",
+    "opciones": [
+      "Informar al remitente y al destinatario antes de aceptarla.",
+      "Registrar la recepción, marcarla como incidente y entregarla al destinatario.",
+      "Rechazar la entrega y solicitar una nueva copia al remitente.",
+      "Guardarla en un área segura hasta confirmar que el destinatario puede recibirla."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 3,
+    "questionNumber": 24,
+    "pregunta": "De acuerdo con el artículo 15 de la Ley 39/2006, de Promoción de la Autonomía Personal y Atención a las Personas en Situación de Dependencia no se encuentra comprendido dentro del catálogo de servicios:",
+    "opciones": [
+      "Servicio de teleasistencia.",
+      "Cuidados personales.",
+      "La prestación económica vinculada al servicio.",
+      "Centro de Día para menores de 65 años."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 4,
+    "questionNumber": 25,
+    "pregunta": "Respecto a los elementos y ventajas del correo electrónico, ¿cuál de las siguientes opciones describe adecuadamente sus características de seguridad y gestión en comparación con la correspondencia en papel?",
+    "opciones": [
+      "La facilidad de organización del correo electrónico permite crear carpetas personalizadas, pero la presencia de spam y posibles virus requiere medidas de seguridad adicionales como filtros y programas antivirus.",
+      "El correo electrónico permite una distribución ilimitada y garantiza la seguridad total de la información transmitida, eliminando la necesidad de clasificar correos electrónicos en carpetas.",
+      "A diferencia de la correspondencia en papel, el correo electrónico es inmune a los riesgos de intrusión, debido a que los correos llegan directamente a los destinatarios designados.",
+      "La gestión del correo electrónico es más compleja que la correspondencia en papel porque cada mensaje debe imprimirse para garantizar su validez y seguridad."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 5,
+    "questionNumber": 26,
+    "pregunta": "Un sobre clasificado como \"urgente\" es entregado en recepción, pero el sistema automatizado de franqueo no está operativo en ese momento. ¿Qué debería hacer el encargado?",
+    "opciones": [
+      "Proceder a franqueo manual del sobre, registrando la incidencia en el sistema una vez restablecido.",
+      "Guardar el sobre en un área segura hasta que el sistema vuelva a estar operativo.",
+      "Notificar al remitente del problema y esperar instrucciones antes de proceder.",
+      "Priorizar otros envíos mientras espera a que el sistema automatizado funcione."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 6,
+    "questionNumber": 27,
+    "pregunta": "De los siguientes, ¿cuál no es un derecho individual de los empleados públicos?",
+    "opciones": [
+      "El derecho a recibir protección eficaz en materia de seguridad y salud en el trabajo.",
+      "El derecho a la libre asociación profesional.",
+      "El derecho a la libertad de expresión, sin que esta pueda ser objeto de limitación alguna.",
+      "El derecho a las vacaciones, descansos, permisos y licencias."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 7,
+    "questionNumber": 28,
+    "pregunta": "En el control de acceso de un edificio administrativo, ¿qué medida es más efectiva para garantizar la seguridad sin entorpecer la operativa diaria?",
+    "opciones": [
+      "Instalar cámaras de vigilancia en todas las áreas comunes.",
+      "Usar tarjetas identificativas con control biométrico.",
+      "Implementar un sistema de validación digital en tiempo real para visitantes.",
+      "Exigir firma manual de todos los visitantes en un libro de registro."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 8,
+    "questionNumber": 29,
+    "pregunta": "¿Cuál de las siguientes afirmaciones es incorrecta respecto a las similitudes y diferencias entre una carta certificada y un burofax?",
+    "opciones": [
+      "Ambos servicios ofrecen confirmación de recepción al remitente.",
+      "Tanto la carta certificada como el burofax son válidos como prueba legal de envío y recepción.",
+      "Ambos servicios permiten enviar documentos de forma segura.",
+      "El burofax es más rápido y generalmente más costoso que la carta certificada."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 3,
+    "indexInPart": 9,
+    "questionNumber": 30,
+    "pregunta": "Respecto al burofax, de las siguientes afirmaciones señale la verdadera:",
+    "opciones": [
+      "Es un servicio de envío ordinario utilizado para documentos que requieren discreción.",
+      "Permite enviar documentos a través de internet y tiene validez como prueba legal en juicios.",
+      "Es un servicio postal de envío urgente con valor probatorio en procedimientos legales.",
+      "Consiste en el envío de paquetes y documentos con acuse de recibo y notificación certificada."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 0,
+    "questionNumber": 31,
+    "pregunta": "De acuerdo artículo 10 de la Ley Orgánica 1/2004, de 28 de diciembre, de Medidas de Protección Integral contra la Violencia de Género, la publicidad que utilice la imagen de la mujer con carácter vejatorio o discriminatorio se considerará:",
+    "opciones": [
+      "Ilegal.",
+      "Ilícita.",
+      "Injusta.",
+      "Inmoral."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 1,
+    "questionNumber": 32,
+    "pregunta": "Si un visitante se niega a identificarse en la entrada, ¿qué debe hacer el responsable?",
+    "opciones": [
+      "Denegar el acceso de manera educada y notificar el incidente al supervisor de seguridad.",
+      "Permitir el acceso si el visitante afirma tener una reunión agendada.",
+      "Consultar con el departamento de destino si se autoriza el acceso sin identificación.",
+      "Solicitar la intervención de un superior mientras retiene al visitante en recepción."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 2,
+    "questionNumber": 33,
+    "pregunta": "Al usar una máquina multifuncional para una gran cantidad de copias, ¿qué paso es indispensable para evitar errores de impresión?",
+    "opciones": [
+      "Realizar una prueba de impresión inicial con una sola hoja.",
+      "Configurar el tamaño de papel en el menú predeterminado.",
+      "Vaciar las bandejas de salida antes de iniciar la tarea.",
+      "Cambiar el tóner aunque aún quede suficiente para algunas copias."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 3,
+    "questionNumber": 34,
+    "pregunta": "La Constitución española en su artículo 1.1 propugna como un valor superior de su ordenamiento jurídico:",
+    "opciones": [
+      "La convivencia democrática.",
+      "La justicia.",
+      "La dignidad de la persona.",
+      "Un orden económico y social justo."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 4,
+    "questionNumber": 35,
+    "pregunta": "¿Qué información es imprescindible incluir en un reporte de anomalía en el sistema eléctrico del edificio?",
+    "opciones": [
+      "Fecha, hora, ubicación y descripción del impacto en las actividades del centro.",
+      "Fecha, hora, ubicación exacta y descripción detallada del incidente.",
+      "Descripción de las posibles causas del fallo y el tiempo estimado para su resolución.",
+      "Registro fotográfico del área afectada junto con el nombre del responsable de mantenimiento."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 5,
+    "questionNumber": 36,
+    "pregunta": "La Constitución española garantiza en su artículo 16 la libertad ideológica, religiosa y de culto. Señale la respuesta incorrecta:",
+    "opciones": [
+      "Las manifestaciones ideológicas, religiosas y de culto de los individuos y de las comunidades tendrán como única limitación el respeto de los derechos de los demás.",
+      "Los poderes públicos tendrán en cuenta las creencias religiosas de la sociedad española y mantendrán las consiguientes relaciones de cooperación con la Iglesia Católica y las demás confesiones.",
+      "Nadie podrá ser obligado a declarar sobre su ideología, religión y creencias.",
+      "Ninguna confesión tendrá carácter estatal."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 6,
+    "questionNumber": 37,
+    "pregunta": "En el caso de detectar una puerta de emergencia bloqueada, ¿qué procedimiento debe seguir un empleado del centro?",
+    "opciones": [
+      "Intentar desbloquear la puerta para que esté operativa de inmediato.",
+      "Reportar la anomalía al responsable de seguridad y registrar el incidente.",
+      "Informar al supervisor inmediato y esperar instrucciones antes de actuar.",
+      "Bloquear el acceso a la zona mientras se evalúa la situación."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 7,
+    "questionNumber": 38,
+    "pregunta": "¿Qué se considera una anomalía en el centro de trabajo?",
+    "opciones": [
+      "La falta de material en un almacén cuya reposición está en trámite.",
+      "Un fallo eléctrico que afecta parcialmente al funcionamiento de una planta.",
+      "Una temperatura inadecuada en el área de trabajo que supera los límites reglamentarios.",
+      "Un retraso ocasional en la entrega de correspondencia interna."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 8,
+    "questionNumber": 39,
+    "pregunta": "El Presidente del Gobierno en funciones no podrá ejercer las siguientes facultades:",
+    "opciones": [
+      "Representar al Gobierno.",
+      "Plantear la cuestión de confianza.",
+      "Resolver los conflictos de atribuciones que puedan surgir entre los diferentes Ministerios.",
+      "Interponer el recurso de inconstitucionalidad."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 4,
+    "indexInPart": 9,
+    "questionNumber": 40,
+    "pregunta": "¿Cuál es el procedimiento adecuado si el indicador de \"atasco de papel\" se enciende en una fotocopiadora?",
+    "opciones": [
+      "Apagar la máquina inmediatamente y llamar al servicio técnico.",
+      "Cerrar todas las cubiertas y esperar a que la fotocopiadora realice un auto reinicio.",
+      "Dejar el interruptor encendido, retirar suavemente el papel atascado y luego reiniciar la máquina.",
+      "Limpiar la bandeja de recepción y retirar el papel para que no se atasque en el futuro."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 0,
+    "questionNumber": 41,
+    "pregunta": "En el contexto de las tarifas y tiempos de envío en Correos, ¿cuál de los siguientes factores NO afecta directamente al costo de envío de una carta?",
+    "opciones": [
+      "El tipo de envío (ordinario, certificado o urgente).",
+      "La distancia o lejanía del destino.",
+      "La urgencia del envío.",
+      "La periodicidad con la que el remitente utiliza el servicio de Correos."
+    ],
+    "correcta": 3,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 1,
+    "questionNumber": 42,
+    "pregunta": "¿Cuál de los siguientes tamaños en centímetros corresponde al formato de papel A6?",
+    "opciones": [
+      "21 x 14,8 cm.",
+      "29,7 x 21 cm.",
+      "14,8 x 10,5 cm.",
+      "14,7 x 10,4 cm."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 2,
+    "questionNumber": 43,
+    "pregunta": "Los Subsecretarios serán nombrados y separados por:",
+    "opciones": [
+      "Real decreto de Presidente del Gobierno, a propuesta del titular del Ministerio.",
+      "Real Decreto del Consejo de Ministros, a propuesta del titular del Ministerio.",
+      "Orden del Ministro titular del Ministerio.",
+      "Resolución del Ministro titular del Ministerio."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 3,
+    "questionNumber": 44,
+    "pregunta": "Cuando se utiliza una máquina multifuncional para imprimir documentos confidenciales, ¿qué configuración es imprescindible revisar antes de iniciar el trabajo?",
+    "opciones": [
+      "El tipo de papel cargado en la bandeja para garantizar que cumple con los estándares del documento.",
+      "La configuración de seguridad para evitar que los documentos se almacenen en la máquina.",
+      "El formato del archivo enviado, asegurándose de que sea compatible con el sistema de impresión.",
+      "La prioridad de la cola de impresión para evitar retrasos en la producción de otros documentos."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 4,
+    "questionNumber": 45,
+    "pregunta": "Los plazos máximos para resolver los procedimientos de reconocimiento de la situación de dependencia y de elaboración del Programa Individual de Atención desde la fecha en que la solicitud haya tenido entrada en el registro del órgano competente para su tramitación serán:",
+    "opciones": [
+      "1 mes.",
+      "3 meses.",
+      "6 meses.",
+      "1 año."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 5,
+    "questionNumber": 46,
+    "pregunta": "Una máquina fotocopiadora muestra un mensaje indicando \"Tóner bajo\". ¿Cuál es la acción más adecuada a realizar?",
+    "opciones": [
+      "Continuar usando la máquina hasta que el tóner se agote completamente.",
+      "Sustituir el cartucho de tóner inmediatamente para evitar interrupciones.",
+      "Realizar una limpieza del tambor antes de reemplazar el tóner.",
+      "Consultar el manual del equipo para verificar si es necesario sustituir el tóner de inmediato."
+    ],
+    "correcta": 3,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 6,
+    "questionNumber": 47,
+    "pregunta": "Si un empleado observa una posible intrusión en un área restringida, ¿qué acción debe tomar primero?",
+    "opciones": [
+      "Informar al responsable de seguridad y registrar la anomalía en el sistema de incidencias.",
+      "Notificar inmediatamente al encargado del área y solicitar instrucciones.",
+      "Confirmar visualmente desde una distancia segura si la persona sigue en el área restringida.",
+      "Activar el protocolo de emergencia general para alertar a todo el personal."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 7,
+    "questionNumber": 48,
+    "pregunta": "Con arreglo a lo previsto en el artículo 3 de la Ley Orgánica 3/2007, el principio de igualdad de trato entre mujeres y hombres supone especialmente la ausencia de toda discriminación directa o indirecta derivadas de:",
+    "opciones": [
+      "La maternidad, la asunción de obligaciones familiares y el estado civil.",
+      "El acceso el empleo, la formación y la promoción profesional.",
+      "La conciliación de la vida personal, laboral y familiar.",
+      "La especial vulnerabilidad que presentan las mujeres que pertenecen a minorías, las mujeres migrantes y las mujeres con discapacidad."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 8,
+    "questionNumber": 49,
+    "pregunta": "¿Qué información no es estrictamente necesaria en un reporte de anomalías en el centro de trabajo?",
+    "opciones": [
+      "Fecha y hora exacta del incidente.",
+      "Posibles causas según el observador.",
+      "Ubicación exacta de la anomalía.",
+      "Acciones inmediatas realizadas para controlar el problema."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 5,
+    "indexInPart": 9,
+    "questionNumber": 50,
+    "pregunta": "En la gestión de correspondencia oficial dentro de una organización, las etapas que deben seguirse para garantizar un tratamiento adecuado son:",
+    "opciones": [
+      "Recepción, clasificación, distribución y archivo.",
+      "Registro, recepción, distribución y archivo.",
+      "Recepción, registro, clasificación y distribución.",
+      "Clasificación, recepción, registro y archivo."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 0,
+    "questionNumber": 51,
+    "pregunta": "Al utilizar una máquina fotocopiadora, un empleado detecta una calidad deficiente en las impresiones (bandas o sombras). ¿Cuál es el primer paso que debe realizar?",
+    "opciones": [
+      "Limpiar el cristal del escáner con un paño seco.",
+      "Sustituir el tóner de la máquina por uno nuevo.",
+      "Consultar el manual técnico de la máquina para verificar posibles causas.",
+      "Detener las operaciones y contactar con el servicio técnico."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 1,
+    "questionNumber": 52,
+    "pregunta": "¿Qué tipo de correspondencia debe ser tratada con prioridad máxima en un centro administrativo?",
+    "opciones": [
+      "Correspondencia interna clasificada como \"confidencial\".",
+      "Envíos certificados con acuse de recibo.",
+      "Documentación remitida por organismos oficiales con plazo establecido.",
+      "Cualquier correspondencia con destinatarios del área de dirección."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 2,
+    "questionNumber": 53,
+    "pregunta": "Si se detecta una fuga de agua en una oficina del centro de trabajo, ¿qué acción debe priorizar el empleado?",
+    "opciones": [
+      "Colocar señales de advertencia para evitar accidentes.",
+      "Notificar de inmediato al servicio de mantenimiento del centro.",
+      "Cortar el suministro de agua si es posible.",
+      "Registrar la incidencia en el libro de anomalías del edificio."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 3,
+    "questionNumber": 54,
+    "pregunta": "Según el Real Decreto 1829/1999, de 3 de diciembre, por el que se regula la prestación de los servicios postales, se entiende por envío certificado:",
+    "opciones": [
+      "Un envío que garantiza la entrega al destinatario o a su representante autorizado, con prueba documental de la misma.",
+      "Un envío que incluye acuse de recibo para garantizar la trazabilidad completa.",
+      "Un envío que permite una reclamación formal en caso de pérdida o deterioro del contenido.",
+      "Un envío que asegura la indemnización automática por extravío, conforme al valor declarado."
+    ],
+    "correcta": 0,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 4,
+    "questionNumber": 55,
+    "pregunta": "Un empleado es enviado a realizar un recado oficial fuera del centro y se encuentra con un obstáculo que le impide completarlo en el tiempo asignado. ¿Qué debe hacer según el protocolo habitual?",
+    "opciones": [
+      "Intentar solucionar el obstáculo por su cuenta antes de continuar.",
+      "Notificar inmediatamente al responsable directo y esperar instrucciones.",
+      "Volver al centro de trabajo para informar de la situación.",
+      "Continuar con el recado sin notificar el obstáculo y justificar el retraso al regresar."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 5,
+    "questionNumber": 56,
+    "pregunta": "Al recibir un paquete identificado como \"material peligroso\", ¿qué debe hacer el encargado de recepción?",
+    "opciones": [
+      "Aceptar el paquete si tiene etiquetas de seguridad visibles.",
+      "Rechazar el paquete y contactar inmediatamente al remitente.",
+      "Aceptar el paquete únicamente si está autorizado previamente por la dirección.",
+      "Notificar al responsable de seguridad antes de tomar una decisión."
+    ],
+    "correcta": 3,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 6,
+    "questionNumber": 57,
+    "pregunta": "Señale la función principal del acuse de recibo en el servicio de Correos:",
+    "opciones": [
+      "Lo primordial es garantizar la seguridad de los documentos durante el transporte.",
+      "Ofrecer un servicio de envío urgente para documentos importantes.",
+      "Informar al remitente sobre la recepción efectiva de su envío.",
+      "Facilitar el seguimiento del envío hasta su entrega final."
+    ],
+    "correcta": 2,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 7,
+    "questionNumber": 58,
+    "pregunta": "En qué grado se clasifica la situación de dependencia cuando la persona necesita ayuda para realizar varias actividades básicas de la vida diaria dos o tres veces al día, pero no quiere el apoyo permanente de un cuidador o tiene necesidades de apoyo extenso para su autonomía personal.",
+    "opciones": [
+      "Grado I. Dependencia moderada.",
+      "Grado II. Dependencia severa.",
+      "Grado III. Gran dependencia.",
+      "Grado IV. Invalidez total."
+    ],
+    "correcta": 1,
+    "anulada": false
+  },
+  {
+    "part": 6,
+    "indexInPart": 8,
+    "questionNumber": 59,
+    "pregunta": "Si un empleado oficial encuentra dificultades para completar un recado en el tiempo asignado, ¿qué debe hacer primero?",
+    "opciones": [
+      "Informar al responsable inmediato desde el lugar donde se encuentra.",
+      "Finalizar el recado aunque supere el tiempo previsto.",
+      "Abandonar el recado y regresar al centro para explicar la situación.",
+      "Solicitar a otro compañero que complete el recado por él."
+    ],
+    "correcta": 0,
+    "anulada": false
+  }
+]

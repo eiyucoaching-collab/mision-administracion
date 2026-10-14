@@ -10,3 +10,5 @@ godot_export/
 legacy/godot_export/
 .godot/
 *.import
+scratch/
+

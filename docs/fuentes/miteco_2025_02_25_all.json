@@ -1,0 +1,930 @@
+{
+  "regular": [
+    {
+      "num": 1,
+      "isReserve": false,
+      "pregunta": "Según la Constitución Española, la forma política del Estado español es:",
+      "opciones": [
+        "La República democrática.",
+        "La Monarquía parlamentaria.",
+        "La Monarquía moderada.",
+        "Ninguna de las anteriores."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 2,
+      "isReserve": false,
+      "pregunta": "La Constitución Española se fundamenta en la indisoluble unidad de la Nación española y reconoce y garantiza:",
+      "opciones": [
+        "El derecho a la autodeterminación e independencia de las nacionalidades y regiones que la integran.",
+        "El derecho a la creación de Estados federales de las naciones y regiones que la integran y la solidaridad entre todas ellas.",
+        "El derecho a la autonomía de las nacionalidades y regiones que la integran y la solidaridad entre todas ellas.",
+        "La soberanía compartida."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 3,
+      "isReserve": false,
+      "pregunta": "Según la Constitución Española el trabajo es:",
+      "opciones": [
+        "Un deber y un derecho que tienen todos los españoles.",
+        "Un deber y una obligación exclusivamente.",
+        "Un derecho para las mujeres y un deber para los padres de familia.",
+        "Un deber de los hombres."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 4,
+      "isReserve": false,
+      "pregunta": "Según la Constitución Española, ¿cuál de las siguientes opciones es correcta?",
+      "opciones": [
+        "El Gobierno dirige la política interior y exterior, la Administración civil y militar y la defensa del Estado. Ejerce la función ejecutiva y la potestad reglamentaria de acuerdo con la Constitución y las leyes.",
+        "El Gobierno se compone del Presidente, de los Vicepresidentes, en su caso, de los Ministros y de los demás miembros que establezca la ley.",
+        "El Presidente dirige la acción del Gobierno y coordina las funciones de los demás miembros del mismo, sin perjuicio de la competencia y responsabilidad directa de éstos en su gestión.",
+        "Todas las opciones anteriores son correctas."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 5,
+      "isReserve": false,
+      "pregunta": "En la Constitución Española de 1978, cuál es el título “Del Gobierno y la Administración”:",
+      "opciones": [
+        "Ninguno se denomina así.",
+        "En el Título IV.",
+        "No se regula en la Constitución “el Gobierno y la Administración”.",
+        "En el Título I."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 6,
+      "isReserve": false,
+      "pregunta": "De acuerdo con la Ley 40/2015, de 1 de octubre, de Régimen Jurídico del Sector Público, el Sector Público comprende a:",
+      "opciones": [
+        "Solo la Administración General del Estado.",
+        "Solo la Administración General del Estado y las Administraciones de las Comunidades Autónomas.",
+        "Solo la Administración General del Estado, las Administraciones de las Comunidades Autónomas y la Administración Local.",
+        "Solo la Administración General del Estado, las Administraciones de las Comunidades Autónomas, la Administración Local y el sector público institucional."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 7,
+      "isReserve": false,
+      "pregunta": "Según la Constitución Española:",
+      "opciones": [
+        "La responsabilidad criminal del Presidente y los demás miembros del Gobierno será exigible, en su caso, ante cualquier tribunal de justicia.",
+        "Si la acusación contra el Presidente y los demás miembros del Gobierno fuere por robo o hurto, sólo podrá ser planteada por la Cámara Alta.",
+        "La responsabilidad criminal del Presidente y los demás miembros del Gobierno será exigible, en su caso, ante la Sala de lo Penal del Tribunal Supremo.",
+        "La prerrogativa real de gracia sólo será aplicable a los miembros del Gobierno."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 8,
+      "isReserve": false,
+      "pregunta": "En la organización central de la Administración General del Estado son órganos superiores:",
+      "opciones": [
+        "Los Ministros y los Secretarios de Estado.",
+        "Los Ministros y los Subsecretarios.",
+        "Los Ministros, los Subsecretarios y los Directores Generales.",
+        "Todas las opciones anteriores son correctas."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 9,
+      "isReserve": false,
+      "pregunta": "En la organización central de la Administración General del Estado ¿cómo se clasifican los órganos según la Ley de Régimen Jurídico del Sector Público?",
+      "opciones": [
+        "Órganos superiores y directivos.",
+        "Órganos superiores y ejecutivos.",
+        "Órganos superiores y dependientes.",
+        "No establece ninguna clasificación."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 10,
+      "isReserve": false,
+      "pregunta": "El personal laboral sometido al IV Convenio Único, previo aviso y justificación, tendrá derecho a disfrutar de:",
+      "opciones": [
+        "15 días hábiles en caso de matrimonio.",
+        "15 días naturales en caso de matrimonio.",
+        "30 días hábiles en caso de matrimonio.",
+        "30 días naturales en caso de matrimonio."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 11,
+      "isReserve": false,
+      "pregunta": "El derecho a ausentarse del trabajo para traslado de domicilio habitual, para el personal laboral sujeto al IV Convenio Único es de:",
+      "opciones": [
+        "4 horas.",
+        "2 días.",
+        "3 días.",
+        "1 día."
+      ],
+      "correctaLetra": "ANULADA",
+      "correcta": -1,
+      "anulada": true
+    },
+    {
+      "num": 12,
+      "isReserve": false,
+      "pregunta": "Una incapacidad temporal del trabajador, si nos atenemos al art . 45 del Estatuto de los Trabajadores:",
+      "opciones": [
+        "Es una causa de extinción del contrato de trabajo.",
+        "Es una causa de suspensión del contrato de trabajo.",
+        "Es una causa de extinción y suspensión del contrato.",
+        "Ninguna de las respuestas anteriores es correcta."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 13,
+      "isReserve": false,
+      "pregunta": "El contrato de trabajo en el que se acuerde la prestación de servicios durante un número de horas al día, a la semana, al mes o al año inferior a la jornada de trabajo de un trabajador a tiempo completo comparable:",
+      "opciones": [
+        "Es un contrato de trabajo a tiempo completo.",
+        "Es un contrato de relevo.",
+        "Es un contrato a tiempo parcial.",
+        "Es un contrato en prácticas."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 14,
+      "isReserve": false,
+      "pregunta": "El ejercicio de cargo público representativo de un empleado público:",
+      "opciones": [
+        "Es causa de exclusión del contrato.",
+        "Es causa de extinción y de suspensión del contrato a discreción del empresario.",
+        "Es causa de suspensión del contrato.",
+        "El empleado público está exento de cargos públicos representativos."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 15,
+      "isReserve": false,
+      "pregunta": "Cuando en el despido de un trabajador quede acreditado el incumplimiento alegado por el empresario en su escrito de comunicación:",
+      "opciones": [
+        "Se considera despido nulo.",
+        "Se considera despido improcedente.",
+        "Se considera despido ilegal.",
+        "Se considera despido procedente."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 16,
+      "isReserve": false,
+      "pregunta": "La negociación colectiva y la participación en la determinación de las condiciones de trabajo:",
+      "opciones": [
+        "Constituye un derecho de los empleados públicos.",
+        "Constituye un derecho y un deber de los empleados públicos.",
+        "No constituye un derecho ni un deber de los empleados públicos.",
+        "Tal premisa no aparece regulada normativamente."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 17,
+      "isReserve": false,
+      "pregunta": "Según el artículo 7.3 de la Ley 3/2007, de 22 de marzo, para la igualdad efectiva de mujeres y hombres, el acoso sexual y el acoso por razón de sexo, se considerarán discriminatorios:",
+      "opciones": [
+        "En todo caso.",
+        "Cuando se produzcan en un entorno degradante u ofensivo solamente.",
+        "Cuando atenten contra la dignidad de la mujer.",
+        "Cuando constituya un delito penal."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 18,
+      "isReserve": false,
+      "pregunta": "La Ley Orgánica 1/2004, de 28 de diciembre, de Medidas de Protección Integral contra la Violencia de Género, en su artículo 14, establece que los medios de comunicación fomentarán la protección y salvaguarda de la igualdad entre hombre y mujer, evitando:",
+      "opciones": [
+        "La difusión de información relativa a la violencia sobre la mujer.",
+        "El tratamiento gráfico de las informaciones.",
+        "Toda discriminación entre ellos.",
+        "La objetividad de la información."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 19,
+      "isReserve": false,
+      "pregunta": "Dispone el artículo 4.3 del Real Decreto Legislativo 1/2013, de 29 de noviembre, Texto Refundido de la Ley General de derechos de las personas con discapacidad y de su inclusión social, que la acreditación del grado de discapacidad:",
+      "opciones": [
+        "Se realizará en los términos establecidos legalmente por el Estado y tendrá validez en todo el territorio español.",
+        "Se realizará en los términos establecidos reglamentariamente por la Administración General del Estado y tendrá validez en todo el territorio nacional excepto Cataluña y Euskadi.",
+        "Se realizará en los términos establecidos reglamentariamente y tendrá validez en todo el territorio nacional.",
+        "Se realizará en los términos establecidos por cada Comunidad Autónoma y solamente tendrá validez en la Comunidad Autónoma respectiva."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 20,
+      "isReserve": false,
+      "pregunta": "El artículo 3 j), de la Ley 4/2023, de 28 de febrero, para la igualdad real y efectiva de las personas trans y para la garantía de los derechos de las personal LGTBI, define la Expresión de género como:",
+      "opciones": [
+        "Manifestación que cada persona hace de su identidad sexual.",
+        "Persona cuya identidad sexual no se corresponde con el sexo asignado al nacer.",
+        "Persona cuya identidad sexual se corresponde con el sexo asignado al nacer.",
+        "Las personas homosexuales que pueden ser gais, si son hombres, o lesbianas, si son mujeres."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 21,
+      "isReserve": false,
+      "pregunta": "En el contexto de la imagen corporativa, ¿qué aspecto es fundamental para mantenerla?",
+      "opciones": [
+        "Mantener el uniforme limpio y en buen estado.",
+        "Usar ropa casual y cómoda.",
+        "Cambiar el uniforme cada semana.",
+        "No preocuparse por el estado del uniforme."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 22,
+      "isReserve": false,
+      "pregunta": "¿Qué técnica de comunicación es esencial para atender adecuadamente a los visitantes?",
+      "opciones": [
+        "Hablar mucho para impresionar al visitante.",
+        "Ignorar el lenguaje corporal del visitante.",
+        "Practicar la escucha activa.",
+        "Limitar las preguntas para no perder tiempo."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 23,
+      "isReserve": false,
+      "pregunta": "¿Qué se debe evitar al hablar por teléfono para asegurar una buena comunicación?",
+      "opciones": [
+        "Vocalizar bien.",
+        "Hablar despacio.",
+        "Tener una sonrisa.",
+        "Usar muletillas."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 24,
+      "isReserve": false,
+      "pregunta": "¿Qué efecto tiene un entorno de trabajo ordenado en la atención al cliente?",
+      "opciones": [
+        "Genera confianza en los clientes.",
+        "Causa desconfianza en los clientes.",
+        "No tiene impacto en la atención.",
+        "Depende del tipo de cliente."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 25,
+      "isReserve": false,
+      "pregunta": "¿Cuál es un aspecto importante del protocolo y normas de cortesía al atender a un cliente?",
+      "opciones": [
+        "Mirar a los ojos a la persona que habla.",
+        "Desviar la mirada mientras escucha.",
+        "No mantener contacto visual.",
+        "Hablar sin fijar la vista en el interlocutor."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 26,
+      "isReserve": false,
+      "pregunta": "¿Qué comportamiento es esperado por parte de los clientes que se presentan en un servicio de atención?",
+      "opciones": [
+        "Ser ignorados mientras se resuelve un problema.",
+        "Que los atendamos rápidamente y sin atención.",
+        "Ser escuchados y tratados con amabilidad.",
+        "Ser criticados por su comportamiento."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 27,
+      "isReserve": false,
+      "pregunta": "¿Qué se entiende por seguridad en el contexto de la manipulación de documentación?",
+      "opciones": [
+        "Entregar documentación sin restricciones de privacidad.",
+        "Protocolo de entrega de documentos a cualquier persona.",
+        "Acceso libre a documentos de la organización.",
+        "Medidas preventivas contra el mal uso de la información sensible."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 28,
+      "isReserve": false,
+      "pregunta": "¿Cómo se mantiene la integridad de los documentos y paquetes en la organización?",
+      "opciones": [
+        "Protegiendo el contenido original de modificaciones.",
+        "Permitiendo revisiones por parte de todos.",
+        "Fomentando la colaboración en la edición.",
+        "Reuniendo firmas en cada documento antes de entrega."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 29,
+      "isReserve": false,
+      "pregunta": "¿Cuál es la primera acción que se debe realizar al recibir paquetería?",
+      "opciones": [
+        "Contactar inmediatamente al destinatario.",
+        "Recoger los paquetes de la zona de recepción.",
+        "Clasificar los paquetes sin dejarlos en zona de recepción.",
+        "Registrar todos los paquetes en un documento de control."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 30,
+      "isReserve": false,
+      "pregunta": "¿Qué criterio es esencial para clasificar los documentos y paquetes al entregarlos?",
+      "opciones": [
+        "Clasificarlos según los despachos y las personas destinatarias.",
+        "Clasificarlos solo según su tamaño y peso.",
+        "Clasificarlos en función de la fecha en que se recibieron.",
+        "Clasificarlos al azar para ahorrar tiempo."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 31,
+      "isReserve": false,
+      "pregunta": "Al transportar carga pesada, ¿cuál de las siguientes medidas es correcta?",
+      "opciones": [
+        "Llevar siempre la carga con los brazos extendidos.",
+        "Mantener la carga cerca del cuerpo.",
+        "Transportar la carga rápidamente para evitar cansancio.",
+        "Girar el torso mientras se transporta carga pesada."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 32,
+      "isReserve": false,
+      "pregunta": "En el momento de distribuir documentos y paquetes, ¿qué aspecto debe considerarse primero?",
+      "opciones": [
+        "Entregar primero los paquetes menos importantes.",
+        "Entregar todos los documentos en el orden que fueron recibidos.",
+        "Distribuir los documentos según su tamaño.",
+        "Distribuir primero los documentos o paquetes urgentes."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 33,
+      "isReserve": false,
+      "pregunta": "¿Cuál es el objetivo principal al recibir y distribuir la paquetería y documentación en un centro de trabajo?",
+      "opciones": [
+        "Distribuir la documentación o paquetería con rapidez y exactitud.",
+        "Recoger solamente los paquetes más grandes para distribución.",
+        "Dejar la documentación en el área común sin clasificar.",
+        "Entregar todo junto sin clasificación necesaria."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 34,
+      "isReserve": false,
+      "pregunta": "¿Qué paso es crucial en el procedimiento para realizar fotocopias?",
+      "opciones": [
+        "Preparar adecuadamente los documentos originales.",
+        "Cargarlos sin verificar su estado.",
+        "Utilizar cualquier formato sin restricciones.",
+        "Guardar los documentos en un lugar no accesible."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 35,
+      "isReserve": false,
+      "pregunta": "¿Cuál es la primera medida de seguridad antes de manipular una fotocopiadora si se va a dejar de usar durante un periodo prolongado?",
+      "opciones": [
+        "Revisar el cartucho de tóner.",
+        "Limpiar la máquina con productos químicos.",
+        "Desenchufarla de la corriente eléctrica.",
+        "Colocar papel en la bandeja."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 36,
+      "isReserve": false,
+      "pregunta": "¿Qué acción se debe realizar si se enfrenta un atasco de papel en la fotocopiadora?",
+      "opciones": [
+        "Añadir papel nuevo a la bandeja.",
+        "Reiniciar la fotocopiadora.",
+        "Limpiar la superficie externa de la máquina.",
+        "Retirar con cuidado el papel atascado."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 37,
+      "isReserve": false,
+      "pregunta": "¿Qué tipo de encuadernadora utiliza calor para unir las hojas?",
+      "opciones": [
+        "Encuadernadora de espiral.",
+        "Termoencuadernadora.",
+        "Encuadernadora de canutillo.",
+        "Encuadernadora manual."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 38,
+      "isReserve": false,
+      "pregunta": "¿Cuál es el primer paso para cambiar el cartucho de tóner en una fotocopiadora?",
+      "opciones": [
+        "Abrir la cubierta de la fotocopiadora.",
+        "Retirar el cartucho viejo directamente.",
+        "Agitar el cartucho nuevo.",
+        "Cerrar la cubierta frontal después de colocar el cartucho nuevo."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 39,
+      "isReserve": false,
+      "pregunta": "¿Qué se debe hacer para limpiar el vidrio de contacto de la fotocopiadora?",
+      "opciones": [
+        "No limpiarlo para evitar daños en la máquina.",
+        "Utilizar un disolvente fuerte para eliminar la suciedad.",
+        "Limpiarlo con un paño humedecido en alcohol o detergente suave.",
+        "Limpiarlo solo con ácido."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 40,
+      "isReserve": false,
+      "pregunta": "¿Qué se debe hacer con los documentos confidenciales cuando ya no se necesitan?",
+      "opciones": [
+        "Archivar los documentos en un lugar público.",
+        "Almacenar los documentos indefinidamente.",
+        "Compartir los documentos con colegas.",
+        "Destruir los documentos."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 41,
+      "isReserve": false,
+      "pregunta": "¿Cuál es la forma correcta de indicar un franqueo pagado?",
+      "opciones": [
+        "Impresión en la esquina superior derecha.",
+        "Uso de sello postal.",
+        "Firmar el sobre.",
+        "Enviar sin franqueo requerido."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 42,
+      "isReserve": false,
+      "pregunta": "¿Qué tipo de carta es utilizada para envíos importantes que re quieren seguridad y garantía de entrega?",
+      "opciones": [
+        "Carta no registrada.",
+        "Carta ordinaria.",
+        "Carta certificada.",
+        "Carta con franqueo."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 43,
+      "isReserve": false,
+      "pregunta": "¿Qué criterios deben seguirse para clasificar la correspondencia?",
+      "opciones": [
+        "Reunir todos los documentos sin clasificar para facilitar el acceso a todos.",
+        "Clasificar todos los envíos sin prestar atención a su urgencia.",
+        "Organizar la correspondencia solamente al final del día para ahorrar tiempo.",
+        "Organizar y clasificar la correspondencia según su importancia y urgencia."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 44,
+      "isReserve": false,
+      "pregunta": "¿Cuál es la función principal del acuse de recibo?",
+      "opciones": [
+        "Indica que el envío es urgente.",
+        "Es la confirmación del pago.",
+        "Confirma la recepción del envío.",
+        "Es un documento sin validez legal."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 45,
+      "isReserve": false,
+      "pregunta": "¿Qué se debe hacer con la correspondencia que no tiene identificación suficiente?",
+      "opciones": [
+        "Se aparta para aclarar su posible identificación.",
+        "Se aparta para destruirla.",
+        "Distribución normalizada al primer superior.",
+        "Se almacena hasta que termine la semana."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 46,
+      "isReserve": false,
+      "pregunta": "¿Qué deberías hacer al recibir un recado para asegurarte de que lo has comprendido bien?",
+      "opciones": [
+        "Preguntar todas las dudas que tengas sobre la tarea.",
+        "Anotar el recado sin aclarar dudas.",
+        "Ignorar la incomprensión y proceder a realizar el recado.",
+        "Transmitir el mensaje a otra persona sin aclararlo."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 47,
+      "isReserve": false,
+      "pregunta": "Si recibes un recado por teléfono, ¿cuál es el primer paso que debes seguir?",
+      "opciones": [
+        "Contestar rápidamente y ofrecer tu ayuda.",
+        "Reclamar a la persona que llama por su tiempo.",
+        "Escuchar sin decir nada hasta que acaben.",
+        "Tomar notas sin responder, primeramente."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 48,
+      "isReserve": false,
+      "pregunta": "¿Cómo se deben clasificar los recados según su naturaleza?",
+      "opciones": [
+        "No clasificar los recados y ejecutarlos según lo que se vea primero.",
+        "Anotar todos los recados como si fueran igual de importantes.",
+        "Clasificarlo según urgencia/importancia, interno/externo.",
+        "Solo clasificar los recados que sean escritos."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 49,
+      "isReserve": false,
+      "pregunta": "¿Cuál es la primera acción que debes realizar al recibir un recado oficial en el trabajo?",
+      "opciones": [
+        "Escuchar y anotar adecuadamente el recado.",
+        "Clasificar el recado por urgencia sin anotarlo.",
+        "Transmitir el recado a otro compañero inmediatamente.",
+        "Ejecutar el recado sin verificar su contenido."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 50,
+      "isReserve": false,
+      "pregunta": "¿Cuál es un paso importante para una correcta interpretación de instrucciones en el ámbito laboral?",
+      "opciones": [
+        "Actuar sin preguntar.",
+        "Delegar la interpretación a un compañero.",
+        "Asumir que se entendió todo correctamente.",
+        "Solicitar aclaraciones necesarias."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 51,
+      "isReserve": false,
+      "pregunta": "¿Cómo debe planificarse la realización de un recado?",
+      "opciones": [
+        "Realizándolo sin pensar en los pasos a seguir.",
+        "Planeando el modo de realizarlo antes de ejecutarlo.",
+        "Esperando instrucciones durante su ejecución.",
+        "Eliminando todos los recados innecesarios."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 52,
+      "isReserve": false,
+      "pregunta": "¿Qué información es esencial anotar cuando se recibe un recado?",
+      "opciones": [
+        "Nada, solo recordar la tarea en la mente.",
+        "Solo la tarea a realizar.",
+        "Solo el nombre de la persona.",
+        "Nombre de la persona, fecha, tarea y plazo."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 53,
+      "isReserve": false,
+      "pregunta": "¿Qué es una incidencia?",
+      "opciones": [
+        "Es algo que ocurre en la realización de una tarea, que se presenta de forma imprevista e interrumpe el normal desarrollo del trabajo.",
+        "Es algo que ocurre en la realización de una tarea al realizar cambios en el sistema de trabajo.",
+        "Lo que indica la ISO 410 en su apartado correspondiente",
+        "El cambio de un empleado sobre como realiza su trabajo"
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 54,
+      "isReserve": false,
+      "pregunta": "¿Cuál es una de las claves para mejorar las relaciones laborales?",
+      "opciones": [
+        "Evitar hablar de problemas con los compañeros.",
+        "Aprender a manejar los conflictos.",
+        "Confrontar directamente a las personas en desacuerdo.",
+        "Nunca disculparse, siempre tienen la culpa los demás."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 55,
+      "isReserve": false,
+      "pregunta": "¿Cuál es la forma más adecuada de comunicar una anomalía al responsable?",
+      "opciones": [
+        "Discutir la anomalía con otros empleados.",
+        "Anotarla y comunicarla al responsable.",
+        "Ignorar el procedimiento para ahorrar tiempo.",
+        "Esperar a que el responsable se entere."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 56,
+      "isReserve": false,
+      "pregunta": "¿Qué se debe revisar al preparar una sala para reuniones?",
+      "opciones": [
+        "Buscar un espacio alternativo sin preparar la sala actual.",
+        "Ajustar la decoración de la sala sin revisar otros aspectos.",
+        "Comprobar calefacción, aire acondicionado y tecnología en la sala.",
+        "Comunicar solo sobre las plataformas de reunión, sin revisar el espacio físico."
+      ],
+      "correctaLetra": "C",
+      "correcta": 2,
+      "anulada": false
+    },
+    {
+      "num": 57,
+      "isReserve": false,
+      "pregunta": "¿Qué se debe hacer al escuchar a alguien que está expresando un problema?",
+      "opciones": [
+        "Murmurar mientras escuchamos para mostrar desinterés.",
+        "Interrumpir para dar nuestra opinión rápidamente.",
+        "Desviarse del tema para evitar conflictos.",
+        "Mirar a la cara y tener una actitud atenta."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 58,
+      "isReserve": false,
+      "pregunta": "Al comunicar una anomalía, ¿qué tipo de palabras deberías utilizar?",
+      "opciones": [
+        "Hablar de manera rápida para no extenderse demasiado.",
+        "Utilizar un lenguaje técnico que solo algunos entiendan.",
+        "Emplear un tono sarcástico para que tomen en serio el mensaje.",
+        "Usar palabras sencillas y educadas."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 59,
+      "isReserve": false,
+      "pregunta": "¿Cuál es el primer paso que debes seguir al dar parte de una incidencia en el trabajo?",
+      "opciones": [
+        "Anotar la fecha, el lugar y lo que ha ocurrido de la forma más clara posible.",
+        "Hablar con el compañero implicado antes de informar.",
+        "Informar sólo a la persona con la que se tiene el conflicto.",
+        "Esperar a que la situación se resuelva sola."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    },
+    {
+      "num": 60,
+      "isReserve": false,
+      "pregunta": "Cuando se presentan situaciones difíciles en el trabajo, ¿qué actitud se sugiere adoptar?",
+      "opciones": [
+        "Guardar la calma.",
+        "Reaccionar de manera impulsiva.",
+        "Criticar a los compañeros.",
+        "Ignorar la situación."
+      ],
+      "correctaLetra": "A",
+      "correcta": 0,
+      "anulada": false
+    }
+  ],
+  "reserve": [
+    {
+      "num": 1,
+      "isReserve": true,
+      "pregunta": "El artículo 3.1 b) de la Ley 15/2022, de 12 de julio, integral para la igualdad de trato y la no discriminación, establece que, esta Ley se aplicará al:",
+      "opciones": [
+        "Acceso, promoción, condiciones de trabajo, y formación tanto en el empleo público como privado.",
+        "Acceso, promoción, condiciones de trabajo, y formación en el empleo público.",
+        "Acceso, promoción, condiciones de trabajo, y formación en el empleo privado.",
+        "Solamente para el acceso y formación en el empleo público."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 2,
+      "isReserve": true,
+      "pregunta": "Conforme el artículo 7 de la Ley 39/2006, de 14 de diciembre, de Promoción de la Autonomía Personal y Atención a las personas en situación de dependencia, la protección de la situación de dependencia por parte del Sistema se prestará de acuerdo con tres niveles, siendo el nivel de protección adicional el que:",
+      "opciones": [
+        "Pueda establecer la Administración General del Estado.",
+        "Establece cada Comunidad Autónoma en convenio con la Administración General del Estado.",
+        "Pueda establecer cada Ayuntamiento.",
+        "Pueda establecer cada Comunidad Autónoma."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 3,
+      "isReserve": true,
+      "pregunta": "¿Qué se debe hacer cuando se interrumpe una conversación telefónica?",
+      "opciones": [
+        "Cortar la llamada.",
+        "Explicar el motivo.",
+        "Decir que no se puede hablar.",
+        "Pedir que se llame después."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 4,
+      "isReserve": true,
+      "pregunta": "¿Qué debe garantizar una entidad en relación con la disponibilidad de información?",
+      "opciones": [
+        "Que todos tengan acceso sin restricción.",
+        "Que esté a disposición de los autorizados.",
+        "Que solo el responsable tenga copias.",
+        "Que se imprima y almacene en un lugar oculto."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    },
+    {
+      "num": 5,
+      "isReserve": true,
+      "pregunta": "¿Cuál es una norma clave de seguridad al usar máquinas reprográficas?",
+      "opciones": [
+        "Ignorar las instrucciones del fabricante.",
+        "Descuido en las revisiones periódicas.",
+        "Usar equipos sin supervisión.",
+        "Mantenimiento de los equipos."
+      ],
+      "correctaLetra": "D",
+      "correcta": 3,
+      "anulada": false
+    },
+    {
+      "num": 6,
+      "isReserve": true,
+      "pregunta": "¿Qué define al burofax en el contexto de la mensajería urgente?",
+      "opciones": [
+        "Es simplemente un fax normal.",
+        "Proporciona validez legal al texto remitido.",
+        "No requiere confirmación de envío.",
+        "Se usa solo para mensajes personales."
+      ],
+      "correctaLetra": "B",
+      "correcta": 1,
+      "anulada": false
+    }
+  ]
+}
