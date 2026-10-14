@@ -12,6 +12,13 @@ Fecha de descarga y verificación: 9 de octubre de 2026
 | **Constitución Española de 1978 (consolidada)** | `BOE-A-1978-31229_Constitucion-Espanola.html` | [BOE-A-1978-31229](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | 285.0 KB | `caa36ac2d4f8a3502ffbd10cb15c849c1bcda7290b9464da579b725283cbbe92` |
 | **Ley 50/1997 del Gobierno** | `BOE-A-1997-25336_Ley-50-1997-Gobierno.html` | [BOE-A-1997-25336](https://www.boe.es/buscar/act.php?id=BOE-A-1997-25336) | 193.3 KB | `a34a83362bceadf7957995cb272b684aa410ecaaa6ee0c1df993efa4ae539698` |
 | **Texto Refundido de la Ley del Estatuto de los Trabajadores (TRLET)** | `BOE-A-2015-11430_Estatuto-Trabajadores.html` | [BOE-A-2015-11430](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | 918.1 KB | `a6968a7839cf504d76a2767accc0314fbbd366b45127f57c75095567c56efa6a` |
+| **Ley Orgánica 3/1981 del Defensor del Pueblo** | `BOE-A-1981-10325_LO-3-1981-Defensor-del-Pueblo.html` | [BOE-A-1981-10325](https://www.boe.es/buscar/act.php?id=BOE-A-1981-10325) | 98.2 KB | `6c0ece2d88ad598c9cddff05004173edc280d4a670fca08a3b42280d7310d7ab` |
+| **Ley Orgánica 1/2004 contra la Violencia de Género** | `BOE-A-2004-21760_LO-1-2004-Violencia-Genero.html` | [BOE-A-2004-21760](https://www.boe.es/buscar/act.php?id=BOE-A-2004-21760) | 497.4 KB | `cbb344961d8097025371a08af54b1af81fc402d74f5ae07159833b953d19970f` |
+| **Ley 39/2006 de Promoción de la Autonomía Personal y Dependencia** | `BOE-A-2006-21990_Ley-39-2006-Autonomia-Dependencia.html` | [BOE-A-2006-21990](https://www.boe.es/buscar/act.php?id=BOE-A-2006-21990) | 419.0 KB | `ed390881d417a3e3136a6732c4280988aa74868ee88cb6c5727b295c2e4bc39f` |
+| **Real Decreto Legislativo 1/2013 (TRLGDPD) de Discapacidad** | `BOE-A-2013-12632_RDL-1-2013-Discapacidad-TRLGDPD.html` | [BOE-A-2013-12632](https://www.boe.es/buscar/act.php?id=BOE-A-2013-12632) | 394.5 KB | `0eff3d4ff2c4d1c51d88f18a36b95e195cce08e7746f7be846cb419715617079` |
+| **Ley 3/2015 del ejercicio del alto cargo de la AGE** | `BOE-A-2015-3444_Ley-3-2015-Altos-Cargos-AGE.html` | [BOE-A-2015-3444](https://www.boe.es/buscar/act.php?id=BOE-A-2015-3444) | 140.8 KB | `fdb79c8939f52014ed27e96f341d20594ecc144b7ec06b94d3075fbca0340d07` |
+| **Ley 15/2022 para la igualdad de trato y no discriminación** | `BOE-A-2022-11589_Ley-15-2022-Igualdad-Trato.html` | [BOE-A-2022-11589](https://www.boe.es/buscar/act.php?id=BOE-A-2022-11589) | 221.3 KB | `06c93980f803764e06615cc8e0e2dafe1df7a7c46b8f52f6ebca066004372acc` |
+| **Ley 4/2023 para la igualdad real de personas trans y LGTBI** | `BOE-A-2023-5366_Ley-4-2023-Trans-LGTBI.html` | [BOE-A-2023-5366](https://www.boe.es/buscar/act.php?id=BOE-A-2023-5366) | 326.9 KB | `01d3d7ef83dc0c6dfd046175cacdf13cdf3946366612ad836dbe7aeeacb0bc22` |
 
 ---
 
