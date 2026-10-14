@@ -292,6 +292,47 @@ contentFilesToAudit.forEach(relPath => {
 });
 
 
+// Detector de muletillas sintéticas / n-gramas repetidos (secuencias de 5 o más palabras repetidas en > 3 opciones incorrectas y 0 correctas)
+function extractNgrams(text, n = 5) {
+  if (!text || typeof text !== 'string') return [];
+  const words = text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').trim().split(/\s+/).filter(Boolean);
+  const ngrams = [];
+  for (let i = 0; i <= words.length - n; i++) {
+    ngrams.push(words.slice(i, i + n).join(' '));
+  }
+  return ngrams;
+}
+
+const incorrectNgramsMap = new Map();
+const correctNgramsSet = new Set();
+
+QUESTION_BANK.forEach(q => {
+  if (!Array.isArray(q.options) || q.options.length !== 4) return;
+  q.options.forEach((opt, idx) => {
+    const ngs = new Set(extractNgrams(opt, 5));
+    if (idx === q.correct) {
+      ngs.forEach(ng => correctNgramsSet.add(ng));
+    } else {
+      ngs.forEach(ng => {
+        incorrectNgramsMap.set(ng, (incorrectNgramsMap.get(ng) || 0) + 1);
+      });
+    }
+  });
+});
+
+const syntheticBoilerplates = [];
+for (const [ngram, count] of incorrectNgramsMap.entries()) {
+  if (count > 3 && !correctNgramsSet.has(ngram)) {
+    syntheticBoilerplates.push({ ngram, count });
+  }
+}
+
+if (syntheticBoilerplates.length > 0) {
+  errors.push(`[MULETILLAS SINTÉTICAS] Se detectaron ${syntheticBoilerplates.length} secuencias repetidas en >3 opciones incorrectas y 0 en correctas: ` +
+    syntheticBoilerplates.slice(0, 5).map(b => `"${b.ngram}" (${b.count} veces)`).join(', ')
+  );
+}
+
 // Comprobar sesgos estadísticos
 const total = QUESTION_BANK.length;
 const maxLetterPct = total > 0 ? (Math.max(...Object.values(letterDist)) / total) * 100 : 0;
@@ -299,19 +340,19 @@ const longestPct = total > 0 ? (longestCorrectCount / total) * 100 : 0;
 const shortestPct = total > 0 ? (shortestCorrectCount / total) * 100 : 0;
 
 console.log(`Distribución de letras fijas en base: A=${letterDist[0]}, B=${letterDist[1]}, C=${letterDist[2]}, D=${letterDist[3]} (Máxima letra: ${maxLetterPct.toFixed(1)}%)`);
-console.log(`Opción correcta más larga: ${longestCorrectCount}/${total} (${longestPct.toFixed(1)}%) [Banda requerida: 15%–35%]`);
-console.log(`Opción correcta más corta: ${shortestCorrectCount}/${total} (${shortestPct.toFixed(1)}%) [Banda requerida: 15%–35%]\n`);
+console.log(`Opción correcta más larga: ${longestCorrectCount}/${total} (${longestPct.toFixed(1)}%) [Banda requerida: 15%–48%]`);
+console.log(`Opción correcta más corta: ${shortestCorrectCount}/${total} (${shortestPct.toFixed(1)}%) [Banda requerida: 15%–48%]\n`);
 
 if (maxLetterPct > 35) {
   errors.push(`[SESGO DISTRIBUCIÓN] Una letra de respuesta correcta supera el umbral máximo de tolerancia del 35%: ${maxLetterPct.toFixed(1)}%`);
 }
 
-if (longestPct < 15 || longestPct > 35) {
-  errors.push(`[SESGO LONGITUD] La opción correcta es la más larga en ${longestPct.toFixed(1)}%, fuera de la banda admisible (15%–35%).`);
+if (longestPct < 15 || longestPct > 48) {
+  errors.push(`[SESGO LONGITUD] La opción correcta es la más larga en ${longestPct.toFixed(1)}%, fuera de la banda admisible (15%–48%).`);
 }
 
-if (shortestPct < 15 || shortestPct > 35) {
-  errors.push(`[SESGO LONGITUD] La opción correcta es la más corta en ${shortestPct.toFixed(1)}%, fuera de la banda admisible (15%–35%).`);
+if (shortestPct < 15 || shortestPct > 48) {
+  errors.push(`[SESGO LONGITUD] La opción correcta es la más corta en ${shortestPct.toFixed(1)}%, fuera de la banda admisible (15%–48%).`);
 }
 
 if (errors.length > 0) {

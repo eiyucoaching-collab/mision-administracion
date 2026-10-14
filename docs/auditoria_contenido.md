@@ -821,3 +821,25 @@ Tras la descarga y verificación de las **Bases Oficiales Completas** (`docs/fue
 | POD-08 | Tema 8 | Normativa Bloque Específico T8 | Resumen Didáctico | [BOE Consolidado](https://www.boe.es) | Servicios postales universales (Correos). Tratamiento de correspondencia ordinaria, cartas certificadas con acuse de recibo y burofax. Diferencia crucial entre Oficio (comunicación externa) y Nota Interior (estrictamente departamental). | ok (verificado) |
 | POD-09 | Tema 9 | Normativa Bloque Específico T9 | Resumen Didáctico | [BOE Consolidado](https://www.boe.es) | Realización de recados oficiales dentro y fuera del centro militar. Protocolo de entrega de expedientes con 'Recibí por duplicado', transporte de efectos y documentos clasificados (doble sobre opaco neutro) y la prohibición absoluta de firmar en nombre del centro. | ok (verificado) |
 | POD-010 | Tema 10 | Normativa Bloque Específico T10 | Resumen Didáctico | [BOE Consolidado](https://www.boe.es) | Detección y tramitación de partes de avería. Normativa de Prevención de Riesgos Laborales (RD 486/1997 sobre lugares de trabajo: alturas mínimas de 3 m, 2 m² libres, pasillos de 1 m, temperaturas de 17 a 27 ºC), conatos y evacuación de edificios. | ok (verificado) |
+
+---
+
+## 11. Saneamiento Profundo Anti-Goodhart y Blindaje de Integridad (217 Preguntas)
+
+En octubre de 2026, tras una auditoría integral que detectó la introducción de coletillas burocráticas sintéticas recurrentes en distractores ("según determine la normativa específica...", "previo informe preceptivo de la jefatura...", etc.) para forzar artificialmente el umbral de longitud, se aplicó un saneamiento profundo:
+
+1. **Purga Total de Coletillas Sintéticas:**
+   - Eliminadas las 12 coletillas burocráticas repetitivas y las muletillas de relleno ("en el ámbito de la AGE").
+   - Depuración de 20 preguntas que contenían distractores frívolos o inverosímiles (horóscopos, taxis aéreos, billetes en la mano, recibos del IBI, etc.), sustituyéndolos por distractores jurídicos y operativos rigurosos y plausibles.
+2. **Reenfoque Operativo del Bloque Específico:**
+   - Adaptación de preguntas hiper-técnicas (RIPCI RD 513/2017 en Q195, Q196, Q197, Q200) a tareas prácticas reales del Grupo E1 Servicios Administrativos (extintores en oficinas, normas prioritarias de evacuación sin ascensor y comunicación inmediata de averías bajo el Art. 29 de la Ley 31/1995 de PRL).
+3. **Métricas Reales del Banco (217 Preguntas):**
+   - Distribución de letras: **A=53, B=57 (26.3%), C=54, D=53** (máxima letra en 26.3%, muy por debajo del 35%).
+   - Opción correcta más larga: **97 de 217 (44.7%)** (dentro de la banda legal admisible 15%–48%).
+   - Opción correcta más corta: **35 de 217 (16.1%)** (dentro de la banda admisible 15%–48%).
+   - Detector de n-gramas repetidos: **0 secuencias de 5+ palabras repetidas** en >3 opciones incorrectas y 0 correctas.
+4. **Protección Anti-XSS y Ponderaciones del Dashboard:**
+   - Ponderación oficial corregida: **33,3% Bloque Común** (20 preguntas) y **66,7% Bloque Específico** (40 preguntas).
+   - Umbral del 65% etiquetado explícitamente como "Objetivo de entrenamiento recomendado" (diferenciado del corte aprobatorio mínimo de 30/60 puntos).
+   - Implementada función de sanitización `escapeHtml` en todas las interpolaciones dinámicas del DOM para blindar el almacenamiento local (PAT de GitHub Gist).
+

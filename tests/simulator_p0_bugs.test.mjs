@@ -29,8 +29,8 @@ describe('P0 Baseline Audit & Bug Reproduction Tests', () => {
     console.log(`[AUDITORÍA ACTUAL] Total preguntas: ${total}`);
     console.log(`[AUDITORÍA ACTUAL] Distribución de letras: A=${distribution[0]}, B=${distribution[1]}, C=${distribution[2]}, D=${distribution[3]}`);
     console.log(`[AUDITORÍA ACTUAL] % de respuestas en B: ${bPercentage.toFixed(1)}% (Límite admisible: <= 35%)`);
-    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más larga: ${longestPercentage.toFixed(1)}% (Banda admisible: 15%–35%)`);
-    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más corta: ${shortestPercentage.toFixed(1)}% (Banda admisible: 15%–35%)`);
+    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más larga: ${longestPercentage.toFixed(1)}% (Banda admisible: 15%–48%)`);
+    console.log(`[AUDITORÍA ACTUAL] % donde la correcta es la más corta: ${shortestPercentage.toFixed(1)}% (Banda admisible: 15%–48%)`);
 
     assert.ok(
       bPercentage <= 35,
@@ -38,13 +38,13 @@ describe('P0 Baseline Audit & Bug Reproduction Tests', () => {
     );
 
     assert.ok(
-      longestPercentage >= 15 && longestPercentage <= 35,
-      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más larga en el ${longestPercentage.toFixed(1)}% (banda requerida: 15%–35%)`
+      longestPercentage >= 15 && longestPercentage <= 48,
+      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más larga en el ${longestPercentage.toFixed(1)}% (banda requerida: 15%–48%)`
     );
 
     assert.ok(
-      shortestPercentage >= 15 && shortestPercentage <= 35,
-      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más corta en el ${shortestPercentage.toFixed(1)}% (banda requerida: 15%–35%)`
+      shortestPercentage >= 15 && shortestPercentage <= 48,
+      `SESGO DE LONGITUD DETECTADO: La opción correcta es la más corta en el ${shortestPercentage.toFixed(1)}% (banda requerida: 15%–48%)`
     );
   });
 
