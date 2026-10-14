@@ -142,13 +142,18 @@ QUESTION_BANK.forEach((q, idx) => {
   }
 });
 
-// Validación cruzada de archivos de contenido contra la asociación errónea E1/E2 con 15 días / sin titulación
+// Validación cruzada de archivos de contenido y todas las guías contra la asociación errónea E1/E2 con 15 días / sin titulación
+const guiasDir = path.resolve(__dirname, '../guias');
+const allGuiaFiles = fs.existsSync(guiasDir)
+  ? fs.readdirSync(guiasDir).filter(f => f.endsWith('.md')).sort().map(f => `../guias/${f}`)
+  : [];
+
 const contentFilesToAudit = [
   '../src/data/cifras_y_trampas.js',
   '../src/data/syllabus.js',
   '../src/data/flashcards.js',
   '../src/data/podcasts.js',
-  '../guias/guia_tema_03_personal_laboral_cuage.md'
+  ...allGuiaFiles
 ];
 
 contentFilesToAudit.forEach(relPath => {

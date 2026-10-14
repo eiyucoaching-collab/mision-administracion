@@ -1,5 +1,9 @@
-# GUÍA OFICIAL DE ESTUDIO TÉCNICO: TEMA 8 (ESPECÍFICO 4)
+# GUÍA DE ESTUDIO: TEMA 8 (BLOQUE ESPECÍFICO)
 ## FRANQUEO, DEPÓSITO Y DISTRIBUCIÓN DE CORRESPONDENCIA Y CORREOS
+
+> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
+> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`.  
+> **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
 
 ---
 

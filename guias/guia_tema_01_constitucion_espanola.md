@@ -79,7 +79,7 @@ El artículo 9.3 consagra siete principios de seguridad jurídica obligatorios p
 
 #### B. El Defensor del Pueblo (Artículo 54)
 * **Naturaleza:** Alto comisionado de las Cortes Generales para la supervisión de la actividad administrativa y defensa de los derechos del Título I.
-* **Elección y mandato:** Designado por las Cortes Generales por un mandato de **5 AÑOS** mediante mayoría cualificada de **tres quintos (3/5)** en el Congreso de los Diputados y en el Senado.
+* **Elección y mandato:** Designado por las Cortes Generales por un mandato de **5 AÑOS** mediante mayoría cualificada de **tres quintos (3/5)** en el Congreso de los Diputados y en el Senado (Arts. 2.1 y 4.1 de la Ley Orgánica 3/1981, a la que remite el art. 54 CE).
 
 #### C. Suspensión de Derechos Fundamentales (Artículo 55)
 * **Suspensión Colectiva (Art. 55.1):** En los estados de **excepción** o de **sitio** declarados conforme al artículo 116.

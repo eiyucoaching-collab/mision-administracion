@@ -294,7 +294,112 @@ En el informe preliminar se reportaron 29 cifras y trampas (26 OK + 3 corregidas
 
 ---
 
-## 5. Diff de Opciones Modificadas e Integridad del Significado Jurídico
+## 5. Auditoría Exhaustiva de Guías de Estudio (Temas 1 a 4: 66 Afirmaciones Normativas)
+
+Se extiende el escrutinio documental y la auditoría exhaustiva a los manuales y guías de estudio técnico de los Temas 1 a 4 (`guias/guia_tema_01` a `04`), contrastando cada fecha, plazo, porcentaje, mayoría, artículo y ley contra los textos consolidados del BOE guardados en local (`docs/fuentes/boe/`).
+
+### 5.1. Resumen Cuantitativo de la Auditoría de Guías
+| Guía / Tema Auditado | Total Afirmaciones | Verificadas OK (BOE Local) | Dudosas (Sin Copia Local en `docs/fuentes/boe/`) | Estado de Cobertura |
+| :--- | :---: | :---: | :---: | :--- |
+| **Guía Tema 1 (Constitución Española de 1978)** | **25** | **24** | **1** (`GUIA-T1-18`: LO 3/1981 Defensor del Pueblo) | 96.0% verificado contra BOE local |
+| **Guía Tema 2 (Gobierno y AGE)** | **14** | **14** | **0** | 100% verificado contra BOE local |
+| **Guía Tema 3 (Personal Laboral y CUAGE)** | **13** | **13** | **0** | 100% verificado contra BOE local |
+| **Guía Tema 4 (Igualdad, Violencia de Género y Discapacidad)** | **14** | **8** | **6** (`GUIA-T4-09` a `14`: LO 1/2004, RDL 1/2013, Ley 39/2006, Ley 15/2022, Ley 4/2023) | 57.1% verificado contra BOE local |
+| **TOTAL GUÍAS T1 A T4** | **66** | **59** | **7** | **89.4% contrastado contra copias locales oficiales** |
+
+> [!NOTE] Criterio de Rigor e Imparcialidad sobre Elementos Dudosos
+> Siguiendo el requerimiento de auditoría rigurosa y transparente, no se asume como contrastada ninguna afirmación jurídica cuya ley fuente no se encuentre efectivamente archivada en la carpeta local `docs/fuentes/boe/`. Los 7 elementos marcados como `dudoso` corresponden a normas estatales plenamente vigentes (LO 3/1981, LO 1/2004, RDL 1/2013, Ley 39/2006, Leyes 15/2022 y 4/2023) pero que quedan categorizadas formalmente como `dudosas / pendientes de copia local` hasta que se descargue y fiche su texto consolidado oficial en el repositorio.
+
+### 5.2. Tabla de Auditoría Exhaustiva de Guías (66 Elementos)
+
+| ID | Tema | Norma Oficial | Precepto / Artículo | Enlace BOE | Cita Literal / Referencia Normativa Verificada | Estado |
+| :--- | :--- | :--- | :--- | :---: | :--- | :---: |
+| GUIA-T1-01 | Guía Tema 1 | Constitución Española de 1978 | Fórmula de Promulgación | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Las Cortes han aprobado y el pueblo español ratificado la siguiente Constitución: [...] Aprobada por las Cortes Generales el 31 de octubre de 1978. | ok |
+| GUIA-T1-02 | Guía Tema 1 | Constitución Española de 1978 | Fórmula de Promulgación | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Las Cortes han aprobado y el pueblo español ratificado la siguiente Constitución: [...] Ratificada por el pueblo español en referéndum el 6 de diciembre de 1978. | ok |
+| GUIA-T1-03 | Guía Tema 1 | Constitución Española de 1978 | Fórmula Final CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Dada en Madrid a veintisiete de diciembre de mil novecientos setenta y ocho. JUAN CARLOS R. Sancionada y promulgada por el Rey. | ok |
+| GUIA-T1-04 | Guía Tema 1 | Constitución Española de 1978 | Disposición Final CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Esta Constitución entrará en vigor el mismo día de la publicación de su texto oficial en el «Boletín Oficial del Estado». Publicada el 29 de diciembre de 1978 (BOE núm. 311.1). | ok |
+| GUIA-T1-05 | Guía Tema 1 | Constitución Española de 1978 | Art. 1.1 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | España se constituye en un Estado social y democrático de Derecho, que propugna como valores superiores de su ordenamiento jurídico la libertad, la justicia, la igualdad y el pluralismo político. | ok |
+| GUIA-T1-06 | Guía Tema 1 | Constitución Española de 1978 | Art. 1.2 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | La soberanía nacional reside en el pueblo español, del que emanan los poderes del Estado. | ok |
+| GUIA-T1-07 | Guía Tema 1 | Constitución Española de 1978 | Art. 1.3 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | La forma política del Estado español es la Monarquía parlamentaria. | ok |
+| GUIA-T1-08 | Guía Tema 1 | Constitución Española de 1978 | Estructura Sistemática CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Consta de un Preámbulo, 10 Títulos (169 artículos), 4 Disposiciones Adicionales, 9 Transitorias, 1 Derogatoria y 1 Final. | ok |
+| GUIA-T1-09 | Guía Tema 1 | Constitución Española de 1978 | Art. 9.3 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | La Constitución garantiza el principio de legalidad, la jerarquía normativa, la publicidad de las normas, la irretroactividad de las disposiciones sancionadoras no favorables o restrictivas de derechos individuales, la seguridad jurídica, la responsabilidad y la interdicción de la arbitrariedad de los poderes públicos. | ok |
+| GUIA-T1-10 | Guía Tema 1 | Constitución Española de 1978 | Art. 10.1 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | La dignidad de la persona, los derechos inviolables que le son inherentes, el libre desarrollo de la personalidad, el respeto a la ley y a los derechos de los demás son fundamento del orden político y de la paz social. | ok |
+| GUIA-T1-11 | Guía Tema 1 | Constitución Española de 1978 | Art. 12 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Los españoles son mayores de edad a los dieciocho años. | ok |
+| GUIA-T1-12 | Guía Tema 1 | Constitución Española de 1978 | Art. 14 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Los españoles son iguales ante la ley, sin que pueda prevalecer discriminación alguna por razón de nacimiento, raza, sexo, religión, opinión o cualquier otra condición o circunstancia personal o social. | ok |
+| GUIA-T1-13 | Guía Tema 1 | Constitución Española de 1978 | Arts. 53.1 y 53.2 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Sección 1ª del Cap. II del Título I (arts. 15-29) y art. 14: vinculan a todos los poderes públicos, reserva de ley orgánica (art. 81), procedimiento preferente y sumario y recurso de amparo ante el TC. | ok |
+| GUIA-T1-14 | Guía Tema 1 | Constitución Española de 1978 | Art. 17.2 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | La detención preventiva no podrá durar más del tiempo estrictamente necesario para la realización de las averiguaciones tendentes al esclarecimiento de los hechos, y, en todo caso, en el plazo máximo de setenta y dos horas, el detenido deberá ser puesto en libertad o a disposición de la autoridad judicial. | ok |
+| GUIA-T1-15 | Guía Tema 1 | Constitución Española de 1978 | Arts. 53.1 y 53.2 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Sección 2ª del Cap. II del Título I (arts. 30-38): reserva de ley ordinaria (respetando contenido esencial). No gozan de recurso de amparo ante el TC, salvo la objeción de conciencia del art. 30.2. | ok |
+| GUIA-T1-16 | Guía Tema 1 | Constitución Española de 1978 | Art. 53.3 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Principios rectores (arts. 39-52): informarán legislación, práctica judicial y actuación de poderes públicos. Sólo podrán ser alegados ante jurisdicción ordinaria según dispongan las leyes que los desarrollen. | ok |
+| GUIA-T1-17 | Guía Tema 1 | Constitución Española de 1978 | Art. 54 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Una ley orgánica regulará la institución del Defensor del Pueblo, como alto comisionado de las Cortes Generales, designado por éstas para la defensa de los derechos comprendidos en este Título, a cuyo efecto podrá supervisar la actividad de la Administración... | ok |
+| GUIA-T1-18 | Guía Tema 1 | Ley Orgánica 3/1981 / CE | Art. 54 CE / LO 3/1981 | Sin copia local | Mandato de 5 años y elección por mayoría de tres quintos (3/5) del Congreso y del Senado derivan de los arts. 2.1 y 4.1 de la LO 3/1981 a la que remite el art. 54 CE. No se conserva copia local HTML de la LO 3/1981 en docs/fuentes/boe/. | **dudoso** |
+| GUIA-T1-19 | Guía Tema 1 | Constitución Española de 1978 | Art. 55.1 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Suspensión colectiva en estados de excepción o sitio: arts. 17, 18.2-3, 19, 20.1.a/d, 20.5, 21, 28.2 y 37.2. En Estado de Alarma NO se pueden suspender derechos fundamentales. | ok |
+| GUIA-T1-20 | Guía Tema 1 | Constitución Española de 1978 | Art. 55.2 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Suspensión individual mediante LO para investigaciones de bandas armadas o terrorismo (arts. 17.2 y 18.2-3) con intervención judicial y control parlamentario. | ok |
+| GUIA-T1-21 | Guía Tema 1 | Constitución Española de 1978 | Art. 13.2 CE (Reforma 1992) | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Reforma de 27 de agosto de 1992: añade 'y pasivo' en art. 13.2 para sufragio en elecciones municipales por ciudadanos de la UE (Tratado de Maastricht). | ok |
+| GUIA-T1-22 | Guía Tema 1 | Constitución Española de 1978 | Art. 135 CE (Reforma 2011) | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Reforma de 27 de septiembre de 2011: principio de estabilidad presupuestaria y límite del déficit estructural para todas las Administraciones Públicas. | ok |
+| GUIA-T1-23 | Guía Tema 1 | Constitución Española de 1978 | Art. 49 CE (Reforma 2024) | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Reforma de 15 de febrero de 2024: sustitución de 'disminuidos' por 'personas con discapacidad', garantizando derechos en condiciones de libertad e igualdad reales y atención particular a mujeres y menores con discapacidad. | ok |
+| GUIA-T1-24 | Guía Tema 1 | Constitución Española de 1978 | Art. 167 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Procedimiento ordinario: aprobación por 3/5 de cada Cámara. Comisión paritaria si disenso. Si mayoría absoluta en Senado, 2/3 en Congreso. Referéndum potestativo si 1/10 de Diputados o Senadores lo solicita en 15 días. | ok |
+| GUIA-T1-25 | Guía Tema 1 | Constitución Española de 1978 | Art. 168 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Procedimiento agravado (revisión total, Título preliminar, Sección 1ª Cap II Título I, o Título II): 2/3 de cada Cámara, disolución inmediata de las Cortes, ratificación y aprobación del nuevo texto por 2/3 de ambas Cámaras, y referéndum obligatorio y preceptivo. | ok |
+| GUIA-T2-01 | Guía Tema 2 | Constitución Española de 1978 | Art. 97 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | El Gobierno dirige la política interior y exterior, la administración civil y militar y la defensa del Estado. Ejerce la función ejecutiva y la potestad reglamentaria de acuerdo con la Constitución y las leyes. | ok |
+| GUIA-T2-02 | Guía Tema 2 | Constitución Española / Ley 50 | Art. 98.1 CE / Art. 1.2 Ley 50 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | El Gobierno se compone del Presidente, de los Vicepresidentes, en su caso, de los Ministros y de los demás miembros que establezca la ley. | ok |
+| GUIA-T2-03 | Guía Tema 2 | Constitución Española de 1978 | Art. 100 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Los demás miembros del Gobierno serán nombrados y separados por el Rey, a propuesta de su Presidente. | ok |
+| GUIA-T2-04 | Guía Tema 2 | Ley 50/1997 del Gobierno | Art. 5.3 Ley 50/1997 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1997-25336) | Las deliberaciones del Consejo de Ministros serán secretas, a lo que están obligados quienes asistan a sus sesiones, aun después de cesar en sus cargos. | ok |
+| GUIA-T2-05 | Guía Tema 2 | Ley 50/1997 del Gobierno | Art. 8.2 y 8.3 Ley 50/1997 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1997-25336) | Comisión General de Secretarios de Estado y Subsecretarios: presidida por Vicepresidente o Ministro de Presidencia. Prepara con carácter preceptivo todos los asuntos que van a Consejo de Ministros. | ok |
+| GUIA-T2-06 | Guía Tema 2 | Ley 50/1997 del Gobierno | Art. 10.1 y 10.4 Ley 50/1997 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1997-25336) | Gabinetes: órganos de apoyo político y técnico del Presidente, Vicepresidentes, Ministros y Secretarios de Estado. Su personal tiene la consideración de personal eventual y cesa automáticamente cuando cese el titular. | ok |
+| GUIA-T2-07 | Guía Tema 2 | Constitución Española de 1978 | Art. 112 y 114.1 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Cuestión de confianza: planteada por Presidente previa deliberación de Consejo de Ministros sobre programa o política general. Otorgada por mayoría simple del Congreso. Si se niega, dimisión al Rey. | ok |
+| GUIA-T2-08 | Guía Tema 2 | Constitución Española de 1978 | Art. 113 y 114.2 CE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229) | Moción de censura: propuesta por al menos 1/10 Diputados (35), candidato a Presidente, mayoría absoluta (176), periodo de enfriamiento de 5 días, mociones alternativas en 2 días. Si prospera dimisión e investidura del candidato. | ok |
+| GUIA-T2-09 | Guía Tema 2 | Ley 40/2015 (LRJSP) | Art. 55.3.a y 55.9 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Órganos superiores: Ministros y Secretarios de Estado. Establecen los planes de actuación de la organización situada bajo su responsabilidad. | ok |
+| GUIA-T2-10 | Guía Tema 2 | Ley 40/2015 (LRJSP) | Art. 55.3.b y 55.9 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Órganos directivos: Subsecretarios y Secretarios generales; Secretarios generales técnicos y Directores generales; Subdirectores generales. Corresponde a los órganos directivos su desarrollo y ejecución. | ok |
+| GUIA-T2-11 | Guía Tema 2 | Ley 40/2015 (LRJSP) | Art. 55.6 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Los órganos superiores y directivos tienen además la condición de alto cargo, excepto los Subdirectores generales y asimilados, de acuerdo con lo previsto en la Ley 3/2015... | ok |
+| GUIA-T2-12 | Guía Tema 2 | Ley 40/2015 (LRJSP) | Art. 63.2 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Los Subsecretarios serán nombrados y separados por Real Decreto del Consejo de Ministros a propuesta del titular del Ministerio entre funcionarios de carrera del Estado, CC.AA. o Entidades locales, pertenecientes al Subgrupo A1. | ok |
+| GUIA-T2-13 | Guía Tema 2 | Ley 40/2015 (LRJSP) | Art. 72 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Delegados del Gobierno en las CC.AA.: representan al Gobierno de la Nación, tienen rango de Subsecretario (órgano directivo), nombrados y separados por Real Decreto del Consejo de Ministros a propuesta del Presidente del Gobierno. No se exige ser funcionario. | ok |
+| GUIA-T2-14 | Guía Tema 2 | Ley 40/2015 (LRJSP) | Art. 74 Ley 40/2015 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-10566) | Subdelegados del Gobierno en las provincias: nivel de Subdirector General, nombrados por el Delegado del Gobierno por libre designación entre funcionarios de carrera clasificados como Subgrupo A1. | ok |
+| GUIA-T3-01 | Guía Tema 3 | Texto Refundido EBEP (TREBEP) | Art. 11.1 TREBEP | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11719) | Es personal laboral el que en virtud de contrato de trabajo formalizado por escrito... presta servicios retribuidos por las Administraciones Públicas. En función de la duración del contrato éste podrá ser fijo, por tiempo indefinido o temporal. | ok |
+| GUIA-T3-02 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 8.2 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | Deberán constar por escrito los contratos de trabajo cuando así lo exija una disposición legal... De no observarse tal exigencia, el contrato se presumirá celebrado por tiempo indefinido y a jornada completa, salvo prueba en contrario... | ok |
+| GUIA-T3-03 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 8.4 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | El empresario entregará a la representación legal de los trabajadores una copia básica de todos los contratos que deban celebrarse por escrito... en un plazo no superior a diez días desde la formalización... | ok |
+| GUIA-T3-04 | Guía Tema 3 | IV CUAGE | Arts. 8.1 y 32.1 IV CUAGE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2019-7414) | Período de prueba turno libre pactado por escrito: tres meses para grupos M3 y M2, un mes para los demás (M1, E2 y E1), excepto personal sin titulación (E0) para el que será de quince días laborables. | ok |
+| GUIA-T3-05 | Guía Tema 3 | IV CUAGE | Art. 32.3 IV CUAGE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2019-7414) | Durante este período, tanto la Administración como el trabajador o trabajadora podrán poner fin a la relación laboral, sin que ninguna de las partes tenga por ello derecho a indemnización alguna. | ok |
+| GUIA-T3-06 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 45.2 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | La suspensión exonera de las obligaciones recíprocas de trabajar y remunerar el trabajo. | ok |
+| GUIA-T3-07 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 48.4 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | El nacimiento... suspenderá el contrato de trabajo de la madre biológica durante 16 semanas... El nacimiento suspenderá el contrato del progenitor distinto durante 16 semanas. | ok |
+| GUIA-T3-08 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 48.10 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | Suspensión por trabajadora víctima de VG (art. 45.1.n): duración inicial no superior a 6 meses, ampliable judicialmente por períodos de 3 meses con máximo de 18 meses. | ok |
+| GUIA-T3-09 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 49.1 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | Extinción del contrato de trabajo: mutuo acuerdo, causas válidamente consignadas, expiración de tiempo, dimisión, muerte/incapacidad, jubilación, fuerza mayor, despido colectivo, causas objetivas, despido disciplinario. | ok |
+| GUIA-T3-10 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 54 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | Despido disciplinario por incumplimiento grave y culpable: faltas repetidas injustificadas de asistencia/puntualidad, indisciplina, ofensas verbales/físicas, transgresión buena fe, disminución voluntaria rendimiento, embriaguez habitual/toxicomanía, acoso. | ok |
+| GUIA-T3-11 | Guía Tema 3 | Estatuto Trabajadores (TRLET) | Art. 55.1 TRLET | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430) | El despido deberá ser notificado por escrito al trabajador, haciendo figurar los hechos que lo motivan y la fecha en que tendrá efectos. | ok |
+| GUIA-T3-12 | Guía Tema 3 | IV CUAGE | Arts. 109 y ss. IV CUAGE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2019-7414) | Expediente disciplinario previo con audiencia al interesado y audiencia a la representación de los trabajadores para sanciones por faltas graves y muy graves. | ok |
+| GUIA-T3-13 | Guía Tema 3 | IV CUAGE | Art. 112 IV CUAGE | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2019-7414) | Prescripción infracciones: muy graves 3 años, graves 2 años, leves 6 meses. Prescripción sanciones: muy graves 3 años, graves 2 años, leves 1 año. | ok |
+| GUIA-T4-01 | Guía Tema 4 | Ley Orgánica 3/2007 (Igualdad) | Art. 6.1 LO 3/2007 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | Discriminación directa por razón de sexo: la situación en que se encuentra una persona que sea, haya sido o pudiera ser tratada, en atención a su sexo, de manera menos favorable que otra en situación comparable. | ok |
+| GUIA-T4-02 | Guía Tema 4 | Ley Orgánica 3/2007 (Igualdad) | Art. 6.2 LO 3/2007 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | Discriminación indirecta por razón de sexo: la situación en que una disposición, criterio o práctica aparentemente neutros pone a personas de un sexo en desventaja particular con respecto a personas del otro, salvo que respondan a finalidad legítima y medios adecuados. | ok |
+| GUIA-T4-03 | Guía Tema 4 | Ley Orgánica 3/2007 (Igualdad) | Art. 7.1 LO 3/2007 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | Acoso sexual: cualquier comportamiento, verbal o físico, de naturaleza sexual que tenga el propósito o produzca el efecto de atentar contra la dignidad de una persona, en particular cuando se crea un entorno intimidatorio, degradante u ofensivo. | ok |
+| GUIA-T4-04 | Guía Tema 4 | Ley Orgánica 3/2007 (Igualdad) | Art. 7.2 LO 3/2007 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | Acoso por razón de sexo: cualquier comportamiento realizado en función del sexo de una persona, con el propósito o el efecto de atentar contra su dignidad y de crear un entorno intimidatorio, degradante u ofensivo. | ok |
+| GUIA-T4-05 | Guía Tema 4 | Ley Orgánica 3/2007 (Igualdad) | Art. 11 LO 3/2007 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | Acciones positivas: medidas específicas en favor de las mujeres para corregir situaciones patentes de desigualdad de hecho respecto de los hombres, aplicables en tanto subsistan dichas situaciones de forma razonable y proporcionada. | ok |
+| GUIA-T4-06 | Guía Tema 4 | Ley Orgánica 3/2007 (Igualdad) | Art. 45.2 LO 3/2007 | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | En el caso de las empresas de cincuenta o más trabajadores, las medidas de igualdad... deberán dirigirse a la elaboración y aplicación de un plan de igualdad... | ok |
+| GUIA-T4-07 | Guía Tema 4 | Ley Orgánica 3/2007 / TREBEP | Art. 64 LO 3/2007 / DA 7ª TREBEP | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2007-6115) | El Gobierno aprobará, al inicio de cada legislatura, un Plan para la Igualdad entre mujeres y hombres en la Administración General del Estado... y su cumplimiento será evaluado anualmente por el Consejo de Ministros. | ok |
+| GUIA-T4-08 | Guía Tema 4 | Texto Refundido EBEP (TREBEP) | Art. 59.1 TREBEP | [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2015-11719) | En las ofertas de empleo público se reservará un cupo no inferior al siete por ciento (7%) de las vacantes para ser cubiertas entre personas con discapacidad... de modo que al menos el dos por ciento (2%) sea cubierto por personas con discapacidad intelectual. | ok |
+| GUIA-T4-09 | Guía Tema 4 | Ley Orgánica 1/2004 (VG) | Art. 1.1 LO 1/2004 | Sin copia local | Definición de VG como manifestación de discriminación ejercida sobre mujeres por cónyuges o ligados por relaciones de afectividad aun sin convivencia. Sin copia local de LO 1/2004 en docs/fuentes/boe/. | **dudoso** |
+| GUIA-T4-10 | Guía Tema 4 | Ley Orgánica 1/2004 (VG) | Art. 10 LO 1/2004 | Sin copia local | Publicidad ilícita por utilizar la imagen de la mujer con carácter vejatorio o discriminatorio o justificar la VG. Sin copia local de LO 1/2004 en docs/fuentes/boe/. | **dudoso** |
+| GUIA-T4-11 | Guía Tema 4 | Ley Orgánica 1/2004 (VG) | Art. 21 LO 1/2004 | Sin copia local | Derechos laborales víctimas VG: reducción, reordenación, movilidad geográfica preferente, suspensión con reserva (hasta 18 meses con Art. 48.10 TRLET). Sin copia local de LO 1/2004 en docs/fuentes/boe/. | **dudoso** |
+| GUIA-T4-12 | Guía Tema 4 | RDL 1/2013 (Discapacidad) | Art. 4.2 RDL 1/2013 | Sin copia local | Consideración legal de persona con discapacidad a quienes tengan reconocido un grado igual o superior al 33%. Citado en Art. 59.1 TREBEP, pero el texto completo del RDL 1/2013 no cuenta con copia local en docs/fuentes/boe/. | **dudoso** |
+| GUIA-T4-13 | Guía Tema 4 | Ley 39/2006 (Dependencia) | Art. 26 Ley 39/2006 | Sin copia local | Tres grados de dependencia: Grado I (Moderada, ayuda al menos 1 vez al día), Grado II (Severa, ayuda 2-3 veces al día), Grado III (Gran Dependencia, ayuda continua varias veces al día). Sin copia local de Ley 39/2006 en docs/fuentes/boe/. | **dudoso** |
+| GUIA-T4-14 | Guía Tema 4 | Ley 15/2022 y Ley 4/2023 | Leyes 15/2022 y 4/2023 | Sin copia local | Marco integral contra discriminación y despatologización registral LGTBI. Sin copia local de Ley 15/2022 ni Ley 4/2023 en docs/fuentes/boe/. | **dudoso** |
+
+### 5.3. Declaración Formal sobre Guías del Bloque Específico (Temas 5 a 10)
+
+Las guías de estudio correspondientes al **Bloque Específico (Temas 5 a 10)**:
+- `guias/guia_tema_05_control_accesos.md`
+- `guias/guia_tema_06_paqueteria_valija.md`
+- `guias/guia_tema_07_reprografia_formatos_din.md`
+- `guias/guia_tema_08_correspondencia_burofax_correos.md`
+- `guias/guia_tema_09_recados_oficiales_secretos.md`
+- `guias/guia_tema_10_anomalias_averias_prl.md`
+
+han sido señalizadas formalmente en su cabecera con el distintivo de advertencia obligatorio:
+> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
+> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`. **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
+
+Todo el desarrollo jurídico y procedimental de T5 a T10 se mantiene estrictamente pausado hasta que se aporten las bases completas oficiales con sus correspondientes anexos.
+
+---
+
+## 6. Diff de Opciones Modificadas e Integridad del Significado Jurídico
 
 Para eliminar el sesgo de longitud sin alterar el contenido pedagógico ni la veracidad jurídica:
 - Se identificaron distractores inflados artificialmente con coletillas redundantes (por ejemplo: *`, de conformidad con los criterios generales previstos en las instrucciones de régimen interior`* o *`, debiendo mediar en todo caso resolución motivada del titular del órgano directivo`*) que deformaban la longitud de las respuestas erróneas.
@@ -303,7 +408,7 @@ Para eliminar el sesgo de longitud sin alterar el contenido pedagógico ni la ve
   - **Preguntas con opción correcta modificada:** **0 de 204 (0.0%)**.
   - **Alteración de significado jurídico:** **Ninguna**.
 
-### 5.1. Muestra Detallada de Preguntas con Distractores Depurados
+### 6.1. Muestra Detallada de Preguntas con Distractores Depurados
 | ID | Tema | Pregunta | Opción Correcta (Antes) | Opción Correcta (Ahora) | Concordancia | Tipo de Intervención |
 | :---: | :--- | :--- | :--- | :--- | :---: | :--- |
 | #1 | Tema 1 | Según el artículo 1.1 de la Constitución Española,... | Social y democrático de Derecho... | Social y democrático de Derecho... | **Idéntico (100%)** | Distractores ajustados (Respuesta idéntica) |
@@ -353,7 +458,7 @@ Para eliminar el sesgo de longitud sin alterar el contenido pedagógico ni la ve
 
 ---
 
-## 6. Estado de Preguntas 30, 153 y 175 (Tratamiento sin Marca Oficial)
+## 7. Estado de Preguntas 30, 153 y 175 (Tratamiento sin Marca Oficial)
 
 Siguiendo las instrucciones del usuario, se ha eliminado cualquier pretensión de oficialidad sobre preguntas de convocatorias pasadas:
 1. **Pregunta Q30 (Tema 2):** Se eliminó el rótulo `[EXAMEN OFICIAL REAL 2025 - Q61 / RESERVA R1]` del enunciado y la mención de examen en `article`. Pasa a formularse como pregunta ordinaria basada en el Art. 63.2 de la Ley 40/2015, incorporando el campo `note: "posible examen 2025, sin fuente"`.
@@ -362,7 +467,7 @@ Siguiendo las instrucciones del usuario, se ha eliminado cualquier pretensión d
 
 ---
 
-## 7. Reproducibilidad Determinista de la Simulación en Tests y CI (PRNG con Semilla)
+## 8. Reproducibilidad Determinista de la Simulación en Tests y CI (PRNG con Semilla)
 
 Para garantizar que los tests unitarios y la integración continua en CI no presenten fluctuaciones ni falsos positivos derivados del azar pseudoaleatorio no controlado, se ha parametrizado el motor de barajado y la suite de tests (`tests/exam_engine.test.mjs`) con un generador pseudoaleatorio lineal congruente determinista con semilla fija (`createSeededRng(42)`):
 
@@ -376,7 +481,7 @@ function createSeededRng(seed = 123456789) {
 }
 ```
 
-### 7.1. Métricas Exactas Deterministas (2.000 Simulaciones)
+### 8.1. Métricas Exactas Deterministas (2.000 Simulaciones)
 - **Modo evaluado:** Simulacro oficial (60 preguntas ordinarias, corte en 30, penalización -1/3).
 - **Comportamiento simulado:** Alumno ciego que marca sistemáticamente la opción **B** (índice 1).
 - **Aciertos brutos medios:** **15.02 / 60** (25.03%, concordante con la probabilidad teórica de 1 de 4).
@@ -388,7 +493,7 @@ function createSeededRng(seed = 123456789) {
 
 ---
 
-## 8. Verificación Integral de Opciones y Blindaje en CI
+## 9. Verificación Integral de Opciones y Blindaje en CI
 
 1. **Documento Completo de Opciones:** El desglose pormenorizado, pregunta por pregunta, con las cuatro opciones antes y después, se encuentra documentado en [docs/diff_opciones.md](file:///C:/Users/FUJITSU/.gemini/antigravity/scratch/mision-administracion/docs/diff_opciones.md).
 2. **Garantía de Integridad Jurídica:**

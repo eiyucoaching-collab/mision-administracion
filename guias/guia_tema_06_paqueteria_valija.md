@@ -1,5 +1,9 @@
-# GUÍA OFICIAL DE ESTUDIO TÉCNICO: TEMA 6 (ESPECÍFICO 2)
+# GUÍA DE ESTUDIO: TEMA 6 (BLOQUE ESPECÍFICO)
 ## RECEPCIÓN, DISTRIBUCIÓN Y ENTREGA DE PAQUETERÍA Y VALIJA OFICIAL
+
+> ⚠️ **ESTADO: NO AUDITADA / CONTENIDO PAUSADO**  
+> Esta guía pertenece al **Bloque Específico (Temas 5 a 10)**. Su contenido técnico, procedimental y normativo **NO ha sido auditado contra documentos oficiales** y permanece formalmente **pausado** a la espera de la aportación de las bases específicas completas oficiales y sus anexos en `docs/fuentes/`.  
+> **No utilizar como fuente jurídica contrastada ni asumir su oficialidad hasta su validación definitiva.**
 
 ---
 
