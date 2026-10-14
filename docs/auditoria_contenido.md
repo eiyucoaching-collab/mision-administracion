@@ -843,3 +843,41 @@ En octubre de 2026, tras una auditoría integral que detectó la introducción d
    - Umbral del 65% etiquetado explícitamente como "Objetivo de entrenamiento recomendado" (diferenciado del corte aprobatorio mínimo de 30/60 puntos).
    - Implementada función de sanitización `escapeHtml` en todas las interpolaciones dinámicas del DOM para blindar el almacenamiento local (PAT de GitHub Gist).
 
+---
+
+## 12. Ingesta e Integración de Exámenes Oficiales Reales de Febrero de 2025 (250 Preguntas)
+
+En octubre de 2026 se completó la ingesta y archivo documental de los cuestionarios oficiales reales celebrados en febrero de 2025 para el Grupo Profesional E1 – Especialidad Servicios Administrativos:
+
+### 12.1. Fuentes Oficiales Archivadas
+1. **Ministerio de Defensa (Examen del 01/02/2025):**
+   - Recurso: Cuestionario Oficial E1 Servicios Administrativos (Acceso Libre, 59 preguntas operativas desglosadas en 6 partes con plantilla definitiva).
+   - Archivo local: [`docs/fuentes/defensa_2025_02_01_all.json`](fuentes/defensa_2025_02_01_all.json).
+2. **AGE – MITECO / IV CUAGE (Examen del 25/02/2025):**
+   - Recurso: Cuestionario Oficial en PDF alojado en servidor gubernamental (.gob.es) + Plantilla Definitiva de Respuestas aprobada tras alegaciones (60 preguntas ordinarias + 6 de reserva, con anulación de la pregunta 11 sustituida por la Reserva 1).
+   - Archivo local PDF: [`docs/fuentes/2025.02.25_E1_SERVICIOS_ADMINISTRATIVOS_MITECO.pdf`](fuentes/2025.02.25_E1_SERVICIOS_ADMINISTRATIVOS_MITECO.pdf).
+   - Archivo local JSON: [`docs/fuentes/miteco_2025_02_25_all.json`](fuentes/miteco_2025_02_25_all.json).
+
+### 12.2. Sustitución de Preguntas Propias y Purga de Relleno Sintético
+- Se eliminaron las 86 preguntas de redacción propia (`original_propia`) que contenían supuestos sintéticos o normativa periférica innecesaria.
+- Se incorporaron **119 preguntas oficiales literales de 2025**:
+  - **59 preguntas del Ministerio de Defensa (01/02/2025)**: etiquetadas con `[EXAMEN OFICIAL DEFENSA 01/02/2025]`.
+  - **60 preguntas de la AGE – MITECO (25/02/2025)**: etiquetadas con `[EXAMEN OFICIAL AGE 25/02/2025]`.
+- Se mantuvieron las **131 preguntas verificadas** contra las leyes orgánicas, el estatuto de los trabajadores y el IV CUAGE archivadas en `docs/fuentes/boe/`.
+- Total banco resultante: **250 preguntas**.
+- **0 preguntas con sourceType "original_propia" o "sin_verificar"** (100% de preguntas con respaldo en normas consolidadas o exámenes oficiales).
+
+### 12.3. Métricas Oficiales de Calidad y Equilibrio Natural (250 Preguntas)
+- **Distribución de opciones correctas:**
+  - Opción A: **67 (26.8%)**
+  - Opción B: **68 (27.2%)**
+  - Opción C: **63 (25.2%)**
+  - Opción D: **52 (20.8%)**
+  - *Máxima concentración en una letra: 27.2% (límite reglamentario CI: &le; 35%).*
+- **Longitud natural de las opciones oficiales:**
+  - Opción correcta más larga: **88 de 250 (35.2%)** (banda reglamentaria CI: 15%–48%).
+  - Opción correcta más corta: **51 de 250 (20.4%)** (banda reglamentaria CI: 15%–48%).
+- **Detector Anti-Goodhart:** **0 secuencias repetidas (n-gramas de 5+ palabras)** en opciones incorrectas.
+- **Simulador oficial `real2025`:** La selección de preguntas en modo `real2025` está configurada para nutrirse al **100% con preguntas oficiales reales de la convocatoria de 2025** (20 comunes, 40 específicas y 6 reservas).
+
+

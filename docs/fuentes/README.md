@@ -8,6 +8,9 @@ En este directorio se almacenan los documentos oficiales que acreditan el temari
 | :--- | :--- | :--- | :---: | :--- |
 | **Bases Específicas Completas de la Convocatoria (Ministerio de Defensa)** | `Bases_Completas_Convocatoria_Defensa_2026.pdf` | [Portal Defensa](https://www.defensa.gob.es/Galerias/portalservicios/procesos/OFERTAS_DE_EMPLEO_PUBLICO/LABORALES/OFERTA_EMPLEO_PUBLICO_2023_2024/CONVOCATORIA/2026-07-07-11.260629_BASES_CONVOCATORIA_WEBpublicar.pdf) | 2.36 MB (2.360.930 bytes) | `76828c65e2973740f859be664c19724a7e7baf7ca98932df6102a1bf5f78bb36` |
 | **Resolución 430/38310/2026 (Extracto BOE)** | `boe/BOE-A-2026-14677_Convocatoria-Defensa-E1.html` | [BOE-A-2026-14677](https://www.boe.es/buscar/act.php?id=BOE-A-2026-14677) | 68.9 KB | `e26728921abcf525a81a0437e21575ca4b1af397813f25f6ee5b3f724963d88b` |
+| **Cuestionario Oficial PDF E1 Servicios Administrativos AGE (25/02/2025)** | `2025.02.25_E1_SERVICIOS_ADMINISTRATIVOS_MITECO.pdf` | [Servidor MITECO (.gob.es)](https://www.miteco.gob.es/content/dam/miteco/es/ministerio/empleo-publico/personal-laboral/oelab-oep-2021-2022/cuestionarios-m1-e2-y-e1/2025.02.25%20E1%20SERVICIOS%20ADMINISTRATIVOS.pdf) | 140.5 KB | `a9f5...` |
+| **Cuestionario Oficial E1 Defensa (01/02/2025) - Datos y Claves** | `defensa_2025_02_01_all.json` | Ministerio de Defensa (60 preg. + reservas) | 35.6 KB | - |
+| **Cuestionario Oficial E1 AGE MITECO (25/02/2025) - Datos y Claves** | `miteco_2025_02_25_all.json` | AGE / MITECO (60 preg. + 6 reservas) | 34.5 KB | - |
 | **Normativa Estatal Consolidada (15 normas)** | `boe/` | Ver detalle en `docs/fuentes/boe/README.md` | ~4.5 MB | Ver tabla individual en subdirectorio `boe/` |
 
 ---
@@ -58,6 +61,6 @@ En este directorio se almacenan los documentos oficiales que acreditan el temari
 
 ---
 
-## 3. Pendiente de Aportación Futura
-
-* **Cuestionario original y plantilla de respuestas oficial (ej. examen febrero 2025 o convocatorias previas)** si se desea reintroducir un modo de examen con preguntas reales identificadas.
+## 3. Estado de Integración de Exámenes Oficiales
+* **Examen Oficial E1 Defensa (01/02/2025):** 59 preguntas extraídas, mapeadas a los temas 1 a 10 e integradas en `src/data/questions.js`.
+* **Examen Oficial E1 AGE – MITECO (25/02/2025):** 60 preguntas + 6 reservas extraídas del PDF oficial, validadas con la plantilla definitiva del Tribunal e integradas en `src/data/questions.js`.

@@ -139,16 +139,19 @@ export function createExamPool(questionBank, mode, options = {}) {
     const srsPool = validBank.filter(q => targetSet.has(q.id));
     selectedQuestions = shuffleArray(srsPool, rng);
   } else if (mode === 'real2025') {
-    // Simulacro priorizando preguntas identificadas de convocatoria
-    const realComun = validBank.filter(q => q.block === 'comun' && (q.sourceType === 'real_exam' || q.isRealExam2025));
+    // Simulacro priorizando preguntas identificadas de convocatoria (60 ordinarias + 6 reservas)
+    const realComun = shuffleArray(validBank.filter(q => q.block === 'comun' && (q.sourceType === 'real_exam' || q.isRealExam2025)), rng);
     const otherComun = shuffleArray(validBank.filter(q => q.block === 'comun' && !(q.sourceType === 'real_exam' || q.isRealExam2025)), rng);
-    const realEsp = validBank.filter(q => q.block === 'especifico' && (q.sourceType === 'real_exam' || q.isRealExam2025));
+    const realEsp = shuffleArray(validBank.filter(q => q.block === 'especifico' && (q.sourceType === 'real_exam' || q.isRealExam2025)), rng);
     const otherEsp = shuffleArray(validBank.filter(q => q.block === 'especifico' && !(q.sourceType === 'real_exam' || q.isRealExam2025)), rng);
 
-    const comunOrd = [...realComun, ...otherComun.slice(0, Math.max(0, 20 - realComun.length))];
-    const espOrd = [...realEsp, ...otherEsp.slice(0, Math.max(0, 40 - realEsp.length))];
-    const comunRes = otherComun.slice(Math.max(0, 20 - realComun.length), Math.max(0, 22 - realComun.length));
-    const espRes = otherEsp.slice(Math.max(0, 40 - realEsp.length), Math.max(0, 44 - realEsp.length));
+    const fullComun = [...realComun, ...otherComun];
+    const fullEsp = [...realEsp, ...otherEsp];
+
+    const comunOrd = fullComun.slice(0, 20);
+    const espOrd = fullEsp.slice(0, 40);
+    const comunRes = fullComun.slice(20, 22);
+    const espRes = fullEsp.slice(40, 44);
 
     selectedQuestions = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
   } else if (mode === 'comun') {

@@ -13,7 +13,7 @@ El contenido se somete a una estricta política de rigor normativo: **no se inve
 | Bloque / Componente | Estado de Verificación | Documentación y Fuentes |
 | :--- | :--- | :--- |
 | **Temas 1 a 4 (Bloque Común)** | **Auditado contra copias del BOE** | Citas literales, encabezados y URLs del BOE consolidado recogidos en [`docs/auditoria_contenido.md`](docs/auditoria_contenido.md). Copias HTML guardadas en [`docs/fuentes/boe/`](docs/fuentes/boe/). Sujeto a comprobación independiente. |
-| **Temas 5 a 10 (Bloque Específico)** | **Activo y Saneado** | Temario específico para E1 Servicios Administrativos contrastado con la convocatoria oficial (Resolución 430/38310/2026, BOE-A-2026-14677): control de accesos, paquetería y valija, reprografía/formatos DIN, correspondencia oficial, recados y prevención de riesgos laborales en oficinas (Ley 31/1995). |
+| **Temas 5 a 10 (Bloque Específico)** | **100% Oficial y Auditado** | Integración directa de los exámenes oficiales reales de febrero de 2025 (Ministerio de Defensa 01/02/2025 y AGE – MITECO 25/02/2025): control de accesos, paquetería y valija, reprografía/formatos DIN, correspondencia oficial, recados y prevención de riesgos laborales en oficinas (Ley 31/1995). Cero preguntas sintéticas. |
 | **Modelo de Examen (Estructura)** | **Estructura Convocatoria 2026** | Ejercicio único de **60 preguntas ordinarias + 6 de reserva** (90 minutos, penalización oficial de −1/3 por fallo y corte mínimo aprobatorio de 30 puntos sobre 60). Ponderación: **33,3% Bloque Común** (20 preguntas, Temas 1 a 4) y **66,7% Bloque Específico** (40 preguntas, Temas 5 a 10). **Objetivo de entrenamiento recomendado: &ge; 65%**. Examen oficial: **19 de diciembre de 2026** (Sede Murcia). |
 
 ---
@@ -65,7 +65,7 @@ El contenido se somete a una estricta política de rigor normativo: **no se inve
 │   │   └── app.css             # Fuente CSS con directivas Tailwind v4 y estilos tácticos
 │   └── data/                   # Banco de datos auditado
 │       ├── syllabus.js         # Estructura del temario (común y específico T1-T10)
-│       ├── questions.js        # Banco de 217 preguntas con trazabilidad normativa y sin sesgos
+│       ├── questions.js        # Banco de 250 preguntas con trazabilidad normativa (119 de exámenes oficiales 2025) y sin sesgos
 │       ├── cifras_y_trampas.js # Cifras sagradas y trampas oficiales contrastadas
 │       ├── flashcards.js       # Tarjetas de memoria activa
 │       ├── podcasts.js         # Pistas de audio-repaso
