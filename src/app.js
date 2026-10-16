@@ -28,9 +28,8 @@ import {
 import {
   STORAGE_KEYS,
   CURRENT_STORAGE_VERSION,
-  migrateStorage
 } from './storage/migration.js';
-import { DailyMissionsManager } from './modules/missions_engine.js';
+import { DailyMissionsManager, STORAGE_KEY_MISSIONS } from './modules/missions_engine.js';
 
 export function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -239,6 +238,7 @@ class OpoDefensaApp {
       failedQuestionIds: Array.from(this.failedQuestions),
       cardRatings: this.cardRatings,
       planChecklist: this.planChecklist,
+      dailyMissions: this.missionsManager?.state || (typeof localStorage !== 'undefined' ? JSON.parse(localStorage.getItem(STORAGE_KEY_MISSIONS) || 'null') : null),
       highlighterEnabled: this.highlighterEnabled,
       cifrasBestScore: this.cifrasBestScore,
       srsVault: this.srsVault,
@@ -283,6 +283,10 @@ class OpoDefensaApp {
           }
           if (data.planChecklist) {
             localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
+          }
+          if (data.dailyMissions) {
+            localStorage.setItem(STORAGE_KEY_MISSIONS, JSON.stringify(data.dailyMissions));
+            if (this.missionsManager) this.missionsManager.state = this.missionsManager.loadState();
           }
           if (data.highlighterEnabled !== undefined) {
             localStorage.setItem(STORAGE_KEYS.HIGHLIGHTER, data.highlighterEnabled ? 'true' : 'false');
@@ -3687,6 +3691,7 @@ class OpoDefensaApp {
       failedQuestionIds: Array.from(this.failedQuestions),
       cardRatings: this.cardRatings,
       planChecklist: this.planChecklist,
+      dailyMissions: this.missionsManager?.state || (typeof localStorage !== 'undefined' ? JSON.parse(localStorage.getItem(STORAGE_KEY_MISSIONS) || 'null') : null),
       highlighterEnabled: this.highlighterEnabled,
       cifrasBestScore: this.cifrasBestScore,
       srsVault: this.srsVault,
@@ -3771,6 +3776,10 @@ class OpoDefensaApp {
       if (data.failedQuestionIds) localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(data.failedQuestionIds));
       if (data.cardRatings) localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(data.cardRatings));
       if (data.planChecklist) localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
+      if (data.dailyMissions) {
+        localStorage.setItem(STORAGE_KEY_MISSIONS, JSON.stringify(data.dailyMissions));
+        if (this.missionsManager) this.missionsManager.state = this.missionsManager.loadState();
+      }
       if (data.cifrasBestScore) localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
       if (data.srsVault) localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(data.srsVault));
       if (data.customQuestions) localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(data.customQuestions));
