@@ -73,8 +73,12 @@
       </button>
     </nav>
 
-    <!-- ACCIONES DE CABECERA: IMPRIMIR PDF Y SIMULACRO -->
+    <!-- ACCIONES DE CABECERA: USUARIO IVÁN, IMPRIMIR PDF Y SIMULACRO -->
     <div class="flex items-center gap-2">
+      <button onclick="window.app.loadIvanProfile()" title="Cargar / Sincronizar mis datos (Iván)" class="px-3 py-2 bg-gradient-to-r from-sky-500/20 to-indigo-500/20 hover:from-sky-500/30 hover:to-indigo-500/30 text-sky-300 border border-sky-500/40 font-black text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+        <span>👤</span>
+        <span>Iván</span>
+      </button>
       <button onclick="window.app.openPrintModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
         <span>🖨️</span>
         <span class="hidden sm:inline">Modo Imprimir / PDF</span>

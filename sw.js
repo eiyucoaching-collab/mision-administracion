@@ -17,6 +17,7 @@ const STATIC_ASSETS = [
   './src/data/podcasts.js',
   './src/data/esquemas.js',
   './src/data/cloze_data.js',
+  './src/data/user_profile.js',
   './src/modules/missions_engine.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png'

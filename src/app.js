@@ -27,9 +27,10 @@ import {
 } from './exam/engine.js';
 import {
   STORAGE_KEYS,
-  CURRENT_STORAGE_VERSION,
+  CURRENT_STORAGE_VERSION
 } from './storage/migration.js';
 import { DailyMissionsManager, STORAGE_KEY_MISSIONS } from './modules/missions_engine.js';
+import { IVAN_PROFILE } from './data/user_profile.js';
 
 export function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -403,6 +404,19 @@ class OpoDefensaApp {
       console.error('Error restaurando desde texto:', err);
       alert(`Error al procesar el texto JSON: ${err.message || 'Formato no válido.'}`);
     }
+  }
+
+  // CARGAR PERFIL OFICIAL DE IVÁN (OBJETIVO MURCIA 19-D)
+  loadIvanProfile(silent = false) {
+    if (!IVAN_PROFILE) return;
+    this.applyImportData(IVAN_PROFILE);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('opo_user_name', 'Iván');
+    }
+    if (!silent) {
+      alert('¡Hola Iván! Se han cargado tus datos: 2 exámenes (Sprint 45: 31,67 puntos), 13 fallos en la Bóveda SRS y Día 1 completado.');
+    }
+    this.setTab('dashboard');
   }
 
   // DESCARGAR GUÍA TEÓRICA OFICIAL (STUDIO .MD)
@@ -996,6 +1010,32 @@ class OpoDefensaApp {
             <span class="font-mono text-slate-500">19/12/2026</span>
           </div>
         `}
+
+        <!-- PERFIL PERSONALIZADO DE IVÁN -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-sky-500/40 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-2xl shadow-lg shadow-sky-500/20 shrink-0">
+              👤
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-sm sm:text-base font-black text-white">Opositor: Iván</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-sky-500/20 text-sky-300 border border-sky-500/30 uppercase">
+                  19-D Murcia
+                </span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">
+                ${metrics.totalExams > 0 ? `${metrics.totalExams} pruebas registradas &bull; Bóveda SRS: ${srsTotalCount} fallos &bull; Día 1: ${this.planChecklist[1] ? 'Completado ✓' : 'Pendiente'}` : 'Sin datos locales en este navegador. Haz clic para sincronizar tus exámenes y fallos.'}
+              </p>
+            </div>
+          </div>
+          <button
+            onclick="window.app.loadIvanProfile()"
+            class="px-4 py-2 bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 self-end sm:self-auto shrink-0">
+            <span>⚡</span>
+            <span>Cargar Datos de Iván (Restaurar)</span>
+          </button>
+        </div>
 
         <!-- HERO CARD DE CONVOCATORIA CON COUNTDOWN DUAL -->
         <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-sky-950 border border-slate-700/60 rounded-3xl p-6 sm:p-10 shadow-2xl">
