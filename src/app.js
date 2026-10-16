@@ -27,7 +27,8 @@ import {
 } from './exam/engine.js';
 import {
   STORAGE_KEYS,
-  CURRENT_STORAGE_VERSION
+  CURRENT_STORAGE_VERSION,
+  migrateStorage
 } from './storage/migration.js';
 import { DailyMissionsManager, STORAGE_KEY_MISSIONS } from './modules/missions_engine.js';
 import { IVAN_PROFILE } from './data/user_profile.js';
