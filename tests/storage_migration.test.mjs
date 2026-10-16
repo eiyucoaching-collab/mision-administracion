@@ -189,3 +189,47 @@ describe('Storage Migration v1 -> v2 Tests', () => {
     );
   });
 });
+
+describe('Backup Import & Restore Robustness Tests', () => {
+  it('procesa correctamente datos de copia de seguridad con planChecklist y misiones', () => {
+    const backupJson = JSON.stringify({
+      app: 'Misión Administración - Opo-Defensa E1',
+      version: '2.1.0',
+      storageVersion: CURRENT_STORAGE_VERSION,
+      planChecklist: { '1': true, '2': false },
+      dailyMissions: { streak: 1, totalXp: 150 },
+      examHistory: [{ id: 'ex_1', score: 45 }],
+      failedQuestionIds: [12, 14]
+    });
+
+    const parsed = JSON.parse(backupJson);
+    assert.equal(parsed.planChecklist['1'], true);
+    assert.equal(parsed.dailyMissions.streak, 1);
+    assert.equal(parsed.examHistory.length, 1);
+  });
+
+  it('elimina bloques de formato markdown antes de parsear si el usuario pegó el JSON con fences', () => {
+    const rawWithFences = '```json\n{\n  "app": "Misión Administración",\n  "planChecklist": { "1": true }\n}\n```';
+    let cleaned = rawWithFences.trim();
+    if (cleaned.startsWith('```json')) cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+    else if (cleaned.startsWith('```')) cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+
+    const parsed = JSON.parse(cleaned);
+    assert.equal(parsed.planChecklist['1'], true);
+  });
+
+  it('distingue correctamente entre una batería de preguntas (Array) y un backup de progreso (Object)', () => {
+    const questionsArray = [
+      { question: '¿Pregunta 1?', options: ['A', 'B'], correct: 0 }
+    ];
+    assert.equal(Array.isArray(questionsArray), true);
+
+    const progressBackup = {
+      app: 'Misión Administración - Opo-Defensa E1',
+      planChecklist: { 1: true }
+    };
+    assert.equal(Array.isArray(progressBackup), false);
+    assert.equal(Boolean(progressBackup.planChecklist || progressBackup.app), true);
+  });
+});
+

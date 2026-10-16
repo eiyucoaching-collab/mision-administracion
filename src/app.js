@@ -262,66 +262,147 @@ class OpoDefensaApp {
     }
   }
 
+  // APLICAR DATOS DE COPIA DE SEGURIDAD AL ALMACENAMIENTO LOCAL
+  applyImportData(data, isFromGist = false) {
+    if (!data || typeof data !== 'object') {
+      throw new Error('El archivo no contiene un objeto JSON válido.');
+    }
+
+    if (Array.isArray(data)) {
+      throw new Error('El archivo seleccionado contiene una matriz de preguntas (batería), no una copia de seguridad de progreso. Para importar preguntas, usa la sección "Inyector Masivo".');
+    }
+
+    const hasKnownKeys = Boolean(
+      data.examHistory ||
+      data.failedQuestionIds ||
+      data.cardRatings ||
+      data.planChecklist ||
+      data.dailyMissions ||
+      data.srsVault ||
+      data.cifrasBestScore ||
+      data.settings ||
+      data.app
+    );
+
+    if (!hasKnownKeys) {
+      throw new Error('El archivo no contiene información reconocible de progreso de Misión Administración.');
+    }
+
+    if (typeof localStorage !== 'undefined') {
+      if (data.examHistory) {
+        localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(data.examHistory));
+      }
+      if (data.failedQuestionIds) {
+        localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(data.failedQuestionIds));
+      }
+      if (data.cardRatings) {
+        localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(data.cardRatings));
+      }
+      if (data.planChecklist) {
+        localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
+      }
+      if (data.dailyMissions) {
+        localStorage.setItem(STORAGE_KEY_MISSIONS, JSON.stringify(data.dailyMissions));
+        if (this.missionsManager) this.missionsManager.state = this.missionsManager.loadState();
+      }
+      if (data.highlighterEnabled !== undefined) {
+        localStorage.setItem(STORAGE_KEYS.HIGHLIGHTER, data.highlighterEnabled ? 'true' : 'false');
+      }
+      if (data.cifrasBestScore) {
+        localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
+      }
+      if (data.srsVault) {
+        localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(data.srsVault));
+      }
+      if (data.customQuestions) {
+        localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(data.customQuestions));
+      }
+      if (data.settings) {
+        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+      }
+      if (data.storageVersion) {
+        localStorage.setItem(STORAGE_KEYS.VERSION, String(data.storageVersion));
+      } else {
+        localStorage.removeItem(STORAGE_KEYS.VERSION);
+      }
+
+      // Ejecutar sanitización y migración si el archivo importado procede de formato legado
+      migrateStorage(localStorage);
+      this.loadPersistence();
+    }
+
+    this.initFlashcardSession();
+    const msg = isFromGist
+      ? '¡Progreso descargado y restaurado con éxito desde GitHub Gist!'
+      : '¡Progreso restaurado con éxito! Se han cargado tus estadísticas, plan de estudio, Bóveda SRS, cuaderno de fallos y configuración.';
+    alert(msg);
+    this.setTab(this.activeTab);
+  }
+
   // IMPORTAR PROGRESO DESDE FICHERO JSON
-  importProgress(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+  importProgress(eventOrFile) {
+    let file = null;
+    let inputEl = null;
+
+    if (eventOrFile && (eventOrFile instanceof Blob || (typeof File !== 'undefined' && eventOrFile instanceof File))) {
+      file = eventOrFile;
+    } else if (eventOrFile && eventOrFile.target) {
+      inputEl = eventOrFile.target;
+      file = eventOrFile.target.files && eventOrFile.target.files[0];
+    } else if (eventOrFile && eventOrFile.files) {
+      inputEl = eventOrFile;
+      file = eventOrFile.files[0];
+    }
+
+    if (!file) {
+      console.warn('importProgress: No se detectó ningún archivo');
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const data = JSON.parse(e.target.result);
-        if (typeof localStorage !== 'undefined') {
-          if (data.examHistory) {
-            localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(data.examHistory));
-          }
-          if (data.failedQuestionIds) {
-            localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(data.failedQuestionIds));
-          }
-          if (data.cardRatings) {
-            localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(data.cardRatings));
-          }
-          if (data.planChecklist) {
-            localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
-          }
-          if (data.dailyMissions) {
-            localStorage.setItem(STORAGE_KEY_MISSIONS, JSON.stringify(data.dailyMissions));
-            if (this.missionsManager) this.missionsManager.state = this.missionsManager.loadState();
-          }
-          if (data.highlighterEnabled !== undefined) {
-            localStorage.setItem(STORAGE_KEYS.HIGHLIGHTER, data.highlighterEnabled ? 'true' : 'false');
-          }
-          if (data.cifrasBestScore) {
-            localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
-          }
-          if (data.srsVault) {
-            localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(data.srsVault));
-          }
-          if (data.customQuestions) {
-            localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(data.customQuestions));
-          }
-          if (data.settings) {
-            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
-          }
-          if (data.storageVersion) {
-            localStorage.setItem(STORAGE_KEYS.VERSION, String(data.storageVersion));
-          } else {
-            localStorage.removeItem(STORAGE_KEYS.VERSION);
-          }
-
-          // Ejecutar sanitización y migración si el archivo importado procede de formato legado
-          migrateStorage(localStorage);
-          this.loadPersistence();
+        let raw = e.target.result;
+        if (!raw || typeof raw !== 'string') {
+          throw new Error('El archivo está vacío o no se ha podido leer.');
         }
+        raw = raw.trim();
+        if (raw.startsWith('```json')) raw = raw.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+        else if (raw.startsWith('```')) raw = raw.replace(/^```\s*/, '').replace(/\s*```$/, '');
 
-        this.initFlashcardSession();
-        alert('¡Progreso restaurado con éxito! Se han cargado tus estadísticas, Bóveda SRS, cuaderno de fallos y configuración.');
-        this.setTab(this.activeTab);
+        const data = JSON.parse(raw);
+        this.applyImportData(data);
       } catch (err) {
-        alert('Error al leer el archivo JSON. Asegúrate de seleccionar un archivo de copia de seguridad válido.');
+        console.error('Error al importar copia de seguridad:', err);
+        alert(`Error al leer el archivo JSON: ${err.message || 'Asegúrate de seleccionar un archivo de copia de seguridad válido.'}`);
+      } finally {
+        if (inputEl) inputEl.value = '';
       }
     };
+    reader.onerror = (err) => {
+      console.error('Error físico leyendo archivo:', err);
+      alert('Error al leer el archivo desde el dispositivo.');
+      if (inputEl) inputEl.value = '';
+    };
     reader.readAsText(file);
+  }
+
+  // RESTAURAR COPIA PEGANDO TEXTO JSON DIRECTAMENTE
+  restoreFromPastedJson(rawText) {
+    if (!rawText || !rawText.trim()) {
+      alert('Por favor, pega el contenido del archivo JSON de tu copia de seguridad en el cuadro de texto.');
+      return;
+    }
+    try {
+      let raw = rawText.trim();
+      if (raw.startsWith('```json')) raw = raw.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      else if (raw.startsWith('```')) raw = raw.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      const data = JSON.parse(raw);
+      this.applyImportData(data);
+    } catch (err) {
+      console.error('Error restaurando desde texto:', err);
+      alert(`Error al procesar el texto JSON: ${err.message || 'Formato no válido.'}`);
+    }
   }
 
   // DESCARGAR GUÍA TEÓRICA OFICIAL (STUDIO .MD)
@@ -1233,7 +1314,7 @@ class OpoDefensaApp {
             </button>
             <label class="px-4 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs rounded-xl shadow cursor-pointer flex items-center gap-2">
               <span>📤</span> Restaurar Copia
-              <input type="file" accept=".json" onchange="window.app.importProgress(event)" class="hidden">
+              <input type="file" accept=".json,application/json,text/plain" onchange="window.app.importProgress(event)" class="hidden">
             </label>
             <button onclick="window.app.setTab('importador')" class="px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all">
               <span>⚡ Gist API &rarr;</span>
@@ -3772,25 +3853,11 @@ class OpoDefensaApp {
       }
 
       const data = JSON.parse(fileObj.content);
-      if (data.examHistory) localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(data.examHistory));
-      if (data.failedQuestionIds) localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(data.failedQuestionIds));
-      if (data.cardRatings) localStorage.setItem(STORAGE_KEYS.FLASHCARDS_RATING, JSON.stringify(data.cardRatings));
-      if (data.planChecklist) localStorage.setItem(STORAGE_KEYS.PLAN_CHECKLIST, JSON.stringify(data.planChecklist));
-      if (data.dailyMissions) {
-        localStorage.setItem(STORAGE_KEY_MISSIONS, JSON.stringify(data.dailyMissions));
-        if (this.missionsManager) this.missionsManager.state = this.missionsManager.loadState();
-      }
-      if (data.cifrasBestScore) localStorage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(data.cifrasBestScore));
-      if (data.srsVault) localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(data.srsVault));
-      if (data.customQuestions) localStorage.setItem(STORAGE_KEYS.CUSTOM_QUESTIONS, JSON.stringify(data.customQuestions));
-      if (data.settings) localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
-
-      migrateStorage(localStorage);
-      this.loadPersistence();
+      this.applyImportData(data, true);
       this.gistConfig.lastSync = new Date().toISOString();
-      localStorage.setItem(STORAGE_KEYS.GIST_CONFIG, JSON.stringify(this.gistConfig));
-
-      alert('¡Progreso descargado y restaurado con éxito desde GitHub Gist!');
+      try {
+        localStorage.setItem(STORAGE_KEYS.GIST_CONFIG, JSON.stringify(this.gistConfig));
+      } catch (e) {}
       this.setTab('importador');
     } catch (err) {
       alert(`Error al descargar desde GitHub Gist: ${err.message}`);
@@ -3895,12 +3962,33 @@ class OpoDefensaApp {
               </div>
               <input
                 type="file"
-                accept=".json"
+                accept=".json,application/json,text/plain"
                 class="hidden"
-                onchange="if (this.files[0]) window.app.importProgress(this.files[0])"
+                onchange="window.app.importProgress(event)"
               />
             </label>
           </div>
+
+          <!-- ALTERNATIVA: PEGAR TEXTO JSON DIRECTO -->
+          <details class="group bg-slate-950/60 border border-slate-800/80 rounded-2xl p-4 transition-all">
+            <summary class="text-xs font-bold text-slate-400 group-hover:text-sky-300 cursor-pointer flex items-center justify-between">
+              <span>📋 ¿Problemas al seleccionar el archivo? Restaurar pegando el texto JSON</span>
+              <span class="text-slate-500 text-xs">▼</span>
+            </summary>
+            <div class="pt-3 space-y-3">
+              <textarea
+                id="json-paste-backup-input"
+                rows="4"
+                placeholder='Pega aquí el contenido de texto del archivo de copia de seguridad .json...'
+                class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500 placeholder-slate-600"
+              ></textarea>
+              <button
+                onclick="window.app.restoreFromPastedJson(document.getElementById('json-paste-backup-input').value)"
+                class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs transition-all active:scale-95">
+                Restaurar Progreso desde Texto Pegado
+              </button>
+            </div>
+          </details>
         </div>
 
         <!-- SECCIÓN 3: SINCRONIZACIÓN PRIVADA EN GITHUB GIST -->
@@ -4344,7 +4432,7 @@ class OpoDefensaApp {
             </button>
             <label class="px-3.5 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-xs rounded-xl shadow cursor-pointer flex items-center gap-1.5">
               <span>📤</span> Importar
-              <input type="file" accept=".json" onchange="window.app.importProgress(event)" class="hidden">
+              <input type="file" accept=".json,application/json,text/plain" onchange="window.app.importProgress(event)" class="hidden">
             </label>
           </div>
         </div>
