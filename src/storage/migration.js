@@ -181,3 +181,8 @@ export function migrateStorage(storage) {
     };
   }
 }
+
+if (typeof window !== 'undefined') {
+  window.migrateStorage = migrateStorage;
+}
+

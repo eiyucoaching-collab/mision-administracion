@@ -305,10 +305,10 @@ describe('E2E Offline & SPA Full Flow Tests (Playwright Chromium)', () => {
       }
     });
 
-    // 2. Pre-crear caché antigua (v3) mediante initScript antes de que se registre y active el Service Worker
+    // 2. Pre-crear caché antigua (v4) mediante initScript antes de que se registre y active el Service Worker
     await context.addInitScript(async () => {
       if ('caches' in window) {
-        const oldCache = await window.caches.open('opo-defensa-e1-v3');
+        const oldCache = await window.caches.open('opo-defensa-e1-v4');
         await oldCache.put(
           new Request('/mision-administracion/old-test-file.txt'),
           new Response('legacy-content')
@@ -333,13 +333,13 @@ describe('E2E Offline & SPA Full Flow Tests (Playwright Chromium)', () => {
         console.warn('[E2E] ServiceWorker controller timeout, continuando...');
       });
 
-      // 5. Verificar que el SW v4 borró la caché antigua (v3) y la v4 está presente
+      // 5. Verificar que el SW v4.2 borró la caché antigua (v4) y la v4.2 está presente
       const cacheKeys = await page.evaluate(async () => {
         if (!('caches' in window)) return [];
         return await window.caches.keys();
       });
-      assert.ok(!cacheKeys.includes('opo-defensa-e1-v3'), 'El ServiceWorker activate debe haber borrado la caché v3');
-      assert.ok(cacheKeys.includes('opo-defensa-e1-v4'), 'La caché activa debe ser opo-defensa-e1-v4');
+      assert.ok(!cacheKeys.includes('opo-defensa-e1-v4'), 'El ServiceWorker activate debe haber borrado la caché v4');
+      assert.ok(cacheKeys.includes('opo-defensa-e1-v4.2'), 'La caché activa debe ser opo-defensa-e1-v4.2');
 
       // 6. PASAR A MODO OFFLINE ESTRICTO
       await context.setOffline(true);

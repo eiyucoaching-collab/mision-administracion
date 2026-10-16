@@ -33,6 +33,23 @@ import {
 import { DailyMissionsManager, STORAGE_KEY_MISSIONS } from './modules/missions_engine.js';
 import { IVAN_PROFILE } from './data/user_profile.js';
 
+// Fallback blindado en el ámbito de app.js por si se carga sin bundler o falla la ruta
+export const safeMigrateStorage = (typeof migrateStorage === 'function')
+  ? migrateStorage
+  : function migrateStorageFallback(storage) {
+      if (!storage) return { migrated: false };
+      try {
+        if (typeof window !== 'undefined' && typeof window.migrateStorage === 'function') {
+          return window.migrateStorage(storage);
+        }
+      } catch (e) {}
+      return { migrated: false };
+    };
+
+if (typeof window !== 'undefined' && typeof migrateStorage === 'function') {
+  window.migrateStorage = migrateStorage;
+}
+
 export function escapeHtml(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -173,7 +190,7 @@ class OpoDefensaApp {
   loadPersistence() {
     try {
       if (typeof localStorage !== 'undefined') {
-        migrateStorage(localStorage);
+        safeMigrateStorage(localStorage);
       }
       this.examHistory = JSON.parse(localStorage.getItem(STORAGE_KEYS.HISTORY)) || [];
       this.failedQuestions = new Set(JSON.parse(localStorage.getItem(STORAGE_KEYS.FAILED_QIDS)) || []);
@@ -329,7 +346,7 @@ class OpoDefensaApp {
       }
 
       // Ejecutar sanitización y migración si el archivo importado procede de formato legado
-      migrateStorage(localStorage);
+      safeMigrateStorage(localStorage);
       this.loadPersistence();
     }
 
