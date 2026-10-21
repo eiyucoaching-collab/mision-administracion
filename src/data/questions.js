@@ -4744,5 +4744,805 @@ export const QUESTION_BANK = [
     "sourceType": "norma_verificada",
     "isRealExam2025": true,
     "examSource": "AGE - MITECO - 25/02/2025"
+  },
+  {
+    "id": 251,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "Conforme al artículo 159 de la Constitución Española, ¿cuál es el período de mandato de los miembros del Tribunal Constitucional y cómo se renuevan?",
+    "options": [
+      "Serán designados por un período de nueve años y se renovarán por terceras partes cada tres.",
+      "Serán designados por un período de seis años y se renovarán por mitades cada tres años.",
+      "Serán designados por cuatro años coincidentes con la legislatura de las Cortes Generales.",
+      "Serán designados con carácter vitalicio hasta la edad de jubilación obligatoria."
+    ],
+    "correct": 0,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 159.3 CE",
+    "explanation": "El artículo 159.3 de la Constitución establece expresamente: 'Los miembros del Tribunal Constitucional serán designados por un período de nueve años y se renovarán por terceras partes cada tres'.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial Cortes Generales / AGE"
+  },
+  {
+    "id": 252,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral (IV CUAGE)",
+    "question": "A tenor del artículo 48 del IV Convenio Único para el personal laboral de la AGE, cuando la jornada de trabajo diaria continuada tenga una duración de al menos 6 horas, ¿de qué pausa computable como trabajo efectivo dispondrá el trabajador?",
+    "options": [
+      "Quince minutos diarios.",
+      "Treinta minutos diarios.",
+      "Veinte minutos diarios.",
+      "Cuarenta y cinco minutos diarios."
+    ],
+    "correct": 1,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 48 IV CUAGE",
+    "explanation": "El artículo 48 del IV CUAGE estipula que siempre que la duración de la jornada diaria continuada exceda o sea de al menos 6 horas, existirá un descanso de treinta minutos considerado tiempo de trabajo efectivo.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial IV CUAGE E1"
+  },
+  {
+    "id": 253,
+    "block": "comun",
+    "topicId": 4,
+    "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
+    "question": "Según la Disposición Adicional Primera de la Ley Orgánica 3/2007, ¿qué porcentaje de presencia de mujeres y hombres define el principio de composición o presencia equilibrada?",
+    "options": [
+      "Exactamente un cincuenta por ciento para cada sexo sin admitir desviación.",
+      "Al menos un treinta por ciento para el sexo con menor índice de ocupación.",
+      "Las personas de cada sexo no superen el sesenta por ciento ni sean menos del cuarenta por ciento.",
+      "Una proporción equivalente al porcentaje de aspirantes aprobados en el proceso selectivo."
+    ],
+    "correct": 2,
+    "law": "Ley Orgánica 3/2007 para la igualdad efectiva de mujeres y hombres",
+    "article": "Disposición Adicional 1.ª LO 3/2007",
+    "explanation": "La DA 1.ª de la LO 3/2007 define presencia equilibrada como aquella situación en que las personas de cada sexo no superen el sesenta por ciento ni sean menos del cuarenta por ciento en el órgano considerado.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial INAP AGE"
+  },
+  {
+    "id": 254,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "Conforme al Real Decreto 1829/1999 (Reglamento Postal), ¿cuál es el plazo general de permanencia a disposición del destinatario para los envíos depositados en la Lista de Correos antes de su devolución?",
+    "options": [
+      "Diez días hábiles.",
+      "Quince días naturales.",
+      "Treinta días naturales.",
+      "Un mes natural."
+    ],
+    "correct": 1,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 39 RD 1829/1999",
+    "explanation": "El artículo 39 del RD 1829/1999 fija en quince días naturales el plazo de permanencia de los envíos en la Lista de Correos para su recogida en oficina antes de proceder a su devolución al remitente.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial Correos / AGE"
+  },
+  {
+    "id": 255,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "En tareas de reprografía a doble cara destinadas a encuadernación, ¿dónde debe situarse el margen de encuadernación («gutter») en las páginas pares (reverso)?",
+    "options": [
+      "En el margen superior del documento.",
+      "En el margen derecho de la página.",
+      "En el margen izquierdo idéntico a las páginas impares.",
+      "En el margen inferior junto a la paginación."
+    ],
+    "correct": 1,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Técnicas de Reprografía y Encuadernación E1",
+    "explanation": "Al imprimir a doble cara, el margen de encuadernación debe ser simétrico: va a la izquierda en páginas impares y a la derecha en páginas pares para coincidir en el lomo perforado.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial Subalterno / Reprografía"
+  },
+  {
+    "id": 256,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "Según el artículo 166 de la Constitución Española, ¿a quiénes corresponde la iniciativa de reforma constitucional?",
+    "options": [
+      "Al Presidente del Gobierno y al Consejo General del Poder Judicial.",
+      "Al Gobierno, al Congreso y al Senado, y a las Asambleas de las Comunidades Autónomas.",
+      "A los ciudadanos mediante iniciativa legislativa popular de quinientas mil firmas.",
+      "Al Rey previa deliberación vinculante del Consejo de Estado."
+    ],
+    "correct": 1,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 166 CE",
+    "explanation": "El art. 166 remite a los apartados 1 y 2 del art. 87: la iniciativa corresponde al Gobierno, Congreso, Senado y a las Asambleas de las CC.AA. No cabe iniciativa popular en reforma constitucional (art. 87.3 CE).",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial INAP C2"
+  },
+  {
+    "id": 257,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "A tenor del artículo 57.3 de la Constitución, en caso de extinguirse todas las líneas llamadas en Derecho a la sucesión de la Corona:",
+    "options": [
+      "El Presidente del Gobierno asumirá la Jefatura del Estado con carácter interino.",
+      "Se abrirá un período de Regencia presidido por el Defensor del Pueblo.",
+      "Las Cortes Generales proveerán a la sucesión en la forma que más convenga a los intereses de España.",
+      "Se proclamará automáticamente la República mediante ley orgánica refrendada."
+    ],
+    "correct": 2,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 57.3 CE",
+    "explanation": "El artículo 57.3 de la CE determina que, extinguidas todas las líneas llamadas en Derecho, las Cortes Generales proveerán a la sucesión a la Corona en la forma que más convenga a los intereses de España.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE C2"
+  },
+  {
+    "id": 258,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "Conforme al artículo 66.2 de la Ley 40/2015, los nombramientos de los Directores Generales habrán de recaer en:",
+    "options": [
+      "Funcionarios de carrera del Estado, de las CC.AA. o de Entidades Locales del Subgrupo A1, salvo excepción motivada por Real Decreto.",
+      "Personal laboral fijo perteneciente al Grupo Profesional E1 del Convenio Único.",
+      "Cualquier ciudadano con titulación de grado universitario sin requerir condición de funcionario.",
+      "Funcionarios pertenecientes exclusivamente al Subgrupo A2 con diez años de antigüedad."
+    ],
+    "correct": 0,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 66.2 Ley 40/2015",
+    "explanation": "Los Directores Generales se nombran entre funcionarios de carrera del Subgrupo A1, salvo que el Real Decreto de estructura del Departamento permita que no ostente dicha condición por las características del puesto.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial AGE C2 Auxiliar"
+  },
+  {
+    "id": 259,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "Según el artículo 21.3 de la Ley 50/1997 del Gobierno, ¿cuál es el régimen de actuación del Gobierno en funciones?",
+    "options": [
+      "Podrá aprobar proyectos de ley y remitirlos a las Cortes Generales durante el primer mes.",
+      "Limitará su gestión al despacho ordinario de los asuntos públicos y facilitará el traspaso de poderes.",
+      "Quedará suspendido de toda actividad administrativa ordinaria hasta la investidura.",
+      "Ejercerá con plenitud todas las potestades reglamentarias sin restricción alguna."
+    ],
+    "correct": 1,
+    "law": "Ley 50/1997 del Gobierno",
+    "article": "Art. 21.3 Ley 50/1997",
+    "explanation": "El art. 21.3 de la Ley 50/1997 indica que el Gobierno en funciones facilitará el desarrollo del proceso de formación del nuevo Gobierno y limitará su gestión al despacho ordinario de los asuntos públicos.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE C2 Auxiliar"
+  },
+  {
+    "id": 260,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "Conforme al artículo 62.1 de la Ley 40/2015, ¿mediante qué instrumento y por quién son nombrados y separados los Secretarios de Estado?",
+    "options": [
+      "Por Orden ministerial del titular del Departamento.",
+      "Por Real Decreto del Presidente del Gobierno oído el Consejo de Estado.",
+      "Por acuerdo directo de la Comisión General de Secretarios de Estado y Subsecretarios.",
+      "Por Real Decreto del Consejo de Ministros a propuesta del Presidente del Gobierno o del Ministro competente."
+    ],
+    "correct": 3,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 62.1 Ley 40/2015",
+    "explanation": "El artículo 62.1 de la Ley 40/2015 establece que los Secretarios de Estado son nombrados y separados por Real Decreto del Consejo de Ministros, aprobado a propuesta del Presidente del Gobierno o del miembro del Gobierno titular.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial INAP AGE"
+  },
+  {
+    "id": 261,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral (IV CUAGE)",
+    "question": "Conforme al artículo 8.1 del IV Convenio Único de la AGE, ¿cuál es la titulación requerida para ingresar en el Grupo Profesional E1?",
+    "options": [
+      "Título de Graduado en Educación Secundaria Obligatoria o Título Profesional Básico.",
+      "Título de Bachiller o Técnico de Formación Profesional de Grado Medio.",
+      "Título de Técnico Superior de Formación Profesional de Grado Superior.",
+      "Certificado de escolaridad elemental sin titulación académica de FP Básica ni ESO."
+    ],
+    "correct": 0,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 8.1.e IV CUAGE",
+    "explanation": "El artículo 8.1.e del IV CUAGE fija como titulación habilitante para el Grupo Profesional E1 el Título de Graduado en ESO, Título Profesional Básico o formación laboral equivalente.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial IV CUAGE"
+  },
+  {
+    "id": 262,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral (IV CUAGE)",
+    "question": "Según el artículo 32.1 del IV Convenio Único para el personal laboral de la AGE, ¿cuál es la duración del período de prueba para el personal de nuevo ingreso en el Grupo Profesional E1?",
+    "options": [
+      "Tres meses naturales continuados.",
+      "Quince días naturales de servicio efectivo.",
+      "Dos meses para puestos de oficina.",
+      "Un mes de trabajo efectivo."
+    ],
+    "correct": 3,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 32.1 IV CUAGE",
+    "explanation": "El artículo 32.1 del IV CUAGE establece expresamente que el período de prueba para el personal clasificado en los Grupos Profesionales E1 y E2 es de 1 mes de trabajo efectivo.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial IV CUAGE E1"
+  },
+  {
+    "id": 263,
+    "block": "comun",
+    "topicId": 4,
+    "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
+    "question": "A tenor del artículo 21.1 de la Ley Orgánica 1/2004, la trabajadora víctima de violencia de género tendrá derecho, entre otros:",
+    "options": [
+      "A la reducción de la jornada con disminución proporcional del salario o a la reordenación del tiempo de trabajo.",
+      "A la jubilación anticipada forzosa con el cien por cien de la base reguladora.",
+      "Al ascenso automático de grupo profesional sin necesidad de superar pruebas selectivas.",
+      "A percibir retribuciones complementarias íntegras durante cualquier período de suspensión voluntaria."
+    ],
+    "correct": 0,
+    "law": "Ley Orgánica 1/2004 de Medidas de Protección Integral contra la Violencia de Género",
+    "article": "Art. 21.1 LO 1/2004",
+    "explanation": "El art. 21.1 de la LO 1/2004 reconoce a la trabajadora víctima de violencia de género el derecho a la reducción o a la reordenación de su tiempo de trabajo, a través de la adaptación del horario o de la aplicación del horario flexible.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE C2"
+  },
+  {
+    "id": 264,
+    "block": "comun",
+    "topicId": 4,
+    "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
+    "question": "Conforme al artículo 6.2 de la Ley 15/2022 integral para la igualdad de trato, la discriminación que sufre una persona debido a su vinculación o relación estrecha con otra persona perteneciente a un colectivo protegido se define como:",
+    "options": [
+      "Discriminación indirecta estructural.",
+      "Acoso moral laboral en el puesto.",
+      "Discriminación múltiple cumulativa.",
+      "Discriminación por asociación."
+    ],
+    "correct": 3,
+    "law": "Ley 15/2022",
+    "article": "Art. 6.2 Ley 15/2022",
+    "explanation": "El artículo 6.2 de la Ley 15/2022 define la discriminación por asociación como aquella situación en que una persona es objeto de trato discriminatorio como consecuencia de su relación con una persona en quien concurren causas de discriminación.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE C2"
+  },
+  {
+    "id": 265,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "En el control de accesos a dependencias del Ministerio de Defensa, tras verificar la identidad del visitante con su Documento Nacional de Identidad original, el personal de recepción:",
+    "options": [
+      "Anotará los datos requeridos en el registro de control y devolverá inmediatamente el documento original a su portador.",
+      "Retendrá en depósito el documento original hasta la devolución de la tarjeta de visitante a la salida.",
+      "Destruirá la documentación si el visitante no aporta cita previa por escrito.",
+      "Exigirá el pago de una tasa de entrada en metálico antes de permitir el paso."
+    ],
+    "correct": 0,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Manual de Seguridad y Accesos AGE / Defensa",
+    "explanation": "El DNI es un documento personal e intransferible. Está taxativamente prohibido retener el documento original del ciudadano como fianza en los mostradores de recepción; se anotan los datos y se devuelve en el acto.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial Subalterno / Defensa E1"
+  },
+  {
+    "id": 266,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "Conforme a la normativa de procedimiento administrativo y registro (Ley 39/2015 y Ley 40/2015), cuando un interesado aporta documentación en papel en una Oficina de Asistencia en Materia de Registros (OAMR):",
+    "options": [
+      "Se empaquetan los originales físicos en sacas postales y se envían por correo ordinario a la unidad central.",
+      "Se digitalizan para su incorporación al expediente electrónico, devolviendo los originales al interesado en el acto.",
+      "Se archivan obligatoriamente durante diez años en el sótano de la oficina de registro.",
+      "Se trituran de manera automática en la destructora de papel tras estampar el sello de entrada."
+    ],
+    "correct": 1,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 16.4 Ley 39/2015 / Ley 40/2015",
+    "explanation": "El art. 16.4 de la Ley 39/2015 establece que los documentos presentados de manera presencial ante las Administraciones deberán ser digitalizados por la oficina de asistencia, devolviéndose los originales al interesado.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Auxiliar C2 AGE"
+  },
+  {
+    "id": 267,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "En el control de accesos a un edificio administrativo oficial, la tarjeta identificativa de visitante entregada en recepción:",
+    "options": [
+      "Habilita al visitante para entrar en despachos restringidos sin autorización expresa.",
+      "Puede cederse a un acompañante no identificado si la reunión se celebra en sala común.",
+      "Debe portarse visible en todo momento durante la estancia y entregarse en el control al abandonar la sede.",
+      "Concede derecho a estacionar vehículos en el aparcamiento reservado a la Jefatura."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Instrucción de Régimen Interior en Edificios Públicos",
+    "explanation": "Las tarjetas de visita son nominativas y provisionales; deben lucirse en lugar visible durante toda la permanencia en el inmueble oficial y devolverse en el mostrador de control de accesos al salir.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 268,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "En los servicios de atención al ciudadano de la Administración General del Estado, la información administrativa de carácter general comprende:",
+    "options": [
+      "El estado pormenorizado de tramitación de expedientes que no hayan concluido.",
+      "Los datos de contacto personales de los funcionarios que componen las comisiones de selección.",
+      "La identificación de dependencias, horarios, competencias y requisitos exigidos para trámites y servicios.",
+      "Los antecedentes disciplinarios de los empleados públicos del departamento ministerial."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Información Administrativa AGE",
+    "explanation": "La información general facilita al ciudadano la orientación y datos sobre la organización, sedes, horarios, funciones y los requisitos para solicitudes y procedimientos de la Administración.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 269,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "Conforme a la normativa reguladora de los programas de mejora de los servicios públicos en la AGE, ¿cuál es el plazo para contestar las quejas y sugerencias presentadas por los ciudadanos?",
+    "options": [
+      "Diez días naturales.",
+      "Tres meses administrativos.",
+      "Cuarenta y cinco días naturales.",
+      "Veinte días hábiles."
+    ],
+    "correct": 3,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Gestión de Quejas y Sugerencias AGE",
+    "explanation": "La normativa de calidad y cartas de servicios de la AGE fija en veinte días hábiles el plazo máximo en que el órgano responsable debe informar al ciudadano sobre las actuaciones acometidas ante su queja o sugerencia.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 270,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "Al recibir un bulto postal en la conserjería o recepción de un acuartelamiento, si el envoltorio presenta roturas evidentes o señales de apertura forzada, ¿cuál es la actuación inmediata a realizar?",
+    "options": [
+      "Hacer constar de forma expresa la anomalía exterior en el albarán del transportista antes de firmar.",
+      "Firmar el albarán con normalidad y ocultar el desperfecto al destinatario.",
+      "Abrir el bulto y extraer su contenido para verificarlo sin presencia de testigos.",
+      "Tirar el paquete a la papelera sin dejar constancia registral de la entrega."
+    ],
+    "correct": 0,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 35 RD 1829/1999",
+    "explanation": "El protocolo de recepción postal exige reflejar en el albarán de entrega cualquier rotura, golpe o signo de manipulación exterior antes de estampar la firma, para posibilitar reclamaciones de seguro o peritaje.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 271,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "Según el Reglamento Postal (RD 1829/1999), en envíos en forma de caja, ¿cuál es la dimensión máxima general admitida en paquetería estándar nacional de Correos?",
+    "options": [
+      "La suma de longitud, anchura y altura no puede superar noventa centímetros.",
+      "La suma de largo, ancho y alto no excederá de doscientos centímetros, sin que la mayor dimensión supere el metro.",
+      "Cualquier dimensión puede alcanzar hasta trescientos centímetros sin limitación de peso.",
+      "El volumen total no podrá superar los diez decímetros cúbicos bajo ningún concepto."
+    ],
+    "correct": 1,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 13 RD 1829/1999",
+    "explanation": "En formato caja, el límite general de dimensiones para paquetes postales es L + A + H <= 200 cm, sin que la mayor dimensión exceda de 100 cm (para tubos/rollos rige L + 2D <= 104 cm).",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Cuestionario Oficial Correos"
+  },
+  {
+    "id": 272,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "En la organización administrativa del Ministerio de Defensa, ¿cuál es la función primordial del servicio de valija interna?",
+    "options": [
+      "Transportar equipajes y compras particulares de los trabajadores a sus residencias.",
+      "Gestionar exclusivamente envíos internacionales sometidos a control diplomático aduanero.",
+      "El transporte seguro y periódico de documentación, expedientes y correspondencia interna entre sedes.",
+      "Repartir publicidad comercial externa entre los diferentes despachos del centro."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Servicio de Valija y Correspondencia Interna",
+    "explanation": "La valija interna es el canal institucional protocolizado para el trasvase ordenado, confidencial y regular de documentos oficiales y expedientes administrativos entre dependencias del propio ministerio.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa"
+  },
+  {
+    "id": 273,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "Conforme a la Ley 43/2010 del Servicio Postal Universal, los envíos de paquetería postal incluidos en el servicio postal universal comprenden paquetes de hasta un peso máximo de:",
+    "options": [
+      "Dos kilogramos de peso neto.",
+      "Cinco kilogramos de peso bruto.",
+      "Cincuenta kilogramos en envíos interurbanos.",
+      "Veinte kilogramos de peso."
+    ],
+    "correct": 3,
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 21.1.b Ley 43/2010",
+    "explanation": "El artículo 21.1.b de la Ley 43/2010 establece expresamente que el servicio postal universal incluye los paquetes postales de hasta veinte kilogramos de peso.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Correos / AGE"
+  },
+  {
+    "id": 274,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "Conforme a la norma técnica DIN 66399 sobre destrucción de información, ¿qué nivel de seguridad se requiere para la destrucción de documentos con datos personales confidenciales?",
+    "options": [
+      "Nivel P-4 (partículas con superficie no superior a ciento sesenta milímetros cuadrados).",
+      "Nivel P-1 (tiras anchas de más de doce milímetros para documentos generales no confidenciales).",
+      "Nivel P-2 (tiras estrechas de hasta seis milímetros de anchura para datos internos ordinarios).",
+      "Nivel P-9 (pulverización química mediante baño de ácido sulfúrico)."
+    ],
+    "correct": 0,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Norma DIN 66399 Destrucción de Documentos",
+    "explanation": "El estándar DIN 66399 prescribe el nivel P-4 (corte en partículas <= 160 mm²) para datos confidenciales y sensibles bajo normativa RGPD en oficinas públicas.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 275,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "Según la norma de normalización de formatos de papel ISO 216 / DIN 476, ¿cuáles son las medidas exactas del formato DIN A4?",
+    "options": [
+      "Doscientos noventa y siete por cuatrocientos veinte milímetros.",
+      "Ciento cuarenta y ocho por doscientos diez milímetros.",
+      "Doscientos diez por doscientos noventa y siete milímetros.",
+      "Doscientos cincuenta por trescientos cincuenta y tres milímetros."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Formatos de Papel ISO 216 / DIN 476",
+    "explanation": "Las dimensiones normalizadas del papel DIN A4 son exactamente 210 x 297 mm. Surge de dividir longitudinalmente por la mitad un pliego DIN A3 (297 x 420 mm).",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / Reprografía"
+  },
+  {
+    "id": 276,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "En el uso habitual de fotocopiadoras e impresoras láser de oficina, ¿cuál es el gramaje estándar del papel multifunción DIN A4?",
+    "options": [
+      "Cincuenta gramos por metro cuadrado.",
+      "Ciento veinte gramos por metro cuadrado.",
+      "Doscientos cuarenta gramos por metro cuadrado.",
+      "Ochenta gramos por metro cuadrado."
+    ],
+    "correct": 3,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Gramajes y Consumibles de Reprografía",
+    "explanation": "El papel reprográfico estándar para fotocopiadoras e impresoras láser tiene un gramaje de 80 g/m², que garantiza paso fluido por rodillos sin provocar atascos continuados.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / Reprografía"
+  },
+  {
+    "id": 277,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "¿Cuál es la principal ventaja operativa de la encuadernación Wire-O (doble espiral metálica) frente al canutillo de plástico?",
+    "options": [
+      "Permite el giro completo de trescientos sesenta grados de las hojas y ofrece mayor durabilidad.",
+      "Permite reutilizar fácilmente el alambre sin necesidad de máquina encuadernadora.",
+      "Funde las hojas mediante cola térmica sin requerir perforaciones previas en el papel.",
+      "Limita la apertura del cuaderno a cuarenta y cinco grados para preservar la privacidad."
+    ],
+    "correct": 0,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Técnicas de Encuadernación Wire-O y Espiral",
+    "explanation": "El sistema Wire-O (doble anilla metálica cerrada) permite abatir completamente las hojas 360° sobre sí mismas, facilitando la lectura plana o sobre atril y dotando al documento de alta solidez.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / Reprografía"
+  },
+  {
+    "id": 278,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "En notificaciones administrativas en papel, si el primer intento en domicilio resulta infructuoso por ausencia antes de las 15 horas, ¿cómo debe practicarse el segundo intento?",
+    "options": [
+      "En el mismo tramo horario matinal al día siguiente hábil.",
+      "Después de las quince horas, con un margen de al menos tres horas de diferencia, dentro de los tres días siguientes.",
+      "Se publicará directamente en el BOE sin necesidad de efectuar un segundo intento.",
+      "Se entregará a cualquier vecino del portal sin requerir consentimiento previo."
+    ],
+    "correct": 1,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 42.2 Ley 39/2015 / Ley 40/2015",
+    "explanation": "El artículo 42.2 de la Ley 39/2015 señala que si el primer intento se realizó antes de las quince horas, el segundo intento deberá realizarse después de las quince horas y viceversa, con un margen de al menos tres horas, dentro de los tres días siguientes.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial AGE C2 Auxiliar"
+  },
+  {
+    "id": 279,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "¿Cuál es la característica jurídica distintiva del Burofax con certificación de contenido frente a una carta certificada con acuse de recibo?",
+    "options": [
+      "La carta certificada sólo puede remitirse a través de valija diplomática ministerial.",
+      "El burofax sólo acredita la entrega del sobre pero no su fecha ni destinatario.",
+      "El burofax acredita fehacientemente tanto la entrega como el contenido íntegro del texto transmitido.",
+      "La carta certificada carece de cualquier valor probatorio ante la jurisdicción contencioso-administrativa."
+    ],
+    "correct": 2,
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 22 Ley 43/2010",
+    "explanation": "La carta certificada acredita fehacientemente la fecha de imposición y la entrega de un sobre cerrado; el burofax con certificación de contenido da testimonio fehaciente del texto literal remitido.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 280,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "Según el Real Decreto 1829/1999 (Reglamento Postal), en la correspondencia remitida bajo la modalidad de «Franqueo Pagado», ¿dónde debe situarse el cajetín de franqueo en el sobre?",
+    "options": [
+      "En el ángulo inferior izquierdo del reverso del sobre.",
+      "En la franja central del sobre justo encima del código postal.",
+      "En el reverso sobre la solapa engomada de cierre.",
+      "En el ángulo superior derecho del anverso del sobre."
+    ],
+    "correct": 3,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 25 RD 1829/1999",
+    "explanation": "El cajetín o impresión de Franqueo Pagado sustituye al sello tradicional y debe situarse obligatoriamente en el ángulo superior derecho del anverso del sobre o envoltorio.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE E1 2025"
+  },
+  {
+    "id": 281,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "Cuando no es posible entregar a domicilio un envío postal registrado por ausencia del destinatario, ¿qué documento deposita el empleado de Correos en el casillero domiciliario?",
+    "options": [
+      "Un aviso de llegada con indicación del plazo y la oficina postal donde retirar el envío.",
+      "Una fotocopia de la resolución administrativa contenida en el interior del sobre.",
+      "Una denuncia formal de desobediencia para su remisión a la Subdelegación del Gobierno.",
+      "Un requerimiento de pago de tasas por desplazamiento no completado."
+    ],
+    "correct": 0,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 34 RD 1829/1999",
+    "explanation": "El art. 34 del RD 1829/1999 estipula que, de no poder realizarse la entrega domiciliaria de un envío registrado, se dejará un aviso de llegada en el buzón indicando la oficina y plazo de retirada.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 282,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "Al realizar un recado exterior para entregar o retirar documentación oficial, ¿qué documento puede firmar legítimamente el personal del Grupo Profesional E1 como portador?",
+    "options": [
+      "Cualquier resolución o convenio administrativo que le presenten para acelerar el trámite.",
+      "Exclusivamente el recibí o justificante de entrega material física del sobre o paquete.",
+      "Dictámenes jurídicos y órdenes de pago presupuestarias en nombre del Ministerio.",
+      "El acta de replanteo de obras públicas si el técnico titular está ausente."
+    ],
+    "correct": 1,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Protocolo de Recados Oficiales E1",
+    "explanation": "El personal laboral del Grupo E1 realiza tareas materiales y de apoyo. En un recado exterior únicamente suscribe el volante de entrega material o 'recibí', sin capacidad para contraer obligaciones jurídicas.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 283,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "Conforme al Código de Conducta de los Empleados Públicos (artículo 53.12 del TREBEP), respecto a los asuntos y documentos conocidos en el desempeño de su puesto, el personal:",
+    "options": [
+      "Podrá divulgar libremente datos internos siempre que no contengan cifras presupuestarias.",
+      "Podrá compartir la información confidencial con sus allegados si no se publica por escrito.",
+      "Guardará estricto sigilo profesional y no utilizará la información en provecho propio o de terceros.",
+      "Está facultado para filtrar expedientes a los medios de comunicación sin autorización."
+    ],
+    "correct": 2,
+    "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
+    "article": "Art. 53.12 TREBEP",
+    "explanation": "El artículo 53.12 del TREBEP consagra el deber de sigilo: los empleados públicos guardarán secreto de las materias clasificadas y no utilizarán la información obtenida para beneficio propio o de terceros.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE C2"
+  },
+  {
+    "id": 284,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "Conforme al Sistema de Archivos de la Administración General del Estado (RD 1708/2011), ¿cuál es el orden secuencial del ciclo vital de los documentos administrativos?",
+    "options": [
+      "Archivo histórico -> Archivo intermedio -> Archivo central -> Archivo de oficina.",
+      "Archivo central -> Archivo intermedio -> Archivo de oficina -> Archivo histórico.",
+      "Archivo de gestión -> Archivo histórico -> Archivo central -> Archivo ministerial.",
+      "Archivo de oficina o gestión -> Archivo central -> Archivo intermedio -> Archivo histórico."
+    ],
+    "correct": 3,
+    "law": "Convocatoria E1 Defensa",
+    "article": "RD 1708/2011 Sistema de Archivos AGE",
+    "explanation": "El ciclo vital documental comprende sucesivamente: 1.º Archivo de gestión u oficina (tramitación activa), 2.º Archivo central (vigencia administrativa), 3.º Archivo intermedio, y 4.º Archivo histórico (valor permanente).",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / Archivo AGE"
+  },
+  {
+    "id": 285,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "Conforme al artículo 3 de la Ley 9/1968 sobre Secretos Oficiales, ¿cuáles son las dos únicas categorías en que pueden clasificarse las materias reservadas?",
+    "options": [
+      "Secreto y Reservado.",
+      "Confidencial y Protegido.",
+      "Máximo Secreto y Secreto Ordinario.",
+      "Restringido y Clasificado."
+    ],
+    "correct": 0,
+    "law": "Ley 9/1968 sobre Secretos Oficiales",
+    "article": "Art. 3 Ley 9/1968",
+    "explanation": "El artículo 3 de la Ley 9/1968 de Secretos Oficiales establece textualmente que las materias clasificadas serán declaradas 'Secretas' o 'Reservadas' según la gravedad del perjuicio a la seguridad o defensa.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa"
+  },
+  {
+    "id": 286,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "Según el Real Decreto 486/1997 sobre lugares de trabajo, ¿cuál es la altura mínima permitida desde el suelo hasta el techo en despachos y oficinas?",
+    "options": [
+      "Tres metros obligatoriamente en cualquier circunstancia.",
+      "Dos metros y medio en locales destinados a oficinas y despachos.",
+      "Dos metros con diez centímetros para salas de reprografía.",
+      "Cuatro metros de gálibo vertical para evitar calor."
+    ],
+    "correct": 1,
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.2 RD 486/1997",
+    "explanation": "El Anexo I.A.2 del RD 486/1997 fija con carácter general una altura de 3 metros, pero permite expresamente 2,5 metros en locales destinados a oficinas y despachos.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 287,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "Conforme al Anexo I del Real Decreto 486/1997, ¿cuáles son los mínimos de superficie libre y volumen de trabajo no ocupado por trabajador?",
+    "options": [
+      "Un metro cuadrado de superficie y cinco metros cúbicos de volumen.",
+      "Tres metros cuadrados de superficie y quince metros cúbicos de volumen.",
+      "Dos metros cuadrados de superficie libre y diez metros cúbicos de volumen no ocupado.",
+      "Cinco metros cuadrados de superficie y veinte metros cúbicos de volumen."
+    ],
+    "correct": 2,
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo I.A.2 RD 486/1997",
+    "explanation": "El RD 486/1997 exige un mínimo de 2 metros cuadrados de superficie libre por trabajador y 10 metros cúbicos de volumen no ocupado por trabajador en el recinto de trabajo.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 288,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "En locales donde se realicen trabajos sedentarios propios de oficinas, el Real Decreto 486/1997 establece que la temperatura y la humedad relativa deben mantenerse respectivamente entre:",
+    "options": [
+      "Entre quince y veintidós grados centígrados, y humedad entre el veinte y el cuarenta por ciento.",
+      "Entre dieciocho y treinta grados centígrados, y humedad fija al ochenta por ciento.",
+      "Entre veinte y veinticuatro grados centígrados, y humedad libre sin límite inferior.",
+      "Entre diecisiete y veintisiete grados centígrados, y humedad relativa entre el treinta y el setenta por ciento."
+    ],
+    "correct": 3,
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo III.3 RD 486/1997",
+    "explanation": "Para trabajos sedentarios de oficina, el RD 486/1997 dispone: temperatura entre 17 °C y 27 °C, y humedad relativa comprendida entre el 30% y el 70% (con límite inferior de 40% donde haya riesgo por electricidad estática).",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 289,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "Ante un conato de incendio en un cuadro eléctrico o en equipos informáticos de oficina, ¿qué agente extintor es el más adecuado por no conducir la electricidad ni dejar residuos en los circuitos?",
+    "options": [
+      "Agua a chorro a alta presión.",
+      "Espuma química acuosa con sulfatos.",
+      "Dióxido de carbono (CO2) o nieve carbónica.",
+      "Polvo seco polivalente mezclado con salmuera."
+    ],
+    "correct": 2,
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Protección contra Incendios en Oficinas",
+    "explanation": "Los extintores de CO2 (nieve carbónica) son gas dieléctrico que no conduce la electricidad ni deposita residuos químicos en los componentes electrónicos y fotocopiadoras, a diferencia del polvo químico o el agua.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 290,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "En puestos de trabajo con pantallas de visualización de datos (PVD), ¿cuál es la disposición ergonómica adecuada de la pantalla frente al usuario?",
+    "options": [
+      "Colocada a menos de veinte centímetros de los ojos y orientada hacia arriba.",
+      "Situada en el suelo debajo del plano de la mesa para evitar brillos del techo.",
+      "Apoyada sobre el teclado para obligar a flexionar el cuello en ángulo agudo.",
+      "A una distancia de cincuenta a setenta centímetros, con el borde superior a la altura de los ojos o ligeramente por debajo."
+    ],
+    "correct": 3,
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Ergonomía en PVD / RD 488/1997",
+    "explanation": "La pantalla debe situarse a una distancia visual de entre 50 y 70 cm (nunca inferior a 40 cm), orientable e inclinable, con su borde superior a la altura de los ojos del trabajador para evitar fatiga cervical.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
   }
 ];
