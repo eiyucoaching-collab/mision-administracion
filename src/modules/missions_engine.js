@@ -3,6 +3,8 @@
  * @description Motor de Misiones Diarias, Persistencia Reactiva y Notificaciones PWA (Objetivo 19-D Murcia)
  */
 
+import { getMadridDateKey, getYesterdayMadridDateKey } from '../storage/migration.js';
+
 export const STORAGE_KEY_MISSIONS = 'opo_e1_daily_missions_v1';
 export const EXAM_DATE = new Date('2026-12-19T10:00:00+01:00');
 export const SUBSANACION_LIMIT = new Date('2026-10-19T23:59:59+02:00');
@@ -103,7 +105,7 @@ export class DailyMissionsManager {
 
   getTodayKey() {
     const now = this.customDate ? new Date(this.customDate) : new Date();
-    return now.toISOString().split('T')[0];
+    return getMadridDateKey(now);
   }
 
   loadState() {
@@ -235,9 +237,7 @@ export class DailyMissionsManager {
 
   updateStreak(todayKey) {
     const now = this.customDate ? new Date(this.customDate) : new Date();
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayKey = yesterday.toISOString().split('T')[0];
+    const yesterdayKey = getYesterdayMadridDateKey(now);
 
     if (this.state.lastCompletedDate === yesterdayKey) {
       this.state.streak += 1;

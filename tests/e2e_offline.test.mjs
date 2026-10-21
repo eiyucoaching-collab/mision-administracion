@@ -339,7 +339,7 @@ describe('E2E Offline & SPA Full Flow Tests (Playwright Chromium)', () => {
         return await window.caches.keys();
       });
       assert.ok(!cacheKeys.includes('opo-defensa-e1-v4'), 'El ServiceWorker activate debe haber borrado la caché v4');
-      assert.ok(cacheKeys.includes('opo-defensa-e1-v4.2'), 'La caché activa debe ser opo-defensa-e1-v4.2');
+      assert.ok(cacheKeys.includes('opo-defensa-e1-v4.3'), 'La caché activa debe ser opo-defensa-e1-v4.3');
 
       // 6. PASAR A MODO OFFLINE ESTRICTO
       await context.setOffline(true);

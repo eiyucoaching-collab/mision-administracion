@@ -22,6 +22,12 @@ export const STORAGE_KEYS = {
   GIST_CONFIG: 'opo_e1_gist_config',
   // Preferencias y configuración de penalización
   SETTINGS: 'opo_e1_settings',
+  // Racha y actividad diaria unificada
+  STREAK: 'opo_e1_streak',
+  LAST_ACTIVE_DATE: 'opo_e1_last_active_date',
+  DAILY_ACTIVITY: 'opo_e1_daily_activity',
+  TOPIC_STATS: 'opo_e1_topic_stats',
+  ACTIVE_EXAM: 'opo_e1_active_exam',
   // Claves de copia de seguridad del estado original previo a migración v2
   HISTORY_V1_BACKUP: 'opo_e1_history_v1_backup',
   FAILED_QIDS_V1_BACKUP: 'opo_e1_failed_qids_v1_backup',
@@ -29,6 +35,29 @@ export const STORAGE_KEYS = {
 };
 
 export const CURRENT_STORAGE_VERSION = 2;
+
+/**
+ * Devuelve la clave de fecha YYYY-MM-DD en hora peninsular española (Europe/Madrid)
+ * Evita bugs de desfase horario UTC al cambiar de día a las 22h/23h
+ */
+export function getMadridDateKey(date = new Date()) {
+  const d = date instanceof Date ? date : new Date(date);
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(d);
+}
+
+/**
+ * Devuelve la clave YYYY-MM-DD del día anterior en hora peninsular española
+ */
+export function getYesterdayMadridDateKey(date = new Date()) {
+  const d = date instanceof Date ? new Date(date.getTime()) : new Date(date);
+  d.setDate(d.getDate() - 1);
+  return getMadridDateKey(d);
+}
 
 /**
  * Normaliza campos básicos de un registro histórico sin recalcular notas ni umbrales
@@ -54,8 +83,24 @@ export function migrateHistoryItem(rawItem, index = 0) {
   if (rawItem.totalGraded !== undefined) normalized.totalGraded = Number(rawItem.totalGraded);
   if (rawItem.timeSpentSecs !== undefined) normalized.timeSpentSecs = Number(rawItem.timeSpentSecs);
 
+  // Normalizar campos complementarios requeridos para persistencia y analíticas
+  if (normalized.totalQuestions === undefined && normalized.totalGraded !== undefined) {
+    normalized.totalQuestions = normalized.totalGraded;
+  }
+  if (normalized.incorrect === undefined && normalized.wrong !== undefined) {
+    normalized.incorrect = normalized.wrong;
+  }
+  if (normalized.dateKey === undefined) {
+    try {
+      normalized.dateKey = getMadridDateKey(new Date(date));
+    } catch (e) {
+      normalized.dateKey = getMadridDateKey();
+    }
+  }
+
   // NO recalcular notas ni umbrales provisionales: mantener exactamente lo registrado originalmente
   if (rawItem.score !== undefined) normalized.score = Number(rawItem.score);
+  if (rawItem.netScore === undefined && rawItem.score !== undefined) normalized.netScore = Number(rawItem.score);
   if (rawItem.cutoffScore !== undefined) normalized.cutoffScore = Number(rawItem.cutoffScore);
   if (rawItem.passed !== undefined) normalized.passed = Boolean(rawItem.passed);
 
@@ -96,6 +141,7 @@ export function sanitizeCifrasDrill(rawDrill) {
 
 /**
  * Ejecuta la migración del almacenamiento a v2 con copia de seguridad obligatoria previa
+ * Garantiza la conservación íntegra de todos los campos del estado sin descartar ni sobrescribir.
  * @param {Storage|Object} storage - Objeto compatible con localStorage (getItem, setItem)
  * @returns {{ migrated: boolean, fromVersion: number, toVersion: number }}
  */
@@ -127,7 +173,7 @@ export function migrateStorage(storage) {
     storage.setItem(STORAGE_KEYS.CIFRAS_DRILL_V1_BACKUP, rawCifrasStr);
   }
 
-  // 2. Normalización no destructiva
+  // 2. Normalización no destructiva: conserva ÍNTEGRAMENTE todos los campos
   try {
     if (rawHistoryStr) {
       try {
@@ -185,4 +231,3 @@ export function migrateStorage(storage) {
 if (typeof window !== 'undefined') {
   window.migrateStorage = migrateStorage;
 }
-

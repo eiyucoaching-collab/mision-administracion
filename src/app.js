@@ -28,7 +28,9 @@ import {
 import {
   STORAGE_KEYS,
   CURRENT_STORAGE_VERSION,
-  migrateStorage
+  migrateStorage,
+  getMadridDateKey,
+  getYesterdayMadridDateKey
 } from './storage/migration.js';
 import { DailyMissionsManager, STORAGE_KEY_MISSIONS } from './modules/missions_engine.js';
 import { IVAN_PROFILE } from './data/user_profile.js';
@@ -153,7 +155,21 @@ class OpoDefensaApp {
     };
 
     // Almacenamiento Local (Offline-First)
+    this.streak = 0;
+    this.lastActiveDate = null;
+    this.dailyActivity = {};
+    this.topicStats = null;
     this.loadPersistence();
+
+    // Listener para guardar examen en curso si el usuario minimiza o navega fuera
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pagehide', () => this.saveActiveExam());
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          this.saveActiveExam();
+        }
+      });
+    }
 
     // Motor de Misiones Diarias, Persistencia Reactiva y Notificaciones PWA
     this.missionsManager = new DailyMissionsManager((state) => {
@@ -202,6 +218,23 @@ class OpoDefensaApp {
       this.customQuestions = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOM_QUESTIONS)) || [];
       this.gistConfig = JSON.parse(localStorage.getItem(STORAGE_KEYS.GIST_CONFIG)) || { token: '', gistId: '', lastSync: null };
       this.settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)) || { penaltyRate: 0.3333333333333333 };
+
+      // Racha y fecha de actividad en hora peninsular española (Europe/Madrid)
+      this.streak = parseInt(localStorage.getItem(STORAGE_KEYS.STREAK) || '0', 10);
+      this.lastActiveDate = localStorage.getItem(STORAGE_KEYS.LAST_ACTIVE_DATE) || null;
+      const todayKey = getMadridDateKey();
+      const yesterdayKey = getYesterdayMadridDateKey();
+      if (this.lastActiveDate && this.lastActiveDate !== todayKey && this.lastActiveDate !== yesterdayKey) {
+        // Pérdida de racha por inactividad de más de 24 horas
+        this.streak = 0;
+      }
+
+      this.dailyActivity = JSON.parse(localStorage.getItem(STORAGE_KEYS.DAILY_ACTIVITY)) || {};
+      this.topicStats = JSON.parse(localStorage.getItem(STORAGE_KEYS.TOPIC_STATS)) || null;
+      if (!this.topicStats) {
+        this.recalculateTopicStats();
+      }
+
       this.allQuestions = [...this.questionBank, ...this.customQuestions];
     } catch (e) {
       console.warn('Error cargando LocalStorage:', e);
@@ -215,19 +248,245 @@ class OpoDefensaApp {
       this.customQuestions = [];
       this.gistConfig = { token: '', gistId: '', lastSync: null };
       this.settings = { penaltyRate: 0.3333333333333333 };
+      this.streak = 0;
+      this.lastActiveDate = null;
+      this.dailyActivity = {};
+      this.topicStats = null;
       this.allQuestions = [...this.questionBank];
     }
   }
 
   saveHistory(result) {
-    this.examHistory.unshift(result);
+    if (!result || typeof result !== 'object') return;
+
+    // Calcular desglose temático detallado (T1 a T10) para este intento
+    const topicBreakdown = {};
+    for (let t = 1; t <= 10; t++) {
+      topicBreakdown[`T${t}`] = { total: 0, correct: 0, incorrect: 0, blank: 0, netScore: 0 };
+    }
+    if (Array.isArray(result.reviewList)) {
+      result.reviewList.forEach(rev => {
+        const tId = rev.question?.topicId || rev.question?.temaId;
+        if (tId && topicBreakdown[`T${tId}`]) {
+          const tb = topicBreakdown[`T${tId}`];
+          tb.total++;
+          if (rev.isCorrect) {
+            tb.correct++;
+            tb.netScore += 1;
+          } else if (rev.isBlank) {
+            tb.blank++;
+          } else {
+            tb.incorrect++;
+            tb.netScore -= (result.penaltyRate !== undefined ? result.penaltyRate : (1 / 3));
+          }
+        }
+      });
+      for (let t = 1; t <= 10; t++) {
+        topicBreakdown[`T${t}`].netScore = Number(topicBreakdown[`T${t}`].netScore.toFixed(2));
+      }
+    }
+
+    const totalGraded = result.totalGraded || (this.examState.questions ? this.examState.questions.length : 60);
+    const net = typeof result.netScore === 'number' ? result.netScore : 0;
+    const scoreOutOf60 = Number(((net / (totalGraded || 60)) * 60).toFixed(2));
+    const scoreOutOf10 = Number(((net / (totalGraded || 60)) * 10).toFixed(2));
+
+    const enrichedResult = {
+      ...result,
+      id: result.id || `exam_${Date.now()}`,
+      timestamp: Date.now(),
+      dateKey: result.dateKey || getMadridDateKey(),
+      mode: result.mode || this.examState.mode || 'desconocido',
+      totalQuestions: totalGraded,
+      correct: Number(result.correct || 0),
+      incorrect: Number(result.wrong !== undefined ? result.wrong : (result.incorrect || 0)),
+      wrong: Number(result.wrong !== undefined ? result.wrong : (result.incorrect || 0)),
+      blank: Number(result.blank || 0),
+      netScore: net,
+      scoreOutOf60,
+      scoreOutOf10,
+      confidenceBreakdown: result.confidenceBreakdown || {},
+      topicBreakdown
+    };
+
+    this.examHistory.unshift(enrichedResult);
     if (this.examHistory.length > 50) this.examHistory.pop();
+
     try {
       localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(this.examHistory));
       localStorage.setItem(STORAGE_KEYS.FAILED_QIDS, JSON.stringify(Array.from(this.failedQuestions)));
       localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(this.srsVault));
+      this.recalculateTopicStats();
+      this.recordDailyActivity(enrichedResult);
     } catch (e) {
       console.warn('Error guardando en LocalStorage:', e);
+    }
+  }
+
+  recordDailyActivity(result) {
+    const todayKey = getMadridDateKey();
+    const yesterdayKey = getYesterdayMadridDateKey();
+
+    // Actualizar racha diaria garantizada (Europe/Madrid)
+    if (this.lastActiveDate === yesterdayKey) {
+      this.streak = (this.streak || 0) + 1;
+      this.lastActiveDate = todayKey;
+    } else if (this.lastActiveDate === todayKey) {
+      if (!this.streak || this.streak < 1) this.streak = 1;
+    } else {
+      this.streak = 1;
+      this.lastActiveDate = todayKey;
+    }
+
+    if (!this.dailyActivity || typeof this.dailyActivity !== 'object') {
+      this.dailyActivity = {};
+    }
+    if (!this.dailyActivity[todayKey]) {
+      this.dailyActivity[todayKey] = {
+        dateKey: todayKey,
+        testsCompleted: 0,
+        questionsAnswered: 0,
+        netScoreTotal: 0,
+        netAverage: 0,
+        missionsCompleted: 0
+      };
+    }
+
+    const dayRecord = this.dailyActivity[todayKey];
+    dayRecord.testsCompleted = (dayRecord.testsCompleted || 0) + 1;
+    const answered = result ? (Number(result.correct || 0) + Number(result.incorrect || result.wrong || 0)) : 0;
+    dayRecord.questionsAnswered = (dayRecord.questionsAnswered || 0) + answered;
+    const net = result && typeof result.netScore === 'number' ? result.netScore : 0;
+    dayRecord.netScoreTotal = Number(((dayRecord.netScoreTotal || 0) + net).toFixed(2));
+    dayRecord.netAverage = Number((dayRecord.netScoreTotal / dayRecord.testsCompleted).toFixed(2));
+
+    try {
+      localStorage.setItem(STORAGE_KEYS.STREAK, String(this.streak));
+      localStorage.setItem(STORAGE_KEYS.LAST_ACTIVE_DATE, this.lastActiveDate);
+      localStorage.setItem(STORAGE_KEYS.DAILY_ACTIVITY, JSON.stringify(this.dailyActivity));
+    } catch (e) {
+      console.warn('Error guardando racha y actividad diaria:', e);
+    }
+  }
+
+  recalculateTopicStats() {
+    const stats = {};
+    for (let i = 1; i <= 10; i++) {
+      stats[i] = { answered: 0, correct: 0 };
+      stats[`T${i}`] = { answered: 0, correct: 0, incorrect: 0, blank: 0, netScore: 0 };
+    }
+    (this.examHistory || []).forEach(h => {
+      if (Array.isArray(h.reviewList)) {
+        h.reviewList.forEach(rev => {
+          const tId = rev.question?.topicId || rev.question?.temaId;
+          if (tId && stats[tId]) {
+            stats[tId].answered++;
+            stats[`T${tId}`].answered++;
+            if (rev.isCorrect) {
+              stats[tId].correct++;
+              stats[`T${tId}`].correct++;
+              stats[`T${tId}`].netScore += 1;
+            } else if (rev.isBlank) {
+              stats[`T${tId}`].blank++;
+            } else {
+              stats[`T${tId}`].incorrect++;
+              stats[`T${tId}`].netScore -= (h.penaltyRate !== undefined ? h.penaltyRate : (1 / 3));
+            }
+          }
+        });
+      }
+    });
+    for (let i = 1; i <= 10; i++) {
+      stats[`T${i}`].netScore = Number(stats[`T${i}`].netScore.toFixed(2));
+    }
+    this.topicStats = stats;
+    try {
+      localStorage.setItem(STORAGE_KEYS.TOPIC_STATS, JSON.stringify(this.topicStats));
+    } catch (e) {}
+    return stats;
+  }
+
+  saveActiveExam() {
+    if (this.examState && this.examState.status === 'running' && Array.isArray(this.examState.questions) && this.examState.questions.length > 0) {
+      try {
+        const payload = {
+          mode: this.examState.mode,
+          questions: this.examState.questions,
+          currentIndex: this.examState.currentIndex || 0,
+          userAnswers: this.examState.userAnswers || {},
+          crossedOptions: this.examState.crossedOptions || {},
+          confidenceLevels: this.examState.confidenceLevels || {},
+          flagged: Array.from(this.examState.flagged || []),
+          initialTime: this.examState.initialTime,
+          timeRemaining: this.examState.timeRemaining,
+          savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEYS.ACTIVE_EXAM, JSON.stringify(payload));
+      } catch (e) {
+        console.warn('Error guardando examen activo:', e);
+      }
+    }
+  }
+
+  clearActiveExam() {
+    try {
+      localStorage.removeItem(STORAGE_KEYS.ACTIVE_EXAM);
+    } catch (e) {}
+  }
+
+  restoreActiveExam() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.ACTIVE_EXAM);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.questions) || data.questions.length === 0) return false;
+
+      if (this.examState.timerInterval) {
+        clearInterval(this.examState.timerInterval);
+        this.examState.timerInterval = null;
+      }
+
+      this.examState = {
+        mode: data.mode || 'oficial',
+        status: 'running',
+        questions: data.questions,
+        currentIndex: typeof data.currentIndex === 'number' ? data.currentIndex : 0,
+        userAnswers: data.userAnswers || {},
+        crossedOptions: data.crossedOptions || {},
+        confidenceLevels: data.confidenceLevels || {},
+        flagged: new Set(data.flagged || []),
+        initialTime: data.initialTime || 3600,
+        timeRemaining: Math.max(10, data.timeRemaining || 60),
+        timerInterval: null,
+        filterReview: 'all',
+        results: null
+      };
+
+      this.examState.timerInterval = setInterval(() => {
+        this.examState.timeRemaining--;
+        this.updateTimerDisplay();
+        if (this.examState.timeRemaining <= 0) {
+          this.finishExam(true);
+        }
+      }, 1000);
+
+      this.setTab('simulador');
+      return true;
+    } catch (e) {
+      console.warn('Error restaurando examen activo:', e);
+      return false;
+    }
+  }
+
+  discardActiveExam() {
+    if (confirm('¿Seguro que deseas descartar el examen en curso? Se perderán las respuestas no finalizadas.')) {
+      this.clearActiveExam();
+      if (this.examState.timerInterval) {
+        clearInterval(this.examState.timerInterval);
+        this.examState.timerInterval = null;
+      }
+      this.examState.status = 'idle';
+      this.setTab('simulador');
     }
   }
 
@@ -263,7 +522,11 @@ class OpoDefensaApp {
       srsVault: this.srsVault,
       customQuestions: this.customQuestions,
       gistConfig: { ...this.gistConfig, token: this.gistConfig.token ? '***' : '' },
-      settings: this.settings
+      settings: this.settings,
+      streak: this.streak || 0,
+      lastActiveDate: this.lastActiveDate || null,
+      dailyActivity: this.dailyActivity || {},
+      topicStats: this.topicStats || this.calculateTopicStats()
     };
 
     const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
@@ -338,6 +601,22 @@ class OpoDefensaApp {
       }
       if (data.settings) {
         localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings));
+      }
+      if (data.streak !== undefined) {
+        localStorage.setItem(STORAGE_KEYS.STREAK, String(data.streak));
+        this.streak = Number(data.streak) || 0;
+      }
+      if (data.lastActiveDate) {
+        localStorage.setItem(STORAGE_KEYS.LAST_ACTIVE_DATE, String(data.lastActiveDate));
+        this.lastActiveDate = String(data.lastActiveDate);
+      }
+      if (data.dailyActivity) {
+        localStorage.setItem(STORAGE_KEYS.DAILY_ACTIVITY, JSON.stringify(data.dailyActivity));
+        this.dailyActivity = data.dailyActivity;
+      }
+      if (data.topicStats) {
+        localStorage.setItem(STORAGE_KEYS.TOPIC_STATS, JSON.stringify(data.topicStats));
+        this.topicStats = data.topicStats;
       }
       if (data.storageVersion) {
         localStorage.setItem(STORAGE_KEYS.VERSION, String(data.storageVersion));
@@ -631,22 +910,10 @@ class OpoDefensaApp {
   // =========================================================================
   // MÉTODOS AUXILIARES DEL DASHBOARD TÁCTICO
   calculateTopicStats() {
-    const stats = {};
-    for (let i = 1; i <= 10; i++) {
-      stats[i] = { answered: 0, correct: 0 };
+    if (this.topicStats && typeof this.topicStats === 'object') {
+      return this.topicStats;
     }
-    (this.examHistory || []).forEach(h => {
-      if (Array.isArray(h.reviewList)) {
-        h.reviewList.forEach(rev => {
-          const tId = rev.question?.topicId || rev.question?.temaId;
-          if (tId && stats[tId]) {
-            stats[tId].answered++;
-            if (rev.isCorrect) stats[tId].correct++;
-          }
-        });
-      }
-    });
-    return stats;
+    return this.recalculateTopicStats();
   }
 
   calculateBlockAccuracies() {
@@ -963,6 +1230,68 @@ class OpoDefensaApp {
   // =========================================================================
   // MÓDULO 1: DASHBOARD / INICIO
   // =========================================================================
+  renderStreakMiniCalendar() {
+    const todayKey = getMadridDateKey();
+    const days = [];
+    const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+    // Ventana de 7 días consecutivos terminando en el día de hoy
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const key = getMadridDateKey(d);
+      const dayName = dayNames[d.getDay()];
+      const isToday = key === todayKey;
+      const act = (this.dailyActivity && this.dailyActivity[key]) || null;
+      const hasCompleted = Boolean(act && (act.testsCompleted > 0 || act.questionsAnswered > 0));
+      days.push({ key, dayName, isToday, hasCompleted, dateNum: d.getDate() });
+    }
+
+    return `
+      <!-- RACHA DIARIA Y MINI-CALENDARIO 7 DÍAS -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-amber-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl shadow-inner shrink-0">
+            🔥
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-black text-white uppercase tracking-wider">Racha Diaria Activa</span>
+              <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-500 text-slate-950">
+                ${this.streak || 0} ${(this.streak || 0) === 1 ? 'DÍA' : 'DÍAS'}
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">
+              ${(this.streak || 0) > 0 
+                ? (this.lastActiveDate === todayKey ? '¡Objetivo de hoy cumplido! Mantén tu racha mañana.' : 'Completa cualquier test hoy para mantener tu racha activa.') 
+                : 'Completa tu primer test hoy para iniciar tu racha de constancia hacia el 19-D.'}
+            </p>
+          </div>
+        </div>
+
+        <!-- Mini-Calendario 7 Días -->
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          ${days.map(d => `
+            <div class="flex flex-col items-center gap-1">
+              <span class="text-[10px] font-mono font-bold ${d.isToday ? 'text-amber-400 font-extrabold' : 'text-slate-500'}">
+                ${d.dayName}
+              </span>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all border ${
+                d.hasCompleted
+                  ? 'bg-amber-500/25 border-amber-500 text-amber-300 shadow-sm shadow-amber-500/20'
+                  : d.isToday
+                    ? 'bg-slate-950 border-amber-500/60 text-slate-400 ring-2 ring-amber-500/30'
+                    : 'bg-slate-950/60 border-slate-800 text-slate-600'
+              }" title="${d.key}: ${d.hasCompleted ? 'Completado' : 'Sin actividad'}">
+                ${d.hasCompleted ? '🔥' : d.dateNum}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   renderDashboard() {
     const metrics = calculateDashboardMetrics(this.examHistory);
     const mediaPuntosOficial = metrics.oficialCount > 0 ? metrics.mediaOficial : null;
@@ -1054,6 +1383,50 @@ class OpoDefensaApp {
             <span>Cargar Datos de Iván (Restaurar)</span>
           </button>
         </div>
+
+        <!-- RACHA DIARIA Y MINI-CALENDARIO DE 7 DÍAS -->
+        ${this.renderStreakMiniCalendar()}
+
+        <!-- ALERTA DE EXAMEN EN CURSO EN DASHBOARD -->
+        ${(() => {
+          try {
+            const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEYS.ACTIVE_EXAM) : null;
+            if (!raw) return '';
+            const act = JSON.parse(raw);
+            if (!act || !act.questions || act.questions.length === 0) return '';
+            const ans = Object.keys(act.userAnswers || {}).length;
+            const tot = act.questions.length;
+            const mins = Math.floor((act.timeRemaining || 0) / 60);
+            return `
+              <div class="bg-gradient-to-r from-amber-950/70 via-slate-900 to-amber-950/50 border-2 border-amber-500/50 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-fadeIn">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl shrink-0">⏳</span>
+                  <div class="space-y-0.5">
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs font-black uppercase text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">
+                        Examen en Curso
+                      </span>
+                      <span class="text-xs text-slate-400 font-mono">Modo: ${act.mode}</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-200">
+                      Tienes un intento pausado con <strong>${ans} de ${tot}</strong> preguntas contestadas (${mins} min restantes).
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                  <button onclick="window.app.restoreActiveExam()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow transition-all flex items-center gap-1.5">
+                    <span>▶️</span> Reanudar Examen
+                  </button>
+                  <button onclick="window.app.discardActiveExam()" class="px-3 py-2 bg-slate-800 hover:bg-rose-900/60 text-slate-400 hover:text-rose-300 font-bold text-xs rounded-xl border border-slate-700 transition-all">
+                    Descartar
+                  </button>
+                </div>
+              </div>
+            `;
+          } catch (e) {
+            return '';
+          }
+        })()}
 
         <!-- HERO CARD DE CONVOCATORIA CON COUNTDOWN DUAL -->
         <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-sky-950 border border-slate-700/60 rounded-3xl p-6 sm:p-10 shadow-2xl">
@@ -2281,8 +2654,48 @@ class OpoDefensaApp {
     const pendingSRS = this.getPendingSRSItems ? this.getPendingSRSItems() : [];
     const currentPenalty = (this.settings && this.settings.penaltyRate !== undefined) ? this.settings.penaltyRate : 0.3333333333333333;
 
+    let activeExamBanner = '';
+    try {
+      const savedRaw = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEYS.ACTIVE_EXAM) : null;
+      if (savedRaw) {
+        const savedExam = JSON.parse(savedRaw);
+        if (savedExam && Array.isArray(savedExam.questions) && savedExam.questions.length > 0) {
+          const ansCount = Object.keys(savedExam.userAnswers || {}).length;
+          const totalQ = savedExam.questions.length;
+          const minsRem = Math.floor((savedExam.timeRemaining || 0) / 60);
+          activeExamBanner = `
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-amber-950/70 via-slate-900 to-amber-950/50 border-2 border-amber-500/50 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl animate-fadeIn">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl shrink-0">⏳</span>
+                <div class="space-y-0.5">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-black uppercase text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">
+                      Examen en Curso Detectado
+                    </span>
+                    <span class="text-xs text-slate-400 font-mono">Modo: ${savedExam.mode}</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-200">
+                    Tienes un intento pausado con <strong>${ansCount} de ${totalQ}</strong> preguntas contestadas (${minsRem} min restantes).
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                <button onclick="window.app.restoreActiveExam()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow transition-all flex items-center gap-1.5">
+                  <span>▶️</span> Reanudar Examen
+                </button>
+                <button onclick="window.app.discardActiveExam()" class="px-3 py-2 bg-slate-800 hover:bg-rose-900/60 text-slate-400 hover:text-rose-300 font-bold text-xs rounded-xl border border-slate-700 transition-all">
+                  Descartar
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      }
+    } catch (e) {}
+
     return `
       <div class="max-w-4xl mx-auto space-y-6 animate-fadeIn">
+        ${activeExamBanner}
         <div class="text-center space-y-2 mb-8">
           <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase bg-sky-500/10 text-sky-400 border border-sky-500/30 mb-2">
             🛡️ Preparación Grupo E1 Servicios Administrativos &bull; IV CUAGE
@@ -2475,6 +2888,7 @@ class OpoDefensaApp {
         }
       }, 1000)
     };
+    this.saveActiveExam();
 
     this.setTab('simulador');
   }
@@ -2509,6 +2923,7 @@ class OpoDefensaApp {
         this.finishExam(true);
       }
     }, 1000);
+    this.saveActiveExam();
 
     this.setTab('simulador');
   }
@@ -2876,6 +3291,7 @@ class OpoDefensaApp {
   }
 
   renderSimulatorUpdate() {
+    this.saveActiveExam();
     const mainContainer = document.getElementById('app-main-content');
     if (mainContainer && this.activeTab === 'simulador') {
       mainContainer.innerHTML = this.renderSimulator();
@@ -2996,6 +3412,7 @@ class OpoDefensaApp {
     this.calculateResults();
     this.examState.status = 'finished';
     this.saveHistory(this.examState.results);
+    this.clearActiveExam();
 
     if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
       window.dispatchEvent(new CustomEvent('opo:test-finished', {

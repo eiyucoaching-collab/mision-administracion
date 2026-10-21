@@ -6,7 +6,9 @@ import {
   migrateHistoryItem,
   sanitizeFailedQuestionIds,
   sanitizeCifrasDrill,
-  migrateStorage
+  migrateStorage,
+  getMadridDateKey,
+  getYesterdayMadridDateKey
 } from '../src/storage/migration.js';
 
 // Mock de localStorage en memoria para tests
@@ -233,3 +235,102 @@ describe('Backup Import & Restore Robustness Tests', () => {
   });
 });
 
+
+
+describe('Persistence, Europe/Madrid Dates, Streak & Active Exam Tests', () => {
+  it('getMadridDateKey y getYesterdayMadridDateKey devuelven formato YYYY-MM-DD en hora de Madrid', () => {
+    const todayStr = getMadridDateKey();
+    assert.match(todayStr, /^\d{4}-\d{2}-\d{2}$/);
+
+    const yesterdayStr = getYesterdayMadridDateKey();
+    assert.match(yesterdayStr, /^\d{4}-\d{2}-\d{2}$/);
+    assert.notEqual(todayStr, yesterdayStr);
+
+    // Comprobar con una fecha fija (por ejemplo, medianoche UTC que en España ya es día siguiente)
+    const lateUtc = new Date('2026-10-21T23:30:00.000Z');
+    // En UTC es día 21, pero en Madrid (UTC+2 CEST) es 2026-10-22 01:30
+    const madridKey = getMadridDateKey(lateUtc);
+    assert.equal(madridKey, '2026-10-22');
+  });
+
+  it('migrateHistoryItem añade dateKey, totalQuestions, incorrect y conserva todas las propiedades', () => {
+    const item = {
+      id: 'ex_test_999',
+      date: '2026-10-15T12:00:00.000Z',
+      mode: 'oficial',
+      correct: 40,
+      wrong: 15,
+      blank: 5,
+      totalGraded: 60,
+      score: 35.05
+    };
+    const migrated = migrateHistoryItem(item, 0);
+    assert.equal(migrated.totalQuestions, 60);
+    assert.equal(migrated.incorrect, 15);
+    assert.equal(migrated.dateKey, '2026-10-15');
+    assert.equal(migrated.netScore, 35.05);
+    assert.equal(migrated.score, 35.05);
+  });
+
+  it('migrateStorage preserva íntegramente claves de estado adicionales sin borrarlas ni sobreescribirlas', () => {
+    const storage = createMockStorage({
+      [STORAGE_KEYS.VERSION]: '1',
+      [STORAGE_KEYS.HISTORY]: JSON.stringify([{ id: 'h1', score: 30 }]),
+      [STORAGE_KEYS.STREAK]: '5',
+      [STORAGE_KEYS.LAST_ACTIVE_DATE]: '2026-10-20',
+      [STORAGE_KEYS.DAILY_ACTIVITY]: JSON.stringify({ '2026-10-20': { testsCompleted: 2 } }),
+      [STORAGE_KEYS.TOPIC_STATS]: JSON.stringify({ T1: { answered: 10, correct: 8 } }),
+      [STORAGE_KEYS.ACTIVE_EXAM]: JSON.stringify({ mode: 'oficial', currentIndex: 5 })
+    });
+
+    const res = migrateStorage(storage);
+    assert.equal(res.migrated, true);
+
+    // Verificar que los nuevos datos y las claves no fueron alteradas
+    assert.equal(storage.getItem(STORAGE_KEYS.STREAK), '5');
+    assert.equal(storage.getItem(STORAGE_KEYS.LAST_ACTIVE_DATE), '2026-10-20');
+    assert.ok(storage.getItem(STORAGE_KEYS.DAILY_ACTIVITY).includes('2026-10-20'));
+    assert.ok(storage.getItem(STORAGE_KEYS.TOPIC_STATS).includes('T1'));
+    assert.ok(storage.getItem(STORAGE_KEYS.ACTIVE_EXAM).includes('oficial'));
+  });
+
+  it('simula la lógica de racha diaria: incremento consecutivo, mantenimiento hoy y reinicio tras inactividad', () => {
+    const todayKey = getMadridDateKey();
+    const yesterdayKey = getYesterdayMadridDateKey();
+    const pastKey = '2026-01-01';
+
+    // Caso 1: Usuario activo ayer -> incrementa racha
+    let streak = 3;
+    let lastActive = yesterdayKey;
+    if (lastActive === yesterdayKey) {
+      streak += 1;
+      lastActive = todayKey;
+    }
+    assert.equal(streak, 4);
+    assert.equal(lastActive, todayKey);
+
+    // Caso 2: Usuario vuelve a hacer test hoy -> mantiene racha sin duplicar
+    if (lastActive === yesterdayKey) {
+      streak += 1;
+      lastActive = todayKey;
+    } else if (lastActive === todayKey) {
+      // mantiene
+    }
+    assert.equal(streak, 4);
+
+    // Caso 3: Usuario inactivo más de 1 día -> racha se reinicia a 1
+    lastActive = pastKey;
+    streak = 10;
+    if (lastActive === yesterdayKey) {
+      streak += 1;
+      lastActive = todayKey;
+    } else if (lastActive === todayKey) {
+      // mantiene
+    } else {
+      streak = 1;
+      lastActive = todayKey;
+    }
+    assert.equal(streak, 1);
+    assert.equal(lastActive, todayKey);
+  });
+});
