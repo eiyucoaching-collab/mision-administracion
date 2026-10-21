@@ -1858,152 +1858,262 @@ export const IVAN_PROFILE = {
     "bestStreak": 0
   },
   "srsVault": {
-    "undefined": {
+    "1": {
+      "qId": 1,
+      "box": 1,
+      "streak": 0,
+      "consecutiveSafeHits": 0,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": null,
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "duda",
+          "isCorrect": false,
+          "isBlank": false,
+          "box": 1
+        }
+      ],
+      "graduated": false
+    },
+    "5": {
+      "qId": 5,
+      "box": 2,
+      "streak": 1,
+      "consecutiveSafeHits": 1,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "segura",
+          "isCorrect": true,
+          "isBlank": false,
+          "box": 2
+        }
+      ],
+      "graduated": false
+    },
+    "16": {
+      "qId": 16,
       "box": 3,
       "streak": 2,
       "consecutiveSafeHits": 2,
       "lastReviewed": "2026-10-15T10:01:36.574Z",
-      "nextReview": "2026-10-22T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
       "history": [
         {
           "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": false,
-          "isBlank": false,
-          "box": 1
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 2
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
           "confidence": "segura",
           "isCorrect": true,
           "isBlank": false,
           "box": 3
-        },
+        }
+      ],
+      "graduated": false
+    },
+    "22": {
+      "qId": 22,
+      "box": 2,
+      "streak": 1,
+      "consecutiveSafeHits": 1,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
         {
           "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": true,
-          "isBlank": false,
-          "box": 4
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": false,
-          "isBlank": false,
-          "box": 1
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": false,
-          "isBlank": false,
-          "box": 1
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
-          "confidence": "segura",
-          "isCorrect": false,
-          "isBlank": false,
-          "box": 1
-        },
-        {
-          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
           "confidence": "segura",
           "isCorrect": true,
           "isBlank": false,
           "box": 2
-        },
+        }
+      ],
+      "graduated": false
+    },
+    "27": {
+      "qId": 27,
+      "box": 1,
+      "streak": 0,
+      "consecutiveSafeHits": 0,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": null,
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
         {
           "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "duda",
+          "isCorrect": false,
+          "isBlank": false,
+          "box": 1
+        }
+      ],
+      "graduated": false
+    },
+    "52": {
+      "qId": 52,
+      "box": 1,
+      "streak": 0,
+      "consecutiveSafeHits": 0,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": null,
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "duda",
+          "isCorrect": false,
+          "isBlank": false,
+          "box": 1
+        }
+      ],
+      "graduated": false
+    },
+    "171": {
+      "qId": 171,
+      "box": 1,
+      "streak": 0,
+      "consecutiveSafeHits": 0,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": null,
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "duda",
+          "isCorrect": false,
+          "isBlank": false,
+          "box": 1
+        }
+      ],
+      "graduated": false
+    },
+    "174": {
+      "qId": 174,
+      "box": 3,
+      "streak": 2,
+      "consecutiveSafeHits": 2,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
           "confidence": "segura",
           "isCorrect": true,
           "isBlank": false,
           "box": 3
+        }
+      ],
+      "graduated": false
+    },
+    "181": {
+      "qId": 181,
+      "box": 2,
+      "streak": 1,
+      "consecutiveSafeHits": 1,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "segura",
+          "isCorrect": true,
+          "isBlank": false,
+          "box": 2
+        }
+      ],
+      "graduated": false
+    },
+    "182": {
+      "qId": 182,
+      "box": 3,
+      "streak": 2,
+      "consecutiveSafeHits": 2,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "segura",
+          "isCorrect": true,
+          "isBlank": false,
+          "box": 3
+        }
+      ],
+      "graduated": false
+    },
+    "197": {
+      "qId": 197,
+      "box": 2,
+      "streak": 1,
+      "consecutiveSafeHits": 1,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "segura",
+          "isCorrect": true,
+          "isBlank": false,
+          "box": 2
+        }
+      ],
+      "graduated": false
+    },
+    "218": {
+      "qId": 218,
+      "box": 3,
+      "streak": 2,
+      "consecutiveSafeHits": 2,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": "2026-10-15",
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "segura",
+          "isCorrect": true,
+          "isBlank": false,
+          "box": 3
+        }
+      ],
+      "graduated": false
+    },
+    "231": {
+      "qId": 231,
+      "box": 1,
+      "streak": 0,
+      "consecutiveSafeHits": 0,
+      "lastReviewed": "2026-10-15T10:01:36.574Z",
+      "lastSafeHitDateKey": null,
+      "nextReview": "2026-10-16T10:01:36.574Z",
+      "history": [
+        {
+          "date": "2026-10-15T10:01:36.574Z",
+          "dateKey": "2026-10-15",
+          "confidence": "duda",
+          "isCorrect": false,
+          "isBlank": false,
+          "box": 1
         }
       ],
       "graduated": false

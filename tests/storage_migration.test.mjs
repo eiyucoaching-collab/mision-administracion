@@ -8,7 +8,8 @@ import {
   sanitizeCifrasDrill,
   migrateStorage,
   getMadridDateKey,
-  getYesterdayMadridDateKey
+  getYesterdayMadridDateKey,
+  sanitizeSRSVault
 } from '../src/storage/migration.js';
 
 // Mock de localStorage en memoria para tests
@@ -332,5 +333,176 @@ describe('Persistence, Europe/Madrid Dates, Streak & Active Exam Tests', () => {
     }
     assert.equal(streak, 1);
     assert.equal(lastActive, todayKey);
+  });
+});
+
+
+describe('Bóveda de Fallos & Repetición Espaciada (Leitner SRS 4 Cajas)', () => {
+  it('sanitizeSRSVault purga claves inválidas como "undefined" o "null" y normaliza cajas', () => {
+    const dirtyVault = {
+      'undefined': { box: 3, streak: 2 },
+      'null': { box: 2 },
+      '': { box: 1 },
+      '-5': { box: 1 },
+      'abc': { box: 1 },
+      '42': { qId: 42, box: 2, consecutiveSafeHits: 1, graduated: false },
+      '101': { qId: '101', box: 5, consecutiveSafeHits: '2', graduated: true }
+    };
+
+    const clean = sanitizeSRSVault(dirtyVault);
+    assert.deepEqual(Object.keys(clean).map(Number).sort((a, b) => a - b), [42, 101]);
+    assert.equal(clean[42].qId, 42);
+    assert.equal(clean[42].box, 2);
+    assert.equal(clean[42].consecutiveSafeHits, 1);
+    assert.equal(clean[42].graduated, false);
+
+    assert.equal(clean[101].qId, 101);
+    assert.equal(clean[101].box, 4); // Clamped a max 4
+    assert.equal(clean[101].consecutiveSafeHits, 2);
+    assert.equal(clean[101].graduated, true);
+  });
+
+  it('Captura automática: fallos, dudas y blancas entran a Caja 1 con 0 seguras', () => {
+    const srsVault = {};
+
+    function mockCapture(qId, conf, isCorrect, isBlank, todayKey = '2026-10-21') {
+      const numericQId = Number(qId);
+      const isFailure = !isCorrect && !isBlank;
+      const isBlankAnswer = Boolean(isBlank);
+      const isDoubt = conf === 'duda' || conf === 'riesgo';
+      const isSafeHit = isCorrect && conf === 'segura';
+
+      const existing = srsVault[numericQId];
+      if (!existing && isSafeHit) return;
+
+      const item = existing || {
+        qId: numericQId,
+        box: 1,
+        consecutiveSafeHits: 0,
+        lastSafeHitDateKey: null,
+        graduated: false
+      };
+
+      if (isFailure || isBlankAnswer || isDoubt) {
+        item.box = 1;
+        item.consecutiveSafeHits = 0;
+        item.graduated = false;
+      } else if (isSafeHit) {
+        if (item.lastSafeHitDateKey !== todayKey) {
+          item.consecutiveSafeHits = (item.consecutiveSafeHits || 0) + 1;
+          item.lastSafeHitDateKey = todayKey;
+          if (item.consecutiveSafeHits >= 3) {
+            item.graduated = true;
+            item.box = 4;
+            item.consecutiveSafeHits = 3;
+          } else {
+            item.box = Math.min(4, item.box + 1);
+          }
+        }
+      }
+      srsVault[numericQId] = item;
+    }
+
+    // 1. Pregunta nueva contestada correcta con [🟢 Segura] -> NO entra a la Bóveda de Fallos
+    mockCapture(10, 'segura', true, false);
+    assert.equal(srsVault[10], undefined, 'Acierto seguro de pregunta nueva no debe entrar a Bóveda');
+
+    // 2. Pregunta nueva con FALLO -> entra a Caja 1 con 0 seguras
+    mockCapture(20, 'segura', false, false);
+    assert.ok(srsVault[20]);
+    assert.equal(srsVault[20].box, 1);
+    assert.equal(srsVault[20].consecutiveSafeHits, 0);
+    assert.equal(srsVault[20].graduated, false);
+
+    // 3. Pregunta nueva en BLANCO -> entra a Caja 1
+    mockCapture(30, 'segura', false, true);
+    assert.ok(srsVault[30]);
+    assert.equal(srsVault[30].box, 1);
+    assert.equal(srsVault[30].consecutiveSafeHits, 0);
+
+    // 4. Pregunta nueva acertada pero con DUDA (falso positivo / azar) -> entra a Caja 1
+    mockCapture(40, 'duda', true, false);
+    assert.ok(srsVault[40]);
+    assert.equal(srsVault[40].box, 1);
+    assert.equal(srsVault[40].consecutiveSafeHits, 0);
+  });
+
+  it('Exige exactamente 3 aciertos consecutivos con [🟢 Segura] en DÍAS DISTINTOS para graduar', () => {
+    const srsVault = {};
+
+    function mockCapture(qId, conf, isCorrect, isBlank, todayKey) {
+      const numericQId = Number(qId);
+      const isFailure = !isCorrect && !isBlank;
+      const isBlankAnswer = Boolean(isBlank);
+      const isDoubt = conf === 'duda' || conf === 'riesgo';
+      const isSafeHit = isCorrect && conf === 'segura';
+
+      const existing = srsVault[numericQId];
+      if (!existing && isSafeHit) return;
+
+      const item = existing || {
+        qId: numericQId,
+        box: 1,
+        consecutiveSafeHits: 0,
+        lastSafeHitDateKey: null,
+        graduated: false
+      };
+
+      if (isFailure || isBlankAnswer || isDoubt) {
+        item.box = 1;
+        item.consecutiveSafeHits = 0;
+        item.graduated = false;
+      } else if (isSafeHit) {
+        if (item.lastSafeHitDateKey !== todayKey) {
+          item.consecutiveSafeHits = (item.consecutiveSafeHits || 0) + 1;
+          item.lastSafeHitDateKey = todayKey;
+          if (item.consecutiveSafeHits >= 3) {
+            item.graduated = true;
+            item.box = 4;
+            item.consecutiveSafeHits = 3;
+          } else {
+            item.box = Math.min(4, item.box + 1);
+          }
+        }
+      }
+      srsVault[numericQId] = item;
+    }
+
+    // Día 1: Pregunta 50 se falla -> entra a Caja 1
+    mockCapture(50, 'segura', false, false, '2026-10-15');
+    assert.equal(srsVault[50].box, 1);
+    assert.equal(srsVault[50].consecutiveSafeHits, 0);
+    assert.equal(srsVault[50].graduated, false);
+
+    // Día 2: Primer acierto seguro -> sube a Caja 2, racha 1/3
+    mockCapture(50, 'segura', true, false, '2026-10-16');
+    assert.equal(srsVault[50].box, 2);
+    assert.equal(srsVault[50].consecutiveSafeHits, 1);
+    assert.equal(srsVault[50].graduated, false);
+
+    // Mismo Día 2: Segundo test en la misma tarde con acierto seguro -> MANTIENE 1/3 (no burla la repetición espaciada)
+    mockCapture(50, 'segura', true, false, '2026-10-16');
+    assert.equal(srsVault[50].box, 2);
+    assert.equal(srsVault[50].consecutiveSafeHits, 1, 'No debe sumar dos aciertos seguros en el mismo día');
+    assert.equal(srsVault[50].graduated, false);
+
+    // Día 5 (3 días después según intervalo Caja 2): Segundo acierto seguro en día distinto -> sube a Caja 3, racha 2/3
+    mockCapture(50, 'segura', true, false, '2026-10-19');
+    assert.equal(srsVault[50].box, 3);
+    assert.equal(srsVault[50].consecutiveSafeHits, 2);
+    assert.equal(srsVault[50].graduated, false);
+
+    // Día 12 (7 días después según intervalo Caja 3): Tercer acierto seguro en día distinto -> DOMINADA (Graduada), Caja 4, racha 3/3
+    mockCapture(50, 'segura', true, false, '2026-10-26');
+    assert.equal(srsVault[50].box, 4);
+    assert.equal(srsVault[50].consecutiveSafeHits, 3);
+    assert.equal(srsVault[50].graduated, true, 'Debe graduarse al alcanzar 3 aciertos seguros en días distintos');
+
+    // Si semanas después en un simulacro oficial el alumno DUDA o FALLA esta pregunta dominada:
+    // Pierde la condición de graduada y regresa a Caja 1 para reaprendizaje
+    mockCapture(50, 'duda', true, false, '2026-11-10');
+    assert.equal(srsVault[50].graduated, false, 'Dudar debe revocar la graduación');
+    assert.equal(srsVault[50].box, 1, 'Debe regresar a Caja 1');
+    assert.equal(srsVault[50].consecutiveSafeHits, 0, 'La racha de seguras debe reiniciarse');
   });
 });

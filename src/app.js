@@ -30,7 +30,8 @@ import {
   CURRENT_STORAGE_VERSION,
   migrateStorage,
   getMadridDateKey,
-  getYesterdayMadridDateKey
+  getYesterdayMadridDateKey,
+  sanitizeSRSVault
 } from './storage/migration.js';
 import { DailyMissionsManager, STORAGE_KEY_MISSIONS } from './modules/missions_engine.js';
 import { IVAN_PROFILE } from './data/user_profile.js';
@@ -214,7 +215,7 @@ class OpoDefensaApp {
       this.planChecklist = JSON.parse(localStorage.getItem(STORAGE_KEYS.PLAN_CHECKLIST)) || {};
       this.highlighterEnabled = localStorage.getItem(STORAGE_KEYS.HIGHLIGHTER) !== 'false';
       this.cifrasBestScore = JSON.parse(localStorage.getItem(STORAGE_KEYS.CIFRAS_DRILL)) || { bestScore: 0, bestStreak: 0 };
-      this.srsVault = JSON.parse(localStorage.getItem(STORAGE_KEYS.SRS_VAULT)) || {};
+      this.srsVault = sanitizeSRSVault(JSON.parse(localStorage.getItem(STORAGE_KEYS.SRS_VAULT)) || {});
       this.customQuestions = JSON.parse(localStorage.getItem(STORAGE_KEYS.CUSTOM_QUESTIONS)) || [];
       this.gistConfig = JSON.parse(localStorage.getItem(STORAGE_KEYS.GIST_CONFIG)) || { token: '', gistId: '', lastSync: null };
       this.settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)) || { penaltyRate: 0.3333333333333333 };
@@ -2858,8 +2859,8 @@ class OpoDefensaApp {
     const pendingSRS = this.getPendingSRSItems ? this.getPendingSRSItems() : [];
     const srsSet = new Set(
       pendingSRS.length > 0
-        ? pendingSRS.map(it => it.qId)
-        : Object.values(this.srsVault || {}).filter(it => !it.graduated).map(it => it.qId)
+        ? pendingSRS.map(it => Number(it.qId))
+        : Object.values(this.srsVault || {}).filter(it => !it.graduated).map(it => Number(it.qId))
     );
 
     const session = initExamSessionState(this.allQuestions || this.questionBank, mode, {
@@ -3450,9 +3451,10 @@ class OpoDefensaApp {
     // Bóveda Leitner SRS: captura automática de fallos, dudas y respuestas
     if (results.reviewList) {
       results.reviewList.forEach(item => {
-        const conf = (this.examState.confidenceLevels && this.examState.confidenceLevels[item.id]) || 'segura';
+        const qId = item.id || item.question?.id;
+        const conf = item.confidence || (this.examState.confidenceLevels && this.examState.confidenceLevels[qId]) || 'segura';
         if (this.captureQuestionForSRS) {
-          this.captureQuestionForSRS(item.id, conf, item.isCorrect, item.isBlank);
+          this.captureQuestionForSRS(qId, conf, item.isCorrect, item.isBlank);
         }
       });
     }
@@ -3686,77 +3688,101 @@ class OpoDefensaApp {
   // MÓDULO: BÓVEDA DE FALLOS (SISTEMA LEITNER SRS 4 CAJAS)
   // =========================================================================
   captureQuestionForSRS(qId, confidence = 'segura', isCorrect = false, isBlank = false) {
+    if (!qId || qId === 'undefined' || qId === 'null') return;
+    const numericQId = Number(qId);
+    if (!Number.isInteger(numericQId) || numericQId <= 0) return;
+
     if (!this.srsVault) this.srsVault = {};
     const now = new Date();
-    const existing = this.srsVault[qId] || {
-      qId,
+    const todayKey = getMadridDateKey(now);
+
+    const isFailure = !isCorrect && !isBlank;
+    const isBlankAnswer = Boolean(isBlank);
+    const isDoubt = confidence === 'duda' || confidence === 'riesgo';
+    const isSafeHit = isCorrect && confidence === 'segura';
+
+    // Intervalos Leitner: Caja 1 (1 día), Caja 2 (3 días), Caja 3 (7 días), Caja 4 (14 días)
+    const intervals = { 1: 1 * 86400000, 2: 3 * 86400000, 3: 7 * 86400000, 4: 14 * 86400000 };
+
+    const existing = this.srsVault[numericQId];
+
+    // REGLA DE ORO: Si no estaba en la Bóveda y es un acierto con [🟢 Segura], NO entra a la Bóveda de Fallos
+    if (!existing && isSafeHit) {
+      return;
+    }
+
+    const item = existing || {
+      qId: numericQId,
       box: 1,
       streak: 0,
       consecutiveSafeHits: 0,
       lastReviewed: null,
+      lastSafeHitDateKey: null,
       nextReview: now.toISOString(),
       history: [],
       graduated: false
     };
 
-    // Intervalos Leitner: Caja 1 (1 día), Caja 2 (3 días), Caja 3 (7 días), Caja 4 (14 días)
-    const intervals = { 1: 1 * 86400000, 2: 3 * 86400000, 3: 7 * 86400000, 4: 14 * 86400000 };
+    if (isFailure || isBlankAnswer || isDoubt) {
+      // Fallo, Blanca o Duda: regresa a Caja 1, reinicia racha de aciertos seguros y pierde graduación
+      item.box = 1;
+      item.streak = 0;
+      item.consecutiveSafeHits = 0;
+      item.graduated = false;
+      item.nextReview = new Date(now.getTime() + intervals[1]).toISOString();
+    } else if (isSafeHit) {
+      // Acierto con [🟢 Segura]:
+      // Exige aciertos en DÍAS DISTINTOS (Europe/Madrid)
+      if (item.lastSafeHitDateKey !== todayKey) {
+        item.consecutiveSafeHits = (item.consecutiveSafeHits || 0) + 1;
+        item.lastSafeHitDateKey = todayKey;
 
-    if (!isCorrect && !isBlank) {
-      // Fallo: regresa a Caja 1, reinicia racha
-      existing.box = 1;
-      existing.streak = 0;
-      existing.consecutiveSafeHits = 0;
-      existing.graduated = false;
-      existing.nextReview = new Date(now.getTime() + intervals[1]).toISOString();
-    } else if (isBlank) {
-      // En blanco: se sitúa en Caja 1 para repasar en 1 día
-      existing.box = 1;
-      existing.streak = 0;
-      existing.consecutiveSafeHits = 0;
-      existing.graduated = false;
-      existing.nextReview = new Date(now.getTime() + intervals[1]).toISOString();
-    } else if (isCorrect) {
-      // Acierto
-      if (confidence === 'segura') {
-        existing.consecutiveSafeHits = (existing.consecutiveSafeHits || 0) + 1;
-        existing.streak = (existing.streak || 0) + 1;
-        // 3 aciertos seguros consecutivos en días distintos permiten dominar/graduar o subir de caja
-        if (existing.consecutiveSafeHits >= 3 && existing.box === 4) {
-          existing.graduated = true;
-        } else if (existing.box < 4) {
-          existing.box++;
+        // 3 aciertos seguros consecutivos en días distintos -> Dominada (Graduada)
+        if (item.consecutiveSafeHits >= 3) {
+          item.graduated = true;
+          item.box = 4;
+          item.consecutiveSafeHits = 3;
+        } else {
+          item.box = Math.min(4, (item.box || 1) + 1);
         }
-      } else {
-        // Acierto con duda 50/50 o riesgo: no cuenta como seguro, no avanza de caja
-        existing.consecutiveSafeHits = 0;
       }
-      const curBox = existing.box || 1;
-      existing.nextReview = new Date(now.getTime() + (intervals[curBox] || intervals[1])).toISOString();
+      item.streak = (item.streak || 0) + 1;
+      const curBox = item.box || 1;
+      item.nextReview = new Date(now.getTime() + (intervals[curBox] || intervals[1])).toISOString();
     }
 
-    existing.lastReviewed = now.toISOString();
-    existing.history.push({
+    item.lastReviewed = now.toISOString();
+    if (!Array.isArray(item.history)) item.history = [];
+    item.history.push({
       date: now.toISOString(),
+      dateKey: todayKey,
       confidence,
       isCorrect,
-      isBlank,
-      box: existing.box
+      isBlank: isBlankAnswer,
+      box: item.box
     });
-    if (existing.history.length > 20) existing.history.shift();
+    if (item.history.length > 20) item.history.shift();
 
-    this.srsVault[qId] = existing;
+    this.srsVault[numericQId] = item;
     try {
       localStorage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(this.srsVault));
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Error guardando SRS Vault:', e);
+    }
   }
 
   getPendingSRSItems() {
     const now = new Date();
+    const todayKey = getMadridDateKey(now);
     return Object.values(this.srsVault || {}).filter(item => {
-      if (item.graduated) return false;
+      if (!item || item.graduated) return false;
       if (!item.nextReview) return true;
-      return new Date(item.nextReview) <= now;
+      try {
+        const reviewDateKey = getMadridDateKey(new Date(item.nextReview));
+        return reviewDateKey <= todayKey || new Date(item.nextReview) <= now;
+      } catch (e) {
+        return true;
+      }
     });
   }
 

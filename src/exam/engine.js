@@ -129,14 +129,14 @@ export function createExamPool(questionBank, mode, options = {}) {
     selectedQuestions = shuffleArray(fallbackPool, rng).slice(0, 20);
   } else if (mode === 'srs') {
     // Preguntas pendientes de revisión según la Bóveda Leitner SRS
-    const targetSet = srsQuestionIds instanceof Set ? srsQuestionIds : new Set(srsQuestionIds || []);
+    const targetSet = new Set(Array.from(srsQuestionIds || []).map(Number));
     if (targetSet.size === 0) {
       return {
         questions: [],
         error: 'No tienes preguntas pendientes de revisión en tu Bóveda de Fallos (SRS) para hoy.'
       };
     }
-    const srsPool = validBank.filter(q => targetSet.has(q.id));
+    const srsPool = validBank.filter(q => targetSet.has(Number(q.id)));
     selectedQuestions = shuffleArray(srsPool, rng);
   } else if (mode === 'real2025') {
     // Simulacro priorizando preguntas identificadas de convocatoria (60 ordinarias + 6 reservas)
@@ -291,6 +291,7 @@ export function calculateExamScore(sessionState) {
     }
 
     reviewList.push({
+      id: q.id,
       num: item.num,
       question: q,
       userAns: userAns,

@@ -140,6 +140,31 @@ export function sanitizeCifrasDrill(rawDrill) {
 }
 
 /**
+ * Sanitiza la Bóveda Leitner SRS asegurando que las claves sean IDs numéricos válidos
+ * y eliminando cualquier residuo contaminado 'undefined' o 'null'.
+ * @param {any} rawVault 
+ * @returns {Object} Bóveda limpia indexada por ID numérico
+ */
+export function sanitizeSRSVault(rawVault) {
+  if (!rawVault || typeof rawVault !== 'object' || Array.isArray(rawVault)) return {};
+  const clean = {};
+  for (const [key, item] of Object.entries(rawVault)) {
+    if (key === 'undefined' || key === 'null' || !key || !item) continue;
+    const qId = Number(item.qId || key);
+    if (!Number.isInteger(qId) || qId <= 0) continue;
+    clean[qId] = {
+      ...item,
+      qId,
+      box: Math.min(4, Math.max(1, Number(item.box) || 1)),
+      consecutiveSafeHits: Math.max(0, Number(item.consecutiveSafeHits) || 0),
+      graduated: Boolean(item.graduated),
+      lastSafeHitDateKey: item.lastSafeHitDateKey || null
+    };
+  }
+  return clean;
+}
+
+/**
  * Ejecuta la migración del almacenamiento a v2 con copia de seguridad obligatoria previa
  * Garantiza la conservación íntegra de todos los campos del estado sin descartar ni sobrescribir.
  * @param {Storage|Object} storage - Objeto compatible con localStorage (getItem, setItem)
@@ -206,6 +231,17 @@ export function migrateStorage(storage) {
         storage.setItem(STORAGE_KEYS.CIFRAS_DRILL, JSON.stringify(sanitizedCifras));
       } catch (errCifras) {
         console.warn('[Migration] Error parseando cifras drill legado:', errCifras);
+      }
+    }
+
+    const rawSrsStr = storage.getItem(STORAGE_KEYS.SRS_VAULT);
+    if (rawSrsStr) {
+      try {
+        const rawSrs = JSON.parse(rawSrsStr);
+        const sanitizedSrs = sanitizeSRSVault(rawSrs);
+        storage.setItem(STORAGE_KEYS.SRS_VAULT, JSON.stringify(sanitizedSrs));
+      } catch (errSrs) {
+        console.warn('[Migration] Error parseando srsVault legado:', errSrs);
       }
     }
 
