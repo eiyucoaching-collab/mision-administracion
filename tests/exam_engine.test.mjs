@@ -330,16 +330,45 @@ describe('P0 Exam Engine Tests', () => {
     assert.equal(resAnnulled.wrong, 1);
     assert.equal(resAnnulled.netScore, +(27 - 1/3).toFixed(2));
 
-    // Comprobar caso extremo: exactamente 7 preguntas ordinarias anuladas (exceden las 6 reservas por 1)
-    const poolWith7Annulled = ordinarias.map((q, idx) => ({ ...q, annulled: idx < 7 })).concat(reservas);
-    const resExceeded = calculateExamScore({
+    // Comprobar sustitución estricta por bloque:
+    // Caso A: 7 preguntas comunes anuladas (idx 0 a 6). Solo hay 2 reservas comunes (R1-R2).
+    // Las 5 restantes no pueden ser sustituidas por reservas específicas -> 55 calificadas.
+    const poolWith7ComunAnnulled = ordinarias.map((q, idx) => ({ ...q, annulled: idx < 7 })).concat(reservas);
+    const resComunExceeded = calculateExamScore({
       mode: 'oficial',
-      questions: poolWith7Annulled,
+      questions: poolWith7ComunAnnulled,
       userAnswers: {}
     });
-    // 60 ordinarias - 7 anuladas + 6 reservas = 59 preguntas calificadas
-    assert.equal(resExceeded.totalGraded, 59);
-    assert.equal(resExceeded.cutoffScore, +(59 * 0.5).toFixed(2));
+    assert.equal(resComunExceeded.totalGraded, 55, 'Comunes anuladas solo consumen reservas comunes (2 max); el resto queda anulado');
+    assert.equal(resComunExceeded.cutoffScore, +(55 * 0.5).toFixed(2));
+
+    // Caso B: Anulaciones cruzadas que agotan exactamente las reservas de cada bloque:
+    // 2 comunes anuladas (idx 0, 1) + 4 específicas anuladas (idx 20, 21, 22, 23).
+    // 2 comunes consumen R1-R2; 4 específicas consumen R3-R6 -> 60 calificadas completas.
+    const poolExactBlocks = ordinarias.map((q, idx) => ({
+      ...q,
+      annulled: (idx === 0 || idx === 1 || idx === 20 || idx === 21 || idx === 22 || idx === 23)
+    })).concat(reservas);
+    const resExactBlocks = calculateExamScore({
+      mode: 'oficial',
+      questions: poolExactBlocks,
+      userAnswers: {}
+    });
+    assert.equal(resExactBlocks.totalGraded, 60, '2 comunes + 4 específicas anuladas agotan exactamente las 6 reservas por bloque');
+
+    // Caso C: 3 comunes anuladas (idx 0, 1, 2) + 4 específicas anuladas (idx 20, 21, 22, 23).
+    // Total 7 anuladas: 2 comunes sustituidas + 4 específicas sustituidas + 1 común sin reserva -> 59 calificadas.
+    const pool7CrossAnnulled = ordinarias.map((q, idx) => ({
+      ...q,
+      annulled: (idx === 0 || idx === 1 || idx === 2 || idx === 20 || idx === 21 || idx === 22 || idx === 23)
+    })).concat(reservas);
+    const res7Cross = calculateExamScore({
+      mode: 'oficial',
+      questions: pool7CrossAnnulled,
+      userAnswers: {}
+    });
+    assert.equal(res7Cross.totalGraded, 59, '3 comunes + 4 específicas: 6 sustituidas y 1 común sin reserva = 59');
+    assert.equal(res7Cross.cutoffScore, +(59 * 0.5).toFixed(2));
   });
 
   it('CASO 4: [Ratificado por Anexo V Convocatoria Defensa 2026] Temporizador del simulador (3600s oficial, 1200s común, 2400s específico)', () => {

@@ -2778,10 +2778,10 @@ class OpoDefensaApp {
             <div class="text-3xl mb-3">🎖️</div>
             <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Tipo Examen (60 + 6 Res)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Modelado sobre supuestos AGE: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, 60 min, penalización activa y corte 30 pts (supuestos provisionales a confirmar con el Anexo V oficial).
+              Estructura oficial Anexo V: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, 60 min, penalización oficial -1/3 y corte en 30 pts.
             </p>
             <div class="mt-3 p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-300/90 leading-tight">
-              ⚠️ Banco específico en fase de ampliación (46 con norma identificada para 44 plazas). Mínima rotación entre intentos hasta incorporar Anexos VI y VII.
+              🎯 Banco integrado de 310 preguntas oficiales auditadas. Sustitución de reservas estricta por bloque (Común ➔ R1/R2, Específico ➔ R3-R6).
             </div>
           </button>
 
@@ -2987,8 +2987,8 @@ class OpoDefensaApp {
             <span class="text-base shrink-0">⚠️</span>
             <div class="space-y-1">
               <div><strong>Aviso sobre representatividad y supuestos del simulador:</strong></div>
-              <div>• El banco específico cuenta con 46 preguntas con norma identificada para 44 puestos específicos requeridos: la variabilidad entre intentos es reducida.</div>
-              <div>• El formato (60+6 preguntas, 60 min, penalización de -1/3, corte en 30 netos y calificación con suelo en 0) son <em>supuestos metodológicos estándar</em> pendientes de confirmación en el Anexo V oficial de las bases.</div>
+              <div>• Banco oficial auditado con 310 preguntas y trazabilidad normativa verificada.</div>
+              <div>• Estructura Anexo V: 60 ordinarias (20 comunes + 40 específicas), 6 reservas (R1-R2 comunes, R3-R6 específicas), 60 min, penalización de -1/3 y corte en 30 netos.</div>
             </div>
           </div>
         ` : ''}

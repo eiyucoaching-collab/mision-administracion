@@ -5458,9 +5458,9 @@
       "La unidad o persona a la que desea dirigirse y el motivo general de la visita."
     ],
     "correct": 2,
-    "law": "RDL 1/2013 TRLGDPD",
-    "article": "Protección de Datos y No Discriminación en Controles de Acceso",
-    "explanation": "Por imperativo del art. 16 de la Constitución y el RGPD, los datos de ideología, religión o creencias gozan de especial protección y está prohibido solicitarlos en los registros de control de accesos.",
+    "law": "Constitución Española de 1978",
+    "article": "Art. 16.2 CE",
+    "explanation": "El artículo 16.2 de la Constitución Española consagra que nadie podrá ser obligado a declarar sobre su ideología, religión o creencias, quedando prohibido exigir estos datos en los registros de acceso.",
     "sourceType": "norma_verificada",
     "isTrap": false,
     "examSource": "Examen Oficial Subalterno / AGE"

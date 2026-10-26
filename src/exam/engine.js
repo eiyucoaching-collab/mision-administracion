@@ -221,23 +221,42 @@ export function calculateExamScore(sessionState) {
   if (mode === 'oficial' || mode === 'real2025') {
     const ordinarias = questions.slice(0, 60);
     const reservas = questions.slice(60, 66);
-    let nextReservaIdx = 0;
+
+    // Separar reservas por bloque según la convocatoria oficial:
+    // Bloque Común: 2 reservas (R1, R2)
+    // Bloque Específico: 4 reservas (R3, R4, R5, R6)
+    const comunReservas = reservas.filter((r, rIdx) => r.block === 'comun' || (!r.block && rIdx < 2));
+    const espReservas = reservas.filter((r, rIdx) => r.block === 'especifico' || (!r.block && rIdx >= 2));
+
+    let nextComunIdx = 0;
+    let nextEspIdx = 0;
 
     questionsToGrade = ordinarias.map((q, idx) => {
-      // Las preguntas de reserva sólo sustituyen preguntas legítimamente marcadas como anuladas
+      // Las preguntas de reserva sólo sustituyen preguntas legítimamente anuladas en su respectivo bloque
       if (q.annulled === true) {
-        if (nextReservaIdx < reservas.length) {
-          const replacement = reservas[nextReservaIdx++];
+        const isComun = q.block === 'comun' || (!q.block && idx < 20);
+        if (isComun && nextComunIdx < comunReservas.length) {
+          const replacement = comunReservas[nextComunIdx++];
+          const rNum = nextComunIdx;
           return {
             q: replacement,
-            num: `${idx + 1} (Sustituida por R${nextReservaIdx})`,
+            num: `${idx + 1} (Sustituida por R${rNum} Común)`,
+            isAnnulled: true,
+            replacedBy: replacement
+          };
+        } else if (!isComun && nextEspIdx < espReservas.length) {
+          const replacement = espReservas[nextEspIdx++];
+          const rNum = nextEspIdx + 2;
+          return {
+            q: replacement,
+            num: `${idx + 1} (Sustituida por R${rNum} Específica)`,
             isAnnulled: true,
             replacedBy: replacement
           };
         } else {
           return {
             q: q,
-            num: `${idx + 1} (Anulada sin reserva)`,
+            num: `${idx + 1} (Anulada sin reserva en su bloque)`,
             isAnnulled: true,
             ignored: true
           };
@@ -330,9 +349,9 @@ export function calculateExamScore(sessionState) {
     }
   } else if (confidenceBreakdown.riesgo.count > 0) {
     if (riskNet < 0) {
-      tacticalAdvice = `Has perdido ${Math.abs(riskNet).toFixed(2)} puntos en respuestas al azar: el valor esperado del azar puro con 4 opciones es negativo. En el examen oficial, déjalas en blanco.`;
+      tacticalAdvice = `Has cedido ${Math.abs(riskNet).toFixed(2)} puntos en respuestas arriesgadas: ante dudas totales donde no descartas opciones o hay distractores trampa (p < 0.25), el valor esperado es negativo. En esas preguntas, déjalas en blanco.`;
     } else {
-      tacticalAdvice = `Has ganado ${riskNet.toFixed(2)} puntos en azar por fortuna, pero recuerda que estadísticamente el azar puro a 4 opciones tiene EV <= 0.`;
+      tacticalAdvice = `Has obtenido +${riskNet.toFixed(2)} puntos en preguntas de riesgo. Recuerda la matemática del EV con penalización -1/3: el azar puro entre 4 opciones tiene EV neutro (0.00); solo resulta matemáticamente rentable arriesgar cuando descartas al menos un distractor (EV > 0).`;
     }
   } else {
     tacticalAdvice = `Todas tus respuestas fueron con confianza Segura (100%). Mantén la concentración para blindar el corte.`;
