@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const SW_PATH = path.resolve(__dirname, '..', 'sw.js');
 
 describe('Service Worker Cache Cleanup & Lifecycle Tests', () => {
-  it('Verifica que sw.js utiliza v4.5, ejecuta skipWaiting, claim, y el activate borra cachés antiguas (v4.4, v4.3, v4.2, v4, v3 y anteriores)', async () => {
+  it('Verifica que sw.js utiliza v4.6, ejecuta skipWaiting, claim, y el activate borra cachés antiguas (v4.5, v4.4, v4.3, v4.2, v4, v3 y anteriores)', async () => {
     const swCode = fs.readFileSync(SW_PATH, 'utf8');
 
     // 1. Crear entorno simulado de Service Worker
@@ -18,7 +18,7 @@ describe('Service Worker Cache Cleanup & Lifecycle Tests', () => {
     let skipWaitingCalled = false;
     let clientsClaimCalled = false;
     const deletedCaches = [];
-    const activeCaches = new Set(['opo-defensa-e1-v1', 'opo-defensa-e1-v2', 'opo-defensa-e1-v3', 'opo-defensa-e1-v4', 'opo-defensa-e1-v4.2', 'opo-defensa-e1-v4.3', 'opo-defensa-e1-v4.4', 'opo-defensa-e1-v4.5']);
+    const activeCaches = new Set(['opo-defensa-e1-v1', 'opo-defensa-e1-v2', 'opo-defensa-e1-v3', 'opo-defensa-e1-v4', 'opo-defensa-e1-v4.2', 'opo-defensa-e1-v4.3', 'opo-defensa-e1-v4.4', 'opo-defensa-e1-v4.5', 'opo-defensa-e1-v4.6']);
 
     const mockCaches = {
       keys: async () => Array.from(activeCaches),
@@ -98,11 +98,12 @@ describe('Service Worker Cache Cleanup & Lifecycle Tests', () => {
     assert.ok(deletedCaches.includes('opo-defensa-e1-v4.2'), 'Debe haber borrado v4.2');
     assert.ok(deletedCaches.includes('opo-defensa-e1-v4.3'), 'Debe haber borrado v4.3');
     assert.ok(deletedCaches.includes('opo-defensa-e1-v4.4'), 'Debe haber borrado v4.4');
-    assert.ok(!deletedCaches.includes('opo-defensa-e1-v4.5'), 'NO debe haber borrado la caché activa v4.5');
+    assert.ok(deletedCaches.includes('opo-defensa-e1-v4.5'), 'Debe haber borrado v4.5');
+    assert.ok(!deletedCaches.includes('opo-defensa-e1-v4.6'), 'NO debe haber borrado la caché activa v4.6');
 
-    // 6. Verificar que sólo permanece v4.2
+    // 6. Verificar que sólo permanece v4.6
     const remainingKeys = await mockCaches.keys();
-    assert.deepEqual(remainingKeys, ['opo-defensa-e1-v4.5'], 'Solo debe quedar la caché opo-defensa-e1-v4.5');
+    assert.deepEqual(remainingKeys, ['opo-defensa-e1-v4.6'], 'Solo debe quedar la caché opo-defensa-e1-v4.6');
 
     // 7. Verificar que clients.claim() fue invocado
     assert.equal(clientsClaimCalled, true, 'Debe reclamar clientes inmediatamente con clients.claim()');

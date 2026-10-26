@@ -1,5 +1,5 @@
 // Service Worker - Misión Administración (Opo-Defensa E1)
-const CACHE_NAME = 'opo-defensa-e1-v4.5';
+const CACHE_NAME = 'opo-defensa-e1-v4.6';
 
 const STATIC_ASSETS = [
   './',
@@ -7,6 +7,7 @@ const STATIC_ASSETS = [
   './manifest.json',
   './assets/css/app.min.css',
   './src/app.js',
+  './src/config/exam_config.js',
   './src/exam/engine.js',
   './src/storage/migration.js',
   './src/data/syllabus.js',

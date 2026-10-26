@@ -1,11 +1,11 @@
 /**
  * MISIÓN ADMINISTRACIÓN (OPO-DEFENSA E1)
  * Arquitectura SPA Frontend Senior - Modo Offline-First
- * E1 Servicios Administrativos (Personal Laboral Fijo Defensa / CUAGE)
- * - Simulador Formato Convocatoria 2025 (Provisional, pendiente de plantilla oficial)
- * - Simulación 60 + 6 Reservas con gestión de anulaciones
+ * E1 Servicios Administrativos (Personal Laboral Fijo Defensa / IV CUAGE)
+ * - Simulador Oficial Resolución 430/38310/2026 (Anexo V Convocatoria 2026)
+ * - Simulación Oficial 60 + 6 Reservas con sustitución por bloque
  * - Copia de Seguridad: Exportar / Importar Progreso en JSON (LocalStorage)
- * - Plan de Estudio Táctico con Regla 33% / 67%
+ * - Plan de Estudio Táctico con Regla 33,3% Común / 66,7% Específico
  */
 
 import { SYLLABUS } from './data/syllabus.js';
@@ -22,9 +22,13 @@ import {
   calculateExamScore,
   getTimeLimitForMode,
   calculateDashboardMetrics,
+  calculateReadinessMetrics,
   initExamSessionState,
-  normalizeQuestion
+  normalizeQuestion,
+  isOfficialMode,
+  EXAM_MODES
 } from './exam/engine.js';
+import { OFFICIAL_EXAM_CONFIG, EXAM_MODES_CONFIG } from './config/exam_config.js';
 import {
   STORAGE_KEYS,
   CURRENT_STORAGE_VERSION,
@@ -66,6 +70,23 @@ export function escapeHtml(str) {
 class OpoDefensaApp {
   escapeHtml(str) {
     return escapeHtml(str);
+  }
+
+  getSeenQuestionIds() {
+    const seen = new Set();
+    (this.examHistory || []).forEach(h => {
+      if (Array.isArray(h.reviewList)) {
+        h.reviewList.forEach(r => {
+          const qId = r.id || r.question?.id;
+          if (qId) seen.add(Number(qId));
+        });
+      }
+    });
+    Object.keys(this.srsVault || {}).forEach(id => seen.add(Number(id)));
+    if (this.failedQuestions) {
+      this.failedQuestions.forEach(id => seen.add(Number(id)));
+    }
+    return seen;
   }
 
   constructor() {
@@ -1295,6 +1316,11 @@ class OpoDefensaApp {
 
   renderDashboard() {
     const metrics = calculateDashboardMetrics(this.examHistory);
+    const readiness = calculateReadinessMetrics(this.examHistory, this.allQuestions || this.questionBank, {
+      srsVault: this.srsVault,
+      failedQuestionsSet: this.failedQuestions,
+      seenQuestionIds: this.getSeenQuestionIds()
+    });
     const mediaPuntosOficial = metrics.oficialCount > 0 ? metrics.mediaOficial : null;
     const pctOficialAprobado = metrics.pctOficialAprobado;
 
@@ -1528,92 +1554,208 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- KPIS CON PONDERACIÓN OFICIAL (33,3% COMÚN VS 66,7% ESPECÍFICO) -->
+        <!-- PANEL DE PREPARACIÓN REAL Y AUDITORÍA PSICOMÉTRICA (COACH E1) -->
         <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-white flex items-center gap-2">
-              <span>⚖️</span> Ponderación de Examen: Común (33,3%) vs Específica (66,7%)
-            </h3>
-            <span class="text-xs text-slate-400">Objetivo de entrenamiento recomendado: &ge; 65% en Específica (Corte oficial: 30/60 pts)</span>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="text-[11px] font-black uppercase tracking-wider text-sky-400">Diagnóstico Psicométrico Objetivo</span>
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>📊</span> Panel de Preparación Real (Corte vs Plaza)
+              </h3>
+            </div>
+            <span class="text-xs text-slate-400 font-mono">
+              Meta: 3 simulacros inéditos &ge; 42.00 netos en &le; 60 min
+            </span>
           </div>
 
-          <!-- ALERTA DE DESCOMPENSACIÓN SI ESPECÍFICA < 65% -->
-          ${blockAcc.espPct !== null && blockAcc.espPct < 65 ? `
-            <div class="p-4 bg-rose-500/10 border-2 border-rose-500/40 rounded-2xl flex items-start gap-3 text-rose-200 animate-fadeIn">
-              <span class="text-2xl shrink-0">⚠️</span>
-              <div class="space-y-1">
-                <div class="font-extrabold text-sm text-white">
-                  ALERTA DE DESCOMPENSACIÓN EN TEMAS ESPECÍFICOS
-                </div>
-                <div class="text-xs text-rose-200/90 leading-relaxed">
-                  La <strong>Parte Específica representa el 66,7% del ejercicio</strong> (40 preguntas ordinarias de 60). Tu precisión histórica actual en este bloque es del <strong>${blockAcc.espPct}%</strong>, por debajo del objetivo de entrenamiento recomendado del 65% (el corte mínimo oficial de la oposición es de 30 puntos sobre 60). Prioriza el entrenamiento en los Temas 5 al 10.
-                </div>
-                <div class="pt-1">
-                  <button onclick="window.app.startNewExam('especifico')" class="px-3 py-1 bg-rose-500 hover:bg-rose-400 text-slate-950 font-black text-xs rounded-lg shadow transition-all">
-                    Entrenar Bloque Específico Ahora &rarr;
-                  </button>
-                </div>
+          <!-- BANNER DE ESTADO COMPETITIVO SEGÚN SIMULACROS INÉDITOS / OFICIALES -->
+          <div class="p-5 rounded-3xl border ${
+            readiness.readinessLevel === 'PLAZA_BLINDADA'
+              ? 'bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/60 border-emerald-500 shadow-emerald-500/10'
+              : readiness.readinessLevel === 'ZONA_PLAZA'
+                ? 'bg-gradient-to-r from-sky-950/80 via-slate-900 to-sky-950/60 border-sky-500/60 shadow-sky-500/10'
+                : readiness.readinessLevel === 'ZONA_CORTE'
+                  ? 'bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/60 border-amber-500/60 shadow-amber-500/10'
+                  : readiness.readinessLevel === 'EN_RIESGO'
+                    ? 'bg-gradient-to-r from-rose-950/80 via-slate-900 to-rose-950/60 border-rose-500/60 shadow-rose-500/10'
+                    : 'bg-slate-900/80 border-slate-800'
+          } shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-5 animate-fadeIn">
+            <div class="space-y-1.5">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase ${
+                  readiness.readinessLevel === 'PLAZA_BLINDADA'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : readiness.readinessLevel === 'ZONA_PLAZA'
+                      ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
+                      : readiness.readinessLevel === 'ZONA_CORTE'
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                        : readiness.readinessLevel === 'EN_RIESGO'
+                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                          : 'bg-slate-800 text-slate-400 border border-slate-700'
+                }">
+                  ${
+                    readiness.readinessLevel === 'PLAZA_BLINDADA' ? '🏆 PLAZA BLINDADA' :
+                    readiness.readinessLevel === 'ZONA_PLAZA' ? '🎯 ZONA DE PLAZA DIRECTA' :
+                    readiness.readinessLevel === 'ZONA_CORTE' ? '⚠️ ZONA DE CORTE (SIN MARGEN)' :
+                    readiness.readinessLevel === 'EN_RIESGO' ? '🚨 EN RIESGO DE ELIMINACIÓN' :
+                    'ℹ️ PENDIENTE DE PRIMER SIMULACRO'
+                  }
+                </span>
+                <span class="text-xs text-slate-300 font-mono">
+                  Racha &ge; 42 netos: <strong>${readiness.consecutiveAbove42} de 3</strong>
+                </span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed">
+                ${readiness.readinessSummary}
+              </p>
+            </div>
+
+            <button
+              onclick="window.app.startNewExam('inedito')"
+              class="px-5 py-3 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-500/20 transition-all shrink-0 flex items-center gap-2 self-end md:self-auto">
+              <span>🎖️</span>
+              <span>Lanzar Simulacro Inédito</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+
+          <!-- 4 TARJETAS DE PREPARACIÓN REAL -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- 1. MEDIANA ÚLTIMOS 5 SIMULACROS -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Mediana Últimos 5</span>
+                <span>/ 60 netos</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black ${
+                readiness.medianScore !== null && readiness.medianScore >= 42 ? 'text-emerald-400' :
+                readiness.medianScore !== null && readiness.medianScore >= 30 ? 'text-amber-400' :
+                readiness.medianScore !== null ? 'text-rose-400' : 'text-slate-500'
+              } mt-1">
+                ${readiness.medianScore !== null ? `${readiness.medianScore}` : '—'}
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+                ${readiness.recentMocks.length > 0 
+                  ? `Peor: ${readiness.worstScore} &bull; Mejor: ${readiness.bestScore}` 
+                  : 'Sin simulacros oficiales'}
+              </div>
+            </div>
+
+            <!-- 2. BLOQUE ESPECÍFICO (66,7% PONDERACIÓN) -->
+            <div class="bg-slate-900/80 border ${readiness.blockAccuracies.descompensado ? 'border-rose-500/50 bg-rose-950/10' : 'border-slate-800'} rounded-2xl p-5 shadow-sm">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Específico (66,7%)</span>
+                <span>Temas 5 a 10</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black ${
+                readiness.blockAccuracies.especifico.pct !== null && readiness.blockAccuracies.especifico.pct >= 65 ? 'text-emerald-400' :
+                readiness.blockAccuracies.especifico.pct !== null ? 'text-rose-400' : 'text-slate-500'
+              } mt-1">
+                ${readiness.blockAccuracies.especifico.pct !== null ? `${readiness.blockAccuracies.especifico.pct}%` : '—'}
+              </div>
+              <div class="text-xs ${readiness.blockAccuracies.descompensado ? 'text-rose-300 font-bold' : 'text-slate-400'} mt-1">
+                ${readiness.blockAccuracies.especifico.total > 0 
+                  ? `${readiness.blockAccuracies.especifico.net} pts netos (${readiness.blockAccuracies.especifico.correct}/${readiness.blockAccuracies.especifico.total})` 
+                  : 'Sin preguntas contestadas'}
+              </div>
+            </div>
+
+            <!-- 3. BANCO INÉDITO VS MEMORIZADO -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm cursor-pointer hover:border-emerald-500/50 transition-colors" onclick="window.app.startNewExam('inedito')">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Banco Inédito</span>
+                <span class="text-emerald-400 font-bold">${readiness.bankCoverage.unseenCount} nuevas</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black text-white mt-1">
+                ${readiness.bankCoverage.pctUnseen}% <span class="text-xs font-normal text-slate-400">inédito</span>
+              </div>
+              <div class="text-xs text-emerald-400 mt-1 font-bold">
+                ${readiness.bankCoverage.unseenComun} com. / ${readiness.bankCoverage.unseenEsp} esp. nunca vistas
+              </div>
+            </div>
+
+            <!-- 4. CALIBRACIÓN DE CERTEZA -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                <span>Calibración [Segura]</span>
+                <span>Objetivo &ge; 85%</span>
+              </div>
+              <div class="text-2xl sm:text-3xl font-black ${
+                readiness.calibration.segura.accuracyPct !== null && readiness.calibration.segura.accuracyPct >= 85 ? 'text-emerald-400' :
+                readiness.calibration.segura.accuracyPct !== null ? 'text-amber-400' : 'text-slate-500'
+              } mt-1">
+                ${readiness.calibration.segura.accuracyPct !== null ? `${readiness.calibration.segura.accuracyPct}%` : '—'}
+              </div>
+              <div class="text-xs text-slate-400 mt-1">
+                ${readiness.calibration.segura.status === 'dunning_kruger' 
+                  ? '⚠️ Exceso de confianza (fallas seguras)' 
+                  : readiness.calibration.segura.total > 0 ? `✓ Certeza fiable (${readiness.calibration.segura.correct}/${readiness.calibration.segura.total})` : 'Sin datos de calibración'}
+              </div>
+            </div>
+          </div>
+
+          <!-- HISTORIAL DE LOS ÚLTIMOS 5 SIMULACROS OFICIALES -->
+          ${readiness.recentMocks.length > 0 ? `
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3">
+              <div class="flex items-center justify-between text-xs text-slate-400 font-semibold uppercase">
+                <span>Historial de Simulacros Oficiales Recientes (Últimos ${readiness.recentMocks.length})</span>
+                <span>Corte: 30.00 | Plaza: &ge; 42.00</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead>
+                    <tr class="border-b border-slate-800 text-slate-400">
+                      <th class="pb-2 font-bold">Fecha</th>
+                      <th class="pb-2 font-bold">Modalidad</th>
+                      <th class="pb-2 font-bold text-center">Nota Neta</th>
+                      <th class="pb-2 font-bold text-center">Común / Espec.</th>
+                      <th class="pb-2 font-bold text-center">Tiempo</th>
+                      <th class="pb-2 font-bold text-right">Diagnóstico</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-800/60">
+                    ${readiness.recentMocks.map(m => {
+                      const net = typeof m.netScore === 'number' ? m.netScore : 0;
+                      const isPlaza = net >= 42.00;
+                      const isPass = net >= 30.00;
+                      const modeLabel = m.mode === 'inedito' ? '🎖️ Inédito' :
+                                        m.mode === 'oficial_age_2025' ? '🏛️ AGE 2025' :
+                                        m.mode === 'oficial_defensa_2025' ? '⚔️ Defensa 2025' :
+                                        m.mode === 'evaluacion_final' ? '🔒 Eval. Final' : '🎲 General';
+                      const mins = Math.floor((m.timeSpentSecs || 0) / 60);
+                      const secs = (m.timeSpentSecs || 0) % 60;
+                      const timeStr = m.timeSpentSecs ? `${mins}m ${secs}s` : '—';
+                      const comNet = m.blockScores?.comun?.net !== undefined ? `${m.blockScores.comun.net}` : '—';
+                      const espNet = m.blockScores?.especifico?.net !== undefined ? `${m.blockScores.especifico.net}` : '—';
+
+                      return `
+                        <tr>
+                          <td class="py-2.5 font-mono text-slate-300">${m.date || 'Reciente'}</td>
+                          <td class="py-2.5 font-bold text-white">${modeLabel}</td>
+                          <td class="py-2.5 text-center font-mono font-black text-sm ${isPlaza ? 'text-emerald-400' : isPass ? 'text-amber-400' : 'text-rose-400'}">
+                            ${net.toFixed(2)}
+                          </td>
+                          <td class="py-2.5 text-center font-mono text-slate-400">
+                            ${comNet} / ${espNet}
+                          </td>
+                          <td class="py-2.5 text-center font-mono text-slate-400">${timeStr}</td>
+                          <td class="py-2.5 text-right">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                              isPlaza ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                              isPass ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                              'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                            }">
+                              ${isPlaza ? 'Zona Plaza' : isPass ? 'Apto (Sin Margen)' : 'No Apto'}
+                            </span>
+                          </td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
               </div>
             </div>
           ` : ''}
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- PARTE COMÚN -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Parte Común (33,3%)</span>
-                <span>Temas 1 a 4 (20 preg.)</span>
-              </div>
-              <div class="text-2xl sm:text-3xl font-black ${blockAcc.comunPct !== null && blockAcc.comunPct >= 70 ? 'text-emerald-400' : blockAcc.comunPct !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
-                ${blockAcc.comunPct !== null ? `${blockAcc.comunPct}%` : '—'}
-              </div>
-              <div class="text-xs text-slate-400 mt-1">
-                ${blockAcc.comunAns > 0 ? `${blockAcc.comunCorr} de ${blockAcc.comunAns} aciertos` : 'Sin preguntas contestadas'}
-              </div>
-            </div>
-
-            <!-- PARTE ESPECÍFICA -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Parte Específica (66,7%)</span>
-                <span>Temas 5 a 10 (40 preg.)</span>
-              </div>
-              <div class="text-2xl sm:text-3xl font-black ${blockAcc.espPct !== null && blockAcc.espPct >= 65 ? 'text-emerald-400' : blockAcc.espPct !== null ? 'text-rose-400' : 'text-slate-500'} mt-1">
-                ${blockAcc.espPct !== null ? `${blockAcc.espPct}%` : '—'}
-              </div>
-              <div class="text-xs text-slate-400 mt-1">
-                ${blockAcc.espAns > 0 ? `${blockAcc.espCorr} de ${blockAcc.espAns} aciertos` : 'Sin preguntas contestadas'}
-              </div>
-            </div>
-
-            <!-- BÓVEDA SRS -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm cursor-pointer hover:border-slate-700 transition-colors" onclick="window.app.setTab('errores')">
-              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Bóveda Leitner SRS</span>
-                <span class="text-rose-400 font-bold">${srsPendingCount} hoy</span>
-              </div>
-              <div class="text-2xl sm:text-3xl font-black text-white mt-1">
-                ${srsTotalCount} <span class="text-xs font-normal text-slate-400">en bóveda</span>
-              </div>
-              <div class="text-xs text-sky-400 mt-1 font-bold">
-                ${srsPendingCount > 0 ? `⚡ Repasar ${srsPendingCount} pendientes &rarr;` : '✓ Al día para hoy'}
-              </div>
-            </div>
-
-            <!-- SIMULACROS OFICIALES SUPERADOS -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm">
-              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Simulacros / 60</span>
-                <span>Corte: 30 netos</span>
-              </div>
-              <div class="text-2xl sm:text-3xl font-black ${mediaPuntosOficial !== null && Number(mediaPuntosOficial) >= 30 ? 'text-emerald-400' : mediaPuntosOficial !== null ? 'text-amber-400' : 'text-slate-500'} mt-1">
-                ${mediaPuntosOficial !== null ? `${mediaPuntosOficial}` : '—'}
-              </div>
-              <div class="text-xs text-slate-400 mt-1">
-                ${metrics.oficialCount > 0 ? `${metrics.aprobadosOficialCount} de ${metrics.oficialCount} superados` : 'Sin simulacros oficiales'}
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- MAPA DE CALOR INTERACTIVO POR TEMAS (1 AL 10) -->
@@ -1674,16 +1816,16 @@ class OpoDefensaApp {
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- MODO 1: SIMULACRO OFICIAL -->
-            <div onclick="window.app.startNewExam('oficial')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-sky-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
-              <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+            <!-- MODO 1: SIMULACRO OFICIAL INÉDITO -->
+            <div onclick="window.app.startNewExam('inedito')" class="group cursor-pointer bg-slate-900/70 hover:bg-slate-800/90 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 transition-all shadow-md hover:-translate-y-1">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-2xl mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
                 🎖️
               </div>
-              <h3 class="text-base font-bold text-white mb-1">Simulacro Oficial Defensa</h3>
+              <h3 class="text-base font-bold text-white mb-1">Simulacro Oficial Inédito</h3>
               <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                60 ord. + 6 reservas (60 min). 20 comunes + 40 específicas. Calificación con EV y selector de penalización.
+                60 ord. + 6 reservas (60 min). 20 comunes + 40 específicas con preguntas nunca vistas para diagnóstico 100% real.
               </p>
-              <span class="text-xs font-bold text-sky-400 flex items-center gap-1">Lanzar Examen &rarr;</span>
+              <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">Lanzar Inédito &rarr;</span>
             </div>
 
             <!-- MODO 2: SPRINT 45' -->
@@ -2654,6 +2796,12 @@ class OpoDefensaApp {
     const isExcluding = this.excludeUnverified !== false; // por defecto activo
     const pendingSRS = this.getPendingSRSItems ? this.getPendingSRSItems() : [];
     const currentPenalty = (this.settings && this.settings.penaltyRate !== undefined) ? this.settings.penaltyRate : 0.3333333333333333;
+    const readiness = calculateReadinessMetrics(this.examHistory, this.allQuestions || this.questionBank, {
+      srsVault: this.srsVault,
+      failedQuestionsSet: this.failedQuestions,
+      seenQuestionIds: this.getSeenQuestionIds()
+    });
+    const unseenCount = readiness.bankCoverage.unseenCount;
 
     let activeExamBanner = '';
     try {
@@ -2715,8 +2863,8 @@ class OpoDefensaApp {
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <span>📋</span> Normas de Calificación del Ejercicio
             </h2>
-            <span class="text-[11px] font-mono text-amber-400/90 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-lg">
-              ⚠️ Formato 60+6 provisional (Pendiente Anexos V-VII)
+            <span class="text-[11px] font-mono text-emerald-400/90 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
+              ✓ Estructura Oficial Anexo V (BOE-A-2026-14677)
             </span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
@@ -2772,44 +2920,125 @@ class OpoDefensaApp {
         </div>
 
         <!-- SELECTOR DE MODALIDAD DE EXAMEN -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- 1. SIMULACRO OFICIAL -->
-          <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group sm:col-span-2">
-            <div class="text-3xl mb-3">🎖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">Simulacro Tipo Examen (60 + 6 Res)</h3>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Estructura oficial Anexo V: 60 ordinarias (20 comunes + 40 específicas) + 6 reservas, 60 min, penalización oficial -1/3 y corte en 30 pts.
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- 1. SIMULACRO OFICIAL INÉDITO (PREGUNTAS NUNCA VISTAS) -->
+          <button onclick="window.app.startNewExam('inedito')" class="p-6 bg-gradient-to-br from-emerald-950/70 via-slate-900 to-slate-900 border-2 border-emerald-500/50 hover:border-emerald-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group sm:col-span-2 lg:col-span-2">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-3xl">🎖️</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                ⭐ Modo Recomendado (Sin Sesgo)
+              </span>
+            </div>
+            <h3 class="text-lg font-black text-white group-hover:text-emerald-300">
+              Simulacro Oficial Inédito (Preguntas Nunca Vistas)
+            </h3>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              60 ordinarias (20 comunes + 40 específicas) + 6 reservas seleccionadas <strong>exclusivamente de preguntas que no has visto antes</strong>. Mide tu preparación real sin el falso inflado de la memoria visual.
             </p>
-            <div class="mt-3 p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-300/90 leading-tight">
-              🎯 Banco integrado de 310 preguntas oficiales auditadas. Sustitución de reservas estricta por bloque (Común ➔ R1/R2, Específico ➔ R3-R6).
+            <div class="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-emerald-300/90 font-mono">
+              <span class="px-2 py-0.5 bg-emerald-950/80 rounded border border-emerald-500/30 font-bold">
+                ${unseenCount} preguntas inéditas disponibles (${readiness.bankCoverage.unseenComun} comunes / ${readiness.bankCoverage.unseenEsp} específicas)
+              </span>
+              <span>60 min &bull; Penalización -1/3 &bull; Corte: 30 pts</span>
             </div>
           </button>
 
-          <!-- 2. SPRINT 45' -->
+          <!-- 2. EXAMEN OFICIAL ÍNTEGRO AGE 25/02/2025 -->
+          <button onclick="window.app.startNewExam('oficial_age_2025')" class="p-6 bg-gradient-to-br from-indigo-950/70 to-slate-900 border border-indigo-500/40 hover:border-indigo-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-3xl">🏛️</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                Oficial 2025
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">
+              Examen Oficial AGE (25/02/2025)
+            </h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Las 60 preguntas del ejercicio unitario IV CUAGE en orden y opciones oficiales originales, con R1 incorporada por la anulación de P11.
+            </p>
+            <div class="mt-2 text-[11px] text-indigo-300/80 font-mono">
+              60 preguntas &bull; 60 min &bull; Plantilla definitiva
+            </div>
+          </button>
+
+          <!-- 3. EXAMEN OFICIAL ÍNTEGRO DEFENSA 01/02/2025 -->
+          <button onclick="window.app.startNewExam('oficial_defensa_2025')" class="p-6 bg-gradient-to-br from-sky-950/70 to-slate-900 border border-sky-500/40 hover:border-sky-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-3xl">⚔️</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                Convocatoria Anterior
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-sky-300">
+              Examen Oficial Defensa (01/02/2025)
+            </h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              59 preguntas operativas reales validadas del examen libre de E1 Defensa celebrado en la convocatoria anterior.
+            </p>
+            <div class="mt-2 text-[11px] text-sky-300/80 font-mono">
+              59 preguntas &bull; 60 min &bull; Corte: 29.5 pts
+            </div>
+          </button>
+
+          <!-- 4. SIMULACRO ALEATORIO GENERAL (BANCO 310) -->
+          <button onclick="window.app.startNewExam('oficial')" class="p-6 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="text-3xl mb-3">🎲</div>
+            <h3 class="text-base font-bold text-white group-hover:text-slate-200">
+              Simulacro General (Banco 310)
+            </h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              60 ord. + 6 reservas barajadas del banco completo (310 preguntas auditadas).
+            </p>
+            <div class="mt-2 text-[11px] text-slate-400 font-mono">
+              Sustitución por bloque &bull; 60 min
+            </div>
+          </button>
+
+          <!-- 5. EXAMEN DE EVALUACIÓN FINAL RESERVADO -->
+          <button onclick="window.app.startNewExam('evaluacion_final')" class="p-6 bg-gradient-to-br from-amber-950/60 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-3xl">🔒</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                Diagnóstico 19-D
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-white group-hover:text-amber-300">
+              Evaluación Final Reservada
+            </h3>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Simulacro de corte para evaluar si aseguras plaza (&ge; 42 netos). Requiere confirmación antes de iniciarlo.
+            </p>
+            <div class="mt-2 text-[11px] text-amber-300/80 font-mono">
+              60 ord. + 6 res &bull; Margen de plaza
+            </div>
+          </button>
+
+          <!-- 6. SPRINT 45' -->
           <button onclick="window.app.startNewExam('sprint45')" class="p-6 bg-gradient-to-br from-purple-950/70 to-slate-900 border border-purple-500/40 hover:border-purple-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">⚡</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-purple-300">Sprint 45' (45 Preguntas)</h3>
+            <h3 class="text-base font-bold text-white group-hover:text-purple-300">Sprint 45' (45 Preguntas)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Sesión contrarreloj de 45 preguntas equilibradas en 45 minutos. Ideal para entrenar ritmo y toma de decisiones tácticas bajo presión.
+              Sesión contrarreloj de 45 preguntas equilibradas en 45 minutos. Ideal para entrenar ritmo y toma de decisiones bajo presión.
             </p>
             <div class="mt-2 text-[11px] text-purple-300/80">
-              Corte: 22.5 pts netos.
+              Corte: 22.5 pts netos &bull; 45 min
             </div>
           </button>
 
-          <!-- 3. CAZA-TRAMPAS -->
+          <!-- 7. CAZA-TRAMPAS -->
           <button onclick="window.app.startNewExam('trampas')" class="p-6 bg-gradient-to-br from-amber-950/70 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🎯</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-amber-300">Caza-Trampas (20 Preguntas)</h3>
+            <h3 class="text-base font-bold text-white group-hover:text-amber-300">Caza-Trampas (20 Preguntas)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Batería selectiva con distractores clásicos del tribunal (E0 vs E1/E2, plazos, 17–27ºC, doble sobre, inviolabilidad). 20 min.
+              Batería con distractores clásicos del tribunal (E0 vs E1/E2, plazos, 17–27ºC, doble sobre, inviolabilidad). 20 min.
             </p>
             <div class="mt-2 text-[11px] text-amber-300/80">
-              Corte: 10 pts netos.
+              Corte: 10 pts netos &bull; 20 min
             </div>
           </button>
 
-          <!-- 4. LIMPIEZA SRS -->
+          <!-- 8. LIMPIEZA SRS -->
           <button onclick="window.app.startSRSSession()" class="p-6 bg-gradient-to-br from-rose-950/70 to-slate-900 border border-rose-500/40 hover:border-rose-400 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🔁</div>
             <h3 class="text-lg font-bold text-white group-hover:text-rose-300">Limpieza Bóveda SRS</h3>
@@ -2821,28 +3050,28 @@ class OpoDefensaApp {
             </div>
           </button>
 
-          <!-- BLOQUE COMÚN -->
+          <!-- 9. BLOQUE COMÚN -->
           <button onclick="window.app.startNewExam('comun')" class="p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">⚖️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300">Bloque Común (33,3%)</h3>
+            <h3 class="text-base font-bold text-white group-hover:text-indigo-300">Bloque Común (33,3%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               20 preguntas de los Temas 1 al 4 (Constitución, Gobierno, Personal Laboral CUAGE e Igualdad). 20 min. Corte: 10 pts.
             </p>
           </button>
 
-          <!-- BLOQUE ESPECÍFICO -->
+          <!-- 10. BLOQUE ESPECÍFICO -->
           <button onclick="window.app.startNewExam('especifico')" class="p-6 bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">🛡️</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-emerald-300">Bloque Específico (66,7%)</h3>
+            <h3 class="text-base font-bold text-white group-hover:text-emerald-300">Bloque Específico (66,7%)</h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
               40 preguntas de los Temas 5 al 10 (Accesos, Paquetes, DIN 476, Correos, Recados y Averías/PRL). 40 min. Corte: 20 pts.
             </p>
           </button>
 
-          <!-- CUADERNO DE FALLADAS -->
+          <!-- 11. CUADERNO DE FALLADAS -->
           <button onclick="window.app.startNewExam('falladas')" class="p-6 bg-slate-900 border border-slate-800 hover:border-rose-500/40 rounded-3xl text-left transition-all hover:scale-[1.01] shadow-xl group">
             <div class="text-3xl mb-3">📓</div>
-            <h3 class="text-lg font-bold text-white group-hover:text-rose-300">
+            <h3 class="text-base font-bold text-white group-hover:text-rose-300">
               Preguntas Falladas (${this.failedQuestions.size})
             </h3>
             <p class="text-xs text-slate-400 mt-1 leading-relaxed">
@@ -2855,6 +3084,13 @@ class OpoDefensaApp {
   }
 
   startNewExam(mode) {
+    if (mode === 'evaluacion_final') {
+      const confirmFinal = typeof window !== 'undefined' && typeof window.confirm === 'function'
+        ? window.confirm('⚠️ ADVERTENCIA DE EVALUACIÓN FINAL 19-D:\n\nEste simulacro está reservado como prueba oficial de diagnóstico final antes del 19-D para medir si tienes plaza asegurada (>= 42 netos).\n\n¿Deseas iniciarlo ahora?')
+        : true;
+      if (!confirmFinal) return;
+    }
+
     const isExcluding = this.excludeUnverified !== false;
     const pendingSRS = this.getPendingSRSItems ? this.getPendingSRSItems() : [];
     const srsSet = new Set(
@@ -2866,6 +3102,7 @@ class OpoDefensaApp {
     const session = initExamSessionState(this.allQuestions || this.questionBank, mode, {
       failedQuestionsSet: this.failedQuestions,
       srsQuestionIds: srsSet,
+      seenQuestionIds: this.getSeenQuestionIds(),
       allowUnverified: !isExcluding
     });
 
@@ -2946,7 +3183,8 @@ class OpoDefensaApp {
   renderActiveExam() {
     const q = this.examState.questions[this.examState.currentIndex];
     const totalQ = this.examState.questions.length;
-    const isReserve = (this.examState.mode === 'oficial' || this.examState.mode === 'real2025') && this.examState.currentIndex >= 60;
+    const hasReserves = isOfficialMode(this.examState.mode) && this.examState.questions.length >= 66;
+    const isReserve = hasReserves && this.examState.currentIndex >= 60;
     const reserveNum = isReserve ? (this.examState.currentIndex - 59) : 0;
     const selectedOpt = this.examState.userAnswers[q.id];
     const isFlagged = this.examState.flagged.has(q.id);
@@ -2959,7 +3197,7 @@ class OpoDefensaApp {
         <div class="sticky top-16 z-30 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-4 shadow-lg flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <span class="text-xs font-black uppercase px-2.5 py-1 rounded-lg ${isReserve ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-sky-500/20 text-sky-300 border border-sky-500/30'}">
-              ${isReserve ? `⭐ RESERVA R${reserveNum} (${reserveNum <= 2 ? 'Común' : 'Específica'})` : `Pregunta ${this.examState.currentIndex + 1} de ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? 60 : totalQ}`}
+              ${isReserve ? `⭐ RESERVA R${reserveNum} (${reserveNum <= 2 ? 'Común' : 'Específica'})` : `Pregunta ${this.examState.currentIndex + 1} de ${hasReserves ? 60 : totalQ}`}
             </span>
             <span class="text-xs text-slate-400 hidden sm:inline">
               ${answeredCount} de ${totalQ} respondidas
@@ -2981,14 +3219,14 @@ class OpoDefensaApp {
           </div>
         </div>
 
-        <!-- AVISO DE VARIABILIDAD EN MODO OFICIAL -->
-        ${(this.examState.mode === 'oficial' || this.examState.mode === 'real2025') ? `
-          <div class="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-2.5 text-xs text-amber-200">
-            <span class="text-base shrink-0">⚠️</span>
+        <!-- AVISO DE CONVOCATORIA OFICIAL -->
+        ${isOfficialMode(this.examState.mode) ? `
+          <div class="p-3.5 bg-sky-950/40 border border-sky-500/30 rounded-2xl flex items-start gap-2.5 text-xs text-sky-200">
+            <span class="text-base shrink-0">🏛️</span>
             <div class="space-y-1">
-              <div><strong>Aviso sobre representatividad y supuestos del simulador:</strong></div>
-              <div>• Banco oficial auditado con 310 preguntas y trazabilidad normativa verificada.</div>
-              <div>• Estructura Anexo V: 60 ordinarias (20 comunes + 40 específicas), 6 reservas (R1-R2 comunes, R3-R6 específicas), 60 min, penalización de -1/3 y corte en 30 netos.</div>
+              <div><strong>Convocatoria Oficial E1 Defensa (Resolución 430/38310/2026, Anexo V):</strong></div>
+              <div>• Modalidad: ${this.examState.mode === 'inedito' ? 'Simulacro Oficial Inédito (Preguntas Nuevas)' : this.examState.mode === 'oficial_age_2025' ? 'Examen Oficial Íntegro AGE (25/02/2025)' : this.examState.mode === 'oficial_defensa_2025' ? 'Examen Oficial Íntegro Defensa (01/02/2025)' : 'Simulacro Tipo Examen'}.</div>
+              <div>• Duración: 60 minutos &bull; Penalización oficial: -1/3 &bull; Umbral de corte mínimo: 30 netos (50%).</div>
             </div>
           </div>
         ` : ''}
@@ -3491,13 +3729,13 @@ class OpoDefensaApp {
 
           <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
             ${res.passed
-              ? `Has superado el umbral del 50% (${res.cutoffScore} puntos netos) establecido provisionalmente para esta modalidad.`
-              : `Para superar el umbral del 50% necesitabas un mínimo de ${res.cutoffScore} puntos netos. Repasa tus errores en el solucionario abajo.`}
+              ? `Has superado el umbral del 50% (${res.cutoffScore} puntos netos) establecido en las bases de la convocatoria oficial (Anexo V).`
+              : `Para superar el umbral del 50% establecido en el Anexo V necesitabas un mínimo de ${res.cutoffScore} puntos netos. Repasa tus errores en el solucionario abajo.`}
           </p>
 
           ${res.rawNetScore !== res.netScore ? `
             <div class="text-[11px] text-slate-400 bg-slate-950/60 inline-block px-3 py-1 rounded-lg border border-slate-800">
-              Puntuación bruta teórica sin truncar: <strong>${res.rawNetScore} pts</strong> (calificación ajustada a 0 como supuesto provisional del simulador).
+              Puntuación bruta teórica sin truncar: <strong>${res.rawNetScore} pts</strong> (calificación ajustada a suelo 0,00 pts según bases oficiales).
             </div>
           ` : ''}
 
@@ -3520,6 +3758,30 @@ class OpoDefensaApp {
               <div class="text-sm font-bold text-sky-400 mt-1">${timeSpentStr}</div>
             </div>
           </div>
+
+          <!-- DESGLOSE POR BLOQUE OFICIAL (COMÚN 33,3% VS ESPECÍFICO 66,7%) -->
+          ${res.blockScores && res.blockScores.comun.total > 0 && res.blockScores.especifico.total > 0 ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-left">
+              <div class="bg-slate-950/80 p-4 rounded-xl border border-indigo-500/30">
+                <div class="flex items-center justify-between text-indigo-400 font-bold text-xs uppercase mb-1">
+                  <span>⚖️ Bloque Común (33,3%)</span>
+                  <span class="font-mono">${res.blockScores.comun.pct}% precisión</span>
+                </div>
+                <div class="text-white text-base font-black">
+                  ${res.blockScores.comun.net} pts netos <span class="text-xs text-slate-400 font-normal">(${res.blockScores.comun.correct} aciertos / ${res.blockScores.comun.wrong} fallos)</span>
+                </div>
+              </div>
+              <div class="bg-slate-950/80 p-4 rounded-xl border ${res.blockScores.especifico.pct < 65 ? 'border-rose-500/40 bg-rose-950/20' : 'border-emerald-500/30'}">
+                <div class="flex items-center justify-between text-emerald-400 font-bold text-xs uppercase mb-1">
+                  <span>🛡️ Bloque Específico (66,7%)</span>
+                  <span class="font-mono ${res.blockScores.especifico.pct < 65 ? 'text-rose-400 font-black' : ''}">${res.blockScores.especifico.pct}% precisión</span>
+                </div>
+                <div class="text-white text-base font-black">
+                  ${res.blockScores.especifico.net} pts netos <span class="text-xs text-slate-400 font-normal">(${res.blockScores.especifico.correct} aciertos / ${res.blockScores.especifico.wrong} fallos)</span>
+                </div>
+              </div>
+            </div>
+          ` : ''}
 
           <!-- TARJETA DE AUDITORÍA METACOGNITIVA & RENTABILIDAD DEL RIESGO (EV) -->
           ${res.confidenceBreakdown ? `

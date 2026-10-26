@@ -6,7 +6,10 @@ import {
   calculateExamScore,
   getTimeLimitForMode,
   initExamSessionState,
-  calculateDashboardMetrics
+  calculateDashboardMetrics,
+  calculateReadinessMetrics,
+  EXAM_MODES,
+  isOfficialMode
 } from '../src/exam/engine.js';
 import { QUESTION_BANK } from '../src/data/questions.js';
 import { CLOZE_BANK, CLOZE_EXPANSION_PACK } from '../src/data/cloze_data.js';
@@ -493,6 +496,94 @@ describe('P0 Exam Engine Tests', () => {
       const blanks = item.text.match(/\{\{([^}]+)\}\}/g);
       assert.ok(blanks && blanks.length >= 1, `El extracto ${item.id} debe contener al menos 1 hueco {{...}}`);
     });
+  });
+
+  it('SEPARACIÓN DE MODOS OFICIALES: modo "inedito" selecciona exclusivamente preguntas nunca vistas', () => {
+    // Definimos un conjunto de 50 preguntas que el alumno ya ha visto
+    const seenSet = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 50, 51, 52, 132, 133, 134, 191, 192, 193]);
+    const pool = createExamPool(QUESTION_BANK, EXAM_MODES.INEDITO, { seenQuestionIds: seenSet });
+
+    assert.equal(pool.questions.length, 66, 'Simulacro inédito debe contener 66 preguntas (60 ord + 6 res)');
+    // Ninguna de las preguntas del pool debe pertenecer al conjunto visto
+    pool.questions.forEach(q => {
+      assert.equal(seenSet.has(q.id), false, `La pregunta ${q.id} ya había sido vista y no debe aparecer en modo inédito`);
+    });
+  });
+
+  it('SEPARACIÓN DE MODOS OFICIALES: "oficial_age_2025" genera las 60 preguntas oficiales en orden original', () => {
+    const pool = createExamPool(QUESTION_BANK, EXAM_MODES.OFICIAL_AGE_2025);
+    assert.equal(pool.questions.length, 60, 'Examen AGE debe contener exactamente 60 preguntas');
+    assert.equal(pool.questions[0].id, 191, 'La primera pregunta debe ser la ID 191');
+    assert.equal(pool.questions[59].id, 250, 'La última pregunta debe ser la ID 250');
+    // Comprobar secuencia estricta
+    for (let i = 0; i < 60; i++) {
+      assert.equal(pool.questions[i].id, 191 + i, `La posición ${i} debe ser la ID ${191 + i}`);
+    }
+  });
+
+  it('SEPARACIÓN DE MODOS OFICIALES: "oficial_defensa_2025" genera las 59 preguntas reales de Defensa', () => {
+    const pool = createExamPool(QUESTION_BANK, EXAM_MODES.OFICIAL_DEFENSA_2025);
+    assert.equal(pool.questions.length, 59, 'Examen Defensa debe contener 59 preguntas reales');
+    assert.equal(pool.questions[0].id, 132, 'La primera pregunta debe ser la ID 132');
+    assert.equal(pool.questions[58].id, 190, 'La última pregunta debe ser la ID 190');
+  });
+
+  it('PONDERACIÓN OFICIAL: calculateExamScore genera blockScores con desglose Común (33%) vs Específico (67%)', () => {
+    const pool = createExamPool(QUESTION_BANK, EXAM_MODES.OFICIAL);
+    const userAnswers = {};
+    // Simulamos contestar 15 correctas en común (Q0 a Q14) y 30 correctas en específico (Q20 a Q49)
+    for (let i = 0; i < 15; i++) {
+      userAnswers[pool.questions[i].id] = pool.questions[i].correct;
+    }
+    for (let i = 20; i < 50; i++) {
+      userAnswers[pool.questions[i].id] = pool.questions[i].correct;
+    }
+
+    const result = calculateExamScore({
+      mode: 'oficial',
+      questions: pool.questions,
+      userAnswers,
+      penaltyRate: 1 / 3
+    });
+
+    assert.ok(result.blockScores, 'Debe incluir blockScores');
+    assert.equal(result.blockScores.comun.total, 20, 'Bloque común debe tener 20 preguntas ordinarias');
+    assert.equal(result.blockScores.especifico.total, 40, 'Bloque específico debe tener 40 preguntas ordinarias');
+    assert.equal(result.blockScores.comun.correct, 15, 'Debe haber 15 aciertos en común');
+    assert.equal(result.blockScores.especifico.correct, 30, 'Debe haber 30 aciertos en específico');
+    assert.equal(result.blockScores.comun.net, 15.00);
+    assert.equal(result.blockScores.especifico.net, 30.00);
+    assert.equal(result.netScore, 45.00);
+  });
+
+  it('PANEL DE PREPARACIÓN REAL: calculateReadinessMetrics evalúa mediana, racha >= 42 y calibración', () => {
+    // Caso 1: Sin simulacros
+    const emptyMetrics = calculateReadinessMetrics([], QUESTION_BANK);
+    assert.equal(emptyMetrics.readinessLevel, 'SIN_SIMULACROS');
+    assert.equal(emptyMetrics.totalOficialExams, 0);
+
+    // Caso 2: 5 simulacros oficiales con notas [45, 43, 44, 46, 42]
+    const fiveMocks = [
+      { id: 5, mode: 'inedito', netScore: 46.00, timeSpentSecs: 3200, passed: true },
+      { id: 4, mode: 'oficial', netScore: 44.00, timeSpentSecs: 3400, passed: true },
+      { id: 3, mode: 'inedito', netScore: 45.00, timeSpentSecs: 3100, passed: true },
+      { id: 2, mode: 'oficial', netScore: 43.00, timeSpentSecs: 3500, passed: true },
+      { id: 1, mode: 'oficial', netScore: 42.00, timeSpentSecs: 3300, passed: true }
+    ];
+
+    const metrics = calculateReadinessMetrics(fiveMocks, QUESTION_BANK);
+    assert.equal(metrics.totalOficialExams, 5);
+    // Ordenadas: 42, 43, 44, 45, 46 -> Mediana: 44.00
+    assert.equal(metrics.medianScore, 44.00, 'Mediana debe ser 44.00');
+    assert.equal(metrics.worstScore, 42.00, 'Peor nota debe ser 42.00');
+    assert.equal(metrics.bestScore, 46.00, 'Mejor nota debe ser 46.00');
+    assert.equal(metrics.consecutiveAbove42, 5, 'Racha de 5 consecutivos >= 42.00');
+    assert.equal(metrics.targetPlazaAchieved, true, 'Objetivo de 3 simulacros >= 42 conseguido');
+    assert.equal(metrics.readinessLevel, 'PLAZA_BLINDADA');
+
+    // Comprobamos la cobertura del banco
+    assert.ok(metrics.bankCoverage);
+    assert.equal(metrics.bankCoverage.totalBank, 310);
   });
 
 });

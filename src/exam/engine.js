@@ -7,6 +7,27 @@
  * de preguntas de reserva sin posiciones mágicas.
  */
 
+export const EXAM_MODES = {
+  OFICIAL: 'oficial',                    // Simulacro Tipo Examen Mezclado (60 ord + 6 res)
+  INEDITO: 'inedito',                    // Simulacro Oficial Inédito (Preguntas nunca vistas)
+  OFICIAL_AGE_2025: 'oficial_age_2025',  // Examen Oficial AGE 25/02/2025 (60 preguntas íntegras)
+  OFICIAL_DEFENSA_2025: 'oficial_defensa_2025', // Examen Oficial Defensa 01/02/2025 (59 preguntas íntegras)
+  EVALUACION_FINAL: 'evaluacion_final',  // Examen de Evaluación Final (Diagnóstico de corte 19-D)
+  SPRINT_45: 'sprint45',                 // 45 preguntas (15 común + 30 específica) en 45 min
+  TRAMPAS: 'trampas',                    // 20 preguntas trampa en 20 min
+  SRS: 'srs',                            // Repaso de Bóveda Leitner SRS
+  COMUN: 'comun',                        // 20 preguntas bloque común
+  ESPECIFICO: 'especifico',              // 40 preguntas bloque específico
+  FALLADAS: 'falladas'                   // Cuaderno de falladas
+};
+
+/**
+ * Identifica si un modo corresponde a una prueba oficial de 60 preguntas
+ */
+export function isOfficialMode(mode) {
+  return ['oficial', 'real2025', 'inedito', 'evaluacion_final', 'oficial_age_2025', 'oficial_defensa_2025'].includes(mode);
+}
+
 /**
  * Baraja un array in-place o devuelve copia barajada usando Fisher-Yates
  */
@@ -49,7 +70,7 @@ export function shuffleQuestionOptions(question, rng = Math.random) {
  * Determina el límite de tiempo en segundos según el modo y número de preguntas
  */
 export function getTimeLimitForMode(mode, questionCount = 60) {
-  if (mode === 'oficial' || mode === 'real2025') return 3600; // 60 minutos oficiales
+  if (isOfficialMode(mode)) return 3600; // 60 minutos oficiales Anexo V
   if (mode === 'sprint45') return 2700; // 45 preguntas = 45 minutos
   if (mode === 'trampas') return 1200;  // 20 preguntas trampa = 20 minutos
   if (mode === 'comun') return 1200;   // 20 preguntas = 20 minutos
@@ -94,7 +115,7 @@ export function createExamPool(questionBank, mode, options = {}) {
   const normalizedBank = (questionBank || []).map(normalizeQuestion);
 
   // En simulacro oficial/real nunca entran preguntas sin verificar bajo ninguna circunstancia
-  const effectiveAllow = (mode === 'oficial' || mode === 'real2025') ? false : allowUnverified;
+  const effectiveAllow = isOfficialMode(mode) ? false : allowUnverified;
   const validBank = effectiveAllow 
     ? normalizedBank 
     : normalizedBank.filter(q => q.sourceType !== 'sin_verificar');
@@ -112,6 +133,76 @@ export function createExamPool(questionBank, mode, options = {}) {
     const comunRes = comunPool.slice(20, 22);
     const espRes = espPool.slice(40, 44);
     selectedQuestions = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
+  } else if (mode === 'inedito') {
+    // Simulacro Oficial Inédito: selecciona 20 comunes + 40 específicas + 6 reservas
+    // exclusivamente de preguntas que el usuario NO ha visto todavía
+    const seenSet = new Set(Array.from(options.seenQuestionIds || []).map(Number));
+    const unseenBank = validBank.filter(q => !seenSet.has(Number(q.id)));
+    const unseenComun = shuffleArray(unseenBank.filter(q => q.block === 'comun'), rng);
+    const unseenEsp = shuffleArray(unseenBank.filter(q => q.block === 'especifico'), rng);
+
+    let comunOrd = unseenComun.slice(0, 20);
+    let espOrd = unseenEsp.slice(0, 40);
+    let comunRes = unseenComun.slice(20, 22);
+    let espRes = unseenEsp.slice(40, 44);
+
+    // Si faltan inéditas en común para completar 22, rellenar con las vistas del banco común
+    if (comunOrd.length + comunRes.length < 22) {
+      const remainingNeeded = 22 - (comunOrd.length + comunRes.length);
+      const seenComun = shuffleArray(validBank.filter(q => q.block === 'comun' && seenSet.has(Number(q.id))), rng);
+      const combinedComun = [...comunOrd, ...comunRes, ...seenComun.slice(0, remainingNeeded)];
+      comunOrd = combinedComun.slice(0, 20);
+      comunRes = combinedComun.slice(20, 22);
+    }
+
+    // Si faltan inéditas en específico para completar 44, rellenar con las vistas del banco específico
+    if (espOrd.length + espRes.length < 44) {
+      const remainingNeeded = 44 - (espOrd.length + espRes.length);
+      const seenEsp = shuffleArray(validBank.filter(q => q.block === 'especifico' && seenSet.has(Number(q.id))), rng);
+      const combinedEsp = [...espOrd, ...espRes, ...seenEsp.slice(0, remainingNeeded)];
+      espOrd = combinedEsp.slice(0, 40);
+      espRes = combinedEsp.slice(40, 44);
+    }
+
+    selectedQuestions = [...comunOrd, ...espOrd, ...comunRes, ...espRes];
+  } else if (mode === 'oficial_age_2025') {
+    // Examen Oficial Íntegro AGE / MITECO (25/02/2025): IDs 191 a 250 en secuencia exacta
+    // 60 preguntas ordenadas tal como figuraron en la plantilla oficial definitiva (P11 reemplazada por R1)
+    const ageQuestions = validBank
+      .filter(q => q.id >= 191 && q.id <= 250)
+      .sort((a, b) => a.id - b.id);
+
+    if (ageQuestions.length < 60) {
+      return {
+        questions: [],
+        error: 'No se encontraron las 60 preguntas oficiales del examen AGE 25/02/2025.'
+      };
+    }
+    selectedQuestions = ageQuestions;
+  } else if (mode === 'oficial_defensa_2025') {
+    // Examen Oficial Íntegro Defensa (01/02/2025): IDs 132 a 190 en secuencia exacta
+    // 59 preguntas reales validadas de la convocatoria anterior de Defensa
+    const defQuestions = validBank
+      .filter(q => q.id >= 132 && q.id <= 190)
+      .sort((a, b) => a.id - b.id);
+
+    if (defQuestions.length === 0) {
+      return {
+        questions: [],
+        error: 'No se encontraron las preguntas oficiales del examen de Defensa 01/02/2025.'
+      };
+    }
+    selectedQuestions = defQuestions;
+  } else if (mode === 'evaluacion_final') {
+    // Examen de Evaluación Final reservado: 20 común + 40 específica + 6 reservas
+    const comunPool = shuffleArray(validBank.filter(q => q.block === 'comun'), rng);
+    const espPool = shuffleArray(validBank.filter(q => q.block === 'especifico'), rng);
+    selectedQuestions = [
+      ...comunPool.slice(0, 20),
+      ...espPool.slice(0, 40),
+      ...comunPool.slice(20, 22),
+      ...espPool.slice(40, 44)
+    ];
   } else if (mode === 'sprint45') {
     // 45 preguntas tácticas: 15 comunes + 30 específicas (45 minutos)
     const comunPool = shuffleArray(validBank.filter(q => q.block === 'comun'), rng);
@@ -193,8 +284,12 @@ export function createExamPool(questionBank, mode, options = {}) {
     };
   }
 
-  // Barajar opciones de cada pregunta individual para eliminar sesgos de posición
-  const preparedQuestions = selectedQuestions.map(q => shuffleQuestionOptions(q, rng));
+  // Barajar opciones de cada pregunta individual para eliminar sesgos de posición,
+  // salvo en exámenes oficiales íntegros donde se preserva el orden original del cuadernillo oficial
+  const shouldShuffleOptions = options.shuffleOptions ?? !(mode === 'oficial_age_2025' || mode === 'oficial_defensa_2025');
+  const preparedQuestions = shouldShuffleOptions
+    ? selectedQuestions.map(q => shuffleQuestionOptions(q, rng))
+    : selectedQuestions.map(q => ({ ...q }));
 
   return {
     questions: preparedQuestions,
@@ -218,7 +313,9 @@ export function calculateExamScore(sessionState) {
 
   let questionsToGrade = [];
 
-  if (mode === 'oficial' || mode === 'real2025') {
+  const isOfficial60WithReserves = (mode === 'oficial' || mode === 'real2025' || mode === 'inedito' || mode === 'evaluacion_final');
+
+  if (isOfficial60WithReserves) {
     const ordinarias = questions.slice(0, 60);
     const reservas = questions.slice(60, 66);
 
@@ -287,8 +384,18 @@ export function calculateExamScore(sessionState) {
     riesgo: { count: 0, correct: 0, wrong: 0, blank: 0, net: 0, theoreticalEV: +(0.25 - 0.75 * effectivePenalty).toFixed(3), empiricalYield: 0 }
   };
 
+  // Puntuación desglosada por bloque oficial (Común 33.3% vs Específico 66.7%)
+  const blockScores = {
+    comun: { total: 0, correct: 0, wrong: 0, blank: 0, net: 0, pct: 0 },
+    especifico: { total: 0, correct: 0, wrong: 0, blank: 0, net: 0, pct: 0 }
+  };
+
   questionsToGrade.forEach(item => {
     const q = item.q;
+    const isComun = q.block === 'comun' || (!q.block && (q.topicId ? q.topicId <= 4 : (typeof item.num === 'number' ? item.num <= 20 : false)));
+    const blk = isComun ? blockScores.comun : blockScores.especifico;
+    blk.total++;
+
     const userAns = userAnswers[q.id];
     const isBlank = userAns === undefined || userAns === null;
     const isCorrect = !isBlank && userAns === q.correct;
@@ -299,13 +406,16 @@ export function calculateExamScore(sessionState) {
     if (isBlank) {
       blank++;
       bucket.blank++;
+      blk.blank++;
     } else if (isCorrect) {
       correct++;
       bucket.correct++;
+      blk.correct++;
       newlySucceededIds.push(q.id);
     } else {
       wrong++;
       bucket.wrong++;
+      blk.wrong++;
       newlyFailedIds.push(q.id);
     }
 
@@ -326,6 +436,13 @@ export function calculateExamScore(sessionState) {
     const b = confidenceBreakdown[cat];
     b.net = +(b.correct - (b.wrong * effectivePenalty)).toFixed(2);
     b.empiricalYield = b.net;
+  });
+
+  // Calcular rendimiento neto por bloque
+  ['comun', 'especifico'].forEach(b => {
+    const blk = blockScores[b];
+    blk.net = +(blk.correct - (blk.wrong * effectivePenalty)).toFixed(2);
+    blk.pct = blk.total > 0 ? +((blk.correct / blk.total) * 100).toFixed(1) : 0;
   });
 
   const totalGraded = questionsToGrade.length;
@@ -376,6 +493,7 @@ export function calculateExamScore(sessionState) {
     passed,
     penaltyRate: effectivePenalty,
     timeSpentSecs,
+    blockScores,
     reviewList,
     newlyFailedIds,
     newlySucceededIds,
@@ -436,9 +554,9 @@ export function calculateDashboardMetrics(history = []) {
   }
 
   // Modos oficiales: 60 preguntas ordinarias
-  const oficialSims = history.filter(h => h && (h.mode === 'oficial' || h.mode === 'real2025'));
+  const oficialSims = history.filter(h => h && isOfficialMode(h.mode));
   // Modos parciales: tests por tema ('tema:N', 'Tema N'), comunes (20q), específicos (40q), falladas
-  const parcialSims = history.filter(h => h && h.mode !== 'oficial' && h.mode !== 'real2025');
+  const parcialSims = history.filter(h => h && !isOfficialMode(h.mode));
 
   const oficialCount = oficialSims.length;
   let mediaOficial = '0.00';
@@ -471,6 +589,220 @@ export function calculateDashboardMetrics(history = []) {
     aprobadosOficialCount,
     parcialCount,
     mediaParcialPct
+  };
+}
+
+/**
+ * Calcula el panel integral de preparación real para el opositor (Auditoría Psicométrica y Táctica)
+ * Aísla los últimos 5 simulacros oficiales/inéditos, analiza mediana y peor resultado,
+ * balance por bloques (Común 33% vs Específico 67%), calibración de confianza y cobertura del banco.
+ */
+export function calculateReadinessMetrics(history = [], questionBank = [], options = {}) {
+  const { srsVault = {}, failedQuestionsSet = new Set(), seenQuestionIds: explicitSeen } = options;
+
+  // 1. Filtrar los últimos 5 simulacros oficiales / inéditos de 60 preguntas
+  const oficialHistory = history.filter(h => h && isOfficialMode(h.mode));
+  const recentMocks = oficialHistory.slice(0, 5);
+
+  let medianScore = null;
+  let worstScore = null;
+  let bestScore = null;
+  let averageScore = null;
+  let consecutiveAbove42 = 0;
+
+  if (recentMocks.length > 0) {
+    const scores = recentMocks.map(m => typeof m.netScore === 'number' ? m.netScore : 0);
+    const sortedScores = [...scores].sort((a, b) => a - b);
+    const mid = Math.floor(sortedScores.length / 2);
+    medianScore = sortedScores.length % 2 !== 0 
+      ? sortedScores[mid] 
+      : +((sortedScores[mid - 1] + sortedScores[mid]) / 2).toFixed(2);
+    worstScore = sortedScores[0];
+    bestScore = sortedScores[sortedScores.length - 1];
+    averageScore = +(scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2);
+
+    // Contar racha consecutiva de simulacros con >= 42.00 netos dentro de los 60 min
+    for (const mock of oficialHistory) {
+      const net = typeof mock.netScore === 'number' ? mock.netScore : 0;
+      const spent = mock.timeSpentSecs || 0;
+      if (net >= 42.00 && (spent <= 3600 || !mock.timeSpentSecs)) {
+        consecutiveAbove42++;
+      } else {
+        break;
+      }
+    }
+  }
+
+  const targetPlazaAchieved = consecutiveAbove42 >= 3;
+
+  // 2. Cobertura del banco: porcentaje de preguntas memorizadas vs realmente inéditas
+  const seenSet = new Set();
+  if (explicitSeen && explicitSeen.size > 0) {
+    explicitSeen.forEach(id => seenSet.add(Number(id)));
+  } else {
+    history.forEach(h => {
+      if (Array.isArray(h.reviewList)) {
+        h.reviewList.forEach(r => {
+          const qId = r.id || r.question?.id;
+          if (qId) seenSet.add(Number(qId));
+        });
+      }
+    });
+    Object.keys(srsVault || {}).forEach(id => seenSet.add(Number(id)));
+    if (failedQuestionsSet) {
+      failedQuestionsSet.forEach(id => seenSet.add(Number(id)));
+    }
+  }
+
+  const normalizedBank = (questionBank || []).map(normalizeQuestion);
+  const totalBankCount = normalizedBank.length;
+  let seenCount = 0;
+  let unseenComun = 0;
+  let unseenEsp = 0;
+
+  normalizedBank.forEach(q => {
+    if (seenSet.has(Number(q.id))) {
+      seenCount++;
+    } else {
+      if (q.block === 'comun' || q.topicId <= 4) {
+        unseenComun++;
+      } else {
+        unseenEsp++;
+      }
+    }
+  });
+
+  const unseenCount = Math.max(0, totalBankCount - seenCount);
+  const pctMemorized = totalBankCount > 0 ? Math.round((seenCount / totalBankCount) * 100) : 0;
+  const pctUnseen = 100 - pctMemorized;
+
+  // 3. Calibración metacognitiva acumulada (Segura / Duda / Riesgo)
+  const calibration = {
+    segura: { total: 0, correct: 0, wrong: 0, blank: 0, accuracyPct: null, netYield: 0, status: 'insuficiente' },
+    duda: { total: 0, correct: 0, wrong: 0, blank: 0, accuracyPct: null, netYield: 0, profitable: false },
+    riesgo: { total: 0, correct: 0, wrong: 0, blank: 0, accuracyPct: null, netYield: 0, profitable: false }
+  };
+
+  history.forEach(h => {
+    if (h.confidenceBreakdown) {
+      ['segura', 'duda', 'riesgo'].forEach(cat => {
+        const b = h.confidenceBreakdown[cat];
+        if (b) {
+          calibration[cat].total += (b.count || 0);
+          calibration[cat].correct += (b.correct || 0);
+          calibration[cat].wrong += (b.wrong || 0);
+          calibration[cat].blank += (b.blank || 0);
+        }
+      });
+    } else if (Array.isArray(h.reviewList)) {
+      h.reviewList.forEach(r => {
+        const conf = r.confidence || (r.isBlank ? 'riesgo' : 'segura');
+        if (calibration[conf]) {
+          calibration[conf].total++;
+          if (r.isBlank) calibration[conf].blank++;
+          else if (r.isCorrect) calibration[conf].correct++;
+          else calibration[conf].wrong++;
+        }
+      });
+    }
+  });
+
+  ['segura', 'duda', 'riesgo'].forEach(cat => {
+    const c = calibration[cat];
+    const answered = c.correct + c.wrong;
+    c.accuracyPct = answered > 0 ? Math.round((c.correct / answered) * 100) : null;
+    c.netYield = +(c.correct - (c.wrong * (1 / 3))).toFixed(2);
+  });
+
+  if (calibration.segura.accuracyPct !== null) {
+    calibration.segura.status = calibration.segura.accuracyPct >= 85 ? 'calibrada' : 'dunning_kruger';
+  }
+  calibration.duda.profitable = calibration.duda.netYield > 0;
+  calibration.riesgo.profitable = calibration.riesgo.netYield > 0;
+
+  // 4. Rendimiento por bloques (Común 33.3% vs Específico 66.7%)
+  const blockAccuracies = {
+    comun: { total: 0, correct: 0, wrong: 0, blank: 0, net: 0, pct: null },
+    especifico: { total: 0, correct: 0, wrong: 0, blank: 0, net: 0, pct: null },
+    descompensado: false
+  };
+
+  history.forEach(h => {
+    if (h.blockScores) {
+      ['comun', 'especifico'].forEach(b => {
+        const bs = h.blockScores[b];
+        if (bs) {
+          blockAccuracies[b].total += (bs.total || 0);
+          blockAccuracies[b].correct += (bs.correct || 0);
+          blockAccuracies[b].wrong += (bs.wrong || 0);
+          blockAccuracies[b].blank += (bs.blank || 0);
+          blockAccuracies[b].net += (bs.net || 0);
+        }
+      });
+    } else if (Array.isArray(h.reviewList)) {
+      h.reviewList.forEach(r => {
+        const isComun = r.question?.block === 'comun' || (!r.question?.block && (r.question?.topicId ? r.question?.topicId <= 4 : false));
+        const blk = isComun ? blockAccuracies.comun : blockAccuracies.especifico;
+        blk.total++;
+        if (r.isBlank) blk.blank++;
+        else if (r.isCorrect) blk.correct++;
+        else blk.wrong++;
+      });
+    }
+  });
+
+  ['comun', 'especifico'].forEach(b => {
+    const blk = blockAccuracies[b];
+    const answered = blk.correct + blk.wrong;
+    blk.pct = answered > 0 ? Math.round((blk.correct / answered) * 100) : null;
+    blk.net = +(blk.correct - (blk.wrong * (1 / 3))).toFixed(2);
+  });
+
+  if (blockAccuracies.especifico.pct !== null && blockAccuracies.especifico.pct < 65) {
+    blockAccuracies.descompensado = true;
+  }
+
+  // 5. Diagnóstico Integral y Nivel de Preparación
+  let readinessLevel = 'SIN_SIMULACROS';
+  let readinessSummary = 'Aún no has completado simulacros oficiales de 60 preguntas.';
+  if (recentMocks.length > 0) {
+    if (targetPlazaAchieved) {
+      readinessLevel = 'PLAZA_BLINDADA';
+      readinessSummary = '¡Nivel sobresaliente! Has encadenado 3 simulacros consecutivos con nota >= 42.00 netos dentro de los 60 minutos.';
+    } else if (medianScore !== null && medianScore >= 42.00) {
+      readinessLevel = 'ZONA_PLAZA';
+      readinessSummary = 'Estás en zona competitiva de plaza directa (mediana >= 42 netos). Mantén el rigor para blindar la consistencia.';
+    } else if (medianScore !== null && medianScore >= 30.00) {
+      readinessLevel = 'ZONA_CORTE';
+      readinessSummary = 'Superas el corte mínimo (30 puntos), pero aún no tienes margen de seguridad para asegurar plaza en Murcia (se requiere >= 42 netos).';
+    } else {
+      readinessLevel = 'EN_RIESGO';
+      readinessSummary = 'Mediana inferior a 30.00 netos: quedarías fuera del corte eliminatorio. Refuerza la Bóveda SRS y la parte específica.';
+    }
+  }
+
+  return {
+    totalOficialExams: oficialHistory.length,
+    recentMocks,
+    medianScore,
+    worstScore,
+    bestScore,
+    averageScore,
+    consecutiveAbove42,
+    targetPlazaAchieved,
+    blockAccuracies,
+    bankCoverage: {
+      totalBank: totalBankCount,
+      seenCount,
+      unseenCount,
+      unseenComun,
+      unseenEsp,
+      pctMemorized,
+      pctUnseen
+    },
+    calibration,
+    readinessLevel,
+    readinessSummary
   };
 }
 
