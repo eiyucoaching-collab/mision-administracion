@@ -1555,10 +1555,10 @@
     "topic": "Tema 8: Franqueo, Depósito y Distribución de Correspondencia",
     "question": "¿Cuándo debe depositarse en las oficinas de Correos la correspondencia franqueada mediante máquina franqueadora oficial?",
     "options": [
-      "Número de teléfono particular del transportista, coste de franqueo abonado y firma del destinatario al recibirlo",
-      "El coste de los sellos utilizados únicamente",
-      "Número correlativo de salida, fecha de expedición, destinatario, asunto resumido y remitente u órgano emisor",
-      "La huella dactilar del ordenanza emisor"
+      "En cualquier momento dentro de los diez días hábiles siguientes a la estampación.",
+      "En la misma fecha que figure en la estampación o huella de franqueo de la máquina.",
+      "Exclusivamente los viernes al cierre de la jornada ordinaria de registro.",
+      "Cuando se alcance una remesa mínima acumulada de doscientos envíos ordinarios."
     ],
     "correct": 1,
     "law": "Real Decreto 1829/1999",
@@ -5710,17 +5710,17 @@
     "block": "especifico",
     "topicId": 8,
     "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
-    "question": "Conforme al Reglamento Postal (RD 1829/1999), en la entrega de notificaciones administrativas practicadas en papel, si el primer intento resulta infructuoso por no hallarse nadie en el domicilio:",
+    "question": "Conforme al artículo 42 de la Ley 39/2015 (LPACAP) y el Reglamento Postal, en las notificaciones practicadas en papel, si el primer intento resulta infructuoso por ausencia del interesado:",
     "options": [
-      "Se practicará un segundo intento en una hora distinta dentro de los tres días siguientes.",
-      "Se destruye la notificación levantando diligencia de rechazo.",
-      "Se dejará obligatoriamente bajo la puerta del buzón sin sobre exterior.",
-      "Se publica directamente en el Boletín Oficial del Estado sin más trámites."
+      "Se practicará un segundo intento en una hora distinta (con margen de tres horas) dentro de los tres días siguientes.",
+      "Se destruye de inmediato la notificación levantando acta de rechazo definitivo.",
+      "Se dejará obligatoriamente bajo la puerta del domicilio sin sobre exterior.",
+      "Se publica directamente en el Boletín Oficial del Estado sin realizar ningún segundo intento."
     ],
     "correct": 0,
     "law": "Real Decreto 1829/1999",
-    "article": "Art. 42 y 44 RD 1829/1999 / Art. 42 Ley 39/2015",
-    "explanation": "El artículo 42 de la Ley 39/2015 y la normativa postal exigen un segundo intento de notificación cuando el primero haya resultado infructuoso por ausencia, debiendo realizarse en una franja horaria distinta y dentro de los tres días siguientes.",
+    "article": "Art. 42.2 Ley 39/2015 / Art. 42 RD 1829/1999",
+    "explanation": "El artículo 42.2 de la Ley 39/2015 y la normativa postal exigen un segundo intento de notificación cuando el primero haya resultado infructuoso por ausencia, debiendo realizarse en una franja horaria distinta (antes/después de las 15h con al menos 3 horas de margen) dentro de los tres días siguientes.",
     "sourceType": "norma_verificada",
     "isTrap": true,
     "examSource": "Examen Oficial AGE / Correos"
