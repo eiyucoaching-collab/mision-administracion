@@ -5144,5 +5144,805 @@ export const QUESTION_BANK = [
     "sourceType": "norma_verificada",
     "isTrap": true,
     "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 271,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "¿Cuál de los siguientes órganos tiene la consideración legal de ÓRGANO DIRECTIVO en la organización central de la Administración General del Estado?",
+    "options": [
+      "Los Subdirectores Generales.",
+      "Los Ministros.",
+      "Los Secretarios de Estado.",
+      "Los Comisionados Especiales con rango de Ministro."
+    ],
+    "correct": 0,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 55.3 Ley 40/2015",
+    "explanation": "Son órganos directivos los Subsecretarios, Secretarios Generales, Secretarios Generales Técnicos, Directores Generales y Subdirectores Generales (art. 55.3 Ley 40/2015). Los Ministros y Secretarios de Estado son órganos superiores.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial AGE / Defensa"
+  },
+  {
+    "id": 272,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "Según la Ley 50/1997, el Gobierno en funciones facilitará el normal desarrollo del proceso de formación del nuevo Gobierno y el traspaso de poderes, limitando su gestión a:",
+    "options": [
+      "La aprobación preceptiva del proyecto de Ley de Presupuestos Generales del Estado.",
+      "El despacho ordinario de los asuntos públicos, salvo casos de urgencia o de interés general.",
+      "La firma de tratados internacionales con reserva de ratificación parlamentaria.",
+      "El nombramiento con carácter interino de nuevos Secretarios de Estado."
+    ],
+    "correct": 1,
+    "law": "Ley 50/1997 del Gobierno",
+    "article": "Art. 21.3 Ley 50/1997",
+    "explanation": "El art. 21.3 de la Ley 50/1997 dispone que el Gobierno en funciones limitará su gestión al despacho ordinario de los asuntos públicos, absteniéndose de adoptar otras medidas salvo urgencia o interés general debidamente acreditados.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 273,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "Los Delegados del Gobierno en las Comunidades Autónomas son nombrados y separados por:",
+    "options": [
+      "Orden ministerial de la persona titular del Ministerio de Defensa.",
+      "Resolución del Presidente del Consejo de Gobierno de la Comunidad Autónoma.",
+      "Real Decreto del Consejo de Ministros, a propuesta del Presidente del Gobierno.",
+      "Acuerdo de la Conferencia Sectorial de Administración Pública."
+    ],
+    "correct": 2,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 73.1 Ley 40/2015",
+    "explanation": "Según el art. 73.1 de la Ley 40/2015, los Delegados del Gobierno son nombrados y separados por Real Decreto del Consejo de Ministros, a propuesta del Presidente del Gobierno.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE / Defensa"
+  },
+  {
+    "id": 274,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "¿Quién nombra a los Subdelegados del Gobierno en las provincias?",
+    "options": [
+      "El Pleno de la Diputación Provincial entre funcionarios del Grupo C1.",
+      "El Ministro del Interior mediante Real Decreto acordado en Consejo.",
+      "El Presidente de la Comunidad Autónoma correspondiente por Decreto.",
+      "El Delegado del Gobierno por resolución, entre funcionarios de carrera del Subgrupo A1."
+    ],
+    "correct": 3,
+    "law": "Ley 40/2015 de Régimen Jurídico del Sector Público",
+    "article": "Art. 74 Ley 40/2015",
+    "explanation": "El art. 74 de la Ley 40/2015 establece que los Subdelegados del Gobierno son nombrados por el Delegado del Gobierno por el procedimiento de libre designación entre funcionarios de carrera del Subgrupo A1.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial AGE / Defensa"
+  },
+  {
+    "id": 275,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "Según el artículo 113 de la Constitución Española, la moción de censura no podrá ser votada hasta que transcurran:",
+    "options": [
+      "Cinco días desde su presentación en el Congreso de los Diputados.",
+      "Cuarenta y ocho horas desde su admisión a trámite por la Mesa.",
+      "Quince días hábiles desde el inicio del debate parlamentario.",
+      "Tres días naturales contados desde su publicación en el BOCG."
+    ],
+    "correct": 0,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 113.2 CE",
+    "explanation": "El art. 113.2 CE establece que la moción de censura no podrá ser votada hasta que transcurran cinco días desde su presentación, pudiendo presentarse mociones alternativas en los dos primeros días.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial AGE / Defensa"
+  },
+  {
+    "id": 276,
+    "block": "comun",
+    "topicId": 2,
+    "topic": "Tema 2: El Gobierno y la AGE",
+    "question": "¿Cuál de las siguientes atribuciones corresponde en exclusiva al Consejo de Ministros como órgano colegiado del Gobierno?",
+    "options": [
+      "Dictar órdenes ministeriales de régimen interno en cada departamento.",
+      "Aprobar los proyectos de ley y su remisión al Congreso o, en su caso, al Senado.",
+      "Nombrar a los Subdirectores Generales de todos los Ministerios.",
+      "Sancionar las faltas leves del personal laboral de la Administración."
+    ],
+    "correct": 1,
+    "law": "Ley 50/1997 del Gobierno",
+    "article": "Art. 5.1.a) Ley 50/1997",
+    "explanation": "El artículo 5.1.a) de la Ley 50/1997 atribuye al Consejo de Ministros la aprobación de los proyectos de ley y su remisión a las Cortes Generales.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 277,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "Para iniciar la revisión total de la Constitución o una parcial que afecte al Título Preliminar, se requiere en cada Cámara una mayoría de:",
+    "options": [
+      "Mayoría absoluta en el Congreso y simple en el Senado.",
+      "Mayoría de tres quintos en ambas Cámaras.",
+      "Dos tercios de cada Cámara conforme al procedimiento agravado.",
+      "Mayoría simple con posterior ratificación por las Cortes disueltas."
+    ],
+    "correct": 2,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 168.1 CE",
+    "explanation": "El artículo 168.1 de la Constitución exige la aprobación del principio de reforma por mayoría de dos tercios de cada Cámara y la disolución inmediata de las Cortes Generales.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 278,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "Conforme al artículo 62 de la Constitución Española, corresponde al Rey:",
+    "options": [
+      "Aprobar los Presupuestos Generales del Estado.",
+      "Proponer el candidato a Presidente del Gobierno y, en su caso, nombrarlo.",
+      "Resolver los conflictos de atribuciones entre Ministerios.",
+      "Autorizar indultos generales mediante Decreto-ley."
+    ],
+    "correct": 1,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 62.d) CE",
+    "explanation": "El artículo 62.d) de la Constitución atribuye formalmente al Rey la función de proponer el candidato a Presidente del Gobierno y, en su caso, nombrarlo, así como poner fin a sus funciones en los términos previstos en la Constitución.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 279,
+    "block": "comun",
+    "topicId": 1,
+    "topic": "Tema 1: Constitución Española de 1978",
+    "question": "El principio de igualdad ante la ley consagrado en el artículo 14 de la Constitución prohíbe la discriminación por:",
+    "options": [
+      "Exclusivamente razones de sexo o estado civil acreditado.",
+      "Solo nacimiento y filiación dentro del territorio nacional.",
+      "Razones de escala administrativa dentro de los cuerpos funcionariales.",
+      "Nacimiento, raza, sexo, religión, opinión o cualquier otra condición o circunstancia personal o social."
+    ],
+    "correct": 3,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 14 CE",
+    "explanation": "El artículo 14 de la Constitución establece taxativamente que los españoles son iguales ante la ley, sin que pueda prevalecer discriminación alguna por razón de nacimiento, raza, sexo, religión, opinión o cualquier otra condición o circunstancia personal o social.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 280,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
+    "question": "En el IV Convenio Único para el personal laboral de la AGE, ¿cuál es la duración del período de prueba para los trabajadores del Grupo Profesional E1?",
+    "options": [
+      "Un mes de trabajo efectivo.",
+      "Quince días laborables.",
+      "Tres meses ininterrumpidos.",
+      "Dos semanas naturales."
+    ],
+    "correct": 0,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 32.1 IV CUAGE",
+    "explanation": "El artículo 32.1 del IV CUAGE establece expresamente que el período de prueba para el grupo profesional E1 es de un mes de trabajo efectivo. Para el grupo E0 rige un plazo diferente.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Defensa 2025"
+  },
+  {
+    "id": 281,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
+    "question": "Según el IV Convenio Único de la AGE, ¿en qué plazo prescriben las faltas GRAVES cometidas por el personal laboral?",
+    "options": [
+      "A los diez días hábiles desde su comisión flagrante.",
+      "A los veinte días a partir de la fecha en que la Administración tuvo conocimiento de su comisión.",
+      "A los seis meses continuados en todo caso.",
+      "Al año natural desde la fecha de incoación del expediente disciplinario."
+    ],
+    "correct": 1,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 84.1 IV CUAGE",
+    "explanation": "Conforme al artículo 84.1 del IV CUAGE, las faltas leves prescriben a los 10 días, las graves a los 20 días y las muy graves a los 60 días a partir de la fecha en que la Administración tuvo conocimiento de su comisión (y en todo caso a los 6 meses de haberse cometido).",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Defensa 2025"
+  },
+  {
+    "id": 282,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
+    "question": "Conforme al IV CUAGE, ¿a cuántos días naturales de permiso retribuido tiene derecho el personal laboral por razón de matrimonio?",
+    "options": [
+      "Diez días hábiles.",
+      "Veinte días naturales consecutivos.",
+      "Quince días naturales.",
+      "Doce días laborables."
+    ],
+    "correct": 2,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 51.1.a) IV CUAGE",
+    "explanation": "El artículo 51.1.a) del IV CUAGE reconoce el derecho a un permiso retribuido de quince días naturales consecutivos en caso de matrimonio o inscripción en registro de parejas de hecho.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 283,
+    "block": "comun",
+    "topicId": 3,
+    "topic": "Tema 3: Régimen Jurídico del Personal Laboral",
+    "question": "En el sistema de clasificación profesional del IV Convenio Único de la AGE, ¿a qué grupo profesional corresponde el personal que realiza tareas sin titulación académica previa exigible?",
+    "options": [
+      "Al Grupo Profesional E1.",
+      "Al Grupo Profesional E2.",
+      "Al Grupo Profesional B2.",
+      "Al Grupo Profesional E0."
+    ],
+    "correct": 3,
+    "law": "IV Convenio Único para el personal laboral de la AGE (IV CUAGE)",
+    "article": "Art. 8.1.f) IV CUAGE",
+    "explanation": "El artículo 8.1 del IV CUAGE encuadra en el Grupo E0 al personal de actividades que no requieren titulación alguna, reservando el Grupo E1 a quienes posean Graduado en ESO o FP Básico.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Defensa 2025"
+  },
+  {
+    "id": 284,
+    "block": "comun",
+    "topicId": 4,
+    "topic": "Tema 4: Políticas de Igualdad y No Discriminación",
+    "question": "Según el artículo 77 de la Ley Orgánica 3/2007, ¿en qué órganos de la Administración General del Estado se encomiendan las funciones de las Unidades de Igualdad?",
+    "options": [
+      "En todos los Ministerios de la Administración General del Estado.",
+      "Exclusivamente en el Ministerio de Igualdad y el de Defensa.",
+      "En las oficinas provinciales de Correos y Telégrafos.",
+      "Únicamente en los centros de trabajo con más de quinientos trabajadores."
+    ],
+    "correct": 0,
+    "law": "Ley Orgánica 3/2007 para la igualdad efectiva de mujeres y hombres",
+    "article": "Art. 77 LO 3/2007",
+    "explanation": "El artículo 77 de la Ley Orgánica 3/2007 dispone que en todos los Departamentos Ministeriales se creará una Unidad de Igualdad para el desarrollo de las funciones vinculadas al principio de igualdad de mujeres y hombres.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial AGE / Defensa"
+  },
+  {
+    "id": 285,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "En el control de accesos de una instalación militar o sede oficial de Defensa, si un visitante porta un maletín voluminoso y rehúsa someterlo al escáner de rayos X o revisión de seguridad:",
+    "options": [
+      "Se le permitirá la entrada reteniéndole el maletín en la recepción bajo custodia auxiliar.",
+      "Se le denegará la entrada al edificio oficial de conformidad con los protocolos de seguridad.",
+      "Se le autorizará el paso previa firma de una declaración de exoneración de responsabilidad.",
+      "Se le escoltará obligatoriamente hasta el despacho de destino abriendo el maletín en presencia del militar de guardia."
+    ],
+    "correct": 1,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Control de Accesos y Seguridad en Instalaciones de Defensa",
+    "explanation": "En edificios oficiales e instalaciones de la Defensa, el sometimiento a los filtros de control de seguridad es preceptivo e inexcusable. La negativa del visitante a pasar el escáner o control conlleva la denegación inmediata del acceso.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 286,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "Al registrar los datos personales de un visitante en el libro o sistema informático de control de accesos, ¿qué dato NO debe solicitarse al ciudadano?",
+    "options": [
+      "El nombre y los apellidos.",
+      "El número de documento oficial de identidad (DNI, NIE o Pasaporte).",
+      "La afiliación política o religiosa o su orientación sexual.",
+      "La unidad o persona a la que desea dirigirse y el motivo general de la visita."
+    ],
+    "correct": 2,
+    "law": "RDL 1/2013 TRLGDPD",
+    "article": "Protección de Datos y No Discriminación en Controles de Acceso",
+    "explanation": "Por imperativo del art. 16 de la Constitución y el RGPD, los datos de ideología, religión o creencias gozan de especial protección y está prohibido solicitarlos en los registros de control de accesos.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / AGE"
+  },
+  {
+    "id": 287,
+    "block": "especifico",
+    "topicId": 5,
+    "topic": "Tema 5: Control de Accesos y Atención a Visitantes",
+    "question": "¿Qué debe hacerse con la tarjeta de identificación de visitante entregada en el control de accesos una vez finalizada la gestión?",
+    "options": [
+      "El visitante puede conservarla como comprobante de su presencia en la sede.",
+      "Se destruye de forma inmediata en una destructora de corte cruzado.",
+      "Se envía por correo ordinario a la Delegación de Defensa provincial.",
+      "Debe ser devuelta en el puesto de control para dar de baja la salida y recuperar el documento retenido si procediera."
+    ],
+    "correct": 3,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Procedimiento de Salida y Acreditaciones de Seguridad",
+    "explanation": "La tarjeta de pase de visitante es un elemento de seguridad reutilizable. El visitante debe reintegrarla al puesto de control al abandonar la instalación para registrar su hora de salida y liquidar la visita.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 288,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "Según el Reglamento Postal (RD 1829/1999), las dimensiones mínimas permitidas para un sobre en formato carta son:",
+    "options": [
+      "14 x 9 centímetros (con una tolerancia de dos milímetros).",
+      "10 x 5 centímetros en envíos locales urbanos.",
+      "21 x 15 centímetros correspondientes a un medio folio.",
+      "12 x 8 centímetros sin tolerancias métricas."
+    ],
+    "correct": 0,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 13 RD 1829/1999",
+    "explanation": "El artículo 13 del RD 1829/1999 fija que las dimensiones mínimas de los envíos en forma de sobre o paquete son de 14 x 9 cm (para tubos: longitud + dos veces el diámetro = 17 cm, sin que la mayor sea inferior a 10 cm).",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Correos / AGE"
+  },
+  {
+    "id": 289,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "Al recepcionar la saca de la valija oficial interna entre sedes, el empleado auxiliar observa que el precinto de seguridad se encuentra roto o manipulado. ¿Cuál es la actuación procedente?",
+    "options": [
+      "Desechar la saca y tirarla al contenedor de reciclaje de seguridad.",
+      "Comunicarlo de inmediato al superior jerárquico y levantar la oportuna acta de incidencia antes de proceder a la apertura.",
+      "Abrir la correspondencia rápidamente para comprobar que los cheques o documentos siguen íntegros.",
+      "Colocar un precinto nuevo sin avisar a nadie para no retrasar el reparto a los despachos."
+    ],
+    "correct": 1,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Protocolo de Seguridad en Valijas Oficiales",
+    "explanation": "Ante cualquier signo de manipulación o rotura del precinto numerado de seguridad de la valija, debe notificarse de inmediato al responsable y levantar un acta formal dejando constancia de la irregularidad antes de su desembalaje.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 290,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "En el ámbito de la paquetería postal ordinaria, ¿cuál es el peso máximo reglamentario de una carta ordinaria antes de ser considerada paquete?",
+    "options": [
+      "Quinientos gramos.",
+      "Un kilogramo.",
+      "Dos kilogramos de peso.",
+      "Cinco kilogramos."
+    ],
+    "correct": 2,
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 21.1 Ley 43/2010",
+    "explanation": "El artículo 21.1 de la Ley 43/2010 establece que las cartas y tarjetas postales comprenden envíos de hasta dos kilogramos de peso. Por encima de 2 kg se canalizan a través de la red de paquetería postal.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Correos / AGE"
+  },
+  {
+    "id": 291,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "¿Qué precaución básica debe observarse al manipular paquetes pesados en el almacén de paquetería y registro?",
+    "options": [
+      "Doblar la espalda manteniendo las piernas rectas para hacer palanca con el tronco.",
+      "Levantar la carga manteniendo los brazos completamente estirados y alejados del cuerpo.",
+      "Flexionar las rodillas, mantener la espalda recta y aproximar la carga al cuerpo.",
+      "Girar rápidamente el tronco mientras se levanta la carga desde el suelo."
+    ],
+    "correct": 2,
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Manipulación Manual de Cargas RD 487/1997",
+    "explanation": "Las normas ergonómicas del RD 487/1997 sobre manipulación manual de cargas exigen flexionar las piernas, aproximar la carga al centro de gravedad del cuerpo y elevarla manteniendo la columna recta sin giros bruscos.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / AGE"
+  },
+  {
+    "id": 292,
+    "block": "especifico",
+    "topicId": 6,
+    "topic": "Tema 6: Envíos Postales, Paquetería y Valija",
+    "question": "¿Cuál es el objetivo principal del servicio de valija interna en la Administración Pública?",
+    "options": [
+      "Remitir publicidad comercial no requerida a los ciudadanos.",
+      "El intercambio periódico, seguro y ordenado de correspondencia y documentos entre distintos centros o unidades de una misma organización.",
+      "Vender material de papelería sobrante a otros ministerios.",
+      "Servir de canal de pago de nóminas en efectivo al personal laboral."
+    ],
+    "correct": 1,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Servicio de Valija Oficial y Paquetería Interna",
+    "explanation": "La valija interna es un servicio postal cerrado y seguro utilizado por los departamentos de la Administración para intercambiar documentación oficial y correspondencia de régimen interno entre sus distintas sedes de forma protocolizada.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 293,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "Para reducir un documento original de formato DIN A3 a tamaño DIN A4 en una fotocopiadora multifunción, ¿qué porcentaje de escala debe seleccionarse?",
+    "options": [
+      "El 71 por ciento.",
+      "El 50 por ciento.",
+      "El 85 por ciento.",
+      "El 141 por ciento."
+    ],
+    "correct": 0,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Escalas y Formatos Reprográficos ISO 216",
+    "explanation": "De acuerdo con la norma de proporción métrica ISO 216 (proporción 1:√2), la reducción de DIN A3 a DIN A4 se realiza exactamente al 71% (y la ampliación de DIN A4 a DIN A3 se realiza al 141%).",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Subalterno / Reprografía"
+  },
+  {
+    "id": 294,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "Si al imprimir en una fotocopiadora multifunción aparecen manchas o rayas negras continuas a lo largo de todas las hojas impresas, ¿cuál suele ser la causa más probable?",
+    "options": [
+      "El cristal de exposición o el rodillo de transferencia/tambor óptico se encuentra sucio o rayado.",
+      "El gramaje del papel es excesivamente bajo.",
+      "El cable de red ethernet de la fotocopiadora está desconectado.",
+      "La bandeja de salida de papel está saturada."
+    ],
+    "correct": 0,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Mantenimiento de Primer Nivel de Reprografía",
+    "explanation": "Las bandas o rayas continuas longitudinales en la impresión indican suciedad o deterioro en el tambor de imagen (drum), hilo de corona o cristal del escáner en alimentadores automáticos.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 295,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "En las tareas auxiliares de encuadernación de informes oficiales, ¿qué tipo de encuadernación permite la apertura de 360 grados de las hojas y la inserción de anillas metálicas continuas?",
+    "options": [
+      "La encuadernación encolada a la americana o fresada.",
+      "La encuadernación con canutillo de plástico rígido con pestaña plana.",
+      "La encuadernación en espiral metálica o Wire-O.",
+      "El grapado en caballete con costura de hilo vegetal."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Técnicas de Encuadernación de Reprografía",
+    "explanation": "La encuadernación con espiral metálica (o alambre doble Wire-O) permite el giro completo de 360 grados sobre sí misma de todas las hojas del documento encuadernado, facilitando su lectura y manejo en reuniones de trabajo.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / Reprografía"
+  },
+  {
+    "id": 296,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "Ante un atasco de papel en el interior de una fotocopiadora multifunción, ¿cómo debe retirarse la hoja atrapada?",
+    "options": [
+      "Tirando con fuerza de un solo extremo para que se rompa rápidamente.",
+      "Utilizando tijeras o destornilladores metálicos para desatascar los sensores.",
+      "Tirando suavemente con ambas manos en el sentido natural del avance del papel, siguiendo las indicaciones en pantalla.",
+      "Encendiendo y apagando repetidamente la máquina para que los rodillos expulsen los restos por calor."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Protocolo de Resolución de Atascos E1",
+    "explanation": "El protocolo operativo de las máquinas de reprografía exige abrir las tapas indicadas, sujetar el papel con ambas manos y tirar uniformemente en el sentido del desplazamiento para evitar desgarros y no dañar los rodillos de arrastre.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 297,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "Según la norma DIN 66399, ¿cuál de los siguientes métodos NO es admisible para la destrucción segura de discos duros o soportes magnéticos con información confidencial?",
+    "options": [
+      "La desmagnetización (Degaussing) mediante un campo magnético de alta potencia.",
+      "La trituración mecánica o desintegración en partículas microscópicas.",
+      "El perforado físico de los platos magnéticos mediante prensa hidráulica.",
+      "La mera eliminación de los archivos a la papelera de reciclaje del sistema operativo."
+    ],
+    "correct": 3,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Norma DIN 66399 Destrucción de Soportes",
+    "explanation": "El borrado ordinario o formateo lógico en un sistema operativo no destruye la información física y permite su recuperación forense. Para soportes magnéticos la norma DIN 66399 exige desmagnetización o trituración física.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno AGE"
+  },
+  {
+    "id": 298,
+    "block": "especifico",
+    "topicId": 7,
+    "topic": "Tema 7: Reprografía, Encuadernación y Medios Informáticos",
+    "question": "En el sistema operativo de un ordenador de oficina, ¿qué combinación de teclado permite alternar de forma rápida entre las aplicaciones que están abiertas?",
+    "options": [
+      "Tecla Control + Tecla Z.",
+      "Tecla Alt + Tecla Tabulador.",
+      "Tecla Shift + Tecla Escape.",
+      "Tecla Control + Tecla Suprimir."
+    ],
+    "correct": 1,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Manejo de Medios Informáticos Básicos E1",
+    "explanation": "El atajo de teclado universal en entornos de escritorio para cambiar de una ventana o aplicación activa a otra de forma ágil es la combinación Alt + Tab.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 299,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "Conforme al Reglamento Postal (RD 1829/1999), en la entrega de notificaciones administrativas practicadas en papel, si el primer intento resulta infructuoso por no hallarse nadie en el domicilio:",
+    "options": [
+      "Se practicará un segundo intento en una hora distinta dentro de los tres días siguientes.",
+      "Se destruye la notificación levantando diligencia de rechazo.",
+      "Se dejará obligatoriamente bajo la puerta del buzón sin sobre exterior.",
+      "Se publica directamente en el Boletín Oficial del Estado sin más trámites."
+    ],
+    "correct": 0,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 42 y 44 RD 1829/1999 / Art. 42 Ley 39/2015",
+    "explanation": "El artículo 42 de la Ley 39/2015 y la normativa postal exigen un segundo intento de notificación cuando el primero haya resultado infructuoso por ausencia, debiendo realizarse en una franja horaria distinta y dentro de los tres días siguientes.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial AGE / Correos"
+  },
+  {
+    "id": 300,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "¿Cuánto tiempo permanece un envío postal certificado en la lista de la oficina de Correos a disposición del destinatario tras dejarse el aviso de llegada?",
+    "options": [
+      "Siete días laborables.",
+      "Quince días naturales.",
+      "Un mes natural.",
+      "Diez días hábiles."
+    ],
+    "correct": 1,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 43 RD 1829/1999",
+    "explanation": "El plazo reglamentario general de permanencia en lista para la recogida de envíos postales no entregados a domicilio es de quince días naturales antes de proceder a su devolución al remitente.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Correos / AGE"
+  },
+  {
+    "id": 301,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "Al ordenar la correspondencia oficial de entrada, el personal auxiliar encuentra un sobre oficial rotulado como «RESERVADO - PARA LA PERSONA TITULAR DE LA SUBDIRECCIÓN GENERAL». ¿Qué debe hacerse?",
+    "options": [
+      "Abrir el sobre para sellar en la primera página el sello fechador de entrada.",
+      "Escanear el documento interior en el gestor documental para registro electrónico.",
+      "Entregar el sobre cerrado y sin manipular directamente al despacho de la persona destinataria o su secretaría autorizada.",
+      "Reenviarlo por valija al Ministerio de Asuntos Exteriores por ser materia clasificada."
+    ],
+    "correct": 2,
+    "law": "Constitución Española de 1978",
+    "article": "Art. 18.3 CE / Protocolos de Correspondencia Oficial",
+    "explanation": "En garantía del derecho fundamental al secreto de las comunicaciones (art. 18.3 CE), los envíos nominales, confidenciales o con indicación de reserva se entregan cerrados y en mano a su destinatario, anotando únicamente la recepción externa.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 302,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "¿Cuál es el orden lógico y cronológico de las fases del tratamiento de la correspondencia oficial de entrada en un departamento administrativo?",
+    "options": [
+      "Distribución, archivo, clasificación y registro.",
+      "Clasificación previa, destrucción, registro de salida y notificación.",
+      "Recepción material, registro de entrada, clasificación por unidades y distribución interna.",
+      "Franqueo mecánico, apertura forzada, archivo definitivo y ensobrado."
+    ],
+    "correct": 2,
+    "law": "Convocatoria E1 Defensa",
+    "article": "Circuito de Entrada de Correspondencia Oficial",
+    "explanation": "El circuito normalizado de entrada de correspondencia comprende: 1.º Recepción del envío, 2.º Registro oficial de entrada, 3.º Clasificación o reparto por negociados, y 4.º Distribución y entrega a las personas destinatarias.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 303,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "En el envío de correspondencia oficial, ¿qué elemento acredita fehacientemente que el destinatario ha recibido físicamente un sobre certificado?",
+    "options": [
+      "El sello de tinta con la fecha en el ángulo superior izquierdo del remitente.",
+      "El recibo de compra del papel en la papelería del centro.",
+      "El acuse de recibo (aviso de recibo) firmado por el receptor con fecha y DNI.",
+      "La copia simple de la carta guardada en el archivo de la secretaría."
+    ],
+    "correct": 2,
+    "law": "Ley 43/2010 del Servicio Postal Universal",
+    "article": "Art. 22 Ley 43/2010",
+    "explanation": "El aviso de recibo (acuse de recibo) firmado por el destinatario o persona autorizada, con constancia de fecha y documento identificativo, es el documento que acredita fehacientemente la recepción material del envío.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Correos / AGE"
+  },
+  {
+    "id": 304,
+    "block": "especifico",
+    "topicId": 8,
+    "topic": "Tema 8: Correspondencia, Notificaciones Administrativas y Burofax",
+    "question": "En los sobres y cartas que circulan a través de la red postal, la dirección completa de la persona destinataria debe figurar situada en:",
+    "options": [
+      "La solapa de cierre del sobre en su parte trasera.",
+      "La mitad inferior derecha del anverso del sobre.",
+      "La esquina superior izquierda del anverso obligatoriamente.",
+      "En el interior de la carta doblada en cuatro partes."
+    ],
+    "correct": 1,
+    "law": "Real Decreto 1829/1999",
+    "article": "Art. 13.5 RD 1829/1999",
+    "explanation": "Las normas de estandarización postal establecen que los datos del destinatario deben situarse en la mitad inferior derecha del anverso del sobre, dejando la esquina superior derecha para el franqueo y la superior izquierda para el remitente.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Correos / AGE"
+  },
+  {
+    "id": 305,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "Según la Ley 9/1968 sobre Secretos Oficiales, las materias clasificadas en España se dividen exclusivamente en las siguientes categorías:",
+    "options": [
+      "Secreto y Reservado.",
+      "Alto Secreto, Secreto, Confidencial y Difusión Limitada.",
+      "Materias Reservadas y Materias de Uso Público Restringido.",
+      "Materias Militares y Materias Civiles Ordinarias."
+    ],
+    "correct": 0,
+    "law": "Ley 9/1968 sobre Secretos Oficiales",
+    "article": "Art. 3 Ley 9/1968",
+    "explanation": "El artículo 3 de la Ley 9/1968 sobre Secretos Oficiales establece textualmente que las materias clasificadas solo pueden tener dos niveles legales: Secreto o Reservado.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 306,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "Durante la realización de una comisión de servicio o recado oficial de entrega de documentación fuera de la sede ministerial, ¿cuál es el deber del empleado respecto a su itinerario?",
+    "options": [
+      "Realizar paradas personales en comercios o entidades privadas antes de la entrega oficial.",
+      "Utilizar el trayecto más directo, seguro y ágil para el cumplimiento del cometido oficial.",
+      "Prestar la documentación temporalmente a terceros para su examen antes de llegar a destino.",
+      "Dejar la cartera de servicio desatendida en el asiento del transporte colectivo."
+    ],
+    "correct": 1,
+    "law": "Texto Refundido del Estatuto Básico del Empleado Público (TREBEP)",
+    "article": "Art. 52 y 54 TREBEP",
+    "explanation": "El Código de Conducta de los empleados públicos (arts. 52 a 54 TREBEP) exige el cumplimiento diligente y dedicado de las funciones, siguiendo los itinerarios oficiales establecidos sin desvíos ni demoras particulares injustificadas.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
+  },
+  {
+    "id": 307,
+    "block": "especifico",
+    "topicId": 9,
+    "topic": "Tema 9: Realización de Recados Oficiales Dentro y Fuera del Centro",
+    "question": "¿A quién obliga el deber de guardar secreto o sigilo respecto a materias reservadas o asuntos de que se tenga conocimiento por razón del trabajo público?",
+    "options": [
+      "Exclusivamente a las autoridades con rango de Ministro o Secretario de Estado.",
+      "Solo al personal militar de los Cuerpos de Estado Mayor.",
+      "A todos los empleados públicos con independencia de su grupo profesional o relación jurídica laboral.",
+      "Únicamente al personal en activo durante la jornada matutina de trabajo."
+    ],
+    "correct": 2,
+    "law": "Ley 9/1968 sobre Secretos Oficiales",
+    "article": "Art. 13 Ley 9/1968 / Art. 53 TREBEP",
+    "explanation": "El deber de guardar sigilo riguroso y secreto profesional vincula a todos y cada uno de los empleados públicos respecto de los asuntos que conozcan por razón de su trabajo, persistiendo incluso tras cesar en el servicio.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Defensa / AGE"
+  },
+  {
+    "id": 308,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "Según el Real Decreto 486/1997 sobre lugares de trabajo, ¿cuál es la temperatura reglamentaria recomendada en locales donde se realicen trabajos sedentarios de oficina?",
+    "options": [
+      "Entre 17 y 27 grados centígrados.",
+      "Entre 12 y 18 grados centígrados.",
+      "Exactamente 21 grados centígrados constantes sin variación térmica.",
+      "Entre 25 y 32 grados centígrados."
+    ],
+    "correct": 0,
+    "law": "Real Decreto 486/1997 sobre disposiciones mínimas de seguridad y salud en los lugares de trabajo",
+    "article": "Anexo III.3.a) RD 486/1997",
+    "explanation": "El Anexo III.3.a) del RD 486/1997 establece que la temperatura de los locales donde se realicen trabajos sedentarios propios de oficinas o despachos debe estar comprendida entre 17 ºC y 27 ºC.",
+    "sourceType": "norma_verificada",
+    "isTrap": true,
+    "examSource": "Examen Oficial Subalterno / AGE"
+  },
+  {
+    "id": 309,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "En la señalización de seguridad y salud en los lugares de trabajo (RD 485/1997), ¿qué significado tiene el color de seguridad AZUL?",
+    "options": [
+      "Señal de advertencia de peligro o precaución química.",
+      "Señal de obligación (comportamiento o acción específica, como uso de EPIs).",
+      "Señal de salvamento, primeros auxilios o vías de evacuación seguras.",
+      "Señal de parada de emergencia o peligro inminente de explosión."
+    ],
+    "correct": 1,
+    "law": "Real Decreto 485/1997 de Señalización",
+    "article": "Anexo III RD 485/1997",
+    "explanation": "Conforme al RD 485/1997, el color azul es de obligación (indica una acción obligatoria como 'uso obligatorio de gafas', 'protección de oídos', etc.). El amarillo advierte, el verde indica salvamento y el rojo prohíbe o indica equipos de incendios.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial Subalterno / AGE"
+  },
+  {
+    "id": 310,
+    "block": "especifico",
+    "topicId": 10,
+    "topic": "Tema 10: Anomalías, Averías y Prevención de Riesgos Laborales",
+    "question": "Ante un fuego originado en un cuadro eléctrico o un equipo informático de la oficina, ¿cuál es el agente extintor más adecuado y seguro?",
+    "options": [
+      "Chorro de agua a presión continua.",
+      "Espuma física con base acuosa de media expansión.",
+      "Manta impregnada en líquidos hidrocarburos.",
+      "Dióxido de carbono (CO2) o nieve carbónica por no ser conductor de la electricidad."
+    ],
+    "correct": 3,
+    "law": "Ley 31/1995 de Prevención de Riesgos Laborales",
+    "article": "Equipos de Extinción de Incendios en Oficinas",
+    "explanation": "El dióxido de carbono (CO2) es un gas inerte, no conductor de la electricidad y limpio, por lo que es el agente extintor de elección en fuegos eléctricos (equipos informáticos, servidores, cuadros de luz), evitando además daños en la circuitería.",
+    "sourceType": "norma_verificada",
+    "isTrap": false,
+    "examSource": "Examen Oficial E1 Defensa 2025"
   }
 ];
